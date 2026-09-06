@@ -52,13 +52,12 @@ public sealed class AshfallCharacterGenerator
     }
 
     /// <summary>
-    ///     Generates a complete, validated HumanoidCharacterProfile constrained to natural realistic human attributes, along with cultural line and birthplace.
+    ///     Picks sex, gender and age. Culture, naming and the career structure are handled by
+    ///     <see cref="AshfallPersonGenerator"/>; this part is purely visual identity.
     /// </summary>
-    public (HumanoidCharacterProfile Profile, string Culture, string Birthplace, string Morphology) GenerateProfile(CharacterGenConstraintsPrototype constraints, IRobustRandom random)
+    public (Sex Sex, Gender Gender, int Age) GenerateIdentity(CharacterGenConstraintsPrototype constraints, IRobustRandom random)
     {
         var species = _prototypeManager.Index(constraints.Species);
-
-        // 1. Sex & Gender
         var sex = random.Pick(species.Sexes);
         var gender = sex switch
         {
@@ -66,19 +65,26 @@ public sealed class AshfallCharacterGenerator
             Sex.Male => Gender.Male,
             _ => Gender.Epicene
         };
-
-        // 2. Age (Weighted brackets)
         var age = PickAge(constraints.AgeBrackets, random);
+        return (sex, gender, age);
+    }
 
+    /// <summary>
+    ///     Generates natural appearance constrained to the species, decoupled from culture.
+    /// </summary>
+    public (HumanoidCharacterAppearance Appearance, string Morphology) GenerateAppearance(
+        CharacterGenConstraintsPrototype constraints,
+        SpeciesPrototype species,
+        Sex sex,
+        int age,
+        IRobustRandom random)
+    {
         Color skinColor;
         Dictionary<ProtoId<OrganCategoryPrototype>, Dictionary<HumanoidVisualLayers, List<Marking>>> markings = new();
         string morphology = string.Empty;
         float tone = 25f;
 
-        // 6. Hair Color (with age-dependent graying probability)
         var hairColor = GenerateHairColor(constraints, age, random);
-
-        // 7. Eye Color
         var eyeColor = GenerateEyeColor(constraints, random);
 
         if (species.ID == "Reptilian")
@@ -108,20 +114,31 @@ public sealed class AshfallCharacterGenerator
             markings = GenerateSpeciesMarkings(species, sex, skinColor, eyeColor, hairColor, random);
         }
 
-        // 3. Cultural Profile (Name, Cultural Line, Birthplace)
-        var (culture, name, birthplace) = GenerateCulturalProfile(species, gender, tone, random);
-
-        // 4. Voice
-        var voice = species.DefaultSoundsBySex.Length > (int)sex
-            ? species.DefaultSoundsBySex[(int)sex]
-            : species.Voices.FirstOrDefault();
-
         var appearance = new HumanoidCharacterAppearance
         {
             SkinColor = skinColor,
             EyeColor = eyeColor,
             Markings = markings
         };
+
+        return (appearance, morphology);
+    }
+
+    /// <summary>
+    ///     Assembles the final profile from the generated identity, name and appearance.
+    /// </summary>
+    public HumanoidCharacterProfile BuildProfile(
+        string name,
+        SpeciesPrototype species,
+        Sex sex,
+        Gender gender,
+        int age,
+        HumanoidCharacterAppearance appearance,
+        IRobustRandom random)
+    {
+        var voice = species.DefaultSoundsBySex.Length > (int)sex
+            ? species.DefaultSoundsBySex[(int)sex]
+            : species.Voices.FirstOrDefault();
 
         var traits = new HashSet<ProtoId<TraitPrototype>>();
         var pool = new ProtoId<TraitPrototype>[]
@@ -146,7 +163,7 @@ public sealed class AshfallCharacterGenerator
                 traits.Add(traitId);
         }
 
-        var profile = new HumanoidCharacterProfile(
+        return new HumanoidCharacterProfile(
             name,
             string.Empty,
             species.ID,
@@ -162,8 +179,6 @@ public sealed class AshfallCharacterGenerator
             traits,
             new Dictionary<string, RoleLoadout>()
         );
-
-        return (profile, culture, birthplace, morphology);
     }
 
     private static int PickAge(List<AgeWeightBracket> brackets, IRobustRandom random)
@@ -211,172 +226,6 @@ public sealed class AshfallCharacterGenerator
 
         // Fallback natural skin tone
         return (Color.FromHsv(new Vector4(25f / 360f, random.NextFloat(0.25f, 0.65f), random.NextFloat(0.50f, 0.95f), 1f)), 25f);
-    }
-
-    private (string Culture, string Name, string Birthplace) GenerateCulturalProfile(SpeciesPrototype species, Gender gender, float skinTone, IRobustRandom random)
-    {
-        if (species.ID == "Reptilian")
-        {
-            var unathiCulture = random.Pick(new[] { "UNATHI_CLAN", "UNATHI_FAMILY", "UNATHI_PATRONYMIC" });
-
-            string unathiName;
-            var firstNames = _prototypeManager.TryIndex<DatasetPrototype>("AshfallUnathiFirstNames", out var fDs) ? fDs.Values : new List<string> { "Скарраш", "Кхар", "Тарек", "Иссара" };
-            var clanNames = _prototypeManager.TryIndex<DatasetPrototype>("AshfallUnathiClanNames", out var cDs) ? cDs.Values : new List<string> { "Исс-Зул", "Ссаз", "Тарраш" };
-            var familyNames = _prototypeManager.TryIndex<DatasetPrototype>("AshfallUnathiFamilyNames", out var mDs) ? mDs.Values : new List<string> { "Веш", "Кхарен", "Саал" };
-
-            var first = random.Pick(firstNames);
-
-            switch (unathiCulture)
-            {
-                case "UNATHI_CLAN":
-                    unathiName = $"{first} {random.Pick(clanNames)}";
-                    break;
-                case "UNATHI_FAMILY":
-                    unathiName = $"{first} {random.Pick(familyNames)}";
-                    break;
-                case "UNATHI_PATRONYMIC":
-                default:
-                    unathiName = $"{first} {random.Pick(clanNames)}";
-                    break;
-            }
-
-            string unathiBirthplace;
-            if (!random.Prob(0.2f) && _prototypeManager.TryIndex<DatasetPrototype>("AshfallUnathiBirthplaces", out var uBirthDs) && uBirthDs.Values.Count > 0)
-            {
-                unathiBirthplace = random.Pick(uBirthDs.Values);
-            }
-            else if (_prototypeManager.TryIndex<DatasetPrototype>("AshfallBirthplacesCommon", out var commonDs) && commonDs.Values.Count > 0)
-            {
-                unathiBirthplace = random.Pick(commonDs.Values);
-            }
-            else
-            {
-                unathiBirthplace = "Кха-Ссар";
-            }
-
-            return (unathiCulture, unathiName, unathiBirthplace);
-        }
-
-        if (species.ID == "Moth")
-        {
-            var luamCulture = random.Pick(new[] { "LUAM_FLUTTER", "LUAM_SILK" });
-            var firstNames = _prototypeManager.TryIndex<DatasetPrototype>("AshfallLuamFirstNames", out var fDs) ? fDs.Values : new List<string> { "Келл", "Нилл", "Солус", "Ингтер" };
-            var secondNames = _prototypeManager.TryIndex<DatasetPrototype>("AshfallLuamSecondNames", out var sDs) ? sDs.Values : new List<string> { "Эшшен", "Пирогонт", "Кессель" };
-
-            var first = random.Pick(firstNames);
-            var luamName = $"{first} {random.Pick(secondNames)}";
-
-            string luamBirthplace;
-            if (_prototypeManager.TryIndex<DatasetPrototype>("AshfallLuamBirthplaces", out var lBirthDs) && lBirthDs.Values.Count > 0)
-                luamBirthplace = random.Pick(lBirthDs.Values);
-            else
-                luamBirthplace = "Орбитальный улей Люмен";
-
-            return (luamCulture, luamName, luamBirthplace);
-        }
-
-        if (species.ID == "Arachnid")
-        {
-            var arachnidCulture = random.Pick(new[] { "ARACHNID_WEB", "ARACHNID_NEST" });
-            var firstNames = _prototypeManager.TryIndex<DatasetPrototype>("AshfallArachnidFirstNames", out var fDs) ? fDs.Values : new List<string> { "Пимо", "Силио", "Теро", "Мора" };
-            var secondNames = _prototypeManager.TryIndex<DatasetPrototype>("AshfallArachnidSecondNames", out var sDs) ? sDs.Values : new List<string> { "Атра", "Нигра", "Альба" };
-
-            var first = random.Pick(firstNames);
-            var arachnidName = $"{first} {random.Pick(secondNames)}";
-
-            string arachnidBirthplace;
-            if (_prototypeManager.TryIndex<DatasetPrototype>("AshfallArachnidBirthplaces", out var aBirthDs) && aBirthDs.Values.Count > 0)
-                arachnidBirthplace = random.Pick(aBirthDs.Values);
-            else
-                arachnidBirthplace = "Пещерный комплекс Паутина-9";
-
-            return (arachnidCulture, arachnidName, arachnidBirthplace);
-        }
-
-        if (species.ID == "Veiru")
-        {
-            var veiruCulture = random.Pick(new[] { "VEIRU_PRIDE", "VEIRU_FAMILY" });
-            var firstNames = _prototypeManager.TryIndex<DatasetPrototype>("AshfallVeiruFirstNames", out var fDs) ? fDs.Values : new List<string> { "Шаур", "Вейр", "Хару", "Рхек" };
-            var secondNames = _prototypeManager.TryIndex<DatasetPrototype>("AshfallVeiruSecondNames", out var sDs) ? sDs.Values : new List<string> { "Орреш", "Хевра", "Жеррек" };
-
-            var first = random.Pick(firstNames);
-            var veiruName = $"{first} {random.Pick(secondNames)}";
-
-            string veiruBirthplace;
-            if (_prototypeManager.TryIndex<DatasetPrototype>("AshfallVeiruBirthplaces", out var vBirthDs) && vBirthDs.Values.Count > 0)
-                veiruBirthplace = random.Pick(vBirthDs.Values);
-            else
-                veiruBirthplace = "Колония Вейру-17";
-
-            return (veiruCulture, veiruName, veiruBirthplace);
-        }
-
-        string cultureKey = skinTone switch
-        {
-            >= 65f => random.Pick(new[] { "Swahili", "Habesha", "Afroatlantic", "Maghrebi", "Mashriqi", "Indic" }),
-            >= 35f => random.Pick(new[] { "Mediterran", "Ibero", "Neolatin", "Turkic", "Sinospheric", "Nusantari", "Maghrebi", "Mashriqi", "Indic" }),
-            _ => random.Pick(new[] { "Panslavic", "Atlantic", "Rheinik", "Nordik", "Sinospheric", "Koryo", "Nipponic", "Mediterran", "Ibero" })
-        };
-
-        var firstDatasetId = gender == Gender.Female ? $"Ashfall{cultureKey}FirstFemale" : $"Ashfall{cultureKey}FirstMale";
-        var lastDatasetId = $"Ashfall{cultureKey}Last";
-
-        string name;
-        if (_prototypeManager.TryIndex<DatasetPrototype>(firstDatasetId, out var firstDs) &&
-            _prototypeManager.TryIndex<DatasetPrototype>(lastDatasetId, out var lastDs) &&
-            firstDs.Values.Count > 0 && lastDs.Values.Count > 0)
-        {
-            var firstName = random.Pick(firstDs.Values);
-            var lastName = random.Pick(lastDs.Values);
-            if (cultureKey == "Panslavic" && gender == Gender.Female)
-            {
-                lastName = ApplyGenderToSurname(lastName, gender);
-            }
-            name = $"{firstName} {lastName}";
-        }
-        else
-        {
-            name = _namingSystem.GetName(species.ID, gender);
-        }
-
-        string birthplaceDatasetId = random.Prob(0.2f) ? "AshfallBirthplacesCommon" : $"AshfallBirthplaces{cultureKey}";
-        string birthplace;
-        if (_prototypeManager.TryIndex<DatasetPrototype>(birthplaceDatasetId, out var birthDs) && birthDs.Values.Count > 0)
-        {
-            birthplace = random.Pick(birthDs.Values);
-        }
-        else if (_prototypeManager.TryIndex<DatasetPrototype>("AshfallBirthplacesCommon", out var commonDs) && commonDs.Values.Count > 0)
-        {
-            birthplace = random.Pick(commonDs.Values);
-        }
-        else
-        {
-            birthplace = "HAB-17, HADLEY";
-        }
-
-        return (cultureKey.ToUpperInvariant(), name, birthplace);
-    }
-
-    private static string ApplyGenderToSurname(string surname, Gender gender)
-    {
-        if (gender != Gender.Female || string.IsNullOrWhiteSpace(surname))
-            return surname;
-
-        if (surname.EndsWith("ский", StringComparison.OrdinalIgnoreCase))
-            return surname[..^4] + "ская";
-        if (surname.EndsWith("цкий", StringComparison.OrdinalIgnoreCase))
-            return surname[..^4] + "цкая";
-        if (surname.EndsWith("ой", StringComparison.OrdinalIgnoreCase))
-            return surname[..^2] + "ая";
-        if (surname.EndsWith("ов", StringComparison.OrdinalIgnoreCase) ||
-            surname.EndsWith("ев", StringComparison.OrdinalIgnoreCase) ||
-            surname.EndsWith("ин", StringComparison.OrdinalIgnoreCase) ||
-            surname.EndsWith("ын", StringComparison.OrdinalIgnoreCase))
-        {
-            return surname + "а";
-        }
-
-        return surname;
     }
 
     private Color GenerateHairColor(CharacterGenConstraintsPrototype constraints, int age, IRobustRandom random)

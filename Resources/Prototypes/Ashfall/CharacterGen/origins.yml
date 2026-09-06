@@ -1,0 +1,108 @@
+# Upbringing origins. Tags bias (never gate) education and first career choices via
+# weightModifiers; some origins also bias the birthplace pool towards the common set.
+
+- type: ashfallOrigin
+  id: AshfallOriginOrbitalDistrict
+  text: ashfall-lore-origin-orbitaldistrict
+  providedTags: [origin-station]
+
+- type: ashfallOrigin
+  id: AshfallOriginMiningSettlement
+  text: ashfall-lore-origin-miningsettlement
+  providedTags: [origin-mining, origin-industrial]
+
+- type: ashfallOrigin
+  id: AshfallOriginAgriculturalColony
+  text: ashfall-lore-origin-agriculturalcolony
+  providedTags: [origin-agricultural]
+
+- type: ashfallOrigin
+  id: AshfallOriginFreightHabitat
+  text: ashfall-lore-origin-freighthabitat
+  providedTags: [origin-logistics]
+  birthplaceDatasets: [AshfallBirthplacesCommon]
+
+- type: ashfallOrigin
+  id: AshfallOriginStationFamily
+  text: ashfall-lore-origin-stationfamily
+  providedTags: [origin-station]
+
+- type: ashfallOrigin
+  id: AshfallOriginCorporateFamily
+  text: ashfall-lore-origin-corporatefamily
+  providedTags: [origin-corporate]
+
+- type: ashfallOrigin
+  id: AshfallOriginIndependentColony
+  text: ashfall-lore-origin-independentcolony
+  providedTags: [origin-frontier]
+  birthplaceDatasets: [AshfallBirthplacesCommon]
+
+- type: ashfallOrigin
+  id: AshfallOriginMaintenanceTown
+  text: ashfall-lore-origin-maintenancetown
+  providedTags: [origin-industrial]
+
+- type: ashfallOrigin
+  id: AshfallOriginEarthMetro
+  text: ashfall-lore-origin-earthmetro
+  providedTags: [origin-urban]
+
+- type: ashfallOrigin
+  id: AshfallOriginLunarHabitat
+  text: ashfall-lore-origin-lunarhabitat
+  providedTags: [origin-station]
+
+- type: ashfallOrigin
+  id: AshfallOriginShipboardChildhood
+  text: ashfall-lore-origin-shipboardchildhood
+  providedTags: [origin-ship]
+  birthplaceDatasets: [AshfallBirthplacesCommon]
+
+- type: ashfallOrigin
+  id: AshfallOriginFrontierPort
+  text: ashfall-lore-origin-frontierport
+  providedTags: [origin-frontier, origin-logistics]
+  birthplaceDatasets: [AshfallBirthplacesCommon]
+
+- type: ashfallOrigin
+  id: AshfallOriginIndustrialArcology
+  text: ashfall-lore-origin-industrialarcology
+  providedTags: [origin-industrial, origin-urban]
+
+- type: ashfallOrigin
+  id: AshfallOriginResearchEnclave
+  text: ashfall-lore-origin-researchenclave
+  providedTags: [origin-science]
+
+- type: ashfallOrigin
+  id: AshfallOriginMedicalHabitat
+  text: ashfall-lore-origin-medicalhabitat
+  providedTags: [origin-medical]
+
+- type: ashfallOrigin
+  id: AshfallOriginSecurityGarrison
+  text: ashfall-lore-origin-securitygarrison
+  providedTags: [origin-security]
+
+- type: ashfallOrigin
+  id: AshfallOriginServiceQuarter
+  text: ashfall-lore-origin-servicequarter
+  providedTags: [origin-service]
+
+- type: ashfallOrigin
+  id: AshfallOriginMobileContractors
+  text: ashfall-lore-origin-mobilecontractors
+  providedTags: [origin-nomad]
+  birthplaceDatasets: [AshfallBirthplacesCommon]
+
+- type: ashfallOrigin
+  id: AshfallOriginReclaimedStation
+  text: ashfall-lore-origin-reclaimedstation
+  providedTags: [origin-station, origin-industrial]
+  birthplaceDatasets: [AshfallBirthplacesCommon]
+
+- type: ashfallOrigin
+  id: AshfallOriginCoastalCity
+  text: ashfall-lore-origin-coastalcity
+  providedTags: [origin-urban, origin-logistics]

@@ -1,1180 +1,767 @@
 # Curated fragments for procedural Ashfall personnel files.
-- type: ashfallCharacterLoreFragment
-  id: AshfallOriginOrbitalDistrict
-  category: Origin
-  title: ashfall-lore-title-origin
-  text: ashfall-lore-origin-orbitaldistrict
-- type: ashfallCharacterLoreFragment
-  id: AshfallOriginMiningSettlement
-  category: Origin
-  title: ashfall-lore-title-origin
-  text: ashfall-lore-origin-miningsettlement
-- type: ashfallCharacterLoreFragment
-  id: AshfallOriginAgriculturalColony
-  category: Origin
-  title: ashfall-lore-title-origin
-  text: ashfall-lore-origin-agriculturalcolony
-- type: ashfallCharacterLoreFragment
-  id: AshfallOriginFreightHabitat
-  category: Origin
-  title: ashfall-lore-title-origin
-  text: ashfall-lore-origin-freighthabitat
-- type: ashfallCharacterLoreFragment
-  id: AshfallOriginStationFamily
-  category: Origin
-  title: ashfall-lore-title-origin
-  text: ashfall-lore-origin-stationfamily
-- type: ashfallCharacterLoreFragment
-  id: AshfallOriginCorporateFamily
-  category: Origin
-  title: ashfall-lore-title-origin
-  text: ashfall-lore-origin-corporatefamily
-- type: ashfallCharacterLoreFragment
-  id: AshfallOriginIndependentColony
-  category: Origin
-  title: ashfall-lore-title-origin
-  text: ashfall-lore-origin-independentcolony
-- type: ashfallCharacterLoreFragment
-  id: AshfallOriginMaintenanceTown
-  category: Origin
-  title: ashfall-lore-title-origin
-  text: ashfall-lore-origin-maintenancetown
-- type: ashfallCharacterLoreFragment
-  id: AshfallOriginEarthMetro
-  category: Origin
-  title: ashfall-lore-title-origin
-  text: ashfall-lore-origin-earthmetro
-- type: ashfallCharacterLoreFragment
-  id: AshfallOriginLunarHabitat
-  category: Origin
-  title: ashfall-lore-title-origin
-  text: ashfall-lore-origin-lunarhabitat
-- type: ashfallCharacterLoreFragment
-  id: AshfallOriginShipboardChildhood
-  category: Origin
-  title: ashfall-lore-title-origin
-  text: ashfall-lore-origin-shipboardchildhood
-- type: ashfallCharacterLoreFragment
-  id: AshfallOriginFrontierPort
-  category: Origin
-  title: ashfall-lore-title-origin
-  text: ashfall-lore-origin-frontierport
-- type: ashfallCharacterLoreFragment
-  id: AshfallOriginIndustrialArcology
-  category: Origin
-  title: ashfall-lore-title-origin
-  text: ashfall-lore-origin-industrialarcology
-- type: ashfallCharacterLoreFragment
-  id: AshfallOriginResearchEnclave
-  category: Origin
-  title: ashfall-lore-title-origin
-  text: ashfall-lore-origin-researchenclave
-- type: ashfallCharacterLoreFragment
-  id: AshfallOriginMedicalHabitat
-  category: Origin
-  title: ashfall-lore-title-origin
-  text: ashfall-lore-origin-medicalhabitat
-- type: ashfallCharacterLoreFragment
-  id: AshfallOriginSecurityGarrison
-  category: Origin
-  title: ashfall-lore-title-origin
-  text: ashfall-lore-origin-securitygarrison
-- type: ashfallCharacterLoreFragment
-  id: AshfallOriginServiceQuarter
-  category: Origin
-  title: ashfall-lore-title-origin
-  text: ashfall-lore-origin-servicequarter
-- type: ashfallCharacterLoreFragment
-  id: AshfallOriginMobileContractors
-  category: Origin
-  title: ashfall-lore-title-origin
-  text: ashfall-lore-origin-mobilecontractors
-- type: ashfallCharacterLoreFragment
-  id: AshfallOriginReclaimedStation
-  category: Origin
-  title: ashfall-lore-title-origin
-  text: ashfall-lore-origin-reclaimedstation
-- type: ashfallCharacterLoreFragment
-  id: AshfallOriginCoastalCity
-  category: Origin
-  title: ashfall-lore-title-origin
-  text: ashfall-lore-origin-coastalcity
-- type: ashfallCharacterLoreFragment
-  id: AshfallQualificationEngineeringSystems
-  category: Qualification
-  title: ashfall-lore-qualification-engineeringsystems-title
-  text: ashfall-lore-qualification-engineeringsystems
-  professionalFamily: Engineering
-  providedTags: [family-engineering]
-  jobs: [TechnicalAssistant, StationEngineer, AtmosphericTechnician, ChiefEngineer]
-- type: ashfallCharacterLoreFragment
-  id: AshfallQualificationEngineeringMaintenance
-  category: Qualification
-  title: ashfall-lore-qualification-engineeringmaintenance-title
-  text: ashfall-lore-qualification-engineeringmaintenance
-  professionalFamily: Engineering
-  providedTags: [family-engineering]
-  jobs: [TechnicalAssistant, StationEngineer, AtmosphericTechnician]
-- type: ashfallCharacterLoreFragment
-  id: AshfallQualificationClinicalMedicine
-  category: Qualification
-  title: ashfall-lore-qualification-clinicalmedicine-title
-  text: ashfall-lore-qualification-clinicalmedicine
-  professionalFamily: Medical
-  providedTags: [family-medical]
-  jobs: [MedicalIntern, MedicalDoctor, Paramedic, Psychologist, ChiefMedicalOfficer]
-- type: ashfallCharacterLoreFragment
-  id: AshfallQualificationMedicalChemistry
-  category: Qualification
-  title: ashfall-lore-qualification-medicalchemistry-title
-  text: ashfall-lore-qualification-medicalchemistry
-  professionalFamily: Medical
-  providedTags: [family-medical]
-  jobs: [MedicalIntern, MedicalDoctor, Chemist, ChiefMedicalOfficer]
-- type: ashfallCharacterLoreFragment
-  id: AshfallQualificationAppliedScience
-  category: Qualification
-  title: ashfall-lore-qualification-appliedscience-title
-  text: ashfall-lore-qualification-appliedscience
-  professionalFamily: Science
-  providedTags: [family-science]
-  jobs: [ResearchAssistant, Scientist, ResearchDirector]
-- type: ashfallCharacterLoreFragment
-  id: AshfallQualificationResearchOperations
-  category: Qualification
-  title: ashfall-lore-qualification-researchoperations-title
-  text: ashfall-lore-qualification-researchoperations
-  professionalFamily: Science
-  providedTags: [family-science]
-  jobs: [ResearchAssistant, Scientist, ResearchDirector]
-- type: ashfallCharacterLoreFragment
-  id: AshfallQualificationFreightOperations
-  category: Qualification
-  title: ashfall-lore-qualification-freightoperations-title
-  text: ashfall-lore-qualification-freightoperations
-  professionalFamily: Cargo
-  providedTags: [family-cargo]
-  jobs: [CargoTechnician, SalvageSpecialist, Quartermaster]
-- type: ashfallCharacterLoreFragment
-  id: AshfallQualificationFieldSalvage
-  category: Qualification
-  title: ashfall-lore-qualification-fieldsalvage-title
-  text: ashfall-lore-qualification-fieldsalvage
-  professionalFamily: Cargo
-  providedTags: [family-cargo]
-  jobs: [CargoTechnician, SalvageSpecialist, Quartermaster]
-- type: ashfallCharacterLoreFragment
-  id: AshfallQualificationStationSecurity
-  category: Qualification
-  title: ashfall-lore-qualification-stationsecurity-title
-  text: ashfall-lore-qualification-stationsecurity
-  professionalFamily: Security
-  providedTags: [family-security]
-  jobs: [SecurityCadet, SecurityOfficer, Warden, HeadOfSecurity]
-- type: ashfallCharacterLoreFragment
-  id: AshfallQualificationInvestigations
-  category: Qualification
-  title: ashfall-lore-qualification-investigations-title
-  text: ashfall-lore-qualification-investigations
-  professionalFamily: Security
-  providedTags: [family-security]
-  jobs: [SecurityCadet, SecurityOfficer, Detective, Warden, HeadOfSecurity]
-- type: ashfallCharacterLoreFragment
-  id: AshfallQualificationHospitality
-  category: Qualification
-  title: ashfall-lore-qualification-hospitality-title
-  text: ashfall-lore-qualification-hospitality
-  professionalFamily: Service
-  providedTags: [family-service]
-  jobs: [ServiceWorker, Bartender, Chef, Janitor, Botanist]
-- type: ashfallCharacterLoreFragment
-  id: AshfallQualificationAdministration
-  category: Qualification
-  title: ashfall-lore-qualification-administration-title
-  text: ashfall-lore-qualification-administration
-  professionalFamily: Service
-  providedTags: [family-service]
-  jobs: [Passenger, Lawyer, Librarian, TramDriver, HeadOfPersonnel]
-- type: ashfallCharacterLoreFragment
-  id: AshfallQualificationPersonnelCommand
-  category: Qualification
-  title: ashfall-lore-qualification-personnelcommand-title
-  text: ashfall-lore-qualification-personnelcommand
-  professionalFamily: Command
-  providedTags: [family-command]
-  jobs: [Passenger, HeadOfPersonnel, Captain]
-- type: ashfallCharacterLoreFragment
-  id: AshfallQualificationDepartmentCommand
-  category: Qualification
-  title: ashfall-lore-qualification-departmentcommand-title
-  text: ashfall-lore-qualification-departmentcommand
-  professionalFamily: Command
-  providedTags: [family-command]
-  jobs: [Passenger, HeadOfPersonnel, Captain]
-- type: ashfallCharacterLoreFragment
-  id: AshfallQualificationStagePerformance
-  category: Qualification
-  title: ashfall-lore-qualification-stageperformance-title
-  text: ashfall-lore-qualification-stageperformance
-  professionalFamily: Performance
-  providedTags: [family-performance]
-  jobs: [Passenger, Clown, Mime, Musician, Reporter]
-- type: ashfallCharacterLoreFragment
-  id: AshfallQualificationCommunityWork
-  category: Qualification
-  title: ashfall-lore-qualification-communitywork-title
-  text: ashfall-lore-qualification-communitywork
-  professionalFamily: Performance
-  providedTags: [family-performance]
-  jobs: [Passenger, Musician, Reporter, Chaplain, Librarian]
-- type: ashfallCharacterLoreFragment
-  id: AshfallEducationEngineering
-  category: Education
-  title: ashfall-lore-title-education
-  text: ashfall-lore-education-engineering
-  requiredTags: [family-engineering]
-- type: ashfallCharacterLoreFragment
-  id: AshfallEducationMedical
-  category: Education
-  title: ashfall-lore-title-education
-  text: ashfall-lore-education-medical
-  requiredTags: [family-medical]
-- type: ashfallCharacterLoreFragment
-  id: AshfallEducationScience
-  category: Education
-  title: ashfall-lore-title-education
-  text: ashfall-lore-education-science
-  requiredTags: [family-science]
-- type: ashfallCharacterLoreFragment
-  id: AshfallEducationCargo
-  category: Education
-  title: ashfall-lore-title-education
-  text: ashfall-lore-education-cargo
-  requiredTags: [family-cargo]
-- type: ashfallCharacterLoreFragment
-  id: AshfallEducationSecurity
-  category: Education
-  title: ashfall-lore-title-education
-  text: ashfall-lore-education-security
-  requiredTags: [family-security]
-- type: ashfallCharacterLoreFragment
-  id: AshfallEducationService
-  category: Education
-  title: ashfall-lore-title-education
-  text: ashfall-lore-education-service
-  requiredTags: [family-service]
-- type: ashfallCharacterLoreFragment
-  id: AshfallEducationCommand
-  category: Education
-  title: ashfall-lore-title-education
-  text: ashfall-lore-education-command
-  requiredTags: [family-command]
-- type: ashfallCharacterLoreFragment
-  id: AshfallEducationPerformance
-  category: Education
-  title: ashfall-lore-title-education
-  text: ashfall-lore-education-performance
-  requiredTags: [family-performance]
-- type: ashfallCharacterLoreFragment
-  id: AshfallCareerEngineeringHephaestus
-  category: Career
-  title: ashfall-lore-title-career
-  text: ashfall-lore-career-engineering-hephaestus
-  requiredTags: [family-engineering]
-- type: ashfallCharacterLoreFragment
-  id: AshfallCareerEngineeringNakamura
-  category: Career
-  title: ashfall-lore-title-career
-  text: ashfall-lore-career-engineering-nakamura
-  requiredTags: [family-engineering]
-- type: ashfallCharacterLoreFragment
-  id: AshfallCareerEngineeringASH
-  category: Career
-  title: ashfall-lore-title-career
-  text: ashfall-lore-career-engineering-ash
-  requiredTags: [family-engineering]
-- type: ashfallCharacterLoreFragment
-  id: AshfallCareerEngineeringVesper
-  category: Career
-  title: ashfall-lore-title-career
-  text: ashfall-lore-career-engineering-vesper
-  requiredTags: [family-engineering]
-- type: ashfallCharacterLoreFragment
-  id: AshfallCareerEngineeringKestrel
-  category: Career
-  title: ashfall-lore-title-career
-  text: ashfall-lore-career-engineering-kestrel
-  requiredTags: [family-engineering]
-- type: ashfallCharacterLoreFragment
-  id: AshfallCareerEngineeringLocal
-  category: Career
-  title: ashfall-lore-title-career
-  text: ashfall-lore-career-engineering-local
-  requiredTags: [family-engineering]
 
-- type: ashfallCharacterLoreFragment
-  id: AshfallCareerMedicalInterdyne
-  category: Career
-  title: ashfall-lore-title-career
-  text: ashfall-lore-career-medical-interdyne
-  requiredTags: [family-medical]
-- type: ashfallCharacterLoreFragment
-  id: AshfallCareerMedicalDeForest
-  category: Career
-  title: ashfall-lore-title-career
-  text: ashfall-lore-career-medical-deforest
-  requiredTags: [family-medical]
-- type: ashfallCharacterLoreFragment
-  id: AshfallCareerMedicalZengHu
-  category: Career
-  title: ashfall-lore-title-career
-  text: ashfall-lore-career-medical-zenghu
-  requiredTags: [family-medical]
-- type: ashfallCharacterLoreFragment
-  id: AshfallCareerMedicalArclight
-  category: Career
-  title: ashfall-lore-title-career
-  text: ashfall-lore-career-medical-arclight
-  requiredTags: [family-medical]
-- type: ashfallCharacterLoreFragment
-  id: AshfallCareerMedicalLocal
-  category: Career
-  title: ashfall-lore-title-career
-  text: ashfall-lore-career-medical-local
-  requiredTags: [family-medical]
-
-- type: ashfallCharacterLoreFragment
-  id: AshfallCareerScienceCybersun
-  category: Career
-  title: ashfall-lore-title-career
-  text: ashfall-lore-career-science-cybersun
-  requiredTags: [family-science]
-- type: ashfallCharacterLoreFragment
-  id: AshfallCareerScienceNanotrasen
-  category: Career
-  title: ashfall-lore-title-career
-  text: ashfall-lore-career-science-nanotrasen
-  requiredTags: [family-science]
-- type: ashfallCharacterLoreFragment
-  id: AshfallCareerScienceSaibasan
-  category: Career
-  title: ashfall-lore-title-career
-  text: ashfall-lore-career-science-saibasan
-  requiredTags: [family-science]
-- type: ashfallCharacterLoreFragment
-  id: AshfallCareerScienceZengHu
-  category: Career
-  title: ashfall-lore-title-career
-  text: ashfall-lore-career-science-zenghu
-  requiredTags: [family-science]
-
-- type: ashfallCharacterLoreFragment
-  id: AshfallCareerCargoKosmologistika
-  category: Career
-  title: ashfall-lore-title-career
-  text: ashfall-lore-career-cargo-kosmologistika
-  requiredTags: [family-cargo]
-- type: ashfallCharacterLoreFragment
-  id: AshfallCareerCargoNorthstar
-  category: Career
-  title: ashfall-lore-title-career
-  text: ashfall-lore-career-cargo-northstar
-  requiredTags: [family-cargo]
-- type: ashfallCharacterLoreFragment
-  id: AshfallCareerCargoVesper
-  category: Career
-  title: ashfall-lore-title-career
-  text: ashfall-lore-career-cargo-vesper
-  requiredTags: [family-cargo]
-- type: ashfallCharacterLoreFragment
-  id: AshfallCareerCargoLocal
-  category: Career
-  title: ashfall-lore-title-career
-  text: ashfall-lore-career-cargo-local
-  requiredTags: [family-cargo]
-
-- type: ashfallCharacterLoreFragment
-  id: AshfallCareerSecurityCrestline
-  category: Career
-  title: ashfall-lore-title-career
-  text: ashfall-lore-career-security-crestline
-  requiredTags: [family-security]
-- type: ashfallCharacterLoreFragment
-  id: AshfallCareerSecurityGarrison
-  category: Career
-  title: ashfall-lore-title-career
-  text: ashfall-lore-career-security-garrison
-  requiredTags: [family-security]
-- type: ashfallCharacterLoreFragment
-  id: AshfallCareerSecurityGorlex
-  category: Career
-  title: ashfall-lore-title-career
-  text: ashfall-lore-career-security-gorlex
-  requiredTags: [family-security]
-- type: ashfallCharacterLoreFragment
-  id: AshfallCareerSecurityHephaestus
-  category: Career
-  title: ashfall-lore-title-career
-  text: ashfall-lore-career-security-hephaestus
-  requiredTags: [family-security]
-- type: ashfallCharacterLoreFragment
-  id: AshfallCareerSecurityKosmologistika
-  category: Career
-  title: ashfall-lore-title-career
-  text: ashfall-lore-career-security-kosmologistika
-  requiredTags: [family-security]
-- type: ashfallCharacterLoreFragment
-  id: AshfallCareerSecurityASH
-  category: Career
-  title: ashfall-lore-title-career
-  text: ashfall-lore-career-security-ash
-  requiredTags: [family-security]
-
-- type: ashfallCharacterLoreFragment
-  id: AshfallCareerServiceDonk
-  category: Career
-  title: ashfall-lore-title-career
-  text: ashfall-lore-career-service-donk
-  requiredTags: [family-service]
-- type: ashfallCharacterLoreFragment
-  id: AshfallCareerServiceMeridian
-  category: Career
-  title: ashfall-lore-title-career
-  text: ashfall-lore-career-service-meridian
-  requiredTags: [family-service]
-- type: ashfallCharacterLoreFragment
-  id: AshfallCareerServiceHelix
-  category: Career
-  title: ashfall-lore-title-career
-  text: ashfall-lore-career-service-helix
-  requiredTags: [family-service]
-- type: ashfallCharacterLoreFragment
-  id: AshfallCareerServiceArclight
-  category: Career
-  title: ashfall-lore-title-career
-  text: ashfall-lore-career-service-arclight
-  requiredTags: [family-service]
-- type: ashfallCharacterLoreFragment
-  id: AshfallCareerServiceSixStore
-  category: Career
-  title: ashfall-lore-title-career
-  text: ashfall-lore-career-service-sixstore
-  requiredTags: [family-service]
-- type: ashfallCharacterLoreFragment
-  id: AshfallCareerServiceCometDiner
-  category: Career
-  title: ashfall-lore-title-career
-  text: ashfall-lore-career-service-cometdiner
-  requiredTags: [family-service]
-- type: ashfallCharacterLoreFragment
-  id: AshfallCareerServiceCleanHorizon
-  category: Career
-  title: ashfall-lore-title-career
-  text: ashfall-lore-career-service-cleanhorizon
-  requiredTags: [family-service]
-- type: ashfallCharacterLoreFragment
-  id: AshfallCareerServiceGreenDome
-  category: Career
-  title: ashfall-lore-title-career
-  text: ashfall-lore-career-service-greendome
-  requiredTags: [family-service]
-
-- type: ashfallCharacterLoreFragment
-  id: AshfallCareerCommandCaligo
-  category: Career
-  title: ashfall-lore-title-career
-  text: ashfall-lore-career-command-caligo
-  requiredTags: [family-command]
-- type: ashfallCharacterLoreFragment
-  id: AshfallCareerCommandMeridian
-  category: Career
-  title: ashfall-lore-title-career
-  text: ashfall-lore-career-command-meridian
-  requiredTags: [family-command]
-- type: ashfallCharacterLoreFragment
-  id: AshfallCareerCommandASH
-  category: Career
-  title: ashfall-lore-title-career
-  text: ashfall-lore-career-command-ash
-  requiredTags: [family-command]
-- type: ashfallCharacterLoreFragment
-  id: AshfallCareerCommandLegalArchive
-  category: Career
-  title: ashfall-lore-title-career
-  text: ashfall-lore-career-command-legalarchive
-  requiredTags: [family-command]
-- type: ashfallCharacterLoreFragment
-  id: AshfallCareerCommandCaptainOutpost
-  category: Career
-  title: ashfall-lore-title-career
-  text: ashfall-lore-career-command-captainoutpost
-  requiredTags: [family-command]
-
-- type: ashfallCharacterLoreFragment
-  id: AshfallCareerPerformanceArclight
-  category: Career
-  title: ashfall-lore-title-career
-  text: ashfall-lore-career-performance-arclight
-  requiredTags: [family-performance]
-- type: ashfallCharacterLoreFragment
-  id: AshfallCareerPerformanceMeridian
-  category: Career
-  title: ashfall-lore-title-career
-  text: ashfall-lore-career-performance-meridian
-  requiredTags: [family-performance]
-- type: ashfallCharacterLoreFragment
-  id: AshfallCareerPerformanceArchive
-  category: Career
-  title: ashfall-lore-title-career
-  text: ashfall-lore-career-performance-archive
-  requiredTags: [family-performance]
-- type: ashfallCharacterLoreFragment
-  id: AshfallCareerPerformance3
-  category: Career
-  title: ashfall-lore-title-career
-  text: ashfall-lore-career-performance-3
-  requiredTags: [family-performance]
-- type: ashfallCharacterLoreFragment
-  id: AshfallCareerPerformance4
-  category: Career
-  title: ashfall-lore-title-career
-  text: ashfall-lore-career-performance-4
-  requiredTags: [family-performance]
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonality1
   category: Personality
   title: ashfall-lore-title-personality
   text: ashfall-lore-personality-1
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonality2
   category: Personality
   title: ashfall-lore-title-personality
   text: ashfall-lore-personality-2
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonality3
   category: Personality
   title: ashfall-lore-title-personality
   text: ashfall-lore-personality-3
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonality4
   category: Personality
   title: ashfall-lore-title-personality
   text: ashfall-lore-personality-4
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonality5
   category: Personality
   title: ashfall-lore-title-personality
   text: ashfall-lore-personality-5
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonality6
   category: Personality
   title: ashfall-lore-title-personality
   text: ashfall-lore-personality-6
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonality7
   category: Personality
   title: ashfall-lore-title-personality
   text: ashfall-lore-personality-7
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonality8
   category: Personality
   title: ashfall-lore-title-personality
   text: ashfall-lore-personality-8
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonality9
   category: Personality
   title: ashfall-lore-title-personality
   text: ashfall-lore-personality-9
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonality10
   category: Personality
   title: ashfall-lore-title-personality
   text: ashfall-lore-personality-10
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonality11
   category: Personality
   title: ashfall-lore-title-personality
   text: ashfall-lore-personality-11
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonality12
   category: Personality
   title: ashfall-lore-title-personality
   text: ashfall-lore-personality-12
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonality13
   category: Personality
   title: ashfall-lore-title-personality
   text: ashfall-lore-personality-13
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonality14
   category: Personality
   title: ashfall-lore-title-personality
   text: ashfall-lore-personality-14
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonality15
   category: Personality
   title: ashfall-lore-title-personality
   text: ashfall-lore-personality-15
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonality16
   category: Personality
   title: ashfall-lore-title-personality
   text: ashfall-lore-personality-16
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonality17
   category: Personality
   title: ashfall-lore-title-personality
   text: ashfall-lore-personality-17
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonality18
   category: Personality
   title: ashfall-lore-title-personality
   text: ashfall-lore-personality-18
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonality19
   category: Personality
   title: ashfall-lore-title-personality
   text: ashfall-lore-personality-19
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonality20
   category: Personality
   title: ashfall-lore-title-personality
   text: ashfall-lore-personality-20
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonality21
   category: Personality
   title: ashfall-lore-title-personality
   text: ashfall-lore-personality-21
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonality22
   category: Personality
   title: ashfall-lore-title-personality
   text: ashfall-lore-personality-22
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonality23
   category: Personality
   title: ashfall-lore-title-personality
   text: ashfall-lore-personality-23
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonality24
   category: Personality
   title: ashfall-lore-title-personality
   text: ashfall-lore-personality-24
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonality25
   category: Personality
   title: ashfall-lore-title-personality
   text: ashfall-lore-personality-25
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonality26
   category: Personality
   title: ashfall-lore-title-personality
   text: ashfall-lore-personality-26
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonality27
   category: Personality
   title: ashfall-lore-title-personality
   text: ashfall-lore-personality-27
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonality28
   category: Personality
   title: ashfall-lore-title-personality
   text: ashfall-lore-personality-28
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonality29
   category: Personality
   title: ashfall-lore-title-personality
   text: ashfall-lore-personality-29
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonality30
   category: Personality
   title: ashfall-lore-title-personality
   text: ashfall-lore-personality-30
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonality31
   category: Personality
   title: ashfall-lore-title-personality
   text: ashfall-lore-personality-31
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonality32
   category: Personality
   title: ashfall-lore-title-personality
   text: ashfall-lore-personality-32
+
 - type: ashfallCharacterLoreFragment
   id: AshfallEvaluation1
   category: Evaluation
   title: ashfall-lore-title-evaluation
   text: ashfall-lore-evaluation-1
+
 - type: ashfallCharacterLoreFragment
   id: AshfallEvaluation2
   category: Evaluation
   title: ashfall-lore-title-evaluation
   text: ashfall-lore-evaluation-2
+
 - type: ashfallCharacterLoreFragment
   id: AshfallEvaluation3
   category: Evaluation
   title: ashfall-lore-title-evaluation
   text: ashfall-lore-evaluation-3
+
 - type: ashfallCharacterLoreFragment
   id: AshfallEvaluation4
   category: Evaluation
   title: ashfall-lore-title-evaluation
   text: ashfall-lore-evaluation-4
+
 - type: ashfallCharacterLoreFragment
   id: AshfallEvaluation5
   category: Evaluation
   title: ashfall-lore-title-evaluation
   text: ashfall-lore-evaluation-5
+
 - type: ashfallCharacterLoreFragment
   id: AshfallEvaluation6
   category: Evaluation
   title: ashfall-lore-title-evaluation
   text: ashfall-lore-evaluation-6
+
 - type: ashfallCharacterLoreFragment
   id: AshfallEvaluation7
   category: Evaluation
   title: ashfall-lore-title-evaluation
   text: ashfall-lore-evaluation-7
+
 - type: ashfallCharacterLoreFragment
   id: AshfallEvaluation8
   category: Evaluation
   title: ashfall-lore-title-evaluation
   text: ashfall-lore-evaluation-8
+
 - type: ashfallCharacterLoreFragment
   id: AshfallEvaluation9
   category: Evaluation
   title: ashfall-lore-title-evaluation
   text: ashfall-lore-evaluation-9
+
 - type: ashfallCharacterLoreFragment
   id: AshfallEvaluation10
   category: Evaluation
   title: ashfall-lore-title-evaluation
   text: ashfall-lore-evaluation-10
+
 - type: ashfallCharacterLoreFragment
   id: AshfallEvaluation11
   category: Evaluation
   title: ashfall-lore-title-evaluation
   text: ashfall-lore-evaluation-11
+
 - type: ashfallCharacterLoreFragment
   id: AshfallEvaluation12
   category: Evaluation
   title: ashfall-lore-title-evaluation
   text: ashfall-lore-evaluation-12
+
 - type: ashfallCharacterLoreFragment
   id: AshfallEvaluation13
   category: Evaluation
   title: ashfall-lore-title-evaluation
   text: ashfall-lore-evaluation-13
+
 - type: ashfallCharacterLoreFragment
   id: AshfallEvaluation14
   category: Evaluation
   title: ashfall-lore-title-evaluation
   text: ashfall-lore-evaluation-14
+
 - type: ashfallCharacterLoreFragment
   id: AshfallEvaluation15
   category: Evaluation
   title: ashfall-lore-title-evaluation
   text: ashfall-lore-evaluation-15
+
 - type: ashfallCharacterLoreFragment
   id: AshfallEvaluation16
   category: Evaluation
   title: ashfall-lore-title-evaluation
   text: ashfall-lore-evaluation-16
+
 - type: ashfallCharacterLoreFragment
   id: AshfallEvaluation17
   category: Evaluation
   title: ashfall-lore-title-evaluation
   text: ashfall-lore-evaluation-17
+
 - type: ashfallCharacterLoreFragment
   id: AshfallEvaluation18
   category: Evaluation
   title: ashfall-lore-title-evaluation
   text: ashfall-lore-evaluation-18
+
 - type: ashfallCharacterLoreFragment
   id: AshfallEvaluation19
   category: Evaluation
   title: ashfall-lore-title-evaluation
   text: ashfall-lore-evaluation-19
+
 - type: ashfallCharacterLoreFragment
   id: AshfallEvaluation20
   category: Evaluation
   title: ashfall-lore-title-evaluation
   text: ashfall-lore-evaluation-20
+
 - type: ashfallCharacterLoreFragment
   id: AshfallEvaluation21
   category: Evaluation
   title: ashfall-lore-title-evaluation
   text: ashfall-lore-evaluation-21
+
 - type: ashfallCharacterLoreFragment
   id: AshfallEvaluation22
   category: Evaluation
   title: ashfall-lore-title-evaluation
   text: ashfall-lore-evaluation-22
+
 - type: ashfallCharacterLoreFragment
   id: AshfallEvaluation23
   category: Evaluation
   title: ashfall-lore-title-evaluation
   text: ashfall-lore-evaluation-23
+
 - type: ashfallCharacterLoreFragment
   id: AshfallEvaluation24
   category: Evaluation
   title: ashfall-lore-title-evaluation
   text: ashfall-lore-evaluation-24
+
 - type: ashfallCharacterLoreFragment
   id: AshfallEvaluation25
   category: Evaluation
   title: ashfall-lore-title-evaluation
   text: ashfall-lore-evaluation-25
+
 - type: ashfallCharacterLoreFragment
   id: AshfallEvaluation26
   category: Evaluation
   title: ashfall-lore-title-evaluation
   text: ashfall-lore-evaluation-26
+
 - type: ashfallCharacterLoreFragment
   id: AshfallEvaluation27
   category: Evaluation
   title: ashfall-lore-title-evaluation
   text: ashfall-lore-evaluation-27
+
 - type: ashfallCharacterLoreFragment
   id: AshfallEvaluation28
   category: Evaluation
   title: ashfall-lore-title-evaluation
   text: ashfall-lore-evaluation-28
+
 - type: ashfallCharacterLoreFragment
   id: AshfallEvaluation29
   category: Evaluation
   title: ashfall-lore-title-evaluation
   text: ashfall-lore-evaluation-29
+
 - type: ashfallCharacterLoreFragment
   id: AshfallEvaluation30
   category: Evaluation
   title: ashfall-lore-title-evaluation
   text: ashfall-lore-evaluation-30
+
 - type: ashfallCharacterLoreFragment
   id: AshfallEvaluation31
   category: Evaluation
   title: ashfall-lore-title-evaluation
   text: ashfall-lore-evaluation-31
+
 - type: ashfallCharacterLoreFragment
   id: AshfallEvaluation32
   category: Evaluation
   title: ashfall-lore-title-evaluation
   text: ashfall-lore-evaluation-32
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonalHook1
   category: PersonalHook
   title: ashfall-lore-title-personalhook
   text: ashfall-lore-hook-1
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonalHook2
   category: PersonalHook
   title: ashfall-lore-title-personalhook
   text: ashfall-lore-hook-2
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonalHook3
   category: PersonalHook
   title: ashfall-lore-title-personalhook
   text: ashfall-lore-hook-3
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonalHook4
   category: PersonalHook
   title: ashfall-lore-title-personalhook
   text: ashfall-lore-hook-4
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonalHook5
   category: PersonalHook
   title: ashfall-lore-title-personalhook
   text: ashfall-lore-hook-5
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonalHook6
   category: PersonalHook
   title: ashfall-lore-title-personalhook
   text: ashfall-lore-hook-6
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonalHook7
   category: PersonalHook
   title: ashfall-lore-title-personalhook
   text: ashfall-lore-hook-7
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonalHook8
   category: PersonalHook
   title: ashfall-lore-title-personalhook
   text: ashfall-lore-hook-8
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonalHook9
   category: PersonalHook
   title: ashfall-lore-title-personalhook
   text: ashfall-lore-hook-9
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonalHook10
   category: PersonalHook
   title: ashfall-lore-title-personalhook
   text: ashfall-lore-hook-10
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonalHook11
   category: PersonalHook
   title: ashfall-lore-title-personalhook
   text: ashfall-lore-hook-11
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonalHook12
   category: PersonalHook
   title: ashfall-lore-title-personalhook
   text: ashfall-lore-hook-12
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonalHook13
   category: PersonalHook
   title: ashfall-lore-title-personalhook
   text: ashfall-lore-hook-13
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonalHook14
   category: PersonalHook
   title: ashfall-lore-title-personalhook
   text: ashfall-lore-hook-14
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonalHook15
   category: PersonalHook
   title: ashfall-lore-title-personalhook
   text: ashfall-lore-hook-15
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonalHook16
   category: PersonalHook
   title: ashfall-lore-title-personalhook
   text: ashfall-lore-hook-16
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonalHook17
   category: PersonalHook
   title: ashfall-lore-title-personalhook
   text: ashfall-lore-hook-17
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonalHook18
   category: PersonalHook
   title: ashfall-lore-title-personalhook
   text: ashfall-lore-hook-18
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonalHook19
   category: PersonalHook
   title: ashfall-lore-title-personalhook
   text: ashfall-lore-hook-19
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonalHook20
   category: PersonalHook
   title: ashfall-lore-title-personalhook
   text: ashfall-lore-hook-20
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonalHook21
   category: PersonalHook
   title: ashfall-lore-title-personalhook
   text: ashfall-lore-hook-21
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonalHook22
   category: PersonalHook
   title: ashfall-lore-title-personalhook
   text: ashfall-lore-hook-22
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonalHook23
   category: PersonalHook
   title: ashfall-lore-title-personalhook
   text: ashfall-lore-hook-23
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonalHook24
   category: PersonalHook
   title: ashfall-lore-title-personalhook
   text: ashfall-lore-hook-24
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonalHook25
   category: PersonalHook
   title: ashfall-lore-title-personalhook
   text: ashfall-lore-hook-25
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonalHook26
   category: PersonalHook
   title: ashfall-lore-title-personalhook
   text: ashfall-lore-hook-26
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonalHook27
   category: PersonalHook
   title: ashfall-lore-title-personalhook
   text: ashfall-lore-hook-27
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonalHook28
   category: PersonalHook
   title: ashfall-lore-title-personalhook
   text: ashfall-lore-hook-28
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonalHook29
   category: PersonalHook
   title: ashfall-lore-title-personalhook
   text: ashfall-lore-hook-29
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonalHook30
   category: PersonalHook
   title: ashfall-lore-title-personalhook
   text: ashfall-lore-hook-30
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonalHook31
   category: PersonalHook
   title: ashfall-lore-title-personalhook
   text: ashfall-lore-hook-31
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonalHook32
   category: PersonalHook
   title: ashfall-lore-title-personalhook
   text: ashfall-lore-hook-32
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonalHook33
   category: PersonalHook
   title: ashfall-lore-title-personalhook
   text: ashfall-lore-hook-33
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonalHook34
   category: PersonalHook
   title: ashfall-lore-title-personalhook
   text: ashfall-lore-hook-34
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonalHook35
   category: PersonalHook
   title: ashfall-lore-title-personalhook
   text: ashfall-lore-hook-35
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonalHook36
   category: PersonalHook
   title: ashfall-lore-title-personalhook
   text: ashfall-lore-hook-36
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonalHook37
   category: PersonalHook
   title: ashfall-lore-title-personalhook
   text: ashfall-lore-hook-37
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonalHook38
   category: PersonalHook
   title: ashfall-lore-title-personalhook
   text: ashfall-lore-hook-38
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonalHook39
   category: PersonalHook
   title: ashfall-lore-title-personalhook
   text: ashfall-lore-hook-39
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonalHook40
   category: PersonalHook
   title: ashfall-lore-title-personalhook
   text: ashfall-lore-hook-40
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonalHook41
   category: PersonalHook
   title: ashfall-lore-title-personalhook
   text: ashfall-lore-hook-41
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonalHook42
   category: PersonalHook
   title: ashfall-lore-title-personalhook
   text: ashfall-lore-hook-42
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonalHook43
   category: PersonalHook
   title: ashfall-lore-title-personalhook
   text: ashfall-lore-hook-43
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonalHook44
   category: PersonalHook
   title: ashfall-lore-title-personalhook
   text: ashfall-lore-hook-44
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPreCryo1
   category: PreCryo
   title: ashfall-lore-title-precryo
   text: ashfall-lore-precryo-1
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPreCryo2
   category: PreCryo
   title: ashfall-lore-title-precryo
   text: ashfall-lore-precryo-2
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPreCryo3
   category: PreCryo
   title: ashfall-lore-title-precryo
   text: ashfall-lore-precryo-3
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPreCryo4
   category: PreCryo
   title: ashfall-lore-title-precryo
   text: ashfall-lore-precryo-4
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPreCryo5
   category: PreCryo
   title: ashfall-lore-title-precryo
   text: ashfall-lore-precryo-5
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPreCryo6
   category: PreCryo
   title: ashfall-lore-title-precryo
   text: ashfall-lore-precryo-6
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPreCryo7
   category: PreCryo
   title: ashfall-lore-title-precryo
   text: ashfall-lore-precryo-7
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPreCryo8
   category: PreCryo
   title: ashfall-lore-title-precryo
   text: ashfall-lore-precryo-8
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPreCryo9
   category: PreCryo
   title: ashfall-lore-title-precryo
   text: ashfall-lore-precryo-9
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPreCryo10
   category: PreCryo
   title: ashfall-lore-title-precryo
   text: ashfall-lore-precryo-10
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPreCryo11
   category: PreCryo
   title: ashfall-lore-title-precryo
   text: ashfall-lore-precryo-11
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPreCryo12
   category: PreCryo
   title: ashfall-lore-title-precryo
   text: ashfall-lore-precryo-12
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPreCryo13
   category: PreCryo
   title: ashfall-lore-title-precryo
   text: ashfall-lore-precryo-13
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPreCryo14
   category: PreCryo
   title: ashfall-lore-title-precryo
   text: ashfall-lore-precryo-14
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPreCryo15
   category: PreCryo
   title: ashfall-lore-title-precryo
   text: ashfall-lore-precryo-15
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonality33
   category: Personality
   title: ashfall-lore-title-personality
   text: ashfall-lore-personality-33
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonality34
   category: Personality
   title: ashfall-lore-title-personality
   text: ashfall-lore-personality-34
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonality35
   category: Personality
   title: ashfall-lore-title-personality
   text: ashfall-lore-personality-35
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonality36
   category: Personality
   title: ashfall-lore-title-personality
   text: ashfall-lore-personality-36
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonality37
   category: Personality
@@ -1186,21 +773,25 @@
   category: Evaluation
   title: ashfall-lore-title-evaluation
   text: ashfall-lore-evaluation-33
+
 - type: ashfallCharacterLoreFragment
   id: AshfallEvaluation34
   category: Evaluation
   title: ashfall-lore-title-evaluation
   text: ashfall-lore-evaluation-34
+
 - type: ashfallCharacterLoreFragment
   id: AshfallEvaluation35
   category: Evaluation
   title: ashfall-lore-title-evaluation
   text: ashfall-lore-evaluation-35
+
 - type: ashfallCharacterLoreFragment
   id: AshfallEvaluation36
   category: Evaluation
   title: ashfall-lore-title-evaluation
   text: ashfall-lore-evaluation-36
+
 - type: ashfallCharacterLoreFragment
   id: AshfallEvaluation37
   category: Evaluation
@@ -1212,26 +803,31 @@
   category: PersonalHook
   title: ashfall-lore-title-personalhook
   text: ashfall-lore-hook-45
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonalHook46
   category: PersonalHook
   title: ashfall-lore-title-personalhook
   text: ashfall-lore-hook-46
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonalHook47
   category: PersonalHook
   title: ashfall-lore-title-personalhook
   text: ashfall-lore-hook-47
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonalHook48
   category: PersonalHook
   title: ashfall-lore-title-personalhook
   text: ashfall-lore-hook-48
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonalHook49
   category: PersonalHook
   title: ashfall-lore-title-personalhook
   text: ashfall-lore-hook-49
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonalHook50
   category: PersonalHook
@@ -1243,26 +839,31 @@
   category: PreCryo
   title: ashfall-lore-title-precryo
   text: ashfall-lore-precryo-17
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPreCryo18
   category: PreCryo
   title: ashfall-lore-title-precryo
   text: ashfall-lore-precryo-18
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPreCryo19
   category: PreCryo
   title: ashfall-lore-title-precryo
   text: ashfall-lore-precryo-19
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPreCryo20
   category: PreCryo
   title: ashfall-lore-title-precryo
   text: ashfall-lore-precryo-20
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPreCryo21
   category: PreCryo
   title: ashfall-lore-title-precryo
   text: ashfall-lore-precryo-21
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPreCryo22
   category: PreCryo
@@ -1273,40 +874,54 @@
   id: AshfallPersonalityUnathi1
   category: Personality
   title: ashfall-lore-title-personality
+  requiredTags: [species-reptilian]
   text: ashfall-lore-personality-unathi-1
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonalityUnathi2
   category: Personality
   title: ashfall-lore-title-personality
+  requiredTags: [species-reptilian]
   text: ashfall-lore-personality-unathi-2
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonalityLuam1
   category: Personality
   title: ashfall-lore-title-personality
+  requiredTags: [species-moth]
   text: ashfall-lore-personality-luam-1
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonalityLuam2
   category: Personality
   title: ashfall-lore-title-personality
+  requiredTags: [species-moth]
   text: ashfall-lore-personality-luam-2
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonalityArachnid1
   category: Personality
   title: ashfall-lore-title-personality
+  requiredTags: [species-arachnid]
   text: ashfall-lore-personality-arachnid-1
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonalityArachnid2
   category: Personality
   title: ashfall-lore-title-personality
+  requiredTags: [species-arachnid]
   text: ashfall-lore-personality-arachnid-2
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonalityVeiru1
   category: Personality
   title: ashfall-lore-title-personality
+  requiredTags: [species-veiru]
   text: ashfall-lore-personality-veiru-1
+
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonalityVeiru2
   category: Personality
   title: ashfall-lore-title-personality
+  requiredTags: [species-veiru]
   text: ashfall-lore-personality-veiru-2
-

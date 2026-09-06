@@ -1,0 +1,620 @@
+# Past civilian professions, deliberately independent from playable JobPrototypes.
+# Chain tags (exp-*) let later roles require believable history, and experiencePerYear is
+# what actually builds career levels over time.
+
+# Engineering
+
+- type: ashfallCareerRole
+  id: ShipyardAssembler
+  name: ashfall-careerrole-shipyardassembler
+  domain: Engineering
+  domains: [Engineering]
+  experiencePerYear:
+    Engineering: 1.2
+    Electrical: 0.5
+  employerIndustries: [engineering, construction]
+  yearsMin: 2
+  yearsMax: 6
+  providedTags: [exp-maintenance]
+
+- type: ashfallCareerRole
+  id: SystemsTechnician
+  name: ashfall-careerrole-systemstechnician
+  domain: Engineering
+  domains: [Engineering]
+  experiencePerYear:
+    Engineering: 1.0
+    Atmospherics: 0.6
+  employerIndustries: [engineering, logistics]
+  yearsMin: 2
+  yearsMax: 8
+  weight: 1.2
+  providedTags: [exp-maintenance]
+
+- type: ashfallCareerRole
+  id: PowerGridElectrician
+  name: ashfall-careerrole-powergridelectrician
+  domain: Engineering
+  domains: [Engineering]
+  experiencePerYear:
+    Electrical: 1.1
+    Engineering: 0.6
+  employerIndustries: [engineering, construction]
+  yearsMin: 2
+  yearsMax: 8
+  providedTags: [exp-maintenance]
+
+- type: ashfallCareerRole
+  id: AtmoPlantOperator
+  name: ashfall-careerrole-atmoplantoperator
+  domain: Engineering
+  domains: [Engineering]
+  experiencePerYear:
+    Atmospherics: 1.1
+    Engineering: 0.5
+  employerIndustries: [engineering]
+  yearsMin: 2
+  yearsMax: 8
+  requiredTags: [exp-maintenance]
+
+- type: ashfallCareerRole
+  id: MaintenanceShiftLead
+  name: ashfall-careerrole-maintenanceshiftlead
+  domain: Engineering
+  domains: [Engineering, Command]
+  leadership: true
+  experiencePerYear:
+    Engineering: 0.9
+    Command: 0.5
+    PersonnelManagement: 0.3
+  employerIndustries: [engineering]
+  yearsMin: 2
+  yearsMax: 8
+  minAge: 28
+  requiredTags: [exp-maintenance]
+  providedTags: [exp-supervision]
+
+# Medical
+
+- type: ashfallCareerRole
+  id: ClinicNurse
+  name: ashfall-careerrole-clininnurse
+  domain: Medical
+  domains: [Medical]
+  experiencePerYear:
+    Medical: 1.0
+    ClinicalMedicine: 1.0
+    Psychology: 0.4
+  employerIndustries: [medical]
+  yearsMin: 1
+  yearsMax: 6
+  weight: 1.2
+  providedTags: [exp-medicalwork]
+
+- type: ashfallCareerRole
+  id: Orderly
+  name: ashfall-careerrole-orderly
+  domain: Medical
+  domains: [Medical, Service]
+  experiencePerYear:
+    Medical: 0.8
+    Janitorial: 0.3
+  employerIndustries: [medical]
+  yearsMin: 1
+  yearsMax: 4
+  providedTags: [exp-medicalwork]
+
+- type: ashfallCareerRole
+  id: SupplyParamedic
+  name: ashfall-careerrole-supplyparamedic
+  domain: Medical
+  domains: [Medical, Logistics]
+  experiencePerYear:
+    EmergencyMedicine: 1.1
+    Medical: 1.0
+    Logistics: 0.4
+  employerIndustries: [medical, logistics]
+  yearsMin: 2
+  yearsMax: 8
+  minAge: 20
+  providedTags: [exp-medicalwork]
+
+- type: ashfallCareerRole
+  id: ClinicalLabAssistant
+  name: ashfall-careerrole-clinicalabassistant
+  domain: Medical
+  domains: [Medical, Science]
+  experiencePerYear:
+    Chemistry: 1.0
+    ClinicalMedicine: 0.7
+    Research: 0.3
+  employerIndustries: [medical, pharmaceutical]
+  yearsMin: 1
+  yearsMax: 5
+  providedTags: [exp-medicalwork, exp-labwork]
+
+- type: ashfallCareerRole
+  id: Pharmacist
+  name: ashfall-careerrole-pharmacist
+  domain: Medical
+  domains: [Medical]
+  experiencePerYear:
+    Pharmacology: 1.1
+    Chemistry: 0.8
+  employerIndustries: [pharmaceutical, medical]
+  yearsMin: 2
+  yearsMax: 8
+  minAge: 21
+  requiredTags: [exp-labwork]
+
+- type: ashfallCareerRole
+  id: WardSupervisor
+  name: ashfall-careerrole-wardsupervisor
+  domain: Medical
+  domains: [Medical, Command]
+  leadership: true
+  experiencePerYear:
+    Medical: 0.8
+    PersonnelManagement: 0.5
+    Command: 0.4
+  employerIndustries: [medical]
+  yearsMin: 2
+  yearsMax: 8
+  minAge: 30
+  requiredTags: [exp-medicalwork]
+  providedTags: [exp-supervision]
+
+# Science
+
+- type: ashfallCareerRole
+  id: ResearchAssistant
+  name: ashfall-careerrole-researchassistant
+  domain: Science
+  domains: [Science]
+  experiencePerYear:
+    Research: 1.1
+  employerIndustries: [science, pharmaceutical]
+  yearsMin: 1
+  yearsMax: 6
+  providedTags: [exp-labwork]
+
+- type: ashfallCareerRole
+  id: TestTechnician
+  name: ashfall-careerrole-testtechnician
+  domain: Science
+  domains: [Science, Engineering]
+  experiencePerYear:
+    Research: 0.8
+    Engineering: 0.5
+  employerIndustries: [science, engineering]
+  yearsMin: 1
+  yearsMax: 5
+  providedTags: [exp-labwork]
+
+- type: ashfallCareerRole
+  id: ResearchGroupLead
+  name: ashfall-careerrole-researchgrouplead
+  domain: Science
+  domains: [Science, Command]
+  leadership: true
+  experiencePerYear:
+    Research: 0.8
+    Command: 0.5
+    PersonnelManagement: 0.3
+  employerIndustries: [science, pharmaceutical]
+  yearsMin: 2
+  yearsMax: 8
+  minAge: 30
+  requiredTags: [exp-labwork]
+  providedTags: [exp-supervision]
+
+# Agriculture
+
+- type: ashfallCareerRole
+  id: PlantationWorker
+  name: ashfall-careerrole-plantationworker
+  domain: Agriculture
+  domains: [Agriculture]
+  experiencePerYear:
+    Agriculture: 1.0
+  employerIndustries: [agriculture, food-production]
+  yearsMin: 1
+  yearsMax: 6
+  providedTags: [exp-agrowork]
+
+- type: ashfallCareerRole
+  id: GreenhouseTechnician
+  name: ashfall-careerrole-greenghousetechnician
+  domain: Agriculture
+  domains: [Agriculture]
+  experiencePerYear:
+    Botany: 1.0
+    Agriculture: 0.7
+  employerIndustries: [agriculture, food-production]
+  yearsMin: 1
+  yearsMax: 8
+  weight: 1.2
+  providedTags: [exp-agrowork]
+
+- type: ashfallCareerRole
+  id: AgroLabAssistant
+  name: ashfall-careerrole-agrolabassistant
+  domain: Agriculture
+  domains: [Agriculture, Science]
+  experiencePerYear:
+    Botany: 0.8
+    Research: 0.7
+    Agriculture: 0.5
+  employerIndustries: [agriculture, science]
+  yearsMin: 1
+  yearsMax: 6
+  providedTags: [exp-agrowork, exp-labwork]
+
+- type: ashfallCareerRole
+  id: HydroponicsOperator
+  name: ashfall-careerrole-hydroponicsoperator
+  domain: Agriculture
+  domains: [Agriculture]
+  experiencePerYear:
+    Botany: 1.1
+    Agriculture: 0.6
+  employerIndustries: [agriculture, food-production]
+  yearsMin: 2
+  yearsMax: 10
+  minAge: 21
+  requiredTags: [exp-agrowork]
+
+- type: ashfallCareerRole
+  id: FoodProductionSpecialist
+  name: ashfall-careerrole-foodproductionspecialist
+  domain: Agriculture
+  domains: [Agriculture, Service]
+  experiencePerYear:
+    Agriculture: 0.6
+    Culinary: 0.8
+  employerIndustries: [food-production]
+  yearsMin: 1
+  yearsMax: 6
+  providedTags: [exp-agrowork]
+
+# Logistics
+
+- type: ashfallCareerRole
+  id: CargoHandler
+  name: ashfall-careerrole-cargohandler
+  domain: Logistics
+  domains: [Logistics]
+  experiencePerYear:
+    Cargo: 1.0
+    Logistics: 0.5
+  employerIndustries: [logistics]
+  yearsMin: 1
+  yearsMax: 6
+  weight: 1.2
+  providedTags: [exp-cargowork]
+
+- type: ashfallCareerRole
+  id: TransitCourier
+  name: ashfall-careerrole-transitcourier
+  domain: Logistics
+  domains: [Logistics]
+  experiencePerYear:
+    Logistics: 0.8
+    Cargo: 0.6
+  employerIndustries: [logistics, transport]
+  yearsMin: 1
+  yearsMax: 4
+  providedTags: [exp-cargowork]
+
+- type: ashfallCareerRole
+  id: FreightDispatcher
+  name: ashfall-careerrole-freightdispatcher
+  domain: Logistics
+  domains: [Logistics, Command]
+  leadership: true
+  experiencePerYear:
+    Logistics: 1.1
+    Cargo: 0.5
+    Command: 0.3
+    Administration: 0.3
+  employerIndustries: [logistics, transport]
+  yearsMin: 2
+  yearsMax: 8
+  minAge: 22
+  requiredTags: [exp-cargowork]
+  providedTags: [exp-adminwork]
+
+- type: ashfallCareerRole
+  id: SalvageCrewWorker
+  name: ashfall-careerrole-salvagecrewworker
+  domain: Logistics
+  domains: [Logistics, Engineering]
+  experiencePerYear:
+    Cargo: 1.0
+    Engineering: 0.5
+  employerIndustries: [salvage]
+  yearsMin: 2
+  yearsMax: 8
+  minAge: 20
+  providedTags: [exp-cargowork]
+
+# Security
+
+- type: ashfallCareerRole
+  id: GarrisonCadet
+  name: ashfall-careerrole-garrisoncadet
+  domain: Security
+  domains: [Security]
+  experiencePerYear:
+    Security: 0.8
+  employerIndustries: [security]
+  yearsMin: 1
+  yearsMax: 2
+  weight: 0.7
+  entryRole: true
+  providedTags: [exp-securitywork]
+
+- type: ashfallCareerRole
+  id: PatrolOfficer
+  name: ashfall-careerrole-patrolofficer
+  domain: Security
+  domains: [Security]
+  experiencePerYear:
+    Security: 1.1
+  employerIndustries: [security]
+  yearsMin: 2
+  yearsMax: 10
+  minAge: 19
+  weight: 1.2
+  providedTags: [exp-securitywork]
+
+- type: ashfallCareerRole
+  id: CustodyGuard
+  name: ashfall-careerrole-custodyguard
+  domain: Security
+  domains: [Security]
+  experiencePerYear:
+    Custody: 1.0
+    Security: 0.7
+  employerIndustries: [security]
+  yearsMin: 2
+  yearsMax: 8
+  minAge: 21
+  requiredTags: [exp-securitywork]
+
+- type: ashfallCareerRole
+  id: InvestigationAssistant
+  name: ashfall-careerrole-investigationassistant
+  domain: Security
+  domains: [Security]
+  experiencePerYear:
+    Investigation: 1.0
+    Security: 0.6
+  employerIndustries: [security]
+  yearsMin: 2
+  yearsMax: 8
+  minAge: 22
+  requiredTags: [exp-securitywork]
+
+- type: ashfallCareerRole
+  id: WatchSergeant
+  name: ashfall-careerrole-watchsergeant
+  domain: Security
+  domains: [Security, Command]
+  leadership: true
+  experiencePerYear:
+    Security: 0.9
+    Custody: 0.6
+    Command: 0.6
+  employerIndustries: [security]
+  yearsMin: 2
+  yearsMax: 8
+  minAge: 29
+  requiredTags: [exp-securitywork]
+  providedTags: [exp-supervision]
+
+# Service
+
+- type: ashfallCareerRole
+  id: Server
+  name: ashfall-careerrole-server
+  domain: Service
+  domains: [Service]
+  experiencePerYear:
+    Hospitality: 1.0
+  employerIndustries: [service, food-production]
+  yearsMin: 1
+  yearsMax: 6
+  weight: 1.2
+  providedTags: [exp-servicework]
+
+- type: ashfallCareerRole
+  id: Housekeeper
+  name: ashfall-careerrole-housekeeper
+  domain: Service
+  domains: [Service]
+  experiencePerYear:
+    Janitorial: 1.0
+    Hospitality: 0.4
+  employerIndustries: [service]
+  yearsMin: 1
+  yearsMax: 6
+  providedTags: [exp-servicework]
+
+- type: ashfallCareerRole
+  id: DinerCook
+  name: ashfall-careerrole-dinercook
+  domain: Service
+  domains: [Service]
+  experiencePerYear:
+    Culinary: 1.1
+    Hospitality: 0.4
+  employerIndustries: [service, food-production]
+  yearsMin: 1
+  yearsMax: 8
+  providedTags: [exp-servicework]
+
+- type: ashfallCareerRole
+  id: Barkeep
+  name: ashfall-careerrole-barkeep
+  domain: Service
+  domains: [Service]
+  experiencePerYear:
+    Hospitality: 1.0
+    Culinary: 0.5
+  employerIndustries: [service, performance]
+  yearsMin: 1
+  yearsMax: 8
+  minAge: 20
+  providedTags: [exp-servicework]
+
+- type: ashfallCareerRole
+  id: HostelAdministrator
+  name: ashfall-careerrole-hosteladministrator
+  domain: Service
+  domains: [Service, Command]
+  experiencePerYear:
+    Administration: 0.8
+    Hospitality: 0.6
+  employerIndustries: [service, admin]
+  yearsMin: 2
+  yearsMax: 8
+  providedTags: [exp-adminwork]
+
+# Media and performance
+
+- type: ashfallCareerRole
+  id: TouringMusician
+  name: ashfall-careerrole-touringmusician
+  domain: Performance
+  domains: [Performance, Service]
+  experiencePerYear:
+    Performance: 1.1
+    Hospitality: 0.3
+  employerIndustries: [performance, service, transport]
+  yearsMin: 2
+  yearsMax: 10
+  weight: 1.1
+  providedTags: [exp-performance]
+
+- type: ashfallCareerRole
+  id: EventHost
+  name: ashfall-careerrole-eventhost
+  domain: Performance
+  domains: [Performance, Media]
+  experiencePerYear:
+    Performance: 0.9
+    Media: 0.5
+    Hospitality: 0.4
+  employerIndustries: [performance, service, transport]
+  yearsMin: 2
+  yearsMax: 8
+  minAge: 21
+  requiredTags: [exp-performance]
+  providedTags: [exp-media]
+
+- type: ashfallCareerRole
+  id: CulturalColumnist
+  name: ashfall-careerrole-culturalcolumnist
+  domain: Media
+  domains: [Media]
+  experiencePerYear:
+    Writing: 1.1
+    Media: 0.8
+  employerIndustries: [media]
+  yearsMin: 2
+  yearsMax: 8
+  requiredTags: [exp-media]
+
+- type: ashfallCareerRole
+  id: LocalCorrespondent
+  name: ashfall-careerrole-localcorrespondent
+  domain: Media
+  domains: [Media]
+  experiencePerYear:
+    Media: 1.1
+    Writing: 0.7
+  employerIndustries: [media]
+  yearsMin: 2
+  yearsMax: 10
+  requiredTags: [exp-media]
+  providedTags: [exp-adminwork]
+
+- type: ashfallCareerRole
+  id: BulletinEditor
+  name: ashfall-careerrole-bulletineditor
+  domain: Media
+  domains: [Media, Command]
+  leadership: true
+  experiencePerYear:
+    Writing: 0.9
+    Media: 0.7
+    Administration: 0.4
+  employerIndustries: [media]
+  yearsMin: 2
+  yearsMax: 8
+  minAge: 25
+  requiredTags: [exp-media]
+  providedTags: [exp-supervision]
+
+# Administration and command
+
+- type: ashfallCareerRole
+  id: OfficeClerk
+  name: ashfall-careerrole-officeclerk
+  domain: Command
+  domains: [Command]
+  experiencePerYear:
+    Administration: 1.0
+  employerIndustries: [admin, logistics]
+  yearsMin: 1
+  yearsMax: 8
+  weight: 1.2
+  providedTags: [exp-adminwork]
+
+- type: ashfallCareerRole
+  id: OfficeAdministrator
+  name: ashfall-careerrole-officeadministrator
+  domain: Command
+  domains: [Command]
+  experiencePerYear:
+    Administration: 0.9
+    PersonnelManagement: 0.7
+  employerIndustries: [admin]
+  yearsMin: 2
+  yearsMax: 10
+  minAge: 23
+  requiredTags: [exp-adminwork]
+
+- type: ashfallCareerRole
+  id: ShiftCoordinator
+  name: ashfall-careerrole-shiftcoordinator
+  domain: Command
+  domains: [Command]
+  leadership: true
+  experiencePerYear:
+    Command: 1.0
+    Administration: 0.6
+    PersonnelManagement: 0.6
+  employerIndustries: [admin, engineering, logistics]
+  yearsMin: 2
+  yearsMax: 8
+  minAge: 27
+  requiredTags: [exp-adminwork]
+  providedTags: [exp-supervision]
+
+- type: ashfallCareerRole
+  id: ActingSiteManager
+  name: ashfall-careerrole-actingsitemanager
+  domain: Command
+  domains: [Command]
+  leadership: true
+  experiencePerYear:
+    Command: 1.1
+    Administration: 0.7
+    PersonnelManagement: 0.6
+  employerIndustries: [admin, engineering, logistics]
+  yearsMin: 2
+  yearsMax: 8
+  minAge: 33
+  requiredTags: [exp-supervision]

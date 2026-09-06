@@ -34,7 +34,7 @@ public sealed partial class AshfallCharacterPoolSystem : EntitySystem
     [Dependency] private IPlayerManager _playerManager = default!;
 
     private AshfallCharacterGenerator _generator = default!;
-    private AshfallCharacterLoreGenerator _loreGenerator = default!;
+    private AshfallPersonGenerator _personGenerator = default!;
 
     private static readonly ProtoId<CharacterGenConstraintsPrototype> HumanConstraints = "HumanDefaultConstraints";
 
@@ -55,7 +55,7 @@ public sealed partial class AshfallCharacterPoolSystem : EntitySystem
         base.Initialize();
 
         _generator = new AshfallCharacterGenerator(_protoManager, _markingManager, _namingSystem);
-        _loreGenerator = new AshfallCharacterLoreGenerator(_protoManager);
+        _personGenerator = new AshfallPersonGenerator(_protoManager, _generator);
 
         _netManager.RegisterNetMessage<MsgAshfallRequestPool>(OnRequestPool);
         _netManager.RegisterNetMessage<MsgAshfallSelectCandidate>(OnSelectCandidate);
@@ -189,17 +189,23 @@ public sealed partial class AshfallCharacterPoolSystem : EntitySystem
         var arachConstraints = _protoManager.TryIndex(ArachnidConstraints, out var aC) ? aC : humanConstraints;
         var veiruConstraints = _protoManager.TryIndex(VeiruConstraints, out var vC) ? vC : humanConstraints;
 
-        var families = _loreGenerator.GetProfessionalFamilies().ToList();
-        _random.Shuffle(families);
+        // Spread the pool across professional domains so one player rarely sees eight candidates
+        // from the same field. The domain is a generation bias, not a guarantee.
+        var domains = _protoManager
+            .EnumeratePrototypes<AshfallCareerRolePrototype>()
+            .SelectMany(r => r.Domains)
+            .Union(_protoManager.EnumeratePrototypes<AshfallEducationPrototype>().Select(e => e.Domain))
+            .Distinct()
+            .ToList();
+        _random.Shuffle(domains);
 
         var candidates = new List<AshfallCharacterCandidate>(8);
 
         // Left Column (Slots 0..3): 4 Guaranteed Humans
         for (var i = 0; i < 4; i++)
         {
-            var (profile, culture, birthplace, morphology) = _generator.GenerateProfile(humanConstraints, _random);
-            var family = i < families.Count ? families[i] : null;
-            candidates.Add(_loreGenerator.GenerateCandidate(profile, _random, family, culture, birthplace, morphology));
+            var targetDomain = i < domains.Count ? domains[i] : null;
+            candidates.Add(_personGenerator.GenerateCandidate(humanConstraints, _random, targetDomain).Candidate);
         }
 
         // Right Column (Slots 4..7): 4 non-human candidates, one per species.
@@ -215,9 +221,8 @@ public sealed partial class AshfallCharacterPoolSystem : EntitySystem
         for (var i = 0; i < 4; i++)
         {
             var constraints = nonHumanSpeciesList[i];
-            var (profile, culture, birthplace, morphology) = _generator.GenerateProfile(constraints, _random);
-            var family = i < families.Count ? families[i] : null;
-            candidates.Add(_loreGenerator.GenerateCandidate(profile, _random, family, culture, birthplace, morphology));
+            var targetDomain = i < domains.Count ? domains[i] : null;
+            candidates.Add(_personGenerator.GenerateCandidate(constraints, _random, targetDomain).Candidate);
         }
 
         return candidates;

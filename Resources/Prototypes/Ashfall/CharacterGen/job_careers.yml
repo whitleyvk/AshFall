@@ -1,0 +1,281 @@
+# Playable-job side of the career model. Requirements and ceilings are per-competency career
+# levels; eligibility is always derived from the finished person structure, never rolled.
+# FallbackOnly jobs are suppressed while any non-fallback job is valid.
+
+# Command
+
+- type: ashfallJobCareer
+  id: Captain
+  domain: Command
+  requiredCompetencies:
+    Command: Experienced
+    Administration: Qualified
+  requiresLeadershipHistory: true
+
+- type: ashfallJobCareer
+  id: HeadOfPersonnel
+  domain: Command
+  requiredCompetencies:
+    Command: Junior
+    Administration: Qualified
+    PersonnelManagement: Junior
+
+# Engineering
+
+- type: ashfallJobCareer
+  id: ChiefEngineer
+  domain: Engineering
+  requiredCompetencies:
+    Engineering: Experienced
+    Command: Junior
+  requiresLeadershipHistory: true
+
+- type: ashfallJobCareer
+  id: StationEngineer
+  domain: Engineering
+  requiredCompetencies:
+    Engineering: Qualified
+
+- type: ashfallJobCareer
+  id: AtmosphericTechnician
+  domain: Engineering
+  requiredCompetencies:
+    Engineering: Qualified
+    Atmospherics: Junior
+
+- type: ashfallJobCareer
+  id: TechnicalAssistant
+  domain: Engineering
+  requiredCompetencies:
+    Engineering: Trainee
+  maximumCompetencies:
+    Engineering: Junior
+
+# Medical
+
+- type: ashfallJobCareer
+  id: ChiefMedicalOfficer
+  domain: Medical
+  requiredCompetencies:
+    Medical: Experienced
+    Command: Junior
+  preferredCompetencies:
+    ClinicalMedicine: Qualified
+  requiresLeadershipHistory: true
+
+- type: ashfallJobCareer
+  id: MedicalDoctor
+  domain: Medical
+  requiredCompetencies:
+    Medical: Qualified
+    ClinicalMedicine: Qualified
+
+- type: ashfallJobCareer
+  id: MedicalIntern
+  domain: Medical
+  requiredCompetencies:
+    Medical: Trainee
+  maximumCompetencies:
+    Medical: Qualified
+    ClinicalMedicine: Junior
+
+- type: ashfallJobCareer
+  id: Chemist
+  domain: Medical
+  requiredCompetencies:
+    Chemistry: Qualified
+  preferredCompetencies:
+    Pharmacology: Qualified
+    Medical: Qualified
+
+- type: ashfallJobCareer
+  id: Paramedic
+  domain: Medical
+  requiredCompetencies:
+    Medical: Qualified
+    EmergencyMedicine: Qualified
+
+- type: ashfallJobCareer
+  id: Psychologist
+  domain: Medical
+  requiredCompetencies:
+    Psychology: Qualified
+    Medical: Qualified
+
+# Science
+
+- type: ashfallJobCareer
+  id: ResearchDirector
+  domain: Science
+  requiredCompetencies:
+    Research: Experienced
+    Command: Junior
+  requiresLeadershipHistory: true
+
+- type: ashfallJobCareer
+  id: Scientist
+  domain: Science
+  requiredCompetencies:
+    Research: Qualified
+
+- type: ashfallJobCareer
+  id: ResearchAssistant
+  domain: Science
+  requiredCompetencies:
+    Research: Trainee
+  maximumCompetencies:
+    Research: Junior
+
+# Security
+
+- type: ashfallJobCareer
+  id: HeadOfSecurity
+  domain: Security
+  requiredCompetencies:
+    Security: Experienced
+    Command: Junior
+  requiresLeadershipHistory: true
+
+- type: ashfallJobCareer
+  id: Warden
+  domain: Security
+  requiredCompetencies:
+    Security: Qualified
+    Custody: Junior
+
+- type: ashfallJobCareer
+  id: Detective
+  domain: Security
+  requiredCompetencies:
+    Security: Junior
+    Investigation: Qualified
+
+- type: ashfallJobCareer
+  id: SecurityOfficer
+  domain: Security
+  requiredCompetencies:
+    Security: Junior
+
+- type: ashfallJobCareer
+  id: SecurityCadet
+  domain: Security
+  requiredCompetencies:
+    Security: Trainee
+  maximumCompetencies:
+    Security: Junior
+
+# Cargo / logistics
+
+- type: ashfallJobCareer
+  id: Quartermaster
+  domain: Logistics
+  requiredCompetencies:
+    Logistics: Qualified
+    Command: Junior
+  requiresLeadershipHistory: true
+
+- type: ashfallJobCareer
+  id: CargoTechnician
+  domain: Logistics
+  requiredCompetencies:
+    Cargo: Junior
+  maximumCompetencies:
+    Cargo: Experienced
+
+- type: ashfallJobCareer
+  id: SalvageSpecialist
+  domain: Logistics
+  requiredCompetencies:
+    Cargo: Junior
+    Engineering: Junior
+  maximumCompetencies:
+    Cargo: Experienced
+
+# Civilian / service
+
+- type: ashfallJobCareer
+  id: Bartender
+  domain: Service
+  requiredCompetencies:
+    Hospitality: Junior
+
+- type: ashfallJobCareer
+  id: Botanist
+  domain: Agriculture
+  requiredCompetencies:
+    Botany: Junior
+  preferredCompetencies:
+    Agriculture: Qualified
+    Research: Qualified
+
+- type: ashfallJobCareer
+  id: Chef
+  domain: Service
+  requiredCompetencies:
+    Culinary: Qualified
+
+- type: ashfallJobCareer
+  id: Janitor
+  domain: Service
+  requiredCompetencies:
+    Janitorial: Qualified
+
+- type: ashfallJobCareer
+  id: Librarian
+  domain: Media
+  requiredCompetencies:
+    Writing: Junior
+
+- type: ashfallJobCareer
+  id: Musician
+  domain: Performance
+  requiredCompetencies:
+    Performance: Junior
+
+- type: ashfallJobCareer
+  id: Mime
+  domain: Performance
+  requiredCompetencies:
+    Performance: Junior
+
+- type: ashfallJobCareer
+  id: Clown
+  domain: Performance
+  requiredCompetencies:
+    Performance: Trainee
+
+- type: ashfallJobCareer
+  id: Chaplain
+  domain: Service
+  requiredCompetencies:
+    Hospitality: Trainee
+
+- type: ashfallJobCareer
+  id: Lawyer
+  domain: Security
+  requiredCompetencies:
+    Investigation: Qualified
+    Administration: Junior
+
+- type: ashfallJobCareer
+  id: ServiceWorker
+  domain: Service
+  requiredCompetencies:
+    Hospitality: Trainee
+
+- type: ashfallJobCareer
+  id: Reporter
+  domain: Media
+  requiredCompetencies:
+    Media: Qualified
+  preferredCompetencies:
+    Writing: Qualified
+    Performance: Qualified
+
+# Fallbacks
+
+- type: ashfallJobCareer
+  id: Passenger
+  domain: Service
+  requiredCompetencies: {}
+  fallbackOnly: true

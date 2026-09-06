@@ -1,0 +1,132 @@
+# Short additional qualifications shown as extra education lines.
+# One specialization/course per person at most two; stays inside the career families.
+
+# Medical
+
+- type: ashfallCertification
+  id: AshfallCertLabDiagnostics
+  kind: Specialization
+  domain: Medical
+  text: ashfall-cert-labdiagnostics
+  experience:
+    Chemistry: 0.8
+
+- type: ashfallCertification
+  id: AshfallCertPharmaHandling
+  kind: Course
+  domain: Medical
+  text: ashfall-cert-pharmahandling
+  experience:
+    Pharmacology: 0.8
+
+- type: ashfallCertification
+  id: AshfallCertEmergencyCare
+  kind: Course
+  domain: Medical
+  text: ashfall-cert-emergencycare
+  experience:
+    EmergencyMedicine: 0.8
+
+# Engineering
+
+- type: ashfallCertification
+  id: AshfallCertPowerSystems
+  kind: Specialization
+  domain: Engineering
+  text: ashfall-cert-powersystems
+  experience:
+    Electrical: 0.8
+
+- type: ashfallCertification
+  id: AshfallCertAtmosphericControl
+  kind: Course
+  domain: Engineering
+  text: ashfall-cert-atmocontrol
+  experience:
+    Atmospherics: 0.8
+
+# Science
+
+- type: ashfallCertification
+  id: AshfallCertSampleAnalysis
+  kind: Specialization
+  domain: Science
+  text: ashfall-cert-sampleanalysis
+  experience:
+    Research: 0.8
+
+# Security
+
+- type: ashfallCertification
+  id: AshfallCertEvidenceHandling
+  kind: Course
+  domain: Security
+  text: ashfall-cert-evidence
+  experience:
+    Investigation: 0.8
+
+- type: ashfallCertification
+  id: AshfallCertDetentionProcedures
+  kind: Course
+  domain: Security
+  text: ashfall-cert-detention
+  experience:
+    Custody: 0.8
+
+# Logistics
+
+- type: ashfallCertification
+  id: AshfallCertCargoAccounting
+  kind: Specialization
+  domain: Logistics
+  text: ashfall-cert-cargoaccounting
+  experience:
+    Logistics: 0.8
+
+# Agriculture
+
+- type: ashfallCertification
+  id: AshfallCertHydroponicSystems
+  kind: Specialization
+  domain: Agriculture
+  text: ashfall-cert-hydroponics
+  experience:
+    Botany: 0.8
+
+# Service
+
+- type: ashfallCertification
+  id: AshfallCertCommercialCooking
+  kind: Course
+  domain: Service
+  text: ashfall-cert-cooking
+  experience:
+    Culinary: 0.8
+
+# Media / Performance
+
+- type: ashfallCertification
+  id: AshfallCertEditing
+  kind: Course
+  domain: Media
+  text: ashfall-cert-editing
+  experience:
+    Writing: 0.8
+
+- type: ashfallCertification
+  id: AshfallCertPublicEvents
+  kind: Specialization
+  domain: Performance
+  text: ashfall-cert-publicevents
+  experience:
+    Performance: 0.8
+
+# Command
+
+- type: ashfallCertification
+  id: AshfallCertPersonnelRecords
+  kind: Specialization
+  domain: Command
+  text: ashfall-cert-personnelrecords
+  experience:
+    PersonnelManagement: 0.8

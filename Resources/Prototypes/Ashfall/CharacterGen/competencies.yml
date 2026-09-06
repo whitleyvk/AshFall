@@ -1,0 +1,160 @@
+# Hidden professional competency vocabulary for personnel generation.
+# Adding a new competency must never require generator changes: it is referenced from
+# education, career roles, events and job career requirements by ProtoId.
+# Qualification lines are shown in the dossier only for established (Qualified+) competencies.
+
+- type: ashfallCompetency
+  id: Medical
+  domains: [Medical]
+  qualificationTitle: ashfall-competency-medical-title
+  qualificationText: ashfall-competency-medical
+
+- type: ashfallCompetency
+  id: ClinicalMedicine
+  domains: [Medical]
+  qualificationTitle: ashfall-competency-clinicalmedicine-title
+  qualificationText: ashfall-competency-clinicalmedicine
+
+- type: ashfallCompetency
+  id: Chemistry
+  domains: [Medical, Science]
+  qualificationTitle: ashfall-competency-chemistry-title
+  qualificationText: ashfall-competency-chemistry
+
+- type: ashfallCompetency
+  id: Pharmacology
+  domains: [Medical, Science]
+  qualificationTitle: ashfall-competency-pharmacology-title
+  qualificationText: ashfall-competency-pharmacology
+
+- type: ashfallCompetency
+  id: EmergencyMedicine
+  domains: [Medical]
+  qualificationTitle: ashfall-competency-emergencymedicine-title
+  qualificationText: ashfall-competency-emergencymedicine
+
+- type: ashfallCompetency
+  id: Security
+  domains: [Security]
+  qualificationTitle: ashfall-competency-security-title
+  qualificationText: ashfall-competency-security
+
+- type: ashfallCompetency
+  id: Investigation
+  domains: [Security, Command]
+  qualificationTitle: ashfall-competency-investigation-title
+  qualificationText: ashfall-competency-investigation
+
+- type: ashfallCompetency
+  id: Custody
+  domains: [Security]
+  qualificationTitle: ashfall-competency-custody-title
+  qualificationText: ashfall-competency-custody
+
+- type: ashfallCompetency
+  id: Command
+  domains: [Command]
+  qualificationTitle: ashfall-competency-command-title
+  qualificationText: ashfall-competency-command
+
+- type: ashfallCompetency
+  id: Administration
+  domains: [Command, Service]
+  qualificationTitle: ashfall-competency-administration-title
+  qualificationText: ashfall-competency-administration
+
+- type: ashfallCompetency
+  id: PersonnelManagement
+  domains: [Command]
+  qualificationTitle: ashfall-competency-personnelmanagement-title
+  qualificationText: ashfall-competency-personnelmanagement
+
+- type: ashfallCompetency
+  id: Psychology
+  domains: [Medical]
+  qualificationTitle: ashfall-competency-psychology-title
+  qualificationText: ashfall-competency-psychology
+
+- type: ashfallCompetency
+  id: Engineering
+  domains: [Engineering]
+  qualificationTitle: ashfall-competency-engineering-title
+  qualificationText: ashfall-competency-engineering
+
+- type: ashfallCompetency
+  id: Atmospherics
+  domains: [Engineering]
+  qualificationTitle: ashfall-competency-atmospherics-title
+  qualificationText: ashfall-competency-atmospherics
+
+- type: ashfallCompetency
+  id: Electrical
+  domains: [Engineering]
+  qualificationTitle: ashfall-competency-electrical-title
+  qualificationText: ashfall-competency-electrical
+
+- type: ashfallCompetency
+  id: Logistics
+  domains: [Logistics, Command]
+  qualificationTitle: ashfall-competency-logistics-title
+  qualificationText: ashfall-competency-logistics
+
+- type: ashfallCompetency
+  id: Cargo
+  domains: [Logistics]
+  qualificationTitle: ashfall-competency-cargo-title
+  qualificationText: ashfall-competency-cargo
+
+- type: ashfallCompetency
+  id: Agriculture
+  domains: [Agriculture]
+  qualificationTitle: ashfall-competency-agriculture-title
+  qualificationText: ashfall-competency-agriculture
+
+- type: ashfallCompetency
+  id: Botany
+  domains: [Agriculture, Science]
+  qualificationTitle: ashfall-competency-botany-title
+  qualificationText: ashfall-competency-botany
+
+- type: ashfallCompetency
+  id: Research
+  domains: [Science]
+  qualificationTitle: ashfall-competency-research-title
+  qualificationText: ashfall-competency-research
+
+- type: ashfallCompetency
+  id: Media
+  domains: [Media]
+  qualificationTitle: ashfall-competency-media-title
+  qualificationText: ashfall-competency-media
+
+- type: ashfallCompetency
+  id: Writing
+  domains: [Media, Command]
+  qualificationTitle: ashfall-competency-writing-title
+  qualificationText: ashfall-competency-writing
+
+- type: ashfallCompetency
+  id: Performance
+  domains: [Performance]
+  qualificationTitle: ashfall-competency-performance-title
+  qualificationText: ashfall-competency-performance
+
+- type: ashfallCompetency
+  id: Hospitality
+  domains: [Service]
+  qualificationTitle: ashfall-competency-hospitality-title
+  qualificationText: ashfall-competency-hospitality
+
+- type: ashfallCompetency
+  id: Culinary
+  domains: [Service]
+  qualificationTitle: ashfall-competency-culinary-title
+  qualificationText: ashfall-competency-culinary
+
+- type: ashfallCompetency
+  id: Janitorial
+  domains: [Service]
+  qualificationTitle: ashfall-competency-janitorial-title
+  qualificationText: ashfall-competency-janitorial

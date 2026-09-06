@@ -1,0 +1,143 @@
+# Employers of past career stints. A stint's employer must share at least one industry with
+# the career role's employerIndustries.
+
+- type: ashfallEmployer
+  id: HephaestusIndustries
+  name: ashfall-employer-hephaestus
+  industries: [engineering, construction]
+
+- type: ashfallEmployer
+  id: NakamuraEngineering
+  name: ashfall-employer-nakamura
+  industries: [engineering, construction]
+
+- type: ashfallEmployer
+  id: KestrelColonialWorks
+  name: ashfall-employer-kestrel
+  industries: [construction, engineering]
+
+- type: ashfallEmployer
+  id: AshenSystemsHeavyworks
+  name: ashfall-employer-ashensystems
+  industries: [engineering, admin]
+  weight: 1.5
+
+- type: ashfallEmployer
+  id: VesperRecoveryGroup
+  name: ashfall-employer-vesper
+  industries: [salvage, logistics]
+
+- type: ashfallEmployer
+  id: GorlexSecurities
+  name: ashfall-employer-gorlex
+  industries: [security, salvage]
+
+- type: ashfallEmployer
+  id: CrestlineSecurity
+  name: ashfall-employer-crestline
+  industries: [security]
+
+- type: ashfallEmployer
+  id: ZengHuPharmaceuticals
+  name: ashfall-employer-zenghu
+  industries: [pharmaceutical, medical, science]
+  weight: 1.3
+
+- type: ashfallEmployer
+  id: InterdynePharmaceutics
+  name: ashfall-employer-interdyne
+  industries: [pharmaceutical, medical]
+
+- type: ashfallEmployer
+  id: DeForestMedical
+  name: ashfall-employer-deforest
+  industries: [medical, logistics]
+  weight: 1.3
+
+- type: ashfallEmployer
+  id: NanoTrasen
+  name: ashfall-employer-nanotrasen
+  industries: [science, pharmaceutical]
+
+- type: ashfallEmployer
+  id: CybersunIndustries
+  name: ashfall-employer-cybersun
+  industries: [science, pharmaceutical]
+
+- type: ashfallEmployer
+  id: Saibasan
+  name: ashfall-employer-saibasan
+  industries: [science, media]
+
+- type: ashfallEmployer
+  id: HelixAgrisystems
+  name: ashfall-employer-helix
+  industries: [agriculture, food-production]
+
+- type: ashfallEmployer
+  id: GreenDomeCoop
+  name: ashfall-employer-greendome
+  industries: [agriculture, food-production]
+
+- type: ashfallEmployer
+  id: NorthstarProvisioning
+  name: ashfall-employer-northstar
+  industries: [logistics, food-production]
+
+- type: ashfallEmployer
+  id: Kosmologistika
+  name: ashfall-employer-kosmologistika
+  industries: [logistics, transport]
+  weight: 1.3
+
+- type: ashfallEmployer
+  id: ArclightTransitAuthority
+  name: ashfall-employer-arclight
+  industries: [transport, service, performance]
+  weight: 1.3
+
+- type: ashfallEmployer
+  id: MeridianHabitatServices
+  name: ashfall-employer-meridian
+  industries: [service, admin, performance]
+  weight: 1.3
+
+- type: ashfallEmployer
+  id: CaligoAdministrativeSolutions
+  name: ashfall-employer-caligo
+  industries: [admin]
+
+- type: ashfallEmployer
+  id: DonkCo
+  name: ashfall-employer-donkco
+  industries: [food-production]
+
+- type: ashfallEmployer
+  id: HappySix
+  name: ashfall-employer-happysix
+  industries: [service, food-production]
+
+- type: ashfallEmployer
+  id: KometDiner
+  name: ashfall-employer-komet
+  industries: [service, food-production]
+
+- type: ashfallEmployer
+  id: CleanHorizonArtel
+  name: ashfall-employer-cleanhorizon
+  industries: [service]
+
+- type: ashfallEmployer
+  id: VestnikMediaNetwork
+  name: ashfall-employer-vestnik
+  industries: [media]
+
+- type: ashfallEmployer
+  id: SolarisMediaConsortium
+  name: ashfall-employer-solaris
+  industries: [media, performance]
+
+- type: ashfallEmployer
+  id: OrbitalResonanceEnsemble
+  name: ashfall-employer-orbitalresonance
+  industries: [performance, service]

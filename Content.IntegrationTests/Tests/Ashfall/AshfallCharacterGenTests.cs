@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Content.IntegrationTests.Fixtures;
@@ -22,18 +23,42 @@ public sealed class AshfallCharacterGenTests : GameTest
 {
     private static readonly ProtoId<CharacterGenConstraintsPrototype> HumanConstraints = "HumanDefaultConstraints";
 
+    /// <summary>
+    ///     Silicon jobs are not personnel-file candidates; TramDriver is deliberately removed from
+    ///     generation (niche job, not on rotation); T* prototypes and LoadoutTester are test
+    ///     fixtures from Content.IntegrationTests, not real playable jobs.
+    /// </summary>
+    private static readonly HashSet<string> JobCareerExclusions = new()
+    {
+        "StationAi",
+        "Borg",
+        "TramDriver",
+        "TChaplain",
+        "TMime",
+        "TAssistant",
+        "TClown",
+        "TCaptain",
+        "TestInternalsDummy",
+        "LoadoutTester",
+    };
+
     [SidedDependency(Side.Server)] private IPrototypeManager _protoMan = default!;
     [SidedDependency(Side.Server)] private MarkingManager _markingMan = default!;
     [SidedDependency(Side.Server)] private NamingSystem _namingSys = default!;
     [SidedDependency(Side.Server)] private IRobustRandom _random = default!;
     [SidedDependency(Side.Server)] private IRobustSerializer _serializer = default!;
 
+    private AshfallPersonGenerator _personGenerator = default!;
+
+    private AshfallPersonGenerator PersonGenerator =>
+        _personGenerator ??= new AshfallPersonGenerator(
+            _protoMan,
+            new AshfallCharacterGenerator(_protoMan, _markingMan, _namingSys));
+
     [Test]
     [RunOnSide(Side.Server)]
     public void FuzzHumanCharacterGenerationTest()
     {
-        var generator = new AshfallCharacterGenerator(_protoMan, _markingMan, _namingSys);
-
         Assert.That(_protoMan.TryIndex(HumanConstraints, out var constraints), Is.True);
         Assert.That(constraints, Is.Not.Null);
 
@@ -48,7 +73,8 @@ public sealed class AshfallCharacterGenTests : GameTest
 
         for (var i = 0; i < 2000; i++)
         {
-            var profile = generator.GenerateProfile(constraints, _random);
+            var (candidate, _) = PersonGenerator.GenerateCandidate(constraints!, _random);
+            var profile = candidate.Profile;
 
             // 1. Species is Human
             Assert.That(profile.Species.Id, Is.EqualTo("Human"));
@@ -113,90 +139,7 @@ public sealed class AshfallCharacterGenTests : GameTest
     public void GeneratedProfileCanBeNetworkSerializedTest()
     {
         Assert.That(_protoMan.TryIndex(HumanConstraints, out var constraints), Is.True);
-
-        var generator = new AshfallCharacterGenerator(_protoMan, _markingMan, _namingSys);
-        var expected = generator.GenerateProfile(constraints!, _random);
-
-        using var stream = new MemoryStream();
-        _serializer.SerializeDirect(stream, expected);
-        stream.Position = 0;
-        _serializer.DeserializeDirect(stream, out HumanoidCharacterProfile actual);
-
-        Assert.That(actual.Name, Is.EqualTo(expected.Name));
-        Assert.That(actual.Appearance, Is.EqualTo(expected.Appearance));
-    }
-
-    [Test]
-    [RunOnSide(Side.Server)]
-    public void LoreLibraryHasRequiredCoverageTest()
-    {
-        var fragments = _protoMan.EnumeratePrototypes<AshfallCharacterLoreFragmentPrototype>().ToArray();
-
-        Assert.Multiple(() =>
-        {
-            Assert.That(fragments.Count(x => x.Category == AshfallCharacterLoreCategory.Origin), Is.GreaterThanOrEqualTo(20));
-            Assert.That(fragments.Count(x => x.Category is AshfallCharacterLoreCategory.Education or AshfallCharacterLoreCategory.Qualification), Is.GreaterThanOrEqualTo(24));
-            Assert.That(fragments.Count(x => x.Category == AshfallCharacterLoreCategory.Career), Is.GreaterThanOrEqualTo(36));
-            Assert.That(fragments.Count(x => x.Category == AshfallCharacterLoreCategory.Personality), Is.GreaterThanOrEqualTo(32));
-            Assert.That(fragments.Count(x => x.Category == AshfallCharacterLoreCategory.Evaluation), Is.GreaterThanOrEqualTo(32));
-            Assert.That(fragments.Count(x => x.Category == AshfallCharacterLoreCategory.PersonalHook), Is.GreaterThanOrEqualTo(44));
-            Assert.That(fragments.Count(x => x.Category == AshfallCharacterLoreCategory.PreCryo), Is.GreaterThanOrEqualTo(16));
-        });
-
-        var qualifications = fragments.Where(x => x.Category == AshfallCharacterLoreCategory.Qualification).ToArray();
-        Assert.That(qualifications.Select(x => x.ProfessionalFamily).Distinct().Count(), Is.GreaterThanOrEqualTo(4));
-        foreach (var qualification in qualifications)
-        {
-            Assert.That(qualification.Jobs, Has.Count.InRange(2, 5), qualification.ID);
-            foreach (var jobId in qualification.Jobs)
-            {
-                Assert.That(_protoMan.TryIndex(jobId, out JobPrototype job), Is.True, $"{qualification.ID}: {jobId}");
-                Assert.That(job!.SetPreference, Is.True, $"{qualification.ID}: {jobId}");
-                Assert.That(job.JobEntity, Is.Null, $"{qualification.ID}: {jobId}");
-            }
-        }
-    }
-
-    [Test]
-    [RunOnSide(Side.Server)]
-    public void LoreGenerationIsCompleteAndDeterministicTest()
-    {
-        var generator = new AshfallCharacterLoreGenerator(_protoMan);
-        var profile = new HumanoidCharacterProfile { Age = 38, Name = "Test Employee" };
-        var firstRandom = new RobustRandom();
-        var secondRandom = new RobustRandom();
-        firstRandom.SetSeed(1488);
-        secondRandom.SetSeed(1488);
-
-        var first = generator.GenerateCandidate(profile, firstRandom);
-        var second = generator.GenerateCandidate(profile, secondRandom);
-        Assert.That(DossierIds(first), Is.EqualTo(DossierIds(second)));
-
-        var random = new RobustRandom();
-        random.SetSeed(42);
-        for (var i = 0; i < 3000; i++)
-        {
-            profile = profile.WithAge(18 + i % 58);
-            var candidate = generator.GenerateCandidate(profile, random);
-            Assert.Multiple(() =>
-            {
-                Assert.That(candidate.ProfessionalFamily, Is.Not.Empty);
-                Assert.That(candidate.CompatibleJobs, Is.Not.Empty);
-                Assert.That(candidate.Dossier.Qualifications, Is.Not.Empty);
-                Assert.That(candidate.Dossier.Career, Is.Not.Empty);
-                Assert.That(candidate.Dossier.Evaluations, Is.Not.Empty);
-            });
-        }
-    }
-
-    [Test]
-    [RunOnSide(Side.Server)]
-    public void CandidateCanBeNetworkSerializedTest()
-    {
-        Assert.That(_protoMan.TryIndex(HumanConstraints, out var constraints), Is.True);
-        var profileGenerator = new AshfallCharacterGenerator(_protoMan, _markingMan, _namingSys);
-        var loreGenerator = new AshfallCharacterLoreGenerator(_protoMan);
-        var expected = loreGenerator.GenerateCandidate(profileGenerator.GenerateProfile(constraints!, _random), _random);
+        var (expected, _) = PersonGenerator.GenerateCandidate(constraints!, _random);
 
         using var stream = new MemoryStream();
         _serializer.SerializeDirect(stream, expected);
@@ -206,25 +149,265 @@ public sealed class AshfallCharacterGenTests : GameTest
         Assert.Multiple(() =>
         {
             Assert.That(actual.Profile.Name, Is.EqualTo(expected.Profile.Name));
-            Assert.That(actual.ProfessionalFamily, Is.EqualTo(expected.ProfessionalFamily));
             Assert.That(actual.CompatibleJobs, Is.EqualTo(expected.CompatibleJobs));
-            Assert.That(DossierIds(actual), Is.EqualTo(DossierIds(expected)));
+            Assert.That(actual.PrimaryDomain, Is.EqualTo(expected.PrimaryDomain));
+            Assert.That(actual.Dossier.Sections.Count, Is.EqualTo(expected.Dossier.Sections.Count));
+            Assert.That(actual.Dossier.CulturalOrigin, Is.EqualTo(expected.Dossier.CulturalOrigin));
+            for (var i = 0; i < expected.Dossier.Sections.Count; i++)
+            {
+                Assert.That(actual.Dossier.Sections[i].Kind, Is.EqualTo(expected.Dossier.Sections[i].Kind));
+                Assert.That(actual.Dossier.Sections[i].Title, Is.EqualTo(expected.Dossier.Sections[i].Title));
+                Assert.That(actual.Dossier.Sections[i].Lines, Is.EqualTo(expected.Dossier.Sections[i].Lines));
+            }
         });
     }
 
-    private static string[] DossierIds(AshfallCharacterCandidate candidate)
+    [Test]
+    [RunOnSide(Side.Server)]
+    public void GeneratorDataHasRequiredCoverageTest()
     {
-        return new[]
-            {
-                candidate.Dossier.Origin.Id,
-                candidate.Dossier.Education.Id,
-                candidate.Dossier.Personality.Id,
-                candidate.Dossier.PersonalHook.Id,
-                candidate.Dossier.PreCryo.Id,
-            }
-            .Concat(candidate.Dossier.Qualifications.Select(x => x.Id))
-            .Concat(candidate.Dossier.Career.Select(x => x.Id))
-            .Concat(candidate.Dossier.Evaluations.Select(x => x.Id))
+        var competencies = _protoMan.EnumeratePrototypes<AshfallCompetencyPrototype>().ToArray();
+        var cultures = _protoMan.EnumeratePrototypes<AshfallCulturePrototype>().ToArray();
+        var origins = _protoMan.EnumeratePrototypes<AshfallOriginPrototype>().ToArray();
+        var educations = _protoMan.EnumeratePrototypes<AshfallEducationPrototype>().ToArray();
+        var roles = _protoMan.EnumeratePrototypes<AshfallCareerRolePrototype>().ToArray();
+        var employers = _protoMan.EnumeratePrototypes<AshfallEmployerPrototype>().ToArray();
+        var jobCareers = _protoMan.EnumeratePrototypes<AshfallJobCareerPrototype>().ToArray();
+        var fragments = _protoMan.EnumeratePrototypes<AshfallCharacterLoreFragmentPrototype>().ToArray();
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(competencies.Length, Is.GreaterThanOrEqualTo(20), "competencies");
+            Assert.That(cultures.Count(c => c.Species == "Human"), Is.GreaterThanOrEqualTo(18), "human cultures");
+            Assert.That(cultures.Count(c => c.Species != "Human"), Is.GreaterThanOrEqualTo(8), "species cultures");
+            Assert.That(origins.Length, Is.GreaterThanOrEqualTo(15), "origins");
+            Assert.That(educations.Length, Is.GreaterThanOrEqualTo(12), "education paths");
+            Assert.That(roles.Length, Is.GreaterThanOrEqualTo(30), "career roles");
+            Assert.That(employers.Length, Is.GreaterThanOrEqualTo(20), "employers");
+            Assert.That(fragments.Count(x => x.Category == AshfallCharacterLoreCategory.Personality), Is.GreaterThanOrEqualTo(32), "personality fragments");
+            Assert.That(fragments.Count(x => x.Category == AshfallCharacterLoreCategory.Evaluation), Is.GreaterThanOrEqualTo(32), "evaluation fragments");
+            Assert.That(fragments.Count(x => x.Category == AshfallCharacterLoreCategory.PersonalHook), Is.GreaterThanOrEqualTo(44), "hook fragments");
+            Assert.That(fragments.Count(x => x.Category == AshfallCharacterLoreCategory.PreCryo), Is.GreaterThanOrEqualTo(16), "precryo fragments");
+        });
+
+        // Every personnel-file-selectable job must have a career requirement definition.
+        var selectableJobs = _protoMan
+            .EnumeratePrototypes<JobPrototype>()
+            .Where(job => job.SetPreference && !JobCareerExclusions.Contains(job.ID))
             .ToArray();
+
+        var missingJobs = selectableJobs
+            .Where(job => !_protoMan.HasIndex<AshfallJobCareerPrototype>(job.ID))
+            .Select(job => job.ID)
+            .ToArray();
+
+        Assert.That(missingJobs, Is.Empty,
+            $"Missing ashfallJobCareer for: {string.Join(", ", missingJobs)}");
+
+        // Every career role must have at least one compatible employer industry-wise.
+        foreach (var role in roles)
+        {
+            var compatible = employers.Any(e => e.Industries.Overlaps(role.EmployerIndustries));
+            Assert.That(compatible, Is.True, $"{role.ID}: no employer with industries [{string.Join(", ", role.EmployerIndustries)}]");
+        }
+
+        // Fallback jobs must exist so a person can never end up with an empty assignment list.
+        Assert.That(jobCareers.Any(j => j.FallbackOnly), Is.True, "no fallbackOnly job career defined");
+    }
+
+    [Test]
+    [RunOnSide(Side.Server)]
+    public void GenerationIsDeterministicAndCompleteTest()
+    {
+        Assert.That(_protoMan.TryIndex(HumanConstraints, out var constraints), Is.True);
+
+        // Determinism: identical seeds produce identical candidates.
+        for (var seed = 0; seed < 25; seed++)
+        {
+            var firstRandom = new RobustRandom();
+            var secondRandom = new RobustRandom();
+            firstRandom.SetSeed(seed);
+            secondRandom.SetSeed(seed);
+
+            var (first, firstStructure) = PersonGenerator.GenerateCandidate(constraints!, firstRandom);
+            var (second, secondStructure) = PersonGenerator.GenerateCandidate(constraints!, secondRandom);
+
+            Assert.That(second.Profile.Name, Is.EqualTo(first.Profile.Name), $"seed {seed}");
+            Assert.That(second.CompatibleJobs, Is.EqualTo(first.CompatibleJobs), $"seed {seed}");
+            Assert.That(second.Dossier.Sections.Count, Is.EqualTo(first.Dossier.Sections.Count), $"seed {seed}");
+            Assert.That(secondStructure.UsedCareerYears, Is.EqualTo(firstStructure.UsedCareerYears), $"seed {seed}");
+        }
+
+        // Generative invariants across many seeds.
+        for (var seed = 100; seed < 600; seed++)
+        {
+            var random = new RobustRandom();
+            random.SetSeed(seed);
+
+            var (candidate, structure) = PersonGenerator.GenerateCandidate(constraints!, random);
+
+            Assert.That(candidate.CompatibleJobs, Is.Not.Empty, $"seed {seed}");
+            Assert.That(structure.UsedCareerYears, Is.LessThanOrEqualTo(structure.AvailableCareerYears),
+                $"seed {seed}: chronology exceeded available years");
+
+            foreach (var (competencyId, state) in structure.Competencies)
+            {
+                Assert.That(state.Provenance, Is.Not.Empty,
+                    $"seed {seed}: competency {competencyId} has experience but no provenance");
+            }
+
+            foreach (var jobId in candidate.CompatibleJobs)
+            {
+                Assert.That(_protoMan.TryIndex(jobId, out JobPrototype? job), Is.True, $"seed {seed}: {jobId}");
+                Assert.That(job!.SetPreference, Is.True, $"seed {seed}: {jobId}");
+            }
+
+            // Core structure-derived sections always exist; the career section legitimately may
+            // be absent for young candidates with no work history yet.
+            Assert.That(candidate.Dossier.Sections.Select(s => s.Kind),
+                Does.Contain("origin").And.Contain("education").And.Contain("personality"),
+                $"seed {seed}");
+            if (structure.AvailableCareerYears > 1)
+            {
+                Assert.That(candidate.Dossier.Sections.Select(s => s.Kind), Does.Contain("career"),
+                    $"seed {seed}: candidate with adult years should have work history");
+            }
+            Assert.That(candidate.Dossier.Sections, Has.All.Matches<AshfallDossierSection>(s =>
+                !string.IsNullOrWhiteSpace(s.Title) && s.Lines.Count > 0 && s.Lines.All(l => !string.IsNullOrWhiteSpace(l))),
+                $"seed {seed}");
+        }
+    }
+
+    [Test]
+    [RunOnSide(Side.Server)]
+    public void JobEligibilityFixturesTest()
+    {
+        // Scoring fixtures use explicitly constructed structures; no randomness involved.
+        // Education choice per fixture avoids domain-bonus interference with expectations.
+
+        AshfallPersonStructure MakePerson(string educationId, params (string Competency, float Experience)[] experience)
+        {
+            var person = new AshfallPersonStructure
+            {
+                SpeciesId = "Human",
+                Age = 40,
+                Education = educationId,
+                AvailableCareerYears = 20,
+                UsedCareerYears = 10,
+            };
+            foreach (var (competency, exp) in experience)
+            {
+                person.AddExperience(competency, exp, AshfallProvenanceSource.Career, "FixtureRole");
+            }
+            return person;
+        }
+
+        bool Valid(AshfallPersonStructure person, string jobId)
+        {
+            var jobCareer = _protoMan.Index<AshfallJobCareerPrototype>(jobId);
+            return AshfallJobScorer.Score(person, jobCareer, _protoMan) >= 0;
+        }
+
+        // Established medical chemist: doctor and chemist both plausible, intern and CMO are not.
+        var chemist = MakePerson("AshfallEducationScience",
+            ("Medical", 4.5f), ("ClinicalMedicine", 4.0f), ("Chemistry", 8.0f), ("Pharmacology", 6.0f));
+        Assert.Multiple(() =>
+        {
+            Assert.That(Valid(chemist, "Chemist"), Is.True, "Chemist");
+            Assert.That(Valid(chemist, "MedicalDoctor"), Is.True, "MedicalDoctor");
+            Assert.That(Valid(chemist, "MedicalIntern"), Is.False, "MedicalIntern must reject established specialists");
+            Assert.That(Valid(chemist, "ChiefMedicalOfficer"), Is.False, "CMO requires command");
+        });
+
+        // Junior medical retrainee (e.g. experienced engineer who switched fields): intern remains open.
+        var retrainee = MakePerson("AshfallEducationMedicalCollege",
+            ("Engineering", 15f), ("Electrical", 8f), ("Medical", 2f), ("ClinicalMedicine", 1.5f));
+        Assert.Multiple(() =>
+        {
+            Assert.That(Valid(retrainee, "MedicalIntern"), Is.True, "MedicalIntern for a genuine medical junior");
+            Assert.That(Valid(retrainee, "StationEngineer"), Is.True, "StationEngineer for the senior engineer");
+            Assert.That(Valid(retrainee, "ChiefEngineer"), Is.False, "ChiefEngineer requires command");
+        });
+
+        // Young cadet: officer-level work only.
+        var cadet = MakePerson("AshfallEducationSecurity", ("Security", 2f));
+        Assert.Multiple(() =>
+        {
+            Assert.That(Valid(cadet, "SecurityCadet"), Is.True, "SecurityCadet");
+            Assert.That(Valid(cadet, "SecurityOfficer"), Is.True, "SecurityOfficer");
+            Assert.That(Valid(cadet, "Warden"), Is.False, "Warden requires experience");
+            Assert.That(Valid(cadet, "HeadOfSecurity"), Is.False, "HoS requires senior security and command");
+        });
+
+        // Experienced custody officer: warden is reachable, cadet is not (overqualified).
+        var veteran = MakePerson("AshfallEducationSecurity", ("Security", 9f), ("Custody", 6f));
+        Assert.Multiple(() =>
+        {
+            Assert.That(Valid(veteran, "Warden"), Is.True, "Warden");
+            Assert.That(Valid(veteran, "SecurityOfficer"), Is.True, "SecurityOfficer");
+            Assert.That(Valid(veteran, "SecurityCadet"), Is.False, "Cadet rejects overqualified officers");
+            Assert.That(Valid(veteran, "HeadOfSecurity"), Is.False, "HoS requires command");
+        });
+
+        // Command career with leadership history and personnel background.
+        var commander = MakePerson("AshfallEducationCommand",
+            ("Security", 9f), ("Command", 6f), ("Administration", 5f), ("PersonnelManagement", 2f));
+        commander.LeadershipHistory = true;
+        Assert.Multiple(() =>
+        {
+            Assert.That(Valid(commander, "HeadOfSecurity"), Is.True, "HeadOfSecurity");
+            Assert.That(Valid(commander, "HeadOfPersonnel"), Is.True, "HeadOfPersonnel");
+            Assert.That(Valid(commander, "Captain"), Is.False, "Captain requires experienced command");
+        });
+
+        // Senior administration with long command experience: Captain.
+        var director = MakePerson("AshfallEducationCommand",
+            ("Command", 9f), ("Administration", 6f), ("PersonnelManagement", 5f));
+        director.LeadershipHistory = true;
+        Assert.Multiple(() =>
+        {
+            Assert.That(Valid(director, "Captain"), Is.True, "Captain");
+            Assert.That(Valid(director, "HeadOfPersonnel"), Is.True, "HeadOfPersonnel");
+        });
+
+        // Lifelong botanist: a deliberately narrow assignment list, and no fallback dilution.
+        var botanist = MakePerson("AshfallEducationBiology", ("Botany", 9f), ("Agriculture", 6f));
+        var botanistJobs = AshfallJobScorer.ScoreEligibleJobs(botanist, _protoMan);
+        Assert.Multiple(() =>
+        {
+            Assert.That(botanistJobs, Does.Contain(new ProtoId<JobPrototype>("Botanist")), "Botanist");
+            Assert.That(botanistJobs[0].Id, Is.EqualTo("Botanist"), "Botanist should be the top assignment");
+            Assert.That(botanistJobs, Does.Not.Contain(new ProtoId<JobPrototype>("Passenger")), "Passenger must not dilute a specialist list");
+        });
+
+        // A person with no competencies only qualifies for fallback work.
+        var unskilled = MakePerson("AshfallEducationGeneral");
+        var unskilledJobs = AshfallJobScorer.ScoreEligibleJobs(unskilled, _protoMan);
+        Assert.That(unskilledJobs, Is.Not.Empty, "fallback assignments must always exist");
+        Assert.That(unskilledJobs.All(jobId => _protoMan.Index<AshfallJobCareerPrototype>(jobId).FallbackOnly),
+            Is.True, "unskilled person should only receive fallback jobs");
+    }
+
+    [Test]
+    [RunOnSide(Side.Server)]
+    public void CultureNamingIsCoherentTest()
+    {
+        Assert.That(_protoMan.TryIndex(HumanConstraints, out var constraints), Is.True);
+
+        // Names must always come from the culture's own pools: a candidate's name components
+        // cannot be validated directly against the datasets, but species pools must never mix.
+        for (var seed = 0; seed < 200; seed++)
+        {
+            var random = new RobustRandom();
+            random.SetSeed(seed);
+            var (candidate, structure) = PersonGenerator.GenerateCandidate(constraints!, random);
+
+            Assert.That(candidate.Dossier.CulturalOrigin, Is.Not.Empty, $"seed {seed}");
+            Assert.That(candidate.Dossier.Birthplace, Is.Not.Empty, $"seed {seed}");
+            Assert.That(candidate.Profile.Name.Split(' ').Length, Is.EqualTo(2), $"seed {seed}: two-part name expected");
+
+            var culture = _protoMan.Index(structure.Culture);
+            Assert.That(culture.Species, Is.EqualTo("Human"), $"seed {seed}");
+        }
     }
 }

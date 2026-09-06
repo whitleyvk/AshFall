@@ -1,0 +1,242 @@
+# Cultural / naming groups. Culture determines given names and surnames only; birthplace is
+# biased by culture (weight 3) and origin (weight 2), never fixed by either.
+# Skin tone is not an input anywhere: appearance is generated independently.
+
+# Humans
+
+- type: ashfallCulture
+  id: Panslavic
+  species: Human
+  label: ashfall-culture-label-panslavic
+  firstNamesMale: AshfallPanslavicFirstMale
+  firstNamesFemale: AshfallPanslavicFirstFemale
+  lastNames: AshfallPanslavicLast
+  surnameDeclension: true
+  birthplaceDatasets: [AshfallBirthplacesPanslavic]
+
+- type: ashfallCulture
+  id: Atlantic
+  species: Human
+  label: ashfall-culture-label-atlantic
+  firstNamesMale: AshfallAtlanticFirstMale
+  firstNamesFemale: AshfallAtlanticFirstFemale
+  lastNames: AshfallAtlanticLast
+  birthplaceDatasets: [AshfallBirthplacesAtlantic]
+
+- type: ashfallCulture
+  id: Rheinik
+  species: Human
+  label: ashfall-culture-label-rheinik
+  firstNamesMale: AshfallRheinikFirstMale
+  firstNamesFemale: AshfallRheinikFirstFemale
+  lastNames: AshfallRheinikLast
+  birthplaceDatasets: [AshfallBirthplacesRheinik]
+
+- type: ashfallCulture
+  id: Nordik
+  species: Human
+  label: ashfall-culture-label-nordik
+  firstNamesMale: AshfallNordikFirstMale
+  firstNamesFemale: AshfallNordikFirstFemale
+  lastNames: AshfallNordikLast
+  birthplaceDatasets: [AshfallBirthplacesNordik]
+
+- type: ashfallCulture
+  id: Mediterran
+  species: Human
+  label: ashfall-culture-label-mediterran
+  firstNamesMale: AshfallMediterranFirstMale
+  firstNamesFemale: AshfallMediterranFirstFemale
+  lastNames: AshfallMediterranLast
+  birthplaceDatasets: [AshfallBirthplacesMediterran]
+
+- type: ashfallCulture
+  id: Ibero
+  species: Human
+  label: ashfall-culture-label-ibero
+  firstNamesMale: AshfallIberoFirstMale
+  firstNamesFemale: AshfallIberoFirstFemale
+  lastNames: AshfallIberoLast
+  birthplaceDatasets: [AshfallBirthplacesIbero]
+
+- type: ashfallCulture
+  id: Neolatin
+  species: Human
+  label: ashfall-culture-label-neolatin
+  firstNamesMale: AshfallNeolatinFirstMale
+  firstNamesFemale: AshfallNeolatinFirstFemale
+  lastNames: AshfallNeolatinLast
+  birthplaceDatasets: [AshfallBirthplacesNeolatin]
+
+- type: ashfallCulture
+  id: Maghrebi
+  species: Human
+  label: ashfall-culture-label-maghrebi
+  firstNamesMale: AshfallMaghrebiFirstMale
+  firstNamesFemale: AshfallMaghrebiFirstFemale
+  lastNames: AshfallMaghrebiLast
+  birthplaceDatasets: [AshfallBirthplacesMaghrebi]
+
+- type: ashfallCulture
+  id: Mashriqi
+  species: Human
+  label: ashfall-culture-label-mashriqi
+  firstNamesMale: AshfallMashriqiFirstMale
+  firstNamesFemale: AshfallMashriqiFirstFemale
+  lastNames: AshfallMashriqiLast
+  birthplaceDatasets: [AshfallBirthplacesMashriqi]
+
+- type: ashfallCulture
+  id: Turkic
+  species: Human
+  label: ashfall-culture-label-turkic
+  firstNamesMale: AshfallTurkicFirstMale
+  firstNamesFemale: AshfallTurkicFirstFemale
+  lastNames: AshfallTurkicLast
+  birthplaceDatasets: [AshfallBirthplacesTurkic]
+
+- type: ashfallCulture
+  id: Indic
+  species: Human
+  label: ashfall-culture-label-indic
+  firstNamesMale: AshfallIndicFirstMale
+  firstNamesFemale: AshfallIndicFirstFemale
+  lastNames: AshfallIndicLast
+  birthplaceDatasets: [AshfallBirthplacesIndic]
+
+- type: ashfallCulture
+  id: Sinospheric
+  species: Human
+  label: ashfall-culture-label-sinospheric
+  firstNamesMale: AshfallSinosphericFirstMale
+  firstNamesFemale: AshfallSinosphericFirstFemale
+  lastNames: AshfallSinosphericLast
+  birthplaceDatasets: [AshfallBirthplacesSinospheric]
+
+- type: ashfallCulture
+  id: Koryo
+  species: Human
+  label: ashfall-culture-label-koryo
+  firstNamesMale: AshfallKoryoFirstMale
+  firstNamesFemale: AshfallKoryoFirstFemale
+  lastNames: AshfallKoryoLast
+  birthplaceDatasets: [AshfallBirthplacesKoryo]
+
+- type: ashfallCulture
+  id: Nipponic
+  species: Human
+  label: ashfall-culture-label-nipponic
+  firstNamesMale: AshfallNipponicFirstMale
+  firstNamesFemale: AshfallNipponicFirstFemale
+  lastNames: AshfallNipponicLast
+  birthplaceDatasets: [AshfallBirthplacesNipponic]
+
+- type: ashfallCulture
+  id: Nusantari
+  species: Human
+  label: ashfall-culture-label-nusantari
+  firstNamesMale: AshfallNusantariFirstMale
+  firstNamesFemale: AshfallNusantariFirstFemale
+  lastNames: AshfallNusantariLast
+  birthplaceDatasets: [AshfallBirthplacesNusantari]
+
+- type: ashfallCulture
+  id: Swahili
+  species: Human
+  label: ashfall-culture-label-swahili
+  firstNamesMale: AshfallSwahiliFirstMale
+  firstNamesFemale: AshfallSwahiliFirstFemale
+  lastNames: AshfallSwahiliLast
+  birthplaceDatasets: [AshfallBirthplacesSwahili]
+
+- type: ashfallCulture
+  id: Habesha
+  species: Human
+  label: ashfall-culture-label-habesha
+  firstNamesMale: AshfallHabeshaFirstMale
+  firstNamesFemale: AshfallHabeshaFirstFemale
+  lastNames: AshfallHabeshaLast
+  birthplaceDatasets: [AshfallBirthplacesHabesha]
+
+- type: ashfallCulture
+  id: Afroatlantic
+  species: Human
+  label: ashfall-culture-label-afroatlantic
+  firstNamesMale: AshfallAfroatlanticFirstMale
+  firstNamesFemale: AshfallAfroatlanticFirstFemale
+  lastNames: AshfallAfroatlanticLast
+  birthplaceDatasets: [AshfallBirthplacesAfroatlantic]
+
+# Non-humans
+
+- type: ashfallCulture
+  id: UnathiClan
+  species: Reptilian
+  label: ashfall-culture-label-unathi-clan
+  firstNamesMale: AshfallUnathiFirstNames
+  firstNamesFemale: AshfallUnathiFirstNames
+  lastNames: AshfallUnathiClanNames
+  birthplaceDatasets: [AshfallUnathiBirthplaces]
+
+- type: ashfallCulture
+  id: UnathiFamily
+  species: Reptilian
+  label: ashfall-culture-label-unathi-family
+  firstNamesMale: AshfallUnathiFirstNames
+  firstNamesFemale: AshfallUnathiFirstNames
+  lastNames: AshfallUnathiFamilyNames
+  birthplaceDatasets: [AshfallUnathiBirthplaces]
+
+- type: ashfallCulture
+  id: LuamFlutter
+  species: Moth
+  label: ashfall-culture-label-luam-flutter
+  firstNamesMale: AshfallLuamFirstNames
+  firstNamesFemale: AshfallLuamFirstNames
+  lastNames: AshfallLuamSecondNames
+  birthplaceDatasets: [AshfallLuamBirthplaces]
+
+- type: ashfallCulture
+  id: LuamSilk
+  species: Moth
+  label: ashfall-culture-label-luam-silk
+  firstNamesMale: AshfallLuamFirstNames
+  firstNamesFemale: AshfallLuamFirstNames
+  lastNames: AshfallLuamSecondNames
+  birthplaceDatasets: [AshfallLuamBirthplaces]
+
+- type: ashfallCulture
+  id: ArachnidWeb
+  species: Arachnid
+  label: ashfall-culture-label-arachnid-web
+  firstNamesMale: AshfallArachnidFirstNames
+  firstNamesFemale: AshfallArachnidFirstNames
+  lastNames: AshfallArachnidSecondNames
+  birthplaceDatasets: [AshfallArachnidBirthplaces]
+
+- type: ashfallCulture
+  id: ArachnidNest
+  species: Arachnid
+  label: ashfall-culture-label-arachnid-nest
+  firstNamesMale: AshfallArachnidFirstNames
+  firstNamesFemale: AshfallArachnidFirstNames
+  lastNames: AshfallArachnidSecondNames
+  birthplaceDatasets: [AshfallArachnidBirthplaces]
+
+- type: ashfallCulture
+  id: VeiruPride
+  species: Veiru
+  label: ashfall-culture-label-veiru-pride
+  firstNamesMale: AshfallVeiruFirstNames
+  firstNamesFemale: AshfallVeiruFirstNames
+  lastNames: AshfallVeiruSecondNames
+  birthplaceDatasets: [AshfallVeiruBirthplaces]
+
+- type: ashfallCulture
+  id: VeiruFamily
+  species: Veiru
+  label: ashfall-culture-label-veiru-family
+  firstNamesMale: AshfallVeiruFirstNames
+  firstNamesFemale: AshfallVeiruFirstNames
+  lastNames: AshfallVeiruSecondNames
+  birthplaceDatasets: [AshfallVeiruBirthplaces]
