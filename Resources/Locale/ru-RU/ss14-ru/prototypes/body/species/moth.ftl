@@ -1,10 +1,10 @@
-ent-AppearanceMoth = внешность ниана
+ent-AppearanceMoth = внешность луам
     .desc = { ent-BaseSpeciesAppearance.desc }
 ent-MobMoth = Урист МакФлафф
     .desc = { ent-AppearanceMoth.desc }
 ent-OrganMoth = { ent-OrganBaseOrganic }
     .desc = { ent-OrganBaseOrganic.desc }
-    .suffix = ниан
+    .suffix = луам
 ent-OrganMothMetabolizer = { "" }
     .desc = { "" }
 ent-OrganMothInternal = { ent-OrganMoth }

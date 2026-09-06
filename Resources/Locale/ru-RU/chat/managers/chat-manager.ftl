@@ -87,7 +87,7 @@ chat-speech-verb-insect-1 = стрекочет
 chat-speech-verb-insect-2 = жужжит
 chat-speech-verb-insect-3 = щёлкает
 
-chat-speech-verb-name-moth = Ниан
+chat-speech-verb-name-moth = Луам
 chat-speech-verb-winged-1 = свистит
 chat-speech-verb-winged-2 = хлопает
 chat-speech-verb-winged-3 = клокочет
