@@ -1,7 +1,7 @@
+using System.Linq;
 using System.Numerics;
 using Content.Client.Lobby.UI.ProfileEditorControls;
 using Content.Shared.Ashfall.CharacterGen;
-using Content.Shared.Ashfall.CharacterGen.Prototypes;
 using Content.Shared.Humanoid;
 using Content.Shared.Roles;
 using Robust.Client.GameObjects;
@@ -64,11 +64,12 @@ public sealed partial class AshfallCandidateCard : PanelContainer
         };
         BioLineLabel.Text = Loc.GetString("ashfall-personal-files-card-bio", ("age", profile.Age), ("sex", sex));
 
-        var qualification = candidate.Dossier.Qualifications.Count > 0 &&
-                            _prototypes.TryIndex(candidate.Dossier.Qualifications[0], out AshfallCharacterLoreFragmentPrototype? fragment)
-            ? Loc.GetString(fragment.Title)
-            : Loc.GetString("ashfall-personal-files-record-unavailable");
-        QualificationLabel.Text = qualification;
+        // Established competency title; fresh graduates show their professional sphere instead.
+        var qualificationSection = candidate.Dossier.Sections
+            .FirstOrDefault(s => s.Kind == "qualification");
+        QualificationLabel.Text = qualificationSection != null
+            ? qualificationSection.Title
+            : Loc.GetString($"ashfall-domain-{candidate.PrimaryDomain.ToLowerInvariant()}");
         ConfirmedLabel.Visible = isConfirmed;
         ConfirmedLabel.ToolTip = Loc.GetString("ashfall-personal-files-confirmed-marker");
         CardPanel.PanelOverride = isInspected ? InspectedBox : NormalBox;

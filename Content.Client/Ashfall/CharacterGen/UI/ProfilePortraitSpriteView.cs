@@ -23,6 +23,9 @@ public sealed class ProfilePortraitSpriteView : ProfilePreviewSpriteView
     [ViewVariables(VVAccess.ReadWrite)]
     public float PortraitFraction { get; set; } = 0.5f;
 
+    private EntityUid? _boundsDummy;
+    private Box2 _lastBounds;
+
     protected override void Draw(IRenderHandle renderHandle)
     {
         if (!EntMan.TryGetComponent(PreviewDummy, out SpriteComponent? sprite) ||
@@ -39,17 +42,31 @@ public sealed class ProfilePortraitSpriteView : ProfilePreviewSpriteView
         if (bounds.Height <= 0f)
             return;
 
+        // Layers (organ visuals, markings, job clothes) keep settling for a frame or two after
+        // LoadPreview respawns the dummy; hold the previous crop until the bounds stabilize.
+        if (_boundsDummy != PreviewDummy)
+        {
+            _boundsDummy = PreviewDummy;
+        }
+        else if (!_lastBounds.EqualsApprox(bounds, 0.5f))
+        {
+            bounds = _lastBounds;
+        }
+        _lastBounds = bounds;
+
         var ppm = EyeManager.PixelsPerMeter;
 
         // Zoom so that the top PortraitFraction of the body fills the control height.
         var zoom = PixelSize.Y / (ppm * UIScale * bounds.Height * PortraitFraction);
         var scale = new Vector2(zoom, zoom);
 
-        // Center the sprite's actual bounding box (its origin can be off-center for some species),
-        // and top-anchor it: everything below the framed area is clipped by the control.
+        // Center the sprite's actual bounding box horizontally (its origin can be off-center for
+        // some species) and pin its top to the control's top: everything below the framed area is
+        // clipped by the control. Anchoring via the box top (not via height/2) keeps the head in
+        // place even when gear shifts the bounding box.
         var position = new Vector2(
             PixelSize.X / 2f - bounds.Center.X * ppm * zoom * UIScale,
-            bounds.Height / 2f * ppm * zoom * UIScale);
+            bounds.Top * ppm * zoom * UIScale);
 
         var world = renderHandle.DrawingHandleWorld;
         var oldModulate = world.Modulate;

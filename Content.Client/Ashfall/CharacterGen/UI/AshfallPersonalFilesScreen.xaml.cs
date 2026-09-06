@@ -1,14 +1,15 @@
 using System.Numerics;
+using System.Linq;
 using Content.Client.Lobby.UI.ProfileEditorControls;
 using Content.Client.Players.PlayTimeTracking;
 using Content.Client.UserInterface.Controls;
 using Content.Shared.Ashfall.CharacterGen;
-using Content.Shared.Ashfall.CharacterGen.Prototypes;
 using Content.Shared.Humanoid;
 using Content.Shared.Humanoid.Prototypes;
 using Content.Shared.Roles;
 using Content.Shared.StatusIcon;
 using Robust.Client.GameObjects;
+using Robust.Client.Graphics;
 using Robust.Client.UserInterface;
 using Robust.Client.UserInterface.Controls;
 using Robust.Client.UserInterface.CustomControls;
@@ -20,6 +21,11 @@ namespace Content.Client.Ashfall.CharacterGen.UI;
 
 public sealed partial class AshfallPersonalFilesScreen : PanelContainer
 {
+    /// <summary>
+    ///     Accent color shared with the generator's education tags.
+    /// </summary>
+    private const string AccentColor = "#C8782E";
+
     [Dependency] private IEntityManager _entMan = default!;
     [Dependency] private IGameTiming _timing = default!;
     [Dependency] private IPrototypeManager _prototypes = default!;
@@ -37,6 +43,7 @@ public sealed partial class AshfallPersonalFilesScreen : PanelContainer
     private Label DossierBirthplaceLabel => this.FindControl<Label>("DossierBirthplaceLabel");
     private Label DossierNumberLabel => this.FindControl<Label>("DossierNumberLabel");
     private Label DossierSelectionLabel => this.FindControl<Label>("DossierSelectionLabel");
+    private ScrollContainer DossierScroll => this.FindControl<ScrollContainer>("DossierScroll");
     private Button ConfirmButton => this.FindControl<Button>("ConfirmButton");
     private Button RefreshButton => this.FindControl<Button>("RefreshButton");
     private Label CooldownLabel => this.FindControl<Label>("CooldownLabel");
@@ -180,24 +187,20 @@ public sealed partial class AshfallPersonalFilesScreen : PanelContainer
             ? Loc.GetString("ashfall-personal-files-confirmed", ("job", GetJobName(_genSystem.SelectedJob)))
             : string.Empty;
 
-        var sexKey = profile.Sex switch
-        {
-            Sex.Female => "female",
-            Sex.Male => "male",
-            _ => "other"
-        };
-
         DossierSections.RemoveAllChildren();
-        AddSection(candidate.Dossier.Origin, sexKey);
-        AddSection(candidate.Dossier.Education, sexKey);
-        AddSectionList(candidate.Dossier.Qualifications, sexKey);
-        AddCareerSection(candidate.Dossier.Career, sexKey);
-        AddSection(candidate.Dossier.Personality, sexKey);
-        AddSectionList(candidate.Dossier.Evaluations, sexKey);
-        AddSection(candidate.Dossier.PersonalHook, sexKey);
-        AddSection(candidate.Dossier.PreCryo, sexKey);
+        // Pin the wrap width to the section area's ACTUAL arranged width: the RichTextLabel's
+        // measure width must match its arrange width exactly, or a soft-wrapped line outgrows
+        // its plate (the clipped second line). The pool arrives after the screen is arranged,
+        // so the section area already knows its real width.
+        var sectionWidth = DossierSections.PixelSize.X / UIScale;
+        var textWidth = sectionWidth > 120f ? sectionWidth - 16f : 800f;
+
+        foreach (var section in candidate.Dossier.Sections)
+            AddDossierSection(section, textWidth);
 
         JobsGrid.RemoveAllChildren();
+        // A lone assignment reads better across the full row than half of it.
+        JobsGrid.Columns = candidate.CompatibleJobs.Count == 1 ? 1 : 2;
         var anyAvailable = false;
         foreach (var jobId in candidate.CompatibleJobs)
         {
@@ -212,7 +215,7 @@ public sealed partial class AshfallPersonalFilesScreen : PanelContainer
             {
                 Disabled = !allowed,
                 HorizontalExpand = true,
-                MinHeight = 40,
+                MinHeight = 32,
             };
             button.StyleClasses.Add("AshfallSecondaryAction");
             if (selected)
@@ -277,61 +280,53 @@ public sealed partial class AshfallPersonalFilesScreen : PanelContainer
         ConfirmButton.Disabled = _draftJob == null;
     }
 
-    private void AddSectionList(IReadOnlyList<ProtoId<AshfallCharacterLoreFragmentPrototype>> fragments, string sexKey)
+    private void AddDossierSection(AshfallDossierSection section, float textWidth)
     {
-        foreach (var fragment in fragments)
-            AddSection(fragment, sexKey);
-    }
-
-    private void AddCareerSection(IReadOnlyList<ProtoId<AshfallCharacterLoreFragmentPrototype>> careerFragments, string sexKey)
-    {
-        if (careerFragments.Count == 0)
+        if (section.Lines.Count == 0)
             return;
 
-        var lines = new List<string>();
-        foreach (var id in careerFragments)
+        // Every section sits on its own subtle plate; qualifications are compact single rows.
+        var plate = new PanelContainer
         {
-            if (_prototypes.TryIndex(id, out AshfallCharacterLoreFragmentPrototype? fragment))
+            PanelOverride = new StyleBoxFlat
             {
-                lines.Add("• " + Loc.GetString(fragment.Text, ("sex", sexKey)));
-            }
+                BackgroundColor = Color.FromHex("#1A1F24"),
+                ContentMarginTopOverride = 4,
+                ContentMarginBottomOverride = 5,
+            },
+            HorizontalExpand = true,
+        };
+
+        var box = new BoxContainer
+        {
+            Orientation = BoxContainer.LayoutOrientation.Vertical,
+            SeparationOverride = 3,
+            Margin = new Thickness(8, 0),
+        };
+
+        if (section.Kind == "qualification")
+        {
+            // Text setter parses markup; SetMessage(string) renders it literally.
+            var row = new RichTextLabel { SetWidth = textWidth, HorizontalExpand = true };
+            row.Text = $"[color={AccentColor}]{section.Title}[/color] — {section.Lines[0]}";
+            box.AddChild(row);
+        }
+        else
+        {
+            var header = new RichTextLabel { HorizontalExpand = true };
+            header.Text = $"[color={AccentColor}]▸[/color] [color=#C7CDD4]{section.Title}[/color]";
+            box.AddChild(header);
+
+            // Work history renders as a bullet list; other multi-line sections (education) as
+            // plain stacked lines.
+            var text = section.Lines.Count > 1
+                ? string.Join("\n", section.Lines.Select(line => (section.Kind == "career" ? "• " : "") + line))
+                : section.Lines[0];
+            box.AddChild(new RichTextLabel { SetWidth = textWidth, Text = text, HorizontalExpand = true });
         }
 
-        if (lines.Count == 0)
-            return;
-
-        if (DossierSections.ChildCount > 0)
-            DossierSections.AddChild(new HLine { Margin = new Thickness(0, 2), Thickness = 1 });
-
-        DossierSections.AddChild(new Label
-        {
-            Text = "ОПЫТ РАБОТЫ",
-            FontColorOverride = Color.FromHex("#C8782E"),
-        });
-        DossierSections.AddChild(new RichTextLabel
-        {
-            Text = string.Join("\n", lines),
-            HorizontalExpand = true,
-        });
-    }
-
-    private void AddSection(ProtoId<AshfallCharacterLoreFragmentPrototype> id, string sexKey)
-    {
-        if (!_prototypes.TryIndex(id, out AshfallCharacterLoreFragmentPrototype? fragment))
-            return;
-
-        if (DossierSections.ChildCount > 0)
-            DossierSections.AddChild(new HLine { Margin = new Thickness(0, 2), Thickness = 1 });
-        DossierSections.AddChild(new Label
-        {
-            Text = Loc.GetString(fragment.Title, ("sex", sexKey)),
-            FontColorOverride = Color.FromHex("#C8782E"),
-        });
-        DossierSections.AddChild(new RichTextLabel
-        {
-            Text = Loc.GetString(fragment.Text, ("sex", sexKey)),
-            HorizontalExpand = true,
-        });
+        plate.AddChild(box);
+        DossierSections.AddChild(plate);
     }
 
     private string GetJobName(ProtoId<JobPrototype>? id)

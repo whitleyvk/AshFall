@@ -42,10 +42,16 @@
 
                         <controls:HLine StyleClasses="highlight" Thickness="1" />
 
-                        <BoxContainer Orientation="Vertical" HorizontalExpand="True" VerticalExpand="True" Margin="12 8" SeparationOverride="6">
-                            <Label Name="AssignmentHeading" Text="{Loc 'ashfall-personal-files-assignment-heading'}" StyleClasses="FancyWindowTitle" FontColorOverride="#C8782E" />
-                            <Label Text="{Loc 'ashfall-personal-files-assignment-help'}" FontColorOverride="#89929A" />
-                            <GridContainer Name="JobsGrid" Columns="2" HorizontalExpand="True" HSeparationOverride="6" VSeparationOverride="4" />
+                        <BoxContainer Orientation="Vertical" HorizontalExpand="True" VerticalExpand="True" Margin="12 8" SeparationOverride="8">
+                            <PanelContainer HorizontalExpand="True">
+                                <PanelContainer.PanelOverride>
+                                    <graphics:StyleBoxFlat BackgroundColor="#1A1F24" ContentMarginTopOverride="7" ContentMarginBottomOverride="7" ContentMarginLeftOverride="8" ContentMarginRightOverride="8" />
+                                </PanelContainer.PanelOverride>
+                                <BoxContainer Orientation="Vertical" SeparationOverride="5">
+                                    <Label Name="AssignmentHeading" Text="{Loc 'ashfall-personal-files-assignment-heading'}" StyleClasses="FancyWindowTitle" FontColorOverride="#C8782E" ToolTip="{Loc 'ashfall-personal-files-assignment-help'}" />
+                                    <GridContainer Name="JobsGrid" Columns="2" HorizontalExpand="True" HSeparationOverride="6" VSeparationOverride="4" />
+                                </BoxContainer>
+                            </PanelContainer>
                             <Control VerticalExpand="True" />
                             <Button Name="ConfirmButton" Text="{Loc 'ashfall-personal-files-confirm'}" StyleClasses="PrimaryAction" MinHeight="40" Disabled="True" />
                         </BoxContainer>
@@ -57,8 +63,8 @@
                     <PanelContainer.PanelOverride>
                         <graphics:StyleBoxFlat BackgroundColor="#14181B" BorderColor="#303840" BorderThickness="1" />
                     </PanelContainer.PanelOverride>
-                    <ScrollContainer VerticalExpand="True" HorizontalExpand="True" HScrollEnabled="False">
-                        <BoxContainer Orientation="Vertical" HorizontalExpand="True" Margin="18 14" SeparationOverride="10">
+                    <ScrollContainer Name="DossierScroll" VerticalExpand="True" HorizontalExpand="True" HScrollEnabled="False">
+                        <BoxContainer Orientation="Vertical" HorizontalExpand="True" Margin="18 14" SeparationOverride="6">
                             <BoxContainer Orientation="Horizontal" HorizontalExpand="True" SeparationOverride="16">
                                 <PanelContainer MinSize="150 180" SetSize="150 180">
                                     <PanelContainer.PanelOverride>
@@ -67,11 +73,13 @@
                                     <ashfall:ProfilePortraitSpriteView Name="DossierPreview" MinSize="140 170" SetSize="140 170" PortraitFraction="0.62" />
                                 </PanelContainer>
                                 <BoxContainer Orientation="Vertical" HorizontalExpand="True" SeparationOverride="5">
-                                    <Label Name="DossierNameLabel" StyleClasses="FancyWindowTitle" FontColorOverride="#C8782E" />
+                                    <BoxContainer Orientation="Horizontal" HorizontalExpand="True">
+                                        <Label Name="DossierNameLabel" StyleClasses="FancyWindowTitle" FontColorOverride="#C8782E" HorizontalExpand="True" />
+                                        <Label Name="DossierNumberLabel" StyleClasses="Status" FontColorOverride="#89929A" Align="Right" />
+                                    </BoxContainer>
                                     <Label Name="DossierBioLabel" FontColorOverride="#B9C0C5" />
                                     <Label Name="DossierCultureLabel" FontColorOverride="#89929A" />
                                     <Label Name="DossierBirthplaceLabel" FontColorOverride="#89929A" />
-                                    <Label Name="DossierNumberLabel" StyleClasses="Status" />
                                     <Control VerticalExpand="True" />
                                     <Label Name="DossierSelectionLabel" FontColorOverride="#C8782E" />
                                 </BoxContainer>
