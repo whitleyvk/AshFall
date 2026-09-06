@@ -1,0 +1,112 @@
+- type: colorPalette
+  id: HumanHairNatural
+  channelJitter: 0.04
+  minValue: 0.05
+  maxValue: 0.95
+  colors:
+    # Deep Black & Soft Black
+    - name: "natural-hair-pitch-black"
+      color: "#18181A"
+      weight: 3.0
+    - name: "natural-hair-soft-black"
+      color: "#252426"
+      weight: 3.5
+    # Browns
+    - name: "natural-hair-dark-brown"
+      color: "#3D2E24"
+      weight: 4.0
+    - name: "natural-hair-medium-brown"
+      color: "#523C2C"
+      weight: 4.0
+    - name: "natural-hair-chestnut"
+      color: "#5C3724"
+      weight: 3.0
+    - name: "natural-hair-light-brown"
+      color: "#6E5038"
+      weight: 3.0
+    # Red & Auburn
+    - name: "natural-hair-auburn"
+      color: "#6B3322"
+      weight: 1.5
+    - name: "natural-hair-ginger"
+      color: "#8B4322"
+      weight: 1.0
+    # Blondes
+    - name: "natural-hair-dirty-blonde"
+      color: "#8A7555"
+      weight: 2.5
+    - name: "natural-hair-sandy-blonde"
+      color: "#A89168"
+      weight: 2.0
+    - name: "natural-hair-golden-blonde"
+      color: "#C2A772"
+      weight: 1.5
+    - name: "natural-hair-ash-blonde"
+      color: "#9E9685"
+      weight: 1.5
+    # Grays & Whites (also boosted by age curve)
+    - name: "natural-hair-slate-gray"
+      color: "#6E7075"
+      weight: 0.8
+    - name: "natural-hair-silver-gray"
+      color: "#A6A8AD"
+      weight: 0.5
+    - name: "natural-hair-white"
+      color: "#D6D8DE"
+      weight: 0.3
+
+- type: colorPalette
+  id: HumanHairGraying
+  channelJitter: 0.03
+  minValue: 0.20
+  maxValue: 0.96
+  colors:
+    - name: "natural-hair-charcoal-gray"
+      color: "#48494C"
+      weight: 2.0
+    - name: "natural-hair-slate-gray"
+      color: "#6E7075"
+      weight: 3.0
+    - name: "natural-hair-ash-gray"
+      color: "#8A8D94"
+      weight: 3.5
+    - name: "natural-hair-silver-gray"
+      color: "#B2B5BD"
+      weight: 3.0
+    - name: "natural-hair-white"
+      color: "#DADDE3"
+      weight: 2.0
+
+- type: colorPalette
+  id: HumanEyesNatural
+  channelJitter: 0.03
+  minValue: 0.08
+  maxValue: 0.90
+  colors:
+    # Brown (most common globally)
+    - name: "natural-eyes-dark-brown"
+      color: "#2C1D11"
+      weight: 5.0
+    - name: "natural-eyes-brown"
+      color: "#452C1A"
+      weight: 4.5
+    - name: "natural-eyes-amber-hazel"
+      color: "#6E4C26"
+      weight: 2.5
+    # Hazel & Green
+    - name: "natural-eyes-hazel"
+      color: "#54522A"
+      weight: 2.0
+    - name: "natural-eyes-forest-green"
+      color: "#354C34"
+      weight: 1.5
+    # Blue & Gray
+    - name: "natural-eyes-slate-gray"
+      color: "#4A545E"
+      weight: 2.0
+    - name: "natural-eyes-dark-blue"
+      color: "#2B4360"
+      weight: 2.0
+    - name: "natural-eyes-light-blue"
+      color: "#4D6B8C"
+      weight: 1.5

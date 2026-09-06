@@ -1,0 +1,23 @@
+<PanelContainer xmlns="https://spacestation14.io"
+                xmlns:graphics="clr-namespace:Robust.Client.Graphics;assembly=Robust.Client"
+                xmlns:preview="clr-namespace:Content.Client.Lobby.UI.ProfileEditorControls"
+                Margin="2 2" MinHeight="84" HorizontalExpand="True">
+    <PanelContainer Name="CardPanel" HorizontalExpand="True" VerticalExpand="True">
+        <PanelContainer.PanelOverride>
+            <graphics:StyleBoxFlat BackgroundColor="#181B1E" BorderColor="#353D45" BorderThickness="1" />
+        </PanelContainer.PanelOverride>
+        <Button Name="InspectButton" StyleClasses="ButtonOpenBoth" HorizontalExpand="True" VerticalExpand="True">
+            <BoxContainer Orientation="Horizontal" Margin="6" SeparationOverride="10" HorizontalExpand="True">
+                <preview:ProfilePreviewSpriteView Name="PreviewSprite" MinSize="64 66" SetSize="64 66" Scale="2 2" />
+                <BoxContainer Orientation="Vertical" HorizontalExpand="True" SeparationOverride="3">
+                    <BoxContainer Orientation="Horizontal" HorizontalExpand="True">
+                        <Label Name="NameLabel" StyleClasses="FancyWindowTitle" HorizontalExpand="True" />
+                        <Label Name="ConfirmedLabel" Text="✓" FontColorOverride="#C8782E" Visible="False" />
+                    </BoxContainer>
+                    <Label Name="BioLineLabel" FontColorOverride="#AAB1B7" />
+                    <Label Name="QualificationLabel" FontColorOverride="#88929A" />
+                </BoxContainer>
+            </BoxContainer>
+        </Button>
+    </PanelContainer>
+</PanelContainer>

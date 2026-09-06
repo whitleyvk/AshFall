@@ -1,0 +1,37 @@
+<Control
+    xmlns="https://spacestation14.io"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:Content.Client.UserInterface.Controls"
+    xmlns:profile="clr-namespace:Content.Client.Lobby.UI.ProfileEditorControls">
+    <PanelContainer StyleClasses="AshfallPanelDeep">
+        <BoxContainer Name="VBox" Orientation="Vertical" Margin="8" SeparationOverride="6">
+            <BoxContainer Orientation="Horizontal">
+                <Label Text="{Loc 'ashfall-character-setup-file-title'}" StyleClasses="AshfallSectionHeader" HorizontalExpand="True" />
+                <Label Text="{Loc 'ashfall-character-setup-status'}" StyleClasses="AshfallStatus" />
+            </BoxContainer>
+            <controls:HLine StyleClasses="highlight" Thickness="1" />
+            <BoxContainer Name="Loaded" Orientation="Horizontal" SeparationOverride="12" Visible="False" Margin="4 2">
+                <PanelContainer StyleClasses="AshfallPanel">
+                    <BoxContainer Name="ViewBox" Orientation="Horizontal" HorizontalAlignment="Center" Margin="4">
+                        <profile:ProfilePreviewSpriteView Name="ProfilePreviewSpriteView"
+                                                          OverrideDirection="South"
+                                                          Scale="3 3"
+                                                          MaxSize="96 96"
+                                                          Stretch="Fill"
+                                                          Access="Public" />
+                    </BoxContainer>
+                </PanelContainer>
+                <BoxContainer Orientation="Vertical" VerticalAlignment="Center" HorizontalExpand="True" SeparationOverride="6">
+                    <Label Name="Summary" StyleClasses="AshfallTerminalHeader" />
+                    <Button Name="PersonalFilesButton"
+                            Text="ЛИЧНЫЕ ДЕЛА"
+                            StyleClasses="AshfallPrimaryAction"
+                            MinHeight="32"
+                            Access="Public" />
+                    <Button Name="CharacterSetup" Visible="False" Access="Public" />
+                </BoxContainer>
+            </BoxContainer>
+            <Label Name="Unloaded" Text="{Loc 'lobby-character-preview-panel-unloaded-preferences-label'}" StyleClasses="AshfallMuted" />
+        </BoxContainer>
+    </PanelContainer>
+</Control>

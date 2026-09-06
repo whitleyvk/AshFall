@@ -1,0 +1,11 @@
+- type: localizedDataset
+  id: NamesAshfallLuamFirst
+  values:
+    prefix: names-ashfall-luam-first-dataset-
+    count: 26
+
+- type: localizedDataset
+  id: NamesAshfallLuamLast
+  values:
+    prefix: names-ashfall-luam-last-dataset-
+    count: 26

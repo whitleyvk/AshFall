@@ -1,0 +1,30 @@
+- type: characterGenConstraints
+  id: HumanDefaultConstraints
+  species: Human
+  hairPalette: HumanHairNatural
+  eyePalette: HumanEyesNatural
+  ageBrackets:
+    - minAge: 20
+      maxAge: 30
+      weight: 5.5
+    - minAge: 31
+      maxAge: 40
+      weight: 3.0
+    - minAge: 41
+      maxAge: 55
+      weight: 1.2
+    - minAge: 56
+      maxAge: 70
+      weight: 0.3
+  grayingChances:
+    - maxAge: 30
+      chance: 0.01
+    - maxAge: 42
+      chance: 0.08
+    - maxAge: 52
+      chance: 0.35
+    - maxAge: 62
+      chance: 0.70
+    - maxAge: 120
+      chance: 0.95
+

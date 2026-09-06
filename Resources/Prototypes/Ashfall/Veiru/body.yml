@@ -1,0 +1,309 @@
+- type: markingsGroup
+  parent: Undergarments
+  id: Veiru
+  limits:
+    enum.HumanoidVisualLayers.Hair:
+      limit: 1
+      required: false
+    enum.HumanoidVisualLayers.FacialHair:
+      limit: 1
+      onlyGroupWhitelisted: true
+      required: false
+    enum.HumanoidVisualLayers.Head:
+      limit: 3
+      required: false
+    enum.HumanoidVisualLayers.HeadTop:
+      limit: 1
+      required: true
+      default: [ VeiruOutears ]
+    enum.HumanoidVisualLayers.Snout:
+      limit: 1
+      required: true
+    enum.HumanoidVisualLayers.SnoutCover:
+      limit: 3
+      required: false
+    enum.HumanoidVisualLayers.Tail:
+      limit: 1
+      required: true
+      default: [ VeiruTailM ]
+    enum.HumanoidVisualLayers.LArm:
+      limit: 2
+      required: false
+    enum.HumanoidVisualLayers.RArm:
+      limit: 2
+      required: false
+    enum.HumanoidVisualLayers.LHand:
+      limit: 2
+      required: false
+    enum.HumanoidVisualLayers.RHand:
+      limit: 2
+      required: false
+    enum.HumanoidVisualLayers.LLeg:
+      limit: 2
+      required: false
+    enum.HumanoidVisualLayers.RLeg:
+      limit: 2
+      required: false
+    enum.HumanoidVisualLayers.LFoot:
+      limit: 2
+      required: false
+    enum.HumanoidVisualLayers.RFoot:
+      limit: 2
+      required: false
+    enum.HumanoidVisualLayers.UndergarmentTop:
+      limit: 1
+      required: false
+      nudityDefault: [ UndergarmentTopTanktop ]
+    enum.HumanoidVisualLayers.UndergarmentBottom:
+      limit: 1
+      required: false
+      nudityDefault: [ UndergarmentBottomBoxers ]
+
+- type: entity
+  parent: BaseSpeciesAppearance
+  id: AppearanceVeiru
+  categories: [ HideSpawnMenu ] 
+  name: Veiru appearance
+  components:
+  - type: InitialBody
+    organs:
+      Torso: OrganVeiruTorso
+      Head: OrganVeiruHead
+      ArmLeft: OrganVeiruArmLeft
+      ArmRight: OrganVeiruArmRight
+      HandRight: OrganVeiruHandRight
+      HandLeft: OrganVeiruHandLeft
+      LegLeft: OrganVeiruLegLeft
+      LegRight: OrganVeiruLegRight
+      FootLeft: OrganVeiruFootLeft
+      FootRight: OrganVeiruFootRight
+      Brain: OrganVeiruBrain
+      Eyes: OrganVeiruEyes
+      Tongue: OrganVeiruTongue
+      Appendix: OrganVeiruAppendix
+      Ears: OrganVeiruEars
+      Lungs: OrganVeiruLungs
+      Heart: OrganVeiruHeart
+      Stomach: OrganVeiruStomach
+      Liver: OrganVeiruLiver
+      Kidneys: OrganVeiruKidneys
+  - type: HumanoidProfile
+    species: Veiru
+  - type: Inventory
+    speciesId: veiru
+    femaleDisplacements:
+      jumpsuit:
+        sizeMaps:
+          32:
+            sprite: Ashfall/Veiru/displacement.rsi
+            state: jumpsuit-female
+      shoes:
+        sizeMaps:
+          32:
+            sprite: Ashfall/Veiru/displacement.rsi
+            state: shoes
+    displacements:
+      jumpsuit:
+        sizeMaps:
+          32:
+            sprite: Ashfall/Veiru/displacement.rsi
+            state: jumpsuit
+      shoes:
+        sizeMaps:
+          32:
+            sprite: Ashfall/Veiru/displacement.rsi
+            state: shoes
+      outerClothing:
+        sizeMaps:
+          32:
+            sprite: Ashfall/Veiru/displacement.rsi
+            state: outerclothing
+
+- type: entity
+  save: false
+  name: Urist McVeiru
+  parent:
+  - AppearanceVeiru
+  - BaseSpeciesMobOrganic
+  id: MobVeiru
+  components:
+  - type: Satiation
+    satiations:
+      Hunger:
+        prototype: VeiruHunger
+      Thirst:
+        prototype: VeiruThirst
+  - type: ContentEye
+  - type: Speech
+    allowedEmotes: ['Purr', 'Meow']
+  - type: Vocal
+    emoteSounds: MaleVeiru
+  - type: GrowlingAccent
+  - type: MeleeWeapon
+    animation: WeaponArcClaw
+    soundHit:
+      collection: AlienClaw
+    damage:
+      types:
+        Slash: 7
+  - type: Damageable
+    damageModifierSet: Veiru
+  - type: Injurable
+    damageContainer: Biological
+  - type: Respirator
+    damage:
+      types:
+        Asphyxiation: 2.0
+    damageRecovery:
+      types:
+        Asphyxiation: -2.0
+  - type: Wagging
+  
+
+- type: entity
+  parent: OrganBase
+  id: OrganVeiru
+  abstract: true
+  suffix: veiru
+
+- type: entity
+  id: OrganVeiruMetabolizer
+  abstract: true
+  components:
+  - type: Metabolizer
+    metabolizerTypes: [ Animal ]
+
+- type: entity
+  parent: OrganVeiru
+  id: OrganVeiruInternal
+  abstract: true
+  components:
+  - type: Sprite
+    sprite: Mobs/Species/Human/organs.rsi
+
+- type: entity
+  id: OrganVeiruVisual
+  abstract: true
+  components:
+  - type: VisualOrgan
+    data:
+      sprite: Ashfall/Veiru/parts.rsi
+  - type: VisualOrganMarkings
+    markingData:
+      group: Veiru
+
+- type: entity
+  parent: [ OrganVeiru, OrganVeiruVisual ]
+  id: OrganVeiruExternal
+  abstract: true
+  components:
+  - type: Sprite
+    sprite: Ashfall/Veiru/parts.rsi
+
+- type: entity
+  parent: [ OrganBaseTorsoSexed, OrganBaseTorso, OrganVeiruExternal ]
+  id: OrganVeiruTorso
+
+- type: entity
+  parent: [ OrganBaseHeadSexed, OrganBaseHead, OrganVeiruExternal ]
+  id: OrganVeiruHead
+  components:
+  - type: VisualOrganMarkings
+    hideableLayers:
+    - enum.HumanoidVisualLayers.Snout
+    - enum.HumanoidVisualLayers.HeadTop
+    - enum.HumanoidVisualLayers.HeadSide
+    - enum.HumanoidVisualLayers.Hair
+    - enum.HumanoidVisualLayers.FacialHair
+    dependentHidingLayers:
+      enum.HumanoidVisualLayers.Snout:
+      - enum.HumanoidVisualLayers.SnoutCover
+
+- type: entity
+  parent: [ OrganBaseArmLeft, OrganVeiruExternal ]
+  id: OrganVeiruArmLeft
+
+- type: entity
+  parent: [ OrganBaseArmRight, OrganVeiruExternal ]
+  id: OrganVeiruArmRight
+
+- type: entity
+  parent: [ OrganBaseHandLeft, OrganVeiruExternal ]
+  id: OrganVeiruHandLeft
+
+- type: entity
+  parent: [ OrganBaseHandRight, OrganVeiruExternal ]
+  id: OrganVeiruHandRight
+
+- type: entity
+  parent: [ OrganBaseLegLeft, OrganVeiruExternal ]
+  id: OrganVeiruLegLeft
+
+- type: entity
+  parent: [ OrganBaseLegRight, OrganVeiruExternal ]
+  id: OrganVeiruLegRight
+
+- type: entity
+  parent: [ OrganBaseFootLeft, OrganVeiruExternal ]
+  id: OrganVeiruFootLeft
+
+- type: entity
+  parent: [ OrganBaseFootRight, OrganVeiruExternal ]
+  id: OrganVeiruFootRight
+
+- type: entity
+  parent: [ OrganBaseBrain, OrganSpriteHumanInternal, OrganVeiruInternal ]
+  id: OrganVeiruBrain
+
+- type: entity
+  parent: [ OrganVeiruVisual, OrganBaseEyes, OrganVeiruInternal ]
+  id: OrganVeiruEyes
+
+- type: entity
+  parent: [ OrganBaseTongue, OrganVeiruInternal ]
+  id: OrganVeiruTongue
+
+- type: entity
+  parent: [ OrganBaseAppendix, OrganSpriteHumanInternal, OrganVeiruInternal ]
+  id: OrganVeiruAppendix
+
+- type: entity
+  parent: [ OrganBaseEars, OrganSpriteHumanInternal, OrganVeiruInternal ]
+  id: OrganVeiruEars
+
+- type: entity
+  parent: [ OrganBaseLungs, OrganVeiruInternal, OrganVeiruMetabolizer ]
+  id: OrganVeiruLungs
+
+- type: entity
+  parent: [ OrganBaseHeart, OrganVeiruInternal, OrganVeiruMetabolizer ]
+  id: OrganVeiruHeart
+
+- type: entity
+  parent: [ OrganBaseStomach, OrganVeiruInternal, OrganVeiruMetabolizer ]
+  id: OrganVeiruStomach
+  components:
+  - type: SolutionManager
+    solutions:
+    - SolutionStomach
+    - SolutionVeiruFood
+
+- type: entity
+  parent: SolutionFood
+  id: SolutionVeiruFood
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Solution
+    solution:
+      maxVol: 5
+      reagents:
+      - ReagentId: UncookedAnimalProteins
+        Quantity: 5
+
+- type: entity
+  parent: [ OrganBaseLiver, OrganSpriteHumanInternal, OrganVeiruInternal, OrganVeiruMetabolizer ]
+  id: OrganVeiruLiver
+
+- type: entity
+  parent: [ OrganBaseKidneys, OrganSpriteHumanInternal, OrganVeiruInternal, OrganVeiruMetabolizer ]
+  id: OrganVeiruKidneys

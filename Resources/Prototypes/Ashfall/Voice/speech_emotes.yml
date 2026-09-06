@@ -1,0 +1,63 @@
+# Ashfall species emotes (ported from Corvax Tajaran)
+- type: emote
+  id: Gasp
+  name: chat-emote-name-gasp
+  category: Vocal
+  available: false
+  whitelist:
+    components:
+    - Vocal
+  blacklist:
+    components:
+    - BorgChassis
+  chatMessages: ["chat-emote-msg-gasp"]
+  chatTriggers:
+  - gasp
+  - gasps
+  - ахает
+  - задыхается
+
+- type: emote
+  id: Purr
+  name: chat-emote-name-purr
+  category: Vocal
+  available: false
+  icon: Ashfall/Interface/Emotes/purr.png
+  whitelist:
+    components:
+    - Vocal
+  blacklist:
+    components:
+    - BorgChassis
+  chatMessages: ["chat-emote-msg-purr"]
+  chatTriggers:
+  - purr
+  - purrs
+  - murr
+  - murrr
+  - мурчит
+  - мурлычет
+  - мурр
+  - муррр
+
+- type: emote
+  id: Meow
+  name: chat-emote-name-meow
+  category: Vocal
+  available: false
+  icon: Ashfall/Interface/Emotes/purr.png
+  whitelist:
+    components:
+    - Vocal
+  blacklist:
+    components:
+    - BorgChassis
+  chatMessages: ["chat-emote-msg-meow"]
+  chatTriggers:
+  - meow
+  - meowing
+  - мяу
+  - мяукает
+  - миу
+  - мьяу
+  - миау

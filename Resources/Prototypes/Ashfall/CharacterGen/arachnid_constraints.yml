@@ -1,0 +1,19 @@
+- type: characterGenConstraints
+  id: ArachnidDefaultConstraints
+  species: Arachnid
+  hairPalette: HumanHairNatural
+  eyePalette: HumanEyesNatural
+  ageBrackets:
+    - minAge: 20
+      maxAge: 32
+      weight: 5.0
+    - minAge: 33
+      maxAge: 48
+      weight: 3.5
+    - minAge: 49
+      maxAge: 70
+      weight: 1.5
+  grayingChances:
+    - maxAge: 120
+      chance: 0.10
+

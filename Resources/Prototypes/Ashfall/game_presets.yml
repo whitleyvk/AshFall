@@ -1,0 +1,9 @@
+- type: gamePreset
+  id: Degradation
+  alias:
+  - degradation
+  name: ashfall-preset-degradation-title
+  showInVote: true
+  description: ashfall-preset-degradation-description
+  rules:
+  - AshfallDegradationRule

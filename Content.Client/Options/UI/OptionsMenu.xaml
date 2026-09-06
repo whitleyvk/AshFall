@@ -1,0 +1,15 @@
+<DefaultWindow xmlns="https://spacestation14.io"
+            xmlns:tabs="clr-namespace:Content.Client.Options.UI.Tabs"
+            Title="{Loc 'ashfall-options-title'}"
+            MinSize="900 560">
+    <BoxContainer Orientation="Vertical" SeparationOverride="0">
+        <TabContainer Name="Tabs" Access="Public" VerticalExpand="True">
+            <tabs:MiscTab Name="MiscTab" />
+            <tabs:GraphicsTab Name="GraphicsTab" />
+            <tabs:KeyRebindTab Name="KeyRebindTab" />
+            <tabs:AudioTab Name="AudioTab" />
+            <tabs:AccessibilityTab Name="AccessibilityTab" />
+            <tabs:AdminOptionsTab Name="AdminOptionsTab" />
+        </TabContainer>
+    </BoxContainer>
+</DefaultWindow>

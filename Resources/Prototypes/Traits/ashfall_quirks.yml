@@ -1,0 +1,48 @@
+- type: trait
+  id: AshfallTraitShipyardVeteran
+  name: ashfall-trait-shipyard-veteran-name
+  description: ashfall-trait-shipyard-veteran-desc
+  category: Quirks
+
+- type: trait
+  id: AshfallTraitCorporatePedant
+  name: ashfall-trait-corporate-pedant-name
+  description: ashfall-trait-corporate-pedant-desc
+  category: Quirks
+
+- type: trait
+  id: AshfallTraitNightShift
+  name: ashfall-trait-night-shift-name
+  description: ashfall-trait-night-shift-desc
+  category: Quirks
+
+- type: trait
+  id: AshfallTraitVacuumAccustomed
+  name: ashfall-trait-vacuum-accustomed-name
+  description: ashfall-trait-vacuum-accustomed-desc
+  category: Quirks
+
+- type: trait
+  id: AshfallTraitSalvageResilience
+  name: ashfall-trait-salvage-resilience-name
+  description: ashfall-trait-salvage-resilience-desc
+  category: Quirks
+
+- type: trait
+  id: AshfallTraitServiceServiceability
+  name: ashfall-trait-service-serviceability-name
+  description: ashfall-trait-service-serviceability-desc
+  category: Quirks
+
+- type: trait
+  id: AshfallTraitAgroGreenThumb
+  name: ashfall-trait-agro-greenthumb-name
+  description: ashfall-trait-agro-greenthumb-desc
+  category: Quirks
+
+- type: trait
+  id: AshfallTraitBureaucraticPatience
+  name: ashfall-trait-bureaucratic-patience-name
+  description: ashfall-trait-bureaucratic-patience-desc
+  category: Quirks
+

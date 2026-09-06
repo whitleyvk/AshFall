@@ -1,0 +1,31 @@
+# Safe project defaults. Production secrets and administrator accounts belong in the instance configuration.
+[game]
+hostname = "ASHFALL development"
+desc = "ASHFALL, русскоязычный whitelist High RP проект"
+soft_max_players = 40
+defaultpreset = "Degradation"
+fallbackpreset = "Extended"
+
+[server]
+id = "ashfall"
+
+[whitelist]
+enabled = true
+
+[events]
+enabled = false
+
+[shuttle]
+auto_call_time = 0
+
+[ooc]
+enable_during_round = false
+
+[ic]
+flavor_text = true
+
+[hub]
+advertise = false
+tags = "lang:ru,rp:high"
+[loc]
+culture_name = "ru-RU"

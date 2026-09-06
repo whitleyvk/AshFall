@@ -1,0 +1,46 @@
+<Control xmlns="https://spacestation14.io"
+         xmlns:cc="clr-namespace:Content.Client.Administration.UI.CustomControls"
+         VerticalExpand="True">
+    <PanelContainer Name="BackgroundPanel" StyleClasses="AshfallPanelDeep">
+        <BoxContainer Orientation="Vertical" SeparationOverride="0">
+            <PanelContainer StyleClasses="AshfallPanel">
+                <BoxContainer Orientation="Horizontal" Margin="8" SeparationOverride="12">
+                    <BoxContainer Orientation="Vertical" HorizontalExpand="True">
+                        <Label Text="{Loc 'ashfall-character-setup-registry-title'}"
+                               StyleClasses="AshfallTerminalHeader" />
+                        <Label Text="{Loc 'ashfall-character-setup-file-title'}"
+                               StyleClasses="AshfallSectionHeader" />
+                        <BoxContainer Orientation="Horizontal" SeparationOverride="18">
+                            <Label Text="{Loc 'ashfall-character-setup-status'}"
+                                   StyleClasses="AshfallStatus" />
+                            <Label Text="{Loc 'ashfall-character-setup-last-sync'}"
+                                   StyleClasses="AshfallWarning" />
+                        </BoxContainer>
+                    </BoxContainer>
+                    <BoxContainer Orientation="Horizontal" VerticalAlignment="Center" SeparationOverride="4">
+                        <Button Name="StatsButton" Text="{Loc 'character-setup-gui-character-setup-stats-button'}" />
+                        <cc:CommandButton Name="AdminRemarksButton" Command="adminremarks"
+                                          Text="{Loc 'character-setup-gui-character-setup-adminremarks-button'}" />
+                        <Button Name="RulesButton" Text="{Loc 'character-setup-gui-character-setup-rules-button'}" />
+                        <Button Name="CloseButton" Access="Public"
+                                Text="{Loc 'character-setup-gui-character-setup-close-button'}" />
+                    </BoxContainer>
+                </BoxContainer>
+            </PanelContainer>
+            <PanelContainer StyleClasses="highlight" MinHeight="2" />
+            <BoxContainer Orientation="Horizontal" VerticalExpand="True" SeparationOverride="0">
+                <PanelContainer StyleClasses="AshfallPanel" MinWidth="325" MaxWidth="390" Margin="5">
+                    <BoxContainer Orientation="Vertical" Margin="6">
+                        <Label Text="{Loc 'ashfall-character-setup-records-heading'}"
+                               StyleClasses="AshfallSectionHeader" />
+                        <ScrollContainer VerticalExpand="True">
+                            <BoxContainer Name="Characters" Orientation="Vertical" />
+                        </ScrollContainer>
+                    </BoxContainer>
+                </PanelContainer>
+                <PanelContainer MinWidth="2" StyleClasses="highlight" />
+                <BoxContainer Name="CharEditor" HorizontalExpand="True" />
+            </BoxContainer>
+        </BoxContainer>
+    </PanelContainer>
+</Control>

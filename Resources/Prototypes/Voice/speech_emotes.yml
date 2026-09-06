@@ -1,0 +1,213 @@
+# vocal emotes
+- type: emote
+  id: Scream
+  name: chat-emote-name-scream
+  category: Vocal
+  icon: Interface/Emotes/scream.png
+  whitelist:
+    components:
+    - Vocal
+  chatMessages: ["chat-emote-msg-scream"]
+  chatTriggers:
+    - scream
+    - screams
+    - screaming
+    - screamed
+    - shriek
+    - shrieks
+    - shrieking
+    - shrieked
+    - screech
+    - screeches
+    - screeching
+    - screeched
+    - yell
+    - yells
+    - yelled
+    - yelling
+
+- type: emote
+  id: Laugh
+  name: chat-emote-name-laugh
+  category: Vocal
+  icon: Interface/Emotes/laugh.png
+  whitelist:
+    components:
+    - Vocal
+  blacklist:
+    tags:
+    - SiliconEmotes
+  chatMessages: ["chat-emote-msg-laugh"]
+  chatTriggers:
+    - laugh
+    - laughs
+    - laughing
+    - laughed
+    - chuckle
+    - chuckles
+    - chuckled
+    - chuckling
+    - giggle
+    - giggles
+    - giggling
+    - giggled
+    - chortle
+    - chortles
+    - chortling
+
+- type: emote
+  id: Honk
+  name: chat-emote-name-honk
+  category: Vocal
+  icon: Interface/Emotes/honk.png
+  whitelist:
+    requireAll: true
+    components:
+    - Vocal
+    tags:
+    - SiliconEmotes
+  chatMessages: ["chat-emote-msg-honk"]
+  chatTriggers:
+    - honk
+    - honks
+    - honked
+    - honking
+
+- type: emote
+  id: Sigh
+  name: chat-emote-name-sigh
+  category: Vocal
+  icon: Interface/Emotes/sigh.png
+  whitelist:
+    components:
+    - Vocal
+  blacklist:
+    tags:
+    - SiliconEmotes
+  chatMessages: ["chat-emote-msg-sigh"]
+  chatTriggers:
+    - sigh
+    - sighs
+    - sighed
+
+- type: emote
+  id: Whistle
+  name: chat-emote-name-whistle
+  category: Vocal
+  icon: Interface/Emotes/whistle.png
+  whitelist:
+    components:
+    - Vocal
+  blacklist:
+    tags:
+    - SiliconEmotes
+  chatMessages: ["chat-emote-msg-whistle"]
+  chatTriggers:
+    - whistle
+    - whistles
+    - whistleblowing
+
+- type: emote
+  id: Crying
+  name: chat-emote-name-crying
+  category: Vocal
+  icon: Interface/Emotes/cry.png
+  whitelist:
+    components:
+    - Vocal
+  blacklist:
+    tags:
+    - SiliconEmotes
+  chatMessages: ["chat-emote-msg-crying"]
+  chatTriggers:
+    - cry
+    - crying
+    - cries
+    - sob
+    - sobs
+    - sobbing
+
+- type: emote
+  id: Squish
+  name: chat-emote-name-squish
+  category: Vocal
+  available: false
+  icon: Interface/Emotes/squish.png
+  whitelist:
+    components:
+    - Vocal
+  blacklist:
+    tags:
+    - SiliconEmotes
+  chatMessages: ["chat-emote-msg-squish"]
+  chatTriggers:
+    - squish
+    - squishing
+    - squishes
+
+- type: emote
+  id: Chitter
+  name: chat-emote-name-chitter
+  category: Vocal
+  available: false
+  icon: Interface/Emotes/chitter.png
+  whitelist:
+    components:
+    - Vocal
+  blacklist:
+    tags:
+    - SiliconEmotes
+  chatMessages: ["chat-emote-msg-chitter"]
+  chatTriggers:
+   - chitter
+   - chitters
+   - chittered
+
+- type: emote
+  id: Squeak
+  name: chat-emote-name-squeak
+  category: Vocal
+  available: false
+  icon: Interface/Emotes/squeak.png
+  whitelist:
+    components:
+      - Vocal
+  blacklist:
+    tags:
+    - SiliconEmotes
+  chatMessages: ["chat-emote-msg-squeak"]
+  chatTriggers:
+   - squeak
+   - squeaks
+   - squeaked
+
+- type: emote
+  id: Click
+  name: chat-emote-name-click
+  category: Vocal
+  available: false
+  icon: Interface/Emotes/click.png
+  whitelist:
+    components:
+    - Vocal
+  blacklist:
+    tags:
+    - SiliconEmotes
+  chatMessages: ["chat-emote-msg-click"]
+  chatTriggers:
+   - click
+   - clicks
+
+- type: emote
+  id: Weh
+  name: chat-emote-name-weh
+  category: Vocal
+  icon: Interface/Emotes/weh.png
+  chatMessages: ["chat-emote-msg-weh"]
+
+- type: emote
+  id: Hew
+  name: chat-emote-name-hew
+  category: Vocal
+  icon: Interface/Emotes/hew.png
+  chatMessages: ["chat-emote-msg-hew"]

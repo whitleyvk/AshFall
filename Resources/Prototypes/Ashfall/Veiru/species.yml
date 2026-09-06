@@ -1,0 +1,21 @@
+- type: species
+  id: Veiru
+  name: species-name-veiru
+  roundStart: true
+  prototype: MobVeiru
+  defaultSkinTone: "#eb943d"
+  dollPrototype: AppearanceVeiru
+  skinColoration: Hues
+  maleFirstNames: NamesVeiruFirstMale
+  femaleFirstNames: NamesVeiruFirstFemale
+  lastNames: NamesVeiruLast
+  minHeight: 140
+  maxHeight: 180
+  
+  defaultSoundsBySex:
+  - MaleVeiru
+  - FemaleVeiru
+  - MaleVeiru
+  voices:
+  - MaleVeiru
+  - FemaleVeiru

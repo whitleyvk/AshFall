@@ -1,0 +1,19 @@
+- type: characterGenConstraints
+  id: VeiruDefaultConstraints
+  species: Veiru
+  hairPalette: HumanHairNatural
+  eyePalette: HumanEyesNatural
+  ageBrackets:
+    - minAge: 20
+      maxAge: 30
+      weight: 5.0
+    - minAge: 31
+      maxAge: 42
+      weight: 3.5
+    - minAge: 43
+      maxAge: 60
+      weight: 1.5
+  grayingChances:
+    - maxAge: 120
+      chance: 0.15
+

@@ -1,0 +1,613 @@
+- type: marking
+  id: VeiruPatch
+  bodyPart: Chest
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_overlay.rsi
+      state: patch
+
+- type: marking
+  id: VeiruSkeletonBody
+  bodyPart: Chest
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_overlay.rsi
+      state: skeleton_body
+
+# - type: marking
+#   id: Points
+#   bodyPart: Chest
+#   groupWhitelist: [Veiru]
+#   sponsorOnly: false # 
+#   sprites:
+#     - sprite: Ashfall/Veiru/veiru_overlay.rsi
+#       state: points
+
+- type: marking
+  id: VeiruBlotsBody
+  bodyPart: Chest
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_overlay.rsi
+      state: blots_body
+
+- type: marking
+  id: VeiruStripesBody
+  bodyPart: Chest
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_overlay.rsi
+      state: stripes_body
+
+# - type: marking
+#   id: GradientRleg
+#   bodyPart: RFoot
+#   groupWhitelist: [Veiru]
+#   sponsorOnly: false # 
+#   sprites:
+#     - sprite: Ashfall/Veiru/veiru_parts.rsi
+#       state: gradient_RLeg
+
+# - type: marking
+#   id: GradientLleg
+#   bodyPart: LFoot
+#   groupWhitelist: [Veiru]
+#   sponsorOnly: false # 
+#   sprites:
+#     - sprite: Ashfall/Veiru/veiru_parts.rsi
+#       state: gradient_LLeg
+
+- type: marking
+  id: VeiruGradientLhand
+  bodyPart: LHand
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_parts.rsi
+      state: gradient_LHand
+
+- type: marking
+  id: VeiruGradientLarm
+  bodyPart: LArm
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_parts.rsi
+      state: gradient_LArm
+
+- type: marking
+  id: VeiruGradientRhand
+  bodyPart: RHand
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_parts.rsi
+      state: gradient_RHand
+
+- type: marking
+  id: VeiruGradientRarm
+  bodyPart: RArm
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_parts.rsi
+      state: gradient_RArm
+
+- type: marking
+  id: VeiruSpikey
+  bodyPart: Hair
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_hairs.rsi
+      state: spikey
+
+- type: marking
+  id: VeiruVeiruHairLadiesretro
+  bodyPart: Hair
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_hairs.rsi
+      state: ladiesretro
+
+- type: marking
+  id: VeiruHairBraid
+  bodyPart: Hair
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_hairs.rsi
+      state: braid
+
+- type: marking
+  id: VeiruHairEyebrows
+  bodyPart: Hair
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_hairs.rsi
+      state: eyebrows
+
+- type: marking
+  id: VeiruHairPigtail
+  bodyPart: Hair
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_hairs.rsi
+      state: pigtail
+
+- type: marking
+  id: VeiruHairCurly
+  bodyPart: Hair
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_hairs.rsi
+      state: curly
+
+- type: marking
+  id: VeiruHairBob
+  bodyPart: Hair
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_hairs.rsi
+      state: bob
+
+- type: marking
+  id: VeiruHairFingerwave
+  bodyPart: Hair
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_hairs.rsi
+      state: fingerwave
+
+- type: marking
+  id: VeiruHairPlait
+  bodyPart: Hair
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_hairs.rsi
+      state: plait
+
+- type: marking
+  id: VeiruHairPonytail
+  bodyPart: Hair
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_hairs.rsi
+      state: ponytail
+
+- type: marking
+  id: VeiruHairClean
+  bodyPart: Hair
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_hairs.rsi
+      state: clean
+
+- type: marking
+  id: VeiruHairRattail
+  bodyPart: Hair
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_hairs.rsi
+      state: rattail
+
+- type: marking
+  id: VeiruHairBedhead
+  bodyPart: Hair
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_hairs.rsi
+      state: bedhead
+
+- type: marking
+  id: VeiruHairVictory
+  bodyPart: Hair
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_hairs.rsi
+      state: victory
+
+- type: marking
+  id: VeiruHairShaggy
+  bodyPart: Hair
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_hairs.rsi
+      state: shaggy
+
+- type: marking
+  id: VeiruHairMohawk
+  bodyPart: Hair
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_hairs.rsi
+      state: mohawk
+
+- type: marking
+  id: VeiruHairBangs
+  bodyPart: Hair
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_hairs.rsi
+      state: bangs
+
+- type: marking
+  id: VeiruHairMessy
+  bodyPart: Hair
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_hairs.rsi
+      state: messy
+
+- type: marking
+  id: VeiruHairStraight
+  bodyPart: Hair
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_hairs.rsi
+      state: straight
+
+- type: marking
+  id: VeiruHairLong
+  bodyPart: Hair
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_hairs.rsi
+      state: long
+
+- type: marking
+  id: VeiruMustache2
+  bodyPart: FacialHair
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_facial_hairs.rsi
+      state: mustache_2
+
+- type: marking
+  id: VeiruBeard
+  bodyPart: FacialHair
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_facial_hairs.rsi
+      state: beard
+
+- type: marking
+  id: VeiruMustache3
+  bodyPart: FacialHair
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_facial_hairs.rsi
+      state: mustache_3
+
+- type: marking
+  id: VeiruCheeks
+  bodyPart: FacialHair
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_facial_hairs.rsi
+      state: cheeks
+
+- type: marking
+  id: VeiruMustache
+  bodyPart: FacialHair
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_facial_hairs.rsi
+      state: mustache
+
+- type: marking
+  id: VeiruPatch2
+  bodyPart: Head
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_head.rsi
+      state: patch_2
+
+- type: marking
+  id: VeiruEyeStripesHead
+  bodyPart: Head
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_head.rsi
+      state: eye_stripes_head
+
+- type: marking
+  id: VeiruOutears
+  bodyPart: HeadTop
+  groupWhitelist: [Veiru, Felinid, Android, Human]
+  sponsorOnly: false # 
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_head.rsi
+      state: outears
+
+- type: marking
+  id: VeiruTigerHead
+  bodyPart: Head
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_head.rsi
+      state: tiger_head
+
+- type: marking
+  id: VeiruMuzzle
+  bodyPart: Snout
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_head.rsi
+      state: muzzle
+
+- type: marking
+  id: VeiruSnoutCover
+  bodyPart: SnoutCover
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_head.rsi
+      state: nose
+
+- type: marking
+  id: VeiruTigerFace
+  bodyPart: Head
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_head.rsi
+      state: tiger_face
+
+- type: marking
+  id: VeiruStarHead
+  bodyPart: Head
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_head.rsi
+      state: star_head
+
+- type: marking
+  id: VeiruInears
+  bodyPart: HeadTop
+  groupWhitelist: [Veiru, Felinid, Android, Human]
+  sponsorOnly: false # 
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_head.rsi
+      state: inears
+
+- type: marking
+  id: VeiruNose
+  bodyPart: Snout
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_head.rsi
+      state: nose
+
+- type: marking
+  id: VeiruRaccoon-head
+  bodyPart: Head
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_head.rsi
+      state: raccoon-head
+
+- type: marking
+  id: VeiruManeHead
+  bodyPart: Head
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_head.rsi
+      state: mane_head
+
+- type: marking
+  id: VeiruMuzzleinears
+  bodyPart: Snout
+  groupWhitelist: [Veiru, Felinid, Android, Human]
+  sponsorOnly: false # 
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_head.rsi
+      state: muzzleinears
+
+- type: marking
+  id: VeiruTailFluffy
+  bodyPart: Tail
+  groupWhitelist: [Veiru, Felinid, Android, Human]
+  sponsorOnly: false # 
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_tail.rsi
+      state: tail_fluffy
+
+
+- type: marking
+  id: VeiruBelly2
+  bodyPart: Chest
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_chest.rsi
+      state: belly2
+
+- type: marking
+  id: VeiruChest
+  bodyPart: Chest
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_chest.rsi
+      state: chest
+
+- type: marking
+  id: VeiruBelly1
+  bodyPart: Chest
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_chest.rsi
+      state: belly1
+
+- type: marking
+  id: VeiruBelly3
+  bodyPart: Chest
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_chest.rsi
+      state: belly3
+
+- type: marking
+  id: VeiruTailM
+  bodyPart: Tail
+  groupWhitelist: []
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_tail.rsi
+      state: tail_m
+
+- type: marking
+  id: VeiruTailRing
+  bodyPart: Tail
+  groupWhitelist: [Veiru, Felinid, Android, Human]
+  sponsorOnly: false # 
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_tail.rsi
+      state: tail_m
+    - sprite: Ashfall/Veiru/veiru_tail.rsi
+      state: tail_ring
+
+- type: marking
+  id: VeiruTailSkeleton
+  bodyPart: Tail
+  groupWhitelist: [Veiru, Felinid, Android, Human]
+  sponsorOnly: false # 
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_tail.rsi
+      state: tail_m
+    - sprite: Ashfall/Veiru/veiru_tail.rsi
+      state: tail_skeleton
+
+- type: marking
+  id: VeiruTailTip
+  bodyPart: Tail
+  groupWhitelist: [Veiru, Felinid, Android, Human]
+  sponsorOnly: false # 
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_tail.rsi
+      state: tail_m
+    - sprite: Ashfall/Veiru/veiru_tail.rsi
+      state: tail_tip
+
+- type: marking
+  id: VeiruTailFluffySkeleton
+  bodyPart: Tail
+  groupWhitelist: [Veiru, Felinid, Android, Human]
+  sponsorOnly: false # 
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_tail.rsi
+      state: tail_fluffy
+    - sprite: Ashfall/Veiru/veiru_tail.rsi
+      state: tail_skeleton
+
+
+- type: marking
+  id: VeiruTailWingler1
+  bodyPart: Tail
+  groupWhitelist: [Veiru, Felinid, Android, Human]
+  sponsorOnly: false # 
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_tail.rsi
+      state: tail_fluffy
+    - sprite: Ashfall/Veiru/veiru_tail.rsi
+      state: wingler_1
+
+- type: marking
+  id: VeiruTailWingler2
+  bodyPart: Tail
+  groupWhitelist: [Veiru, Felinid, Android, Human]
+  sponsorOnly: false # 
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_tail.rsi
+      state: tail_fluffy
+    - sprite: Ashfall/Veiru/veiru_tail.rsi
+      state: wingler_2
+
+- type: marking
+  id: VeiruTailWingler3
+  bodyPart: Tail
+  groupWhitelist: [Veiru, Felinid, Android, Human]
+  sponsorOnly: false # 
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_tail.rsi
+      state: tail_fluffy
+    - sprite: Ashfall/Veiru/veiru_tail.rsi
+      state: wingler_3
+
+# Animated
+- type: marking
+  id: VeiruTailFluffyAnimated
+  bodyPart: Tail
+  groupWhitelist: []
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_tail.rsi
+      state: tail_fluffy_wagging
+
+- type: marking
+  id: TailWingler1Animated
+  bodyPart: Tail
+  groupWhitelist: []
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_tail.rsi
+      state: tail_fluffy_wagging
+    - sprite: Ashfall/Veiru/veiru_tail.rsi
+      state: wingler_1_wagging
+
+- type: marking
+  id: TailWingler2Animated
+  bodyPart: Tail
+  groupWhitelist: []
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_tail.rsi
+      state: tail_fluffy_wagging
+    - sprite: Ashfall/Veiru/veiru_tail.rsi
+      state: wingler_2_wagging
+
+- type: marking
+  id: TailWingler3Animated
+  bodyPart: Tail
+  groupWhitelist: []
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_tail.rsi
+      state: tail_fluffy_wagging
+    - sprite: Ashfall/Veiru/veiru_tail.rsi
+      state: wingler_3_wagging
+
+- type: marking
+  id: TailFluffySkeletonAnimated
+  bodyPart: Tail
+  groupWhitelist: []
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_tail.rsi
+      state: tail_fluffy_wagging
+    - sprite: Ashfall/Veiru/veiru_tail.rsi
+      state: tail_skeleton_wagging
+
+- type: marking
+  id: TailTipAnimated
+  bodyPart: Tail
+  groupWhitelist: []
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_tail.rsi
+      state: tail_m_wagging
+    - sprite: Ashfall/Veiru/veiru_tail.rsi
+      state: tail_tip_wagging
+
+
+- type: marking
+  id: VeiruTailMAnimated
+  bodyPart: Tail
+  groupWhitelist: []
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_tail.rsi
+      state: tail_m_wagging
+
+- type: marking
+  id: TailRingAnimated
+  bodyPart: Tail
+  groupWhitelist: []
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_tail.rsi
+      state: tail_m_wagging
+    - sprite: Ashfall/Veiru/veiru_tail.rsi
+      state: tail_ring_wagging
+
+- type: marking
+  id: TailSkeletonAnimated
+  bodyPart: Tail
+  groupWhitelist: []
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_tail.rsi
+      state: tail_m_wagging
+    - sprite: Ashfall/Veiru/veiru_tail.rsi
+      state: tail_skeleton_wagging

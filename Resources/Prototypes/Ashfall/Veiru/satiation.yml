@@ -1,0 +1,11 @@
+# Veiru get hungry and thirsty faster than baseline species
+# (ported from Corvax Tajaran: hunger 0.02, thirst 0.15 vs defaults 0.01667 / 0.1)
+- type: satiation
+  id: VeiruHunger
+  parent: NormalSatiationHunger
+  baseChangeRate: -0.02
+
+- type: satiation
+  id: VeiruThirst
+  parent: NormalSatiationThirst
+  baseChangeRate: -0.15

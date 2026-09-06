@@ -1,0 +1,81 @@
+# The dispatcher component deliberately has an empty list: DegradationRule selects
+# compatible passes from its profile before station initialization.
+- type: entity
+  id: AshfallDegradationRule
+  parent: BaseGameRule
+  components:
+  - type: RoundstartStationVariationRule
+    rules: []
+  - type: DegradationRule
+    profile: AshfallDegradationAlpha
+
+- type: entity
+  id: AshfallExtendedRule
+  parent: BaseGameRule
+
+- type: entity
+  id: AshfallDegradationLightingFailure
+  parent: BaseVariationPass
+  components:
+  - type: PoweredLightVariationPass
+    lightBreakChance: 0.08
+    lightAgingChance: 0.20
+    agedLightTubeFlickerChance: 0.04
+
+- type: entity
+  id: AshfallDegradationElectricalWear
+  parent: BaseVariationPass
+  components:
+  - type: PoweredLightVariationPass
+    lightBreakChance: 0.05
+    lightAgingChance: 0.12
+    agedLightTubeFlickerChance: 0.03
+  - type: CutWireVariationPass
+    wireCutChance: 0.005
+    maxWiresCut: 8
+    blacklist:
+      components:
+      - ParticleAcceleratorControlBox
+
+- type: entity
+  id: AshfallDegradationNeglectedStructure
+  parent: BaseVariationPass
+  components:
+  - type: WallReplaceVariationPass
+  - type: EntityReplaceVariationPass
+    entitiesPerReplacementAverage: 35
+    entitiesPerReplacementStdDev: 8
+    replacements:
+    - id: WallSolidRust
+
+- type: entity
+  id: AshfallDegradationSolarDamage
+  parent: BaseVariationPass
+  components:
+  - type: SolarPanelReplaceVariationPass
+  - type: EntityReplaceVariationPass
+    entitiesPerReplacementAverage: 18
+    entitiesPerReplacementStdDev: 4
+    replacements:
+    - id: SolarPanelBroken
+
+- type: entity
+  id: AshfallDegradationLimitedWireFaults
+  parent: BaseVariationPass
+  components:
+  - type: CutWireVariationPass
+    wireCutChance: 0.003
+    maxWiresCut: 5
+    blacklist:
+      components:
+      - ParticleAcceleratorControlBox
+
+- type: entity
+  id: AshfallDegradationMaintenanceMess
+  parent: BaseVariationPass
+  components:
+  - type: EntitySpawnVariationPass
+    tilesPerEntityAverage: 55
+    tilesPerEntityStdDev: 7
+    entities:
+    - id: RandomSpawner

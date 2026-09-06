@@ -1,0 +1,16 @@
+ent-AshfallDegradationRule = { ent-BaseGameRule }
+    .desc = { ent-BaseGameRule.desc }
+ent-AshfallExtendedRule = { ent-BaseGameRule }
+    .desc = { ent-BaseGameRule.desc }
+ent-AshfallDegradationLightingFailure = { ent-BaseVariationPass }
+    .desc = { ent-BaseVariationPass.desc }
+ent-AshfallDegradationElectricalWear = { ent-BaseVariationPass }
+    .desc = { ent-BaseVariationPass.desc }
+ent-AshfallDegradationNeglectedStructure = { ent-BaseVariationPass }
+    .desc = { ent-BaseVariationPass.desc }
+ent-AshfallDegradationSolarDamage = { ent-BaseVariationPass }
+    .desc = { ent-BaseVariationPass.desc }
+ent-AshfallDegradationLimitedWireFaults = { ent-BaseVariationPass }
+    .desc = { ent-BaseVariationPass.desc }
+ent-AshfallDegradationMaintenanceMess = { ent-BaseVariationPass }
+    .desc = { ent-BaseVariationPass.desc }

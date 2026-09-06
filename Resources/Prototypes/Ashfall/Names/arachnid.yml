@@ -1,0 +1,11 @@
+- type: localizedDataset
+  id: NamesAshfallArachnidFirst
+  values:
+    prefix: names-ashfall-arachnid-first-dataset-
+    count: 21
+
+- type: localizedDataset
+  id: NamesAshfallArachnidLast
+  values:
+    prefix: names-ashfall-arachnid-last-dataset-
+    count: 15

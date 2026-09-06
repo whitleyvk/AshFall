@@ -1,0 +1,291 @@
+# These options are kept very sparse to not put emphasis on nudity, and to provide a base for players to feel comfortable with.
+# It's unlikely more will be added to upstream for cosmetic reasons. 
+
+- type: marking
+  id: UndergarmentBottomBoxers
+  bodyPart: UndergarmentBottom
+  groupWhitelist: [Arachnid, Diona, Human, Moth, Slime]
+  coloring:
+    default:
+      type: null
+      fallbackColor: '#FFFFFF'
+  sprites:
+  - sprite: Mobs/Customization/undergarments.rsi
+    state: boxers
+
+- type: marking
+  id: UndergarmentBottomBriefs
+  bodyPart: UndergarmentBottom
+  groupWhitelist: [Arachnid, Diona, Human, Moth, Slime]
+  coloring:
+    default:
+      type: null
+      fallbackColor: '#FFFFFF'
+  sprites:
+  - sprite: Mobs/Customization/undergarments.rsi
+    state: briefs
+
+- type: marking
+  id: UndergarmentBottomSatin
+  bodyPart: UndergarmentBottom
+  groupWhitelist: [Arachnid, Diona, Human, Moth, Slime]
+  coloring:
+    default:
+      type: null
+      fallbackColor: '#FFFFFF'
+  sprites:
+  - sprite: Mobs/Customization/undergarments.rsi
+    state: satin
+
+- type: marking
+  id: UndergarmentTopBra
+  bodyPart: UndergarmentTop
+  groupWhitelist: [Arachnid, Diona, Human, Moth, Reptilian, Slime]
+  coloring:
+    default:
+      type: null
+      fallbackColor: '#FFFFFF'
+  sprites:
+  - sprite: Mobs/Customization/undergarments.rsi
+    state: classic
+
+- type: marking
+  id: UndergarmentTopSportsbra
+  bodyPart: UndergarmentTop
+  groupWhitelist: [Arachnid, Diona, Human, Moth, Reptilian, Slime]
+  coloring:
+    default:
+      type: null
+      fallbackColor: '#FFFFFF'
+  sprites:
+  - sprite: Mobs/Customization/undergarments.rsi
+    state: sports
+
+- type: marking
+  id: UndergarmentTopBinder
+  bodyPart: UndergarmentTop
+  groupWhitelist: [Arachnid, Diona, Human, Moth, Reptilian, Slime]
+  coloring:
+    default:
+      type: null
+      fallbackColor: '#FFFFFF'
+  sprites:
+  - sprite: Mobs/Customization/undergarments.rsi
+    state: binder
+
+- type: marking
+  id: UndergarmentTopTanktop
+  bodyPart: UndergarmentTop
+  groupWhitelist: [Arachnid, Diona, Human, Moth, Reptilian, Slime]
+  coloring:
+    default:
+      type: null
+      fallbackColor: '#FFFFFF'
+  sprites:
+  - sprite: Mobs/Customization/undergarments.rsi
+    state: tanktop
+
+- type: marking
+  id: UndergarmentBottomBoxersVox # Voxers.
+  bodyPart: UndergarmentBottom
+  groupWhitelist: [Vox]
+  coloring:
+    default:
+      type: null
+      fallbackColor: '#FFFFFF'
+  sprites:
+  - sprite: Mobs/Customization/undergarments.rsi
+    state: boxers_vox
+
+- type: marking
+  id: UndergarmentBottomBriefsVox
+  bodyPart: UndergarmentBottom
+  groupWhitelist: [Vox]
+  coloring:
+    default:
+      type: null
+      fallbackColor: '#FFFFFF'
+  sprites:
+  - sprite: Mobs/Customization/undergarments.rsi
+    state: briefs_vox
+
+- type: marking
+  id: UndergarmentBottomSatinVox
+  bodyPart: UndergarmentBottom
+  groupWhitelist: [Vox]
+  coloring:
+    default:
+      type: null
+      fallbackColor: '#FFFFFF'
+  sprites:
+  - sprite: Mobs/Customization/undergarments.rsi
+    state: satin_vox
+
+- type: marking
+  id: UndergarmentTopBraVox
+  bodyPart: UndergarmentTop
+  groupWhitelist: [Vox]
+  coloring:
+    default:
+      type: null
+      fallbackColor: '#FFFFFF'
+  sprites:
+  - sprite: Mobs/Customization/undergarments.rsi
+    state: classic_vox
+
+- type: marking
+  id: UndergarmentTopSportsbraVox
+  bodyPart: UndergarmentTop
+  groupWhitelist: [Vox]
+  coloring:
+    default:
+      type: null
+      fallbackColor: '#FFFFFF'
+  sprites:
+  - sprite: Mobs/Customization/undergarments.rsi
+    state: sports_vox
+
+- type: marking
+  id: UndergarmentTopBinderVox
+  bodyPart: UndergarmentTop
+  groupWhitelist: [Vox]
+  coloring:
+    default:
+      type: null
+      fallbackColor: '#FFFFFF'
+  sprites:
+  - sprite: Mobs/Customization/undergarments.rsi
+    state: binder_vox
+
+- type: marking
+  id: UndergarmentTopTanktopVox
+  bodyPart: UndergarmentTop
+  groupWhitelist: [Vox]
+  coloring:
+    default:
+      type: null
+      fallbackColor: '#FFFFFF'
+  sprites:
+  - sprite: Mobs/Customization/undergarments.rsi
+    state: tanktop_vox
+
+- type: marking
+  id: UndergarmentBottomBoxersReptilian
+  bodyPart: UndergarmentBottom
+  groupWhitelist: [Reptilian]
+  coloring:
+    default:
+      type: null
+      fallbackColor: '#FFFFFF'
+  sprites:
+  - sprite: Mobs/Customization/undergarments.rsi
+    state: boxers_reptilian
+
+- type: marking
+  id: UndergarmentBottomBriefsReptilian
+  bodyPart: UndergarmentBottom
+  groupWhitelist: [Reptilian]
+  coloring:
+    default:
+      type: null
+      fallbackColor: '#FFFFFF'
+  sprites:
+  - sprite: Mobs/Customization/undergarments.rsi
+    state: briefs_reptilian
+
+- type: marking
+  id: UndergarmentBottomSatinReptilian
+  bodyPart: UndergarmentBottom
+  groupWhitelist: [Reptilian]
+  coloring:
+    default:
+      type: null
+      fallbackColor: '#FFFFFF'
+  sprites:
+  - sprite: Mobs/Customization/undergarments.rsi
+    state: satin_reptilian
+
+- type: marking
+  id: UndergarmentBottomBoxersVeiru
+  bodyPart: UndergarmentBottom
+  groupWhitelist: [Veiru]
+  coloring:
+    default:
+      type: null
+      fallbackColor: '#FFFFFF'
+  sprites:
+  - sprite: Mobs/Customization/undergarments.rsi
+    state: boxers_veiru
+
+- type: marking
+  id: UndergarmentBottomBriefsVeiru
+  bodyPart: UndergarmentBottom
+  groupWhitelist: [Veiru]
+  coloring:
+    default:
+      type: null
+      fallbackColor: '#FFFFFF'
+  sprites:
+  - sprite: Mobs/Customization/undergarments.rsi
+    state: briefs_veiru
+
+- type: marking
+  id: UndergarmentBottomSatinVeiru
+  bodyPart: UndergarmentBottom
+  groupWhitelist: [Veiru]
+  coloring:
+    default:
+      type: null
+      fallbackColor: '#FFFFFF'
+  sprites:
+  - sprite: Mobs/Customization/undergarments.rsi
+    state: satin_veiru
+
+- type: marking
+  id: UndergarmentTopBraVeiru
+  bodyPart: UndergarmentTop
+  groupWhitelist: [Veiru]
+  coloring:
+    default:
+      type: null
+      fallbackColor: '#FFFFFF'
+  sprites:
+  - sprite: Mobs/Customization/undergarments.rsi
+    state: classic_veiru
+
+- type: marking
+  id: UndergarmentTopSportsbraVeiru
+  bodyPart: UndergarmentTop
+  groupWhitelist: [Veiru]
+  coloring:
+    default:
+      type: null
+      fallbackColor: '#FFFFFF'
+  sprites:
+  - sprite: Mobs/Customization/undergarments.rsi
+    state: sports_veiru
+
+- type: marking
+  id: UndergarmentTopBinderVeiru
+  bodyPart: UndergarmentTop
+  groupWhitelist: [Veiru]
+  coloring:
+    default:
+      type: null
+      fallbackColor: '#FFFFFF'
+  sprites:
+  - sprite: Mobs/Customization/undergarments.rsi
+    state: binder_veiru
+
+- type: marking
+  id: UndergarmentTopTanktopVeiru
+  bodyPart: UndergarmentTop
+  groupWhitelist: [Veiru]
+  coloring:
+    default:
+      type: null
+      fallbackColor: '#FFFFFF'
+  sprites:
+  - sprite: Mobs/Customization/undergarments.rsi
+    state: tanktop_veiru
+    

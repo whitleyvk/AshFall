@@ -1,0 +1,17 @@
+- type: localizedDataset
+  id: NamesVeiruFirstMale
+  values:
+    prefix: names-veiru-first-male-dataset-
+    count: 28
+
+- type: localizedDataset
+  id: NamesVeiruFirstFemale
+  values:
+    prefix: names-veiru-first-female-dataset-
+    count: 28
+
+- type: localizedDataset
+  id: NamesVeiruLast
+  values:
+    prefix: names-veiru-last-dataset-
+    count: 26

@@ -1,0 +1,34 @@
+project:
+  name: ASHFALL
+  license: AGPL-3.0-or-later
+
+sources:
+  - name: Space Station 14
+    repository: https://github.com/space-wizards/space-station-14
+    revision: 9c8df525bc7b28126d2d4d51662f2b8e49561ce3
+    license: MIT for source code; per-file metadata for assets
+    role: hard-fork baseline
+  - name: RobustToolbox
+    repository: https://github.com/space-wizards/RobustToolbox
+    revision: edf061e7450a4074f173e3000bf1552b6f54082f
+    role: pinned engine submodule
+
+references:
+  # These projects informed design research. No code is imported from them in this vertical slice.
+  - https://github.com/Goob-Station/Goob-Station
+  - https://github.com/corvax-team/ss14-wl
+  - https://github.com/Sector-Crescent/Hullrot
+  - https://github.com/RMC-14/RMC-14
+  - https://github.com/Trauma-Station/Trauma-Station
+  - https://github.com/AU-14/ColonialMarinesUniverse
+  - https://github.com/Baystation12/Baystation12
+  - https://github.com/SierraBay/SierraBay12
+
+imports:
+  - name: Corvax WhiteList
+    repository: https://github.com/corvax-team/ss14-wl
+    revision: c328d80949ba8a1532e7786549ee484fa8adc98d
+    license: AGPL-3.0-or-later
+    paths:
+      - Resources/Locale/ru-RU
+    role: Russian localization baseline, aligned to current English keys and prototypes; incompatible entries use the English fallback

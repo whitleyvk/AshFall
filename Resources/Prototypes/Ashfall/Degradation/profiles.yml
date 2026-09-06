@@ -1,0 +1,42 @@
+- type: degradationProfile
+  id: AshfallDegradationAlpha
+  lowPopulationThreshold: 15
+  lowPopulationBudget: 3
+  standardBudget: 5
+  requiredTags:
+  - major
+  faults:
+  - id: lighting-failure
+    rule: AshfallDegradationLightingFailure
+    cost: 3
+    weight: 1
+    tags: [major, power]
+    incompatibleWith: [electrical-wear, neglected-structure]
+  - id: electrical-wear
+    rule: AshfallDegradationElectricalWear
+    cost: 3
+    weight: 1
+    tags: [major, power]
+    incompatibleWith: [lighting-failure, neglected-structure, limited-wire-faults]
+  - id: neglected-structure
+    rule: AshfallDegradationNeglectedStructure
+    cost: 3
+    weight: 1
+    tags: [major, habitation]
+    incompatibleWith: [lighting-failure, electrical-wear]
+  - id: solar-damage
+    rule: AshfallDegradationSolarDamage
+    cost: 2
+    weight: 1
+    tags: [power, recovery]
+  - id: limited-wire-faults
+    rule: AshfallDegradationLimitedWireFaults
+    cost: 1
+    weight: 1
+    tags: [power, maintenance]
+    incompatibleWith: [electrical-wear]
+  - id: maintenance-mess
+    rule: AshfallDegradationMaintenanceMess
+    cost: 1
+    weight: 1
+    tags: [habitation, cosmetic]

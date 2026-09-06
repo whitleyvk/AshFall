@@ -1,0 +1,26 @@
+- type: characterGenConstraints
+  id: ReptilianDefaultConstraints
+  species: Reptilian
+  hairPalette: HumanHairNatural
+  eyePalette: HumanEyesNatural
+  ageBrackets:
+    - minAge: 20
+      maxAge: 32
+      weight: 5.0
+    - minAge: 33
+      maxAge: 45
+      weight: 3.5
+    - minAge: 46
+      maxAge: 60
+      weight: 1.2
+    - minAge: 61
+      maxAge: 85
+      weight: 0.3
+  grayingChances:
+    - maxAge: 35
+      chance: 0.01
+    - maxAge: 50
+      chance: 0.05
+    - maxAge: 120
+      chance: 0.20
+
