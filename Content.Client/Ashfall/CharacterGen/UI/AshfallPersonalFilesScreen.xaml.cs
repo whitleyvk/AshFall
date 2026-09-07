@@ -1,5 +1,6 @@
 using System.Numerics;
 using System.Linq;
+using Ashfall.Client.Stylesheets;
 using Content.Client.Lobby.UI.ProfileEditorControls;
 using Content.Client.Players.PlayTimeTracking;
 using Content.Client.UserInterface.Controls;
@@ -10,6 +11,7 @@ using Content.Shared.Roles;
 using Content.Shared.StatusIcon;
 using Robust.Client.GameObjects;
 using Robust.Client.Graphics;
+using Robust.Client.ResourceManagement;
 using Robust.Client.UserInterface;
 using Robust.Client.UserInterface.Controls;
 using Robust.Client.UserInterface.CustomControls;
@@ -24,22 +26,22 @@ public sealed partial class AshfallPersonalFilesScreen : PanelContainer
     /// <summary>
     ///     Accent color shared with the generator's education tags.
     /// </summary>
-    private const string AccentColor = "#C8782E";
+    private const string AccentColor = AshfallDossierSectionControl.AccentColor;
 
     [Dependency] private IEntityManager _entMan = default!;
     [Dependency] private IGameTiming _timing = default!;
     [Dependency] private IPrototypeManager _prototypes = default!;
     [Dependency] private JobRequirementsManager _requirements = default!;
+    [Dependency] private IResourceCache _resCache = default!;
 
-    private BoxContainer LeftCardsContainer => this.FindControl<BoxContainer>("LeftCardsContainer");
-    private BoxContainer RightCardsContainer => this.FindControl<BoxContainer>("RightCardsContainer");
+    private GridContainer CandidatesGrid => this.FindControl<GridContainer>("CandidatesGrid");
     private BoxContainer DossierSections => this.FindControl<BoxContainer>("DossierSections");
     private GridContainer JobsGrid => this.FindControl<GridContainer>("JobsGrid");
     private Label AssignmentHeading => this.FindControl<Label>("AssignmentHeading");
     private ProfilePreviewSpriteView DossierPreview => this.FindControl<ProfilePreviewSpriteView>("DossierPreview");
     private Label DossierNameLabel => this.FindControl<Label>("DossierNameLabel");
     private Label DossierBioLabel => this.FindControl<Label>("DossierBioLabel");
-    private Label DossierCultureLabel => this.FindControl<Label>("DossierCultureLabel");
+    private RichTextLabel DossierCultureLabel => this.FindControl<RichTextLabel>("DossierCultureLabel");
     private Label DossierBirthplaceLabel => this.FindControl<Label>("DossierBirthplaceLabel");
     private Label DossierNumberLabel => this.FindControl<Label>("DossierNumberLabel");
     private Label DossierSelectionLabel => this.FindControl<Label>("DossierSelectionLabel");
@@ -49,12 +51,19 @@ public sealed partial class AshfallPersonalFilesScreen : PanelContainer
     private Label CooldownLabel => this.FindControl<Label>("CooldownLabel");
     private Label HeaderStatusLabel => this.FindControl<Label>("HeaderStatusLabel");
     private Button BackButton => this.FindControl<Button>("BackButton");
+    private TextureRect PortraitNoise => this.FindControl<TextureRect>("PortraitNoise");
 
     private readonly AshfallCharacterGenSystem _genSystem;
     private TimeSpan _cooldownEnd;
     private int _inspectedIndex = -1;
     private ProtoId<JobPrototype>? _draftJob;
     private bool _refreshPending;
+
+    // Retro CRT static cycling over the dossier portrait.
+    private Texture[]? _noiseFrames;
+    private bool _noiseBroken;
+    private float _noiseClock;
+    private int _noiseFrame;
 
     public event Action? BackToLobby;
     public event Action<int>? CandidateSelected;
@@ -71,6 +80,11 @@ public sealed partial class AshfallPersonalFilesScreen : PanelContainer
         ConfirmButton.OnPressed += OnConfirmPressed;
         _genSystem.PoolUpdated += Populate;
         _requirements.Updated += PopulateDossier;
+
+        // Anchor helpers only take effect under a LayoutContainer parent: both the portrait
+        // view and the noise overlay fill the same frame rect so the static covers it tightly.
+        LayoutContainer.SetAnchorPreset(DossierPreview, LayoutContainer.LayoutPreset.Wide);
+        LayoutContainer.SetAnchorPreset(PortraitNoise, LayoutContainer.LayoutPreset.Wide);
     }
 
     protected override void EnteredTree()
@@ -126,25 +140,42 @@ public sealed partial class AshfallPersonalFilesScreen : PanelContainer
 
     private void PopulateCards()
     {
-        LeftCardsContainer.RemoveAllChildren();
-        RightCardsContainer.RemoveAllChildren();
+        CandidatesGrid.RemoveAllChildren();
 
-        for (var i = 0; i < _genSystem.Candidates.Count; i++)
+        // Candidates 0..3 are human and 4..7 are non-human. Interleave the two groups in a
+        // grid so matching rows share their height while preserving the established columns.
+        const int columnSplit = 4;
+        var leftCount = Math.Min(columnSplit, _genSystem.Candidates.Count);
+        var rightCount = Math.Max(0, _genSystem.Candidates.Count - columnSplit);
+        var rows = Math.Max(leftCount, rightCount);
+
+        for (var row = 0; row < rows; row++)
         {
-            var card = new AshfallCandidateCard();
-            card.SetCandidate(i, _genSystem.Candidates[i], i == _inspectedIndex, i == _genSystem.SelectedIndex);
-            card.Inspected += index =>
+            AddCandidateCard(row < leftCount ? row : null);
+            AddCandidateCard(row < rightCount ? columnSplit + row : null);
+        }
+
+        void AddCandidateCard(int? index)
+        {
+            if (index is not { } candidateIndex)
             {
-                _inspectedIndex = index;
-                _draftJob = index == _genSystem.SelectedIndex ? _genSystem.SelectedJob : null;
+                CandidatesGrid.AddChild(new Control());
+                return;
+            }
+
+            var card = new AshfallCandidateCard();
+            card.SetCandidate(candidateIndex,
+                _genSystem.Candidates[candidateIndex],
+                candidateIndex == _inspectedIndex,
+                candidateIndex == _genSystem.SelectedIndex);
+            card.Inspected += inspectedIndex =>
+            {
+                _inspectedIndex = inspectedIndex;
+                _draftJob = inspectedIndex == _genSystem.SelectedIndex ? _genSystem.SelectedJob : null;
                 PopulateCards();
                 PopulateDossier();
             };
-
-            if (i < 4)
-                LeftCardsContainer.AddChild(card);
-            else
-                RightCardsContainer.AddChild(card);
+            CandidatesGrid.AddChild(card);
         }
     }
 
@@ -174,11 +205,17 @@ public sealed partial class AshfallPersonalFilesScreen : PanelContainer
             ? Loc.GetString(speciesProto.Name)
             : Loc.GetString("ashfall-personal-files-sex-other");
         DossierBioLabel.Text = Loc.GetString("ashfall-personal-files-dossier-bio", ("age", profile.Age), ("sex", sex), ("species", species));
-        DossierCultureLabel.Text = !string.IsNullOrEmpty(candidate.Dossier.Morphology)
-            ? $"МОРФОЛОГИЯ // {candidate.Dossier.Morphology}  •  КУЛЬТУРНАЯ ЛИНИЯ // {candidate.Dossier.CulturalOrigin}"
+        // RichTextLabel: muted color via markup, the line wraps instead of clipping.
+        // Markup collapses runs of regular spaces, so the visual padding is non-breaking.
+        var cultureGap = new string('\u00A0', 2);
+        var cultureLine = !string.IsNullOrEmpty(candidate.Dossier.Morphology)
+            ? $"МОРФОЛОГИЯ // {candidate.Dossier.Morphology}{cultureGap}•{cultureGap}КУЛЬТУРНАЯ ЛИНИЯ // {candidate.Dossier.CulturalOrigin}"
             : (!string.IsNullOrEmpty(candidate.Dossier.CulturalOrigin)
                 ? $"КУЛЬТУРНАЯ ЛИНИЯ // {candidate.Dossier.CulturalOrigin}"
                 : string.Empty);
+        DossierCultureLabel.Text = string.IsNullOrEmpty(cultureLine)
+            ? string.Empty
+            : $"[color=#878C87]{cultureLine}[/color]";
         DossierBirthplaceLabel.Text = !string.IsNullOrEmpty(candidate.Dossier.Birthplace)
             ? $"МЕСТО РОЖДЕНИЯ // {candidate.Dossier.Birthplace}"
             : string.Empty;
@@ -188,15 +225,20 @@ public sealed partial class AshfallPersonalFilesScreen : PanelContainer
             : string.Empty;
 
         DossierSections.RemoveAllChildren();
-        // Pin the wrap width to the section area's ACTUAL arranged width: the RichTextLabel's
-        // measure width must match its arrange width exactly, or a soft-wrapped line outgrows
-        // its plate (the clipped second line). The pool arrives after the screen is arranged,
-        // so the section area already knows its real width.
-        var sectionWidth = DossierSections.PixelSize.X / UIScale;
-        var textWidth = sectionWidth > 120f ? sectionWidth - 16f : 800f;
 
-        foreach (var section in candidate.Dossier.Sections)
-            AddDossierSection(section, textWidth);
+        var previousGroup = -1;
+        foreach (var section in MergeQualificationsIntoEducation(OrderSectionsForReading(candidate.Dossier.Sections)))
+        {
+            if (section.Kind is "evaluation" or "precryo" or "cryo")
+                continue;
+
+            // Extra vertical air before each new semantic group (person / training / archive)
+            // must be REAL layout margin: ExpandMargin draws the plate outside its layout slot
+            // and the next plate's text overlaps it (the measure/arrange race).
+            var group = SectionGroupRank(section.Kind);
+            AddDossierSection(section, groupStart: previousGroup != -1 && group != previousGroup);
+            previousGroup = group;
+        }
 
         JobsGrid.RemoveAllChildren();
         // A lone assignment reads better across the full row than half of it.
@@ -217,9 +259,10 @@ public sealed partial class AshfallPersonalFilesScreen : PanelContainer
                 HorizontalExpand = true,
                 MinHeight = 32,
             };
-            button.StyleClasses.Add("AshfallSecondaryAction");
+            // Assignment rows behave like list items: quiet surface, selected = orange border.
+            button.StyleClasses.Add(AshfallStylesheet.ListItemClass);
             if (selected)
-                button.Modulate = Color.FromHex("#C8782E");
+                button.StyleClasses.Add(AshfallStylesheet.ListItemSelectedClass);
 
             var buttonContent = new BoxContainer
             {
@@ -269,7 +312,7 @@ public sealed partial class AshfallPersonalFilesScreen : PanelContainer
             JobsGrid.AddChild(new Label
             {
                 Text = Loc.GetString("ashfall-personal-files-no-jobs"),
-                FontColorOverride = Color.FromHex("#B35B52"),
+                FontColorOverride = Color.FromHex("#B0574C"),
             });
         }
 
@@ -280,53 +323,77 @@ public sealed partial class AshfallPersonalFilesScreen : PanelContainer
         ConfirmButton.Disabled = _draftJob == null;
     }
 
-    private void AddDossierSection(AshfallDossierSection section, float textWidth)
+    // Presentation order only; the shared dossier DTO keeps its generation order.
+    // person (origin, character, open question) -> training (education, experience, review) -> archive (cryo).
+    private static int SectionGroupRank(string kind) => kind switch
+    {
+        "origin" or "personality" or "hook" => 0,
+        "education" or "qualification" or "career" or "evaluation" => 1,
+        _ => 2,
+    };
+
+    private static IEnumerable<AshfallDossierSection> OrderSectionsForReading(IEnumerable<AshfallDossierSection> sections)
+    {
+        return sections
+            .Select((section, index) => (section, index))
+            .OrderBy(pair => SectionGroupRank(pair.section.Kind))
+            .ThenBy(pair => pair.index)
+            .Select(pair => pair.section);
+    }
+
+    // «Образование» reads as one plate: qualification rows fold into it as extra lines with
+    // the same amber-title dash style. Presentation only — the shared dossier DTO keeps its
+    // own separate sections, and a dossier without an education section falls back to plates.
+    private static List<AshfallDossierSection> MergeQualificationsIntoEducation(IEnumerable<AshfallDossierSection> sections)
+    {
+        var result = new List<AshfallDossierSection>();
+        var folded = new List<string>();
+        var seenTitles = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        var educationIndex = -1;
+
+        foreach (var section in sections)
+        {
+            if (section.Kind == "education")
+            {
+                educationIndex = result.Count;
+                result.Add(section);
+            }
+            else if (section.Kind == "qualification" && section.Lines.Count > 0)
+            {
+                var title = section.Title.Trim();
+                if (seenTitles.Add(title))
+                {
+                    folded.Add($"[color={AccentColor}]{title}[/color] — {section.Lines[0].Trim()}");
+                }
+            }
+            else
+            {
+                result.Add(section);
+            }
+        }
+
+        if (educationIndex >= 0 && folded.Count > 0)
+        {
+            var education = result[educationIndex];
+            var lines = new List<string>(education.Lines);
+            lines.AddRange(folded);
+            result[educationIndex] = new AshfallDossierSection
+            {
+                Kind = education.Kind,
+                Title = education.Title,
+                Lines = lines,
+            };
+        }
+
+        return result;
+    }
+
+    private void AddDossierSection(AshfallDossierSection section, bool groupStart = false)
     {
         if (section.Lines.Count == 0)
             return;
 
-        // Every section sits on its own subtle plate; qualifications are compact single rows.
-        var plate = new PanelContainer
-        {
-            PanelOverride = new StyleBoxFlat
-            {
-                BackgroundColor = Color.FromHex("#1A1F24"),
-                ContentMarginTopOverride = 4,
-                ContentMarginBottomOverride = 5,
-            },
-            HorizontalExpand = true,
-        };
-
-        var box = new BoxContainer
-        {
-            Orientation = BoxContainer.LayoutOrientation.Vertical,
-            SeparationOverride = 3,
-            Margin = new Thickness(8, 0),
-        };
-
-        if (section.Kind == "qualification")
-        {
-            // Text setter parses markup; SetMessage(string) renders it literally.
-            var row = new RichTextLabel { SetWidth = textWidth, HorizontalExpand = true };
-            row.Text = $"[color={AccentColor}]{section.Title}[/color] — {section.Lines[0]}";
-            box.AddChild(row);
-        }
-        else
-        {
-            var header = new RichTextLabel { HorizontalExpand = true };
-            header.Text = $"[color={AccentColor}]▸[/color] [color=#C7CDD4]{section.Title}[/color]";
-            box.AddChild(header);
-
-            // Work history renders as a bullet list; other multi-line sections (education) as
-            // plain stacked lines.
-            var text = section.Lines.Count > 1
-                ? string.Join("\n", section.Lines.Select(line => (section.Kind == "career" ? "• " : "") + line))
-                : section.Lines[0];
-            box.AddChild(new RichTextLabel { SetWidth = textWidth, Text = text, HorizontalExpand = true });
-        }
-
-        plate.AddChild(box);
-        DossierSections.AddChild(plate);
+        DossierSections.AddChild(new AshfallDossierSectionControl(section, groupStart));
     }
 
     private string GetJobName(ProtoId<JobPrototype>? id)
@@ -340,6 +407,42 @@ public sealed partial class AshfallPersonalFilesScreen : PanelContainer
     {
         base.FrameUpdate(args);
         UpdateCooldownUi();
+        UpdatePortraitNoise(args);
+    }
+
+    private void UpdatePortraitNoise(FrameEventArgs args)
+    {
+        if (_noiseBroken)
+            return;
+
+        if (_noiseFrames == null)
+        {
+            // Purely decorative: if the frames are unavailable (e.g. a stale content pack),
+            // degrade to no overlay instead of throwing from FrameUpdate every frame.
+            var frames = new List<Texture>();
+            for (var i = 0; i < 3; i++)
+            {
+                if (_resCache.TryGetResource<TextureResource>($"/Textures/Interface/Ashfall/noise-{i}.png", out var res))
+                    frames.Add(res.Texture);
+            }
+
+            if (frames.Count == 0)
+            {
+                _noiseBroken = true;
+                return;
+            }
+
+            _noiseFrames = frames.ToArray();
+            PortraitNoise.Texture = _noiseFrames[0];
+        }
+
+        _noiseClock += args.DeltaSeconds;
+        if (_noiseClock < 0.13f)
+            return;
+
+        _noiseClock = 0;
+        _noiseFrame = (_noiseFrame + 1) % _noiseFrames.Length;
+        PortraitNoise.Texture = _noiseFrames[_noiseFrame];
     }
 
     private void UpdateCooldownUi()
@@ -367,8 +470,7 @@ public sealed partial class AshfallPersonalFilesScreen : PanelContainer
     {
         base.ExitedTree();
         DossierPreview.ClearPreview();
-        LeftCardsContainer.RemoveAllChildren();
-        RightCardsContainer.RemoveAllChildren();
+        CandidatesGrid.RemoveAllChildren();
     }
 
     protected override void Dispose(bool disposing)

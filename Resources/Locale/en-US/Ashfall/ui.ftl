@@ -21,7 +21,7 @@ ashfall-character-setup-records-heading = PERSONNEL RECORDS
 ashfall-options-title = Settings
 
 ashfall-personal-files-title = PERSONNEL ARCHIVE // ASHEN INDUSTRIAL CRYOSTORAGE
-ashfall-personal-files-subtitle = Personnel records were recovered for employees in cryostorage. Review a file, choose an assignment, and confirm awakening.
+ashfall-personal-files-subtitle = Select an employee and confirm their assignment.
 ashfall-personal-files-status = STATUS: ACTIVE FILES
 ashfall-personal-files-refreshes-left = REFRESHES LEFT: { $count }
 ashfall-personal-files-refresh = REQUEST DIFFERENT PERSONNEL FILES

@@ -8,9 +8,9 @@ game-ticker-delay-start = Начало раунда было отложено н
 game-ticker-pause-start = Начало раунда было приостановлено.
 game-ticker-pause-start-resumed = Отсчёт начала раунда возобновлён.
 game-ticker-player-join-game-message = Добро пожаловать на Космическую Станцию 14! Если вы играете впервые, обязательно нажмите ESC на клавиатуре и прочитайте правила игры, а также не бойтесь просить помощи в "Админ помощь".
-game-ticker-get-info-text = [color=#8E969C]Смена:[/color] [color=#D5D9DC]#{ $roundId }[/color]  [color=#454B50]|[/color]  [color=#8E969C]Персонал:[/color] [color=#D5D9DC]{ $playerCount }[/color]  [color=#454B50]|[/color]  [color=#8E969C]Объект:[/color] [color=#D5D9DC]{ $mapName }[/color]
-game-ticker-get-info-preround-text = [color=#8E969C]Смена:[/color] [color=#D5D9DC]#{ $roundId }[/color]  [color=#454B50]|[/color]  [color=#8E969C]Персонал:[/color] [color=#D5D9DC]{ $playerCount }[/color] ([color=#3F817B]{ $readyCount } к смене[/color])  [color=#454B50]|[/color]  [color=#8E969C]Объект:[/color] [color=#D5D9DC]{ $mapName }[/color]
-game-ticker-no-map-selected = [color=#8E969C]///[/color]
+game-ticker-get-info-text = [color=#6B6E6B]Смена:[/color] [color=#A3A8A3]#{ $roundId }[/color]  [color=#3D3F42]|[/color]  [color=#6B6E6B]Персонал:[/color] [color=#A3A8A3]{ $playerCount }[/color]  [color=#3D3F42]|[/color]  [color=#6B6E6B]Объект:[/color] [color=#A3A8A3]{ $mapName }[/color]
+game-ticker-get-info-preround-text = [color=#6B6E6B]Смена:[/color] [color=#A3A8A3]#{ $roundId }[/color]  [color=#3D3F42]|[/color]  [color=#6B6E6B]Персонал:[/color] [color=#A3A8A3]{ $playerCount }[/color] ([color=#5E8B82]{ $readyCount } к смене[/color])  [color=#3D3F42]|[/color]  [color=#6B6E6B]Объект:[/color] [color=#A3A8A3]{ $mapName }[/color]
+game-ticker-no-map-selected = [color=#6B6E6B]///[/color]
 game-ticker-player-no-jobs-available-when-joining = При попытке присоединиться к игре ни одной роли не было доступно.
 
 # Displayed in chat to admins when a player joins

@@ -44,7 +44,9 @@ see_own_notes = true
 new_player_threshold = 120
 
 [ic]
-random_characters = true
+# Ashfall characters come from the candidate pool generator; randomizing
+# species/name at spawn would discard the selected candidate entirely.
+random_characters = false
 random_species_weights = ""
 ssd_sleep_time = 3600
 

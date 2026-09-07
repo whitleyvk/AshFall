@@ -3,30 +3,30 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="clr-namespace:Content.Client.UserInterface.Controls"
     xmlns:profile="clr-namespace:Content.Client.Lobby.UI.ProfileEditorControls">
-    <PanelContainer StyleClasses="AshfallPanelDeep">
-        <BoxContainer Name="VBox" Orientation="Vertical" Margin="8" SeparationOverride="6">
-            <BoxContainer Orientation="Horizontal">
-                <Label Text="{Loc 'ashfall-character-setup-file-title'}" StyleClasses="AshfallSectionHeader" HorizontalExpand="True" />
+    <PanelContainer StyleClasses="AshfallLobbyHeader">
+        <BoxContainer Name="VBox" Orientation="Vertical" SeparationOverride="4">
+            <BoxContainer Orientation="Horizontal" MinHeight="22">
+                <Label Text="{Loc 'ashfall-character-setup-file-title'}" StyleClasses="AshfallSectionHeader" FontColorOverride="#A3A8A3" HorizontalExpand="True" />
                 <Label Text="{Loc 'ashfall-character-setup-status'}" StyleClasses="AshfallStatus" />
             </BoxContainer>
             <controls:HLine StyleClasses="highlight" Thickness="1" />
-            <BoxContainer Name="Loaded" Orientation="Horizontal" SeparationOverride="12" Visible="False" Margin="4 2">
-                <PanelContainer StyleClasses="AshfallPanel">
-                    <BoxContainer Name="ViewBox" Orientation="Horizontal" HorizontalAlignment="Center" Margin="4">
+            <BoxContainer Name="Loaded" Orientation="Horizontal" SeparationOverride="10" Visible="False">
+                <PanelContainer StyleClasses="AshfallLobbyInset">
+                    <BoxContainer Name="ViewBox" Orientation="Horizontal" HorizontalAlignment="Center">
                         <profile:ProfilePreviewSpriteView Name="ProfilePreviewSpriteView"
                                                           OverrideDirection="South"
-                                                          Scale="3 3"
-                                                          MaxSize="96 96"
+                                                          MinSize="92 88"
+                                                          SetSize="92 88"
                                                           Stretch="Fill"
                                                           Access="Public" />
                     </BoxContainer>
                 </PanelContainer>
-                <BoxContainer Orientation="Vertical" VerticalAlignment="Center" HorizontalExpand="True" SeparationOverride="6">
-                    <Label Name="Summary" StyleClasses="AshfallTerminalHeader" />
+                <BoxContainer Orientation="Vertical" HorizontalExpand="True" SeparationOverride="5">
+                    <Label Name="Summary" StyleClasses="AshfallTerminalHeader" VAlign="Center" VerticalExpand="True" />
                     <Button Name="PersonalFilesButton"
                             Text="ЛИЧНЫЕ ДЕЛА"
-                            StyleClasses="AshfallPrimaryAction"
-                            MinHeight="32"
+                            StyleClasses="AshfallAccentAction"
+                            MinHeight="30"
                             Access="Public" />
                     <Button Name="CharacterSetup" Visible="False" Access="Public" />
                 </BoxContainer>

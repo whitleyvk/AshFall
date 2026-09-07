@@ -4,7 +4,7 @@ ashfall-main-menu-status-connecting = Подключение...
 
 ashfall-lobby-terminal-title = ASHFALL
 ashfall-lobby-audio-heading = АУДИОСИСТЕМА
-ashfall-lobby-chat-heading = КАНАЛ СВЯЗИ
+ashfall-lobby-chat-heading = ЧАТ
 ashfall-lobby-background-title = Ashfall
 ashfall-lobby-background-artist = команда проекта Ashfall
 ashfall-lobby-ready-action = Готов к смене
@@ -21,7 +21,7 @@ ashfall-character-setup-records-heading = ЛИЧНЫЕ ДЕЛА
 ashfall-options-title = Настройки
 
 ashfall-personal-files-title = АРХИВ СОТРУДНИКОВ // КРИОХРАНИЛИЩЕ ASHEN INDUSTRIAL
-ashfall-personal-files-subtitle = Восстановлены личные дела сотрудников в криохранилище. Просмотрите дело, выберите назначение и подтвердите пробуждение.
+ashfall-personal-files-subtitle = Выберите сотрудника и подтвердите назначение на смену.
 ashfall-personal-files-status = СТАТУС: АКТИВНЫЕ ДЕЛА
 ashfall-personal-files-refreshes-left = ОСТАЛОСЬ ОБНОВЛЕНИЙ: { $count }
 ashfall-personal-files-refresh = ЗАПРОСИТЬ ДРУГИЕ ЛИЧНЫЕ ДЕЛА

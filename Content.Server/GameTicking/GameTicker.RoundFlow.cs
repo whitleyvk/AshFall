@@ -388,7 +388,12 @@ namespace Content.Server.GameTicking
 
                 readyPlayers.Add(session);
                 HumanoidCharacterProfile profile;
-                if (_prefsManager.TryGetCachedPreferences(userId, out var preferences))
+                if (EntityManager.TrySystem<Ashfall.CharacterGen.AshfallCharacterPoolSystem>(out var ashfallPool) &&
+                    ashfallPool.TryGetSelectedProfile(userId, out var ashfallProfile))
+                {
+                    profile = ashfallProfile;
+                }
+                else if (_prefsManager.TryGetCachedPreferences(userId, out var preferences))
                 {
                     profile = (HumanoidCharacterProfile)preferences.SelectedCharacter;
                 }

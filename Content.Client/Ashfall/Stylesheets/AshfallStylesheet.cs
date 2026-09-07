@@ -15,6 +15,13 @@ public sealed class AshfallStylesheet : NanotrasenStylesheet
 {
     public const string PanelClass = "AshfallPanel";
     public const string PanelDeepClass = "AshfallPanelDeep";
+    public const string HeaderPanelClass = "AshfallHeaderPanel";
+    public const string LobbyPanelClass = "AshfallLobbyPanel";
+    public const string LobbyInsetClass = "AshfallLobbyInset";
+    public const string LobbyHeaderClass = "AshfallLobbyHeader";
+    public const string LobbyChatPanelClass = "AshfallLobbyChatPanel";
+    public const string ListItemClass = "AshfallListItem";
+    public const string ListItemSelectedClass = "AshfallListItemSelected";
     public const string TerminalHeaderClass = "AshfallTerminalHeader";
     public const string SectionHeaderClass = "AshfallSectionHeader";
     public const string StatusClass = "AshfallStatus";
@@ -22,19 +29,27 @@ public sealed class AshfallStylesheet : NanotrasenStylesheet
     public const string WarningClass = "AshfallWarning";
     public const string PrimaryActionClass = "AshfallPrimaryAction";
     public const string SecondaryActionClass = "AshfallSecondaryAction";
+    public const string AccentActionClass = "AshfallAccentAction";
+    public const string ReadyActionClass = "AshfallReadyAction";
     public const string NavigationActionClass = "AshfallNavigationAction";
     public const string UtilityActionClass = "AshfallUtilityAction";
     public const string DestructiveActionClass = "AshfallDestructiveAction";
 
-    public static readonly Color Background = Color.FromHex("#151719");
-    public static readonly Color Panel = Color.FromHex("#202427");
-    public static readonly Color PanelDeep = Color.FromHex("#111315");
-    public static readonly Color Border = Color.FromHex("#454B50");
-    public static readonly Color Text = Color.FromHex("#D5D9DC");
-    public static readonly Color MutedText = Color.FromHex("#8E969C");
-    public static readonly Color Teal = Color.FromHex("#3F817B");
-    public static readonly Color Orange = Color.FromHex("#C8782E");
-    public static readonly Color Error = Color.FromHex("#A64D47");
+    // Color calibration, "dead matrix" (2026-09-07): void background, cold cheap plastic
+    // panels, recessed screen-inner surfaces, sickly phosphor text, LED amber accents.
+    public static readonly Color Background = Color.FromHex("#151617");
+    public static readonly Color Panel = Color.FromHex("#2E3033");
+    public static readonly Color PanelDeep = Color.FromHex("#151617");
+    public static readonly Color Border = Color.FromHex("#43464B");
+    public static readonly Color Text = Color.FromHex("#A3A8A3");
+    public static readonly Color MutedText = Color.FromHex("#878C87");
+    public static readonly Color DisabledText = Color.FromHex("#545654");
+    public static readonly Color SelectedSurface = Color.FromHex("#241E17");
+    public static readonly Color PrimaryAmber = Color.FromHex("#D48944");
+    public static readonly Color SelectedBorder = Color.FromHex("#D48944");
+    public static readonly Color Teal = Color.FromHex("#5E8B82");
+    public static readonly Color Orange = Color.FromHex("#D48944");
+    public static readonly Color Error = Color.FromHex("#B0574C");
 
     public override string StylesheetName => "Ashfall";
     public new static readonly ResPath TextureRoot = new("/Textures/Interface/Ashfall");
@@ -45,15 +60,15 @@ public sealed class AshfallStylesheet : NanotrasenStylesheet
     };
 
     public override ColorPalette PrimaryPalette =>
-        ColorPalette.FromHexBase("#343A3E", element: Color.FromHex("#343A3E"), background: Background, text: Text);
+        ColorPalette.FromHexBase("#3D3F42", element: Color.FromHex("#3D3F42"), background: Background, text: Text);
     public override ColorPalette SecondaryPalette =>
-        ColorPalette.FromHexBase("#2B3034", element: Color.FromHex("#2B3034"), background: Panel, text: Text);
+        ColorPalette.FromHexBase("#2A2C2E", element: Color.FromHex("#2A2C2E"), background: Panel, text: Text);
     public override ColorPalette PositivePalette =>
-        ColorPalette.FromHexBase("#3F817B", element: Teal, background: Color.FromHex("#182725"), text: Teal);
+        ColorPalette.FromHexBase("#5E8B82", element: Teal, background: Color.FromHex("#18211F"), text: Teal);
     public override ColorPalette NegativePalette =>
-        ColorPalette.FromHexBase("#A64D47", element: Error, background: Color.FromHex("#2B1918"), text: Error);
+        ColorPalette.FromHexBase("#B0574C", element: Error, background: Color.FromHex("#2B1918"), text: Error);
     public override ColorPalette HighlightPalette =>
-        ColorPalette.FromHexBase("#C8782E", element: Orange, background: Color.FromHex("#2A2118"), text: Orange);
+        ColorPalette.FromHexBase("#D48944", element: Orange, background: Color.FromHex("#29211A"), text: Orange);
 
     public AshfallStylesheet(object config, StylesheetManager manager) : base(config, manager)
     {

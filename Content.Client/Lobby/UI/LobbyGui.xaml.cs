@@ -27,6 +27,8 @@ namespace Content.Client.Lobby.UI
                     button.AddStyleClass(AshfallStylesheet.NavigationActionClass);
             }
 
+            Chat.ChatWindowPanel.AddStyleClass(AshfallStylesheet.LobbyChatPanelClass);
+
             LobbySong.SetMarkup(Loc.GetString("lobby-state-song-no-song-text"));
 
             LeaveButton.OnPressed += _ => _consoleHost.ExecuteCommand("disconnect");
@@ -38,28 +40,17 @@ namespace Content.Client.Lobby.UI
 
         public void SwitchState(LobbyGuiState state)
         {
-            DefaultState.Visible = false;
-            CharacterSetupState.Visible = false;
+            // The personal files screen is a full-screen overlay above the lobby column,
+            // so the column itself never has to move or hide for it.
+            CharacterSetupState.Visible = state == LobbyGuiState.CharacterSetup;
 
             switch (state)
             {
                 case LobbyGuiState.Default:
-                    DefaultState.Visible = true;
                     RightSide.Visible = true;
                     break;
                 case LobbyGuiState.CharacterSetup:
-                    CharacterSetupState.Visible = true;
-
-                    var actualWidth = (float) UserInterfaceManager.RootControl.PixelWidth;
-                    var setupWidth = (float) LeftSide.PixelWidth;
-
-                    if (1 - (setupWidth / actualWidth) > 0.30)
-                    {
-                        RightSide.Visible = false;
-                    }
-
                     UserInterfaceManager.GetUIController<LobbyUIController>().ReloadCharacterSetup();
-
                     break;
             }
         }

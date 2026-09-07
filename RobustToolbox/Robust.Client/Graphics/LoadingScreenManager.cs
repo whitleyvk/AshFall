@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using Robust.Client.ResourceManagement;
 using Robust.Client.UserInterface;
 using Robust.Shared;
@@ -200,12 +201,13 @@ internal sealed partial class LoadingScreenManager : ILoadingScreenManager
 
         var scale = UserInterfaceManager.CalculateUIScale(_clyde.MainWindow.ContentScale.X, _cfg);
 
-        // Start at the center!
-        var location = screenSize / 2;
+        var hasSplash = DrawSplash(handle, screenSize, scale);
 
-        DrawSplash(handle, ref location, scale);
+        var location = hasSplash
+            ? new Vector2i(screenSize.X / 2, screenSize.Y - (int)(70 * scale))
+            : screenSize / 2;
 
-        DrawLoadingBar(handle, ref location, scale);
+        DrawLoadingBar(handle, ref location, scale, !hasSplash);
 
         if (_showDebug)
         {
@@ -215,21 +217,27 @@ internal sealed partial class LoadingScreenManager : ILoadingScreenManager
         }
     }
 
-    private void DrawSplash(IRenderHandle handle, ref Vector2i startLocation, float scale)
+    private bool DrawSplash(IRenderHandle handle, Vector2i screenSize, float scale)
     {
         if (string.IsNullOrEmpty(_splashLogo))
-            return;
+            return false;
 
         if (!_resourceCache.TryGetResource<TextureResource>(_splashLogo, out var textureResource))
-            return;
+            return false;
 
-        var drawSize = textureResource.Texture.Size * scale;
+        var texture = textureResource.Texture;
+        if (texture.Size.X <= 0 || texture.Size.Y <= 0)
+            return false;
 
-        handle.DrawingHandleScreen.DrawTextureRect(textureResource.Texture, UIBox2.FromDimensions(startLocation - drawSize / 2, drawSize));
-        startLocation += Vector2i.Up * (int)drawSize.Y / 2;
+        var coverScale = MathF.Max((float)screenSize.X / texture.Size.X, (float)screenSize.Y / texture.Size.Y);
+        var drawSize = new Vector2(texture.Size.X * coverScale, texture.Size.Y * coverScale);
+        var screenCenter = (Vector2)screenSize / 2f;
+
+        handle.DrawingHandleScreen.DrawTextureRect(texture, UIBox2.FromDimensions(screenCenter - drawSize / 2f, drawSize));
+        return true;
     }
 
-    private void DrawLoadingBar(IRenderHandle handle, ref Vector2i location, float scale)
+    private void DrawLoadingBar(IRenderHandle handle, ref Vector2i location, float scale, bool applyLogoOffset = true)
     {
         var barWidth = (int)(LoadingBarWidth * scale);
         var barHeight = (int)(LoadingBarHeight * scale);
@@ -237,7 +245,8 @@ internal sealed partial class LoadingScreenManager : ILoadingScreenManager
 
         // Always do the offsets, it looks a lot better!
         location.X -= barWidth / 2;
-        location += (Vector2i)(LogoLoadingBarOffset * scale);
+        if (applyLogoOffset)
+            location += (Vector2i)(LogoLoadingBarOffset * scale);
 
         if (!_showLoadingBar)
             return;

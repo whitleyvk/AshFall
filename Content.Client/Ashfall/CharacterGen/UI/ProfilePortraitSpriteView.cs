@@ -23,6 +23,12 @@ public sealed class ProfilePortraitSpriteView : ProfilePreviewSpriteView
     [ViewVariables(VVAccess.ReadWrite)]
     public float PortraitFraction { get; set; } = 0.5f;
 
+    [ViewVariables(VVAccess.ReadWrite)]
+    public float VerticalOffset { get; set; }
+
+    [ViewVariables(VVAccess.ReadWrite)]
+    public float HorizontalOffset { get; set; }
+
     private EntityUid? _boundsDummy;
     private Box2 _lastBounds;
 
@@ -56,7 +62,7 @@ public sealed class ProfilePortraitSpriteView : ProfilePreviewSpriteView
 
         var ppm = EyeManager.PixelsPerMeter;
 
-        // Zoom so that the top PortraitFraction of the body fills the control height.
+        // Keep the portrait crop fixed by height so every dossier uses the same close framing.
         var zoom = PixelSize.Y / (ppm * UIScale * bounds.Height * PortraitFraction);
         var scale = new Vector2(zoom, zoom);
 
@@ -65,8 +71,8 @@ public sealed class ProfilePortraitSpriteView : ProfilePreviewSpriteView
         // clipped by the control. Anchoring via the box top (not via height/2) keeps the head in
         // place even when gear shifts the bounding box.
         var position = new Vector2(
-            PixelSize.X / 2f - bounds.Center.X * ppm * zoom * UIScale,
-            bounds.Top * ppm * zoom * UIScale);
+            PixelSize.X / 2f - bounds.Center.X * ppm * zoom * UIScale + HorizontalOffset * UIScale,
+            VerticalOffset * UIScale + bounds.Top * ppm * zoom * UIScale);
 
         var world = renderHandle.DrawingHandleWorld;
         var oldModulate = world.Modulate;

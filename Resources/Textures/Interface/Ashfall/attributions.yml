@@ -1,0 +1,13 @@
+- files:
+  - "Source/Metal009_1K_Color.jpg"
+  license: "CC0"
+  copyright: "ambientCG (Metal009)"
+- files:
+  - "panel-frame.png"
+  - "panel-frame-deep.png"
+  - "header-rust.png"
+  - "noise-0.png"
+  - "noise-1.png"
+  - "noise-2.png"
+  license: "CC-BY-SA-4.0"
+  copyright: "ASHFALL project UI textures (procedural / processed)"

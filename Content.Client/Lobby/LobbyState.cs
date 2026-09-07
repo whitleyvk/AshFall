@@ -128,14 +128,14 @@ namespace Content.Client.Lobby
             {
                 Lobby!.StartTime.Text = string.Empty;
                 var roundTime = _gameTiming.CurTime.Subtract(_gameTicker.RoundStartTimeSpan);
-                Lobby!.StationTime.Text = Loc.GetString("lobby-state-player-status-round-time", ("hours", roundTime.Hours), ("minutes", roundTime.Minutes));
+                Lobby!.StationTime.SetMarkup(Loc.GetString("lobby-state-player-status-round-time", ("hours", roundTime.Hours), ("minutes", roundTime.Minutes)));
                 return;
             }
 
             if (_entityManager.TrySystem<Ashfall.CharacterGen.AshfallCharacterGenSystem>(out var ashfallGen))
                 Lobby!.ReadyButton.Disabled = ashfallGen.SelectedCandidate == null || ashfallGen.SelectedJob == null;
 
-            Lobby!.StationTime.Text = Loc.GetString("lobby-state-player-status-round-not-started");
+            Lobby!.StationTime.SetMarkup(Loc.GetString("lobby-state-player-status-round-not-started"));
             string text;
 
             if (_gameTicker.Paused)
@@ -270,7 +270,7 @@ namespace Content.Client.Lobby
             else
             {
                 Lobby!.Background.Texture = _resourceCache.GetResource<TextureResource>(
-                    "/Textures/Ashfall/UI/main-menu-splash.png");
+                    "/Textures/Ashfall/UI/lobby-art.png");
 
                 Lobby!.LobbyBackground.SetMarkup(Loc.GetString("lobby-state-background-no-background-text"));
             }

@@ -9,102 +9,104 @@
     <PanelContainer StyleClasses="AshfallPanelDeep"
                     HorizontalExpand="True" VerticalExpand="True" />
     <TextureRect Name="Background" Access="Public"
+                 Stretch="KeepAspectCovered"
                  HorizontalExpand="True" VerticalExpand="True" />
 
     <BoxContainer Name="MainContainer" Access="Public" Orientation="Horizontal"
                   HorizontalExpand="True" VerticalExpand="True"
                   Margin="16" SeparationOverride="10">
-        <BoxContainer Name="LeftSide" Orientation="Vertical"
-                      HorizontalExpand="True" VerticalExpand="True" SeparationOverride="8">
-                <BoxContainer Name="DefaultState" Orientation="Vertical" VerticalExpand="True">
-                    <PanelContainer Name="LeftSideTop" StyleClasses="AshfallPanel">
-                        <BoxContainer Orientation="Vertical" Margin="10" SeparationOverride="8">
-                            <BoxContainer Orientation="Horizontal">
-                                <Label Text="{Loc 'ashfall-lobby-terminal-title'}"
-                                       StyleClasses="AshfallTerminalHeader"
-                                       HorizontalExpand="True" />
-                                <Label Name="StartTime" Access="Public" VAlign="Center"
-                                       StyleClasses="AshfallStatus" />
-                            </BoxContainer>
-                            <controls:HLine StyleClasses="highlight" Thickness="1" />
-                            <info:LinkBanner Name="LinkBanner" VerticalExpand="False"
-                                             HorizontalExpand="True" />
-                            <controls:HLine StyleClasses="highlight" Thickness="1" />
-                            <BoxContainer Orientation="Horizontal" SeparationOverride="10">
-                                <Button Name="ReadyButton" Access="Public" ToggleMode="True"
-                                        Text="{Loc 'ui-lobby-ready-up-button'}"
-                                        StyleClasses="AshfallPrimaryAction" HorizontalExpand="True" MinHeight="44" />
-                                <cc:UICommandButton Command="observe" Name="ObserveButton" Access="Public"
-                                                    Text="{Loc 'ashfall-lobby-observe-action'}"
-                                                    StyleClasses="AshfallSecondaryAction"
-                                                    MinWidth="180" MinHeight="44"
-                                                    WindowType="{x:Type lobbyUi:ObserveWarningWindow}" />
-                            </BoxContainer>
-                            <RichTextLabel Name="PlaytimeComment" Visible="False" Access="Public"
-                                           HorizontalAlignment="Center" />
-                        </BoxContainer>
-                    </PanelContainer>
-
-                    <BoxContainer Name="VoteContainer" Access="Public" Orientation="Vertical"
-                                  SeparationOverride="4" Margin="0 6" />
-                    <Control VerticalExpand="True" />
-
-                    <BoxContainer Orientation="Vertical" SeparationOverride="4">
-                        <info:DevInfoBanner Name="DevInfoBanner" VerticalExpand="False" />
-                        <PanelContainer StyleClasses="AshfallPanel">
-                            <BoxContainer Orientation="Vertical" Margin="8">
-                                <Label Text="{Loc 'ashfall-lobby-audio-heading'}"
-                                       StyleClasses="AshfallSectionHeader" />
-                                <RichTextLabel Name="LobbySong" Access="Public" />
-                                <RichTextLabel Name="LobbyBackground" Access="Public" Visible="False" />
-                            </BoxContainer>
-                        </PanelContainer>
-                    </BoxContainer>
-                </BoxContainer>
-
-                <Control Name="CharacterSetupState" Access="Public" Visible="False" VerticalExpand="True" />
-        </BoxContainer>
-
-        <PanelContainer Name="RightSide" Access="Public" StyleClasses="AshfallPanel"
+        <!-- Spacer pins the UI column to the right edge; the left side stays open for the art. -->
+        <Control HorizontalExpand="True" />
+        <PanelContainer Name="RightSide" Access="Public" StyleClasses="AshfallLobbyPanel"
                         MinWidth="650" VerticalExpand="True">
-                <BoxContainer Orientation="Vertical" Margin="10" SeparationOverride="8">
-                    <BoxContainer Name="HeaderContainer" Access="Public" Orientation="Horizontal" MinHeight="32">
-                        <Label Name="ServerName" Access="Public" StyleClasses="AshfallTerminalHeader"
-                               VAlign="Center" HorizontalExpand="True" />
+            <BoxContainer Orientation="Vertical" SeparationOverride="6">
+                <PanelContainer StyleClasses="AshfallLobbyHeader" HorizontalExpand="True">
+                    <BoxContainer Orientation="Vertical" SeparationOverride="4">
+                        <BoxContainer Name="HeaderContainer" Access="Public" Orientation="Horizontal" MinHeight="28">
+                            <Label Name="ServerName" Access="Public" StyleClasses="AshfallTerminalHeader"
+                                   VAlign="Center" HorizontalExpand="True" />
+                            <Label Name="StartTime" Access="Public" VAlign="Center"
+                                   StyleClasses="AshfallStatus" Margin="8 0" />
+                            <TextureButton Name="CollapseButton" TexturePath="filled_right_arrow.svg.192dpi"
+                                           SetSize="18 18" VerticalAlignment="Center"
+                                           ModulateSelfOverride="#A3A8A3" />
+                        </BoxContainer>
                         <BoxContainer Orientation="Horizontal" HorizontalAlignment="Right" SeparationOverride="4">
                             <Button Name="AHelpButton" Access="Public" Text="{Loc 'ui-lobby-ahelp-button'}"
                                     StyleClasses="AshfallUtilityAction" />
-                            <vote:VoteCallMenuButton Name="CallVoteButton" StyleClasses="AshfallUtilityAction" />
                             <Button Name="OptionsButton" Access="Public" Text="{Loc 'ui-lobby-options-button'}"
                                     StyleClasses="AshfallUtilityAction" />
                             <Button Name="LeaveButton" Access="Public" Text="{Loc 'ui-lobby-leave-button'}"
                                     StyleClasses="AshfallDestructiveAction" />
                         </BoxContainer>
                     </BoxContainer>
-                    <controls:HLine StyleClasses="highlight" Thickness="1" />
+                </PanelContainer>
 
-                    <BoxContainer Orientation="Horizontal" Margin="2 0" SeparationOverride="16">
+                <PanelContainer StyleClasses="AshfallLobbyInset" HorizontalExpand="True">
+                    <BoxContainer Orientation="Horizontal" HorizontalAlignment="Center">
+                        <vote:VoteCallMenuButton Name="CallVoteButton" StyleClasses="AshfallNavigationAction" />
+                        <info:LinkBanner Name="LinkBanner" Access="Public" VerticalExpand="False" />
+                    </BoxContainer>
+                </PanelContainer>
+
+                <PanelContainer StyleClasses="AshfallLobbyInset" HorizontalExpand="True">
+                    <BoxContainer Orientation="Horizontal" SeparationOverride="12" MinHeight="32">
                         <info:ServerInfo Name="ServerInfo" Access="Public"
                                          VerticalExpand="False" HorizontalExpand="True" />
-                        <Label Name="StationTime" Access="Public" StyleClasses="AshfallMuted" VAlign="Center" Margin="8 0 0 0" />
+                        <RichTextLabel Name="StationTime" Access="Public" StyleClasses="AshfallMuted"
+                                       HorizontalExpand="True" VerticalAlignment="Center" />
                     </BoxContainer>
+                </PanelContainer>
 
-                    <lobbyUi:LobbyCharacterPreviewPanel Name="CharacterPreview" Access="Public" />
+                <lobbyUi:LobbyCharacterPreviewPanel Name="CharacterPreview" Access="Public" />
 
-                    <controls:HLine StyleClasses="highlight" Thickness="1" />
-                    <Label Text="{Loc 'ashfall-lobby-chat-heading'}" StyleClasses="AshfallSectionHeader" />
-                    <widgets:ChatBox Name="Chat" Access="Public" VerticalExpand="True" MinHeight="120" />
+                <BoxContainer Orientation="Horizontal" SeparationOverride="10">
+                    <Button Name="ReadyButton" Access="Public" ToggleMode="True"
+                            Text="{Loc 'ui-lobby-ready-up-button'}"
+                            StyleClasses="AshfallReadyAction" HorizontalExpand="True" MinHeight="44" />
+                    <cc:UICommandButton Command="observe" Name="ObserveButton" Access="Public"
+                                        Text="{Loc 'ashfall-lobby-observe-action'}"
+                                        StyleClasses="AshfallAccentAction"
+                                        MinWidth="180" MinHeight="44"
+                                        WindowType="{x:Type lobbyUi:ObserveWarningWindow}" />
                 </BoxContainer>
-                <TextureButton Name="CollapseButton" TexturePath="filled_right_arrow.svg.192dpi"
-                               HorizontalAlignment="Right" VerticalAlignment="Top"
-                               Margin="0 3 3 0" ModulateSelfOverride="#D5D9DC" Scale="0.5 0.5" />
+                <RichTextLabel Name="PlaytimeComment" Visible="False" Access="Public"
+                               HorizontalAlignment="Center" />
+
+                <BoxContainer Name="VoteContainer" Access="Public" Orientation="Vertical"
+                              SeparationOverride="4" />
+
+                <BoxContainer Orientation="Vertical" SeparationOverride="4" Visible="False">
+                    <info:DevInfoBanner Name="DevInfoBanner" Access="Public" VerticalExpand="False" />
+                    <PanelContainer StyleClasses="AshfallPanel">
+                        <BoxContainer Orientation="Vertical" Margin="8">
+                            <Label Text="{Loc 'ashfall-lobby-audio-heading'}"
+                                   StyleClasses="AshfallSectionHeader" />
+                            <RichTextLabel Name="LobbySong" Access="Public" />
+                            <RichTextLabel Name="LobbyBackground" Access="Public" Visible="False" />
+                        </BoxContainer>
+                    </PanelContainer>
+                </BoxContainer>
+
+                <BoxContainer Orientation="Horizontal" MinHeight="22">
+                    <Label Text="{Loc 'ashfall-lobby-chat-heading'}" StyleClasses="AshfallSectionHeader"
+                           VAlign="Center" />
+                    <Control HorizontalExpand="True" />
+                </BoxContainer>
+                <controls:HLine StyleClasses="highlight" Thickness="1" />
+                <widgets:ChatBox Name="Chat" Access="Public" VerticalExpand="True" MinHeight="240" />
+            </BoxContainer>
         </PanelContainer>
 
-        <PanelContainer Name="ExpandPanel" StyleClasses="AshfallPanel"
+        <PanelContainer Name="ExpandPanel" StyleClasses="AshfallLobbyHeader"
                         HorizontalAlignment="Right" VerticalAlignment="Top" Visible="False">
             <TextureButton Name="ExpandButton" TexturePath="filled_left_arrow.svg.192dpi"
                            HorizontalAlignment="Center" VerticalAlignment="Center"
-                           ModulateSelfOverride="#D5D9DC" Scale="0.5 0.5" />
+                           SetSize="22 34" ModulateSelfOverride="#A3A8A3" />
         </PanelContainer>
     </BoxContainer>
+
+    <!-- Personal files open as a full-screen overlay above the lobby. -->
+    <Control Name="CharacterSetupState" Access="Public" Visible="False"
+             HorizontalExpand="True" VerticalExpand="True" />
 </lobbyUi:LobbyGui>

@@ -1,0 +1,14 @@
+<PanelContainer xmlns="https://spacestation14.io"
+                xmlns:graphics="clr-namespace:Robust.Client.Graphics;assembly=Robust.Client"
+                HorizontalExpand="True">
+    <PanelContainer.PanelOverride>
+        <graphics:StyleBoxFlat BackgroundColor="#1B1C1E"
+                               BorderColor="#2E3033"
+                               BorderThickness="0 1 0 0" />
+    </PanelContainer.PanelOverride>
+    <BoxContainer Orientation="Vertical" Margin="12 8" SeparationOverride="4">
+        <RichTextLabel Name="SectionHeader" HorizontalExpand="True" VerticalAlignment="Top" />
+        <BoxContainer Name="LinesContainer" Orientation="Vertical" HorizontalExpand="True"
+                      Margin="8 0 0 0" SeparationOverride="4" />
+    </BoxContainer>
+</PanelContainer>

@@ -6,14 +6,14 @@ public static class ChatChannelExtensions
     {
         return channel switch
         {
-            ChatChannel.Server => Color.Orange,
+            ChatChannel.Server => Color.FromHex("#D6A43A"),
             ChatChannel.Radio => Color.LimeGreen,
-            ChatChannel.LOOC => Color.MediumTurquoise,
-            ChatChannel.OOC => Color.LightSkyBlue,
-            ChatChannel.Dead => Color.MediumPurple,
-            ChatChannel.Admin => Color.Red,
-            ChatChannel.AdminAlert => Color.Red,
-            ChatChannel.AdminChat => Color.HotPink,
+            ChatChannel.LOOC => Color.FromHex("#5F9587"),
+            ChatChannel.OOC => Color.FromHex("#668DA1"),
+            ChatChannel.Dead => Color.FromHex("#9C7AC7"),
+            ChatChannel.Admin => Color.FromHex("#D84A3D"),
+            ChatChannel.AdminAlert => Color.FromHex("#D84A3D"),
+            ChatChannel.AdminChat => Color.FromHex("#D84A3D"),
             ChatChannel.Whisper => Color.DarkGray,
             _ => Color.LightGray
         };

@@ -9,6 +9,7 @@ using Robust.Client.Graphics;
 using Robust.Client.UserInterface.Controls;
 using Robust.Client.UserInterface.XAML;
 using Robust.Shared.GameObjects;
+using Robust.Shared.IoC;
 using Robust.Shared.Maths;
 using Robust.Shared.Prototypes;
 
@@ -19,17 +20,19 @@ public sealed partial class AshfallCandidateCard : PanelContainer
     [Dependency] private IPrototypeManager _prototypes = default!;
     [Dependency] private IEntityManager _entMan = default!;
 
+    // Cards are recessed screens: screen-inner face with a thin muted-amber wireframe.
+    // Selected = warm tint + bright LED-amber border.
     private static readonly StyleBoxFlat NormalBox = new()
     {
-        BackgroundColor = Color.FromHex("#181B1E"),
-        BorderColor = Color.FromHex("#353D45"),
+        BackgroundColor = Color.FromHex("#1B1C1E"),
+        BorderColor = Color.FromHex("#8A592D"),
         BorderThickness = new Thickness(1),
     };
 
     private static readonly StyleBoxFlat InspectedBox = new()
     {
-        BackgroundColor = Color.FromHex("#22241E"),
-        BorderColor = Color.FromHex("#C8782E"),
+        BackgroundColor = Color.FromHex("#241E17"),
+        BorderColor = Color.FromHex("#D48944"),
         BorderThickness = new Thickness(2),
     };
 
@@ -38,7 +41,7 @@ public sealed partial class AshfallCandidateCard : PanelContainer
     private Label NameLabel => this.FindControl<Label>("NameLabel");
     private Label BioLineLabel => this.FindControl<Label>("BioLineLabel");
     private Label QualificationLabel => this.FindControl<Label>("QualificationLabel");
-    private Label ConfirmedLabel => this.FindControl<Label>("ConfirmedLabel");
+    private TextureRect ConfirmedMark => this.FindControl<TextureRect>("ConfirmedMark");
     private Button InspectButton => this.FindControl<Button>("InspectButton");
 
     public int CandidateIndex { get; private set; }
@@ -70,8 +73,8 @@ public sealed partial class AshfallCandidateCard : PanelContainer
         QualificationLabel.Text = qualificationSection != null
             ? qualificationSection.Title
             : Loc.GetString($"ashfall-domain-{candidate.PrimaryDomain.ToLowerInvariant()}");
-        ConfirmedLabel.Visible = isConfirmed;
-        ConfirmedLabel.ToolTip = Loc.GetString("ashfall-personal-files-confirmed-marker");
+        ConfirmedMark.Visible = isConfirmed;
+        ConfirmedMark.ToolTip = Loc.GetString("ashfall-personal-files-confirmed-marker");
         CardPanel.PanelOverride = isInspected ? InspectedBox : NormalBox;
 
         JobPrototype? primaryJob = null;

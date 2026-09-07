@@ -1,5 +1,5 @@
 - type: lobbyBackground
   id: AshfallMain
-  background: /Textures/Ashfall/UI/main-menu-splash.png
+  background: /Textures/Ashfall/UI/lobby-art.png
   title: ashfall-lobby-background-title
   artist: ashfall-lobby-background-artist
