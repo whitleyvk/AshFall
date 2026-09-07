@@ -1,4 +1,5 @@
 using Content.Client.UserInterface.Systems.Chat.Controls;
+using Content.Shared.Ashfall;
 using Content.Shared.Chat;
 using Content.Shared.Input;
 using Robust.Client.Audio;
@@ -8,6 +9,7 @@ using Robust.Client.UserInterface;
 using Robust.Client.UserInterface.Controls;
 using Robust.Client.UserInterface.XAML;
 using Robust.Shared.Audio;
+using Robust.Shared.Configuration;
 using Robust.Shared.Input;
 using Robust.Shared.Player;
 using Robust.Shared.Utility;
@@ -21,9 +23,14 @@ public partial class ChatBox : UIWidget
 {
     [Dependency] private IEntityManager _entManager = default!;
     [Dependency] private ILogManager _log = default!;
+    [Dependency] private IConfigurationManager _cfg = default!;
 
     private readonly ISawmill _sawmill;
     private readonly ChatUIController _controller;
+
+    private string? _lastRawMessage;
+    private ChatChannel _lastChannel;
+    private int _lastRepeatCount;
 
     public bool Main { get; set; }
 
@@ -53,6 +60,13 @@ public partial class ChatBox : UIWidget
         _controller.SendMessage(this, SelectedChannel);
     }
 
+    private void ClearCoalescingState()
+    {
+        _lastRawMessage = null;
+        _lastChannel = ChatChannel.None;
+        _lastRepeatCount = 0;
+    }
+
     private void OnMessageAdded(ChatMessage msg)
     {
         _sawmill.Debug($"{msg.Channel}: {msg.Message}");
@@ -67,6 +81,19 @@ public partial class ChatBox : UIWidget
         msg.Read = true;
 
         var color = msg.MessageColorOverride ?? msg.Channel.TextColor();
+
+        var coalesce = _cfg.GetCVar(AshfallCCVars.ChatCoalesceIdenticalMessages);
+        if (coalesce && _lastRepeatCount > 0 && _lastChannel == msg.Channel && _lastRawMessage == msg.Message && Contents.EntryCount > 0)
+        {
+            _lastRepeatCount++;
+            Contents.RemoveEntry(^1);
+            AddLine($"{msg.WrappedMessage} x{_lastRepeatCount}!", color);
+            return;
+        }
+
+        _lastRawMessage = msg.Message;
+        _lastChannel = msg.Channel;
+        _lastRepeatCount = 1;
 
         AddLine(msg.WrappedMessage, color);
     }
@@ -84,6 +111,7 @@ public partial class ChatBox : UIWidget
     public void Repopulate()
     {
         Contents.Clear();
+        ClearCoalescingState();
 
         foreach (var message in _controller.History)
         {
@@ -94,6 +122,7 @@ public partial class ChatBox : UIWidget
     private void OnChannelFilter(ChatChannel channel, bool active)
     {
         Contents.Clear();
+        ClearCoalescingState();
 
         foreach (var message in _controller.History)
         {

@@ -1,4 +1,7 @@
 using System.Linq;
+using Content.Client.UserInterface.Systems.Chat;
+using Content.Shared.Ashfall;
+using Content.Shared.Chat;
 using Content.Shared.Examine;
 using Content.Shared.GameTicking;
 using Content.Shared.Popups;
@@ -97,6 +100,7 @@ public sealed partial class PopupSystem : SharedPopupSystem
         if (_aliveWorldLabels.TryGetValue(popupData, out var existingLabel))
         {
             WrapAndRepeatPopup(existingLabel, popupData.Message);
+            LogPopupToChat(message, coordinates);
             return;
         }
 
@@ -107,6 +111,7 @@ public sealed partial class PopupSystem : SharedPopupSystem
         };
 
         _aliveWorldLabels.Add(popupData, label);
+        LogPopupToChat(message, coordinates);
     }
 
     /// <summary>
@@ -124,6 +129,7 @@ public sealed partial class PopupSystem : SharedPopupSystem
         if (_aliveCursorLabels.TryGetValue(popupData, out var existingLabel))
         {
             WrapAndRepeatPopup(existingLabel, popupData.Message);
+            LogPopupToChat(message);
             return;
         }
 
@@ -134,6 +140,34 @@ public sealed partial class PopupSystem : SharedPopupSystem
         };
 
         _aliveCursorLabels.Add(popupData, label);
+        LogPopupToChat(message);
+    }
+
+    private void LogPopupToChat(string message, EntityCoordinates? coordinates = null)
+    {
+        if (!_configManager.GetCVar(AshfallCCVars.ChatLogInChat))
+            return;
+
+        if (coordinates != null && _playerManager.LocalEntity is { Valid: true } player)
+        {
+            var playerCoords = _transform.GetMapCoordinates(player);
+            var popupCoords = _transform.ToMapCoordinates(coordinates.Value);
+
+            if (playerCoords.MapId != popupCoords.MapId)
+                return;
+
+            if ((playerCoords.Position - popupCoords.Position).LengthSquared() > ExamineSystemShared.ExamineRange * ExamineSystemShared.ExamineRange)
+                return;
+        }
+
+        var chatMsg = new ChatMessage(
+            ChatChannel.Emotes,
+            message,
+            message,
+            NetEntity.Invalid,
+            null);
+
+        _uiManager.GetUIController<ChatUIController>().ProcessChatMessage(chatMsg, speechBubble: false);
     }
 
     #region Abstract Method Implementations

@@ -19,6 +19,8 @@ ashfall-character-setup-last-sync = ПОСЛЕДНЯЯ СИНХРОНИЗАЦИ�
 ashfall-character-setup-records-heading = ЛИЧНЫЕ ДЕЛА
 
 ashfall-options-title = Настройки
+ui-options-log-actions-in-chat = Логировать действия и осмотр в чат
+ui-options-coalesce-identical-messages = Группировать повторяющиеся сообщения в чате
 
 ashfall-personal-files-title = АРХИВ СОТРУДНИКОВ // КРИОХРАНИЛИЩЕ ASHEN INDUSTRIAL
 ashfall-personal-files-subtitle = Выберите сотрудника и подтвердите назначение на смену.

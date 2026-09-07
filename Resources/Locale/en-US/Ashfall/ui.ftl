@@ -19,6 +19,8 @@ ashfall-character-setup-last-sync = LAST SYNCHRONIZATION: 10 YEARS AGO
 ashfall-character-setup-records-heading = PERSONNEL RECORDS
 
 ashfall-options-title = Settings
+ui-options-log-actions-in-chat = Log actions and examines in chat
+ui-options-coalesce-identical-messages = Coalesce identical messages in chat
 
 ashfall-personal-files-title = PERSONNEL ARCHIVE // ASHEN INDUSTRIAL CRYOSTORAGE
 ashfall-personal-files-subtitle = Select an employee and confirm their assignment.

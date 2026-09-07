@@ -25,4 +25,16 @@ public sealed class AshfallCCVars
     /// </summary>
     public static readonly CVarDef<int> CharacterPoolMaxRefreshes =
         CVarDef.Create("ashfall.character_pool_max_refreshes", -1, CVar.SERVERONLY);
+
+    /// <summary>
+    ///     Whether examines and action popups should also be logged into the chat box.
+    /// </summary>
+    public static readonly CVarDef<bool> ChatLogInChat =
+        CVarDef.Create("chat.log_in_chat", true, CVar.CLIENT | CVar.REPLICATED | CVar.ARCHIVE);
+
+    /// <summary>
+    ///     Whether identical consecutive messages in the chat box should be coalesced into a single line with counter.
+    /// </summary>
+    public static readonly CVarDef<bool> ChatCoalesceIdenticalMessages =
+        CVarDef.Create("chat.coalesce_identical_messages", true, CVar.CLIENTONLY | CVar.ARCHIVE);
 }

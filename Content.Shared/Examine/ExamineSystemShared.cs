@@ -381,6 +381,9 @@ namespace Content.Shared.Examine
             // pop color tag
             newMessage.Pop();
 
+            var examineCompletedEvent = new Ashfall.Examine.ExamineCompletedEvent(newMessage, entity, examiner.Value);
+            RaiseLocalEvent(entity, ref examineCompletedEvent);
+
             return newMessage;
         }
     }
