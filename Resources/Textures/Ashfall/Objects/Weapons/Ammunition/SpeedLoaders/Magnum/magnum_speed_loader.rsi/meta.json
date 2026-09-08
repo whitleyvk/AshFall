@@ -1,0 +1,77 @@
+{
+    "version": 1,
+    "license": "CC-BY-SA-3.0",
+    "copyright": "Made by WJohn (Github) at commit https://github.com/tgstation/tgstation/commit/b4424d7e79cadb258a65aec2e1bc16cf3d4021dc. Inhands by TiniestShark. Recolored by Halycon (kleinerstation13 on Github)",
+    "size": {
+        "x": 32,
+        "y": 32
+    },
+    "states": [
+        {
+            "name": "base"
+        },
+        {
+            "name": "icon"
+        },
+        {
+            "name": "base-1"
+        },
+        {
+            "name": "base-2"
+        },
+        {
+            "name": "base-3"
+        },
+        {
+            "name": "base-4"
+        },
+        {
+            "name": "base-5"
+        },
+        {
+            "name": "base-6"
+        },
+        {
+            "name": "fmj-1"
+        },
+        {
+            "name": "fmj-2"
+        },
+        {
+            "name": "fmj-3"
+        },
+        {
+            "name": "fmj-4"
+        },
+        {
+            "name": "fmj-5"
+        },
+        {
+            "name": "fmj-6"
+        },
+        {
+            "name": "inhand-left-mag",
+            "directions": 4
+        },
+        {
+            "name": "inhand-left-stripe",
+            "directions": 4
+        },
+        {
+            "name": "inhand-left-ammo",
+            "directions": 4
+        },
+        {
+            "name": "inhand-right-mag",
+            "directions": 4
+        },
+        {
+            "name": "inhand-right-stripe",
+            "directions": 4
+        },
+        {
+            "name": "inhand-right-ammo",
+            "directions": 4
+        }
+    ]
+}

@@ -1,0 +1,8 @@
+- type: Tag
+  id: GunAttachmentMuzzle
+
+- type: Tag
+  id: GunAttachmentUnderbarrel
+
+- type: Tag
+  id: GunAttachmentOptic

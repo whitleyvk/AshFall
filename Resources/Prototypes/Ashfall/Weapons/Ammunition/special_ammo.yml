@@ -1,0 +1,465 @@
+# Projectiles
+- type: entity
+  parent: BaseBullet
+  id: BulletPistolPC
+  categories: [ HideSpawnMenu ]
+  name: bullet (.35 auto plasteel core)
+  components:
+  - type: Projectile
+    damage:
+      types:
+        Piercing: 14
+      armorPenetration: 0.60
+
+- type: entity
+  parent: BaseBullet
+  id: BulletPistolHP
+  categories: [ HideSpawnMenu ]
+  name: bullet (.35 auto hollow point)
+  components:
+  - type: Projectile
+    damage:
+      types:
+        Piercing: 24
+      armorPenetration: -0.60
+
+- type: entity
+  parent: BaseBullet
+  id: BulletRiflePC
+  categories: [ HideSpawnMenu ]
+  name: bullet (0.20 rifle plasteel core)
+  components:
+  - type: Projectile
+    damage:
+      types:
+        Piercing: 15
+      armorPenetration: 0.60
+
+- type: entity
+  parent: BaseBullet
+  id: BulletRifleHP
+  categories: [ HideSpawnMenu ]
+  name: bullet (0.20 rifle hollow point)
+  components:
+  - type: Projectile
+    damage:
+      types:
+        Piercing: 20
+      armorPenetration: -0.60
+
+- type: entity
+  parent: BaseBullet
+  id: BulletLightRiflePC
+  categories: [ HideSpawnMenu ]
+  name: bullet (.30 rifle plasteel core)
+  components:
+  - type: Projectile
+    damage:
+      types:
+        Piercing: 16
+      armorPenetration: 0.60
+
+- type: entity
+  parent: BaseBullet
+  id: BulletLightRifleHP
+  categories: [ HideSpawnMenu ]
+  name: bullet (.30 rifle hollow point)
+  components:
+  - type: Projectile
+    damage:
+      types:
+        Piercing: 22
+      armorPenetration: -0.60
+
+- type: entity
+  parent: BaseBullet
+  id: BulletMagnumPC
+  categories: [ HideSpawnMenu ]
+  name: bullet (.45 magnum plasteel core)
+  components:
+  - type: Projectile
+    damage:
+      types:
+        Piercing: 24
+      armorPenetration: 0.60
+
+- type: entity
+  parent: BaseBullet
+  id: BulletMagnumHP
+  categories: [ HideSpawnMenu ]
+  name: bullet (.45 magnum hollow point)
+  components:
+  - type: Projectile
+    damage:
+      types:
+        Piercing: 36
+      armorPenetration: -0.60
+
+- type: entity
+  parent: BaseBullet
+  id: PelletShotgunFlechette
+  categories: [ HideSpawnMenu ]
+  name: flechette (.50)
+  components:
+  - type: Projectile
+    damage:
+      types:
+        Piercing: 7
+      armorPenetration: 0.60
+
+- type: entity
+  parent: PelletShotgunFlechette
+  id: PelletShotgunFlechetteSpread
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: ProjectileSpread
+    proto: PelletShotgunFlechette
+    count: 7
+    spread: 12
+
+# Cartridges
+- type: entity
+  parent: BaseCartridgePistol
+  id: CartridgePistolPC
+  name: cartridge-pistol-pc-name
+  description: cartridge-pistol-pc-desc
+  components:
+  - type: CartridgeAmmo
+    proto: BulletPistolPC
+  - type: Sprite
+    sprite: Objects/Weapons/Guns/Ammunition/Casings/ammo_casing.rsi
+    layers:
+    - state: base
+      map: [ "enum.AmmoVisualLayers.Base" ]
+      color: "#818181"
+    - state: tip
+      map: [ "enum.AmmoVisualLayers.Tip" ]
+      color: "#a400af"
+
+- type: entity
+  parent: BaseCartridgePistol
+  id: CartridgePistolHP
+  name: cartridge-pistol-hp-name
+  description: cartridge-pistol-hp-desc
+  components:
+  - type: CartridgeAmmo
+    proto: BulletPistolHP
+  - type: Sprite
+    sprite: Objects/Weapons/Guns/Ammunition/Casings/ammo_casing.rsi
+    layers:
+    - state: base
+      map: [ "enum.AmmoVisualLayers.Base" ]
+    - state: tip
+      map: [ "enum.AmmoVisualLayers.Tip" ]
+      color: "#006c68"
+
+- type: entity
+  parent: BaseCartridgeRifle
+  id: CartridgeRiflePC
+  name: cartridge-rifle-pc-name
+  description: cartridge-rifle-pc-desc
+  components:
+  - type: CartridgeAmmo
+    proto: BulletRiflePC
+  - type: Sprite
+    sprite: Objects/Weapons/Guns/Ammunition/Casings/ammo_casing.rsi
+    layers:
+    - state: base
+      map: [ "enum.AmmoVisualLayers.Base" ]
+      color: "#818181"
+    - state: tip
+      map: [ "enum.AmmoVisualLayers.Tip" ]
+      color: "#a400af"
+
+- type: entity
+  parent: BaseCartridgeRifle
+  id: CartridgeRifleHP
+  name: cartridge-rifle-hp-name
+  description: cartridge-rifle-hp-desc
+  components:
+  - type: CartridgeAmmo
+    proto: BulletRifleHP
+  - type: Sprite
+    sprite: Objects/Weapons/Guns/Ammunition/Casings/ammo_casing.rsi
+    layers:
+    - state: base
+      map: [ "enum.AmmoVisualLayers.Base" ]
+    - state: tip
+      map: [ "enum.AmmoVisualLayers.Tip" ]
+      color: "#006c68"
+
+- type: entity
+  parent: BaseCartridgeLightRifle
+  id: CartridgeLightRiflePC
+  name: cartridge-light-rifle-pc-name
+  description: cartridge-light-rifle-pc-desc
+  components:
+  - type: CartridgeAmmo
+    proto: BulletLightRiflePC
+  - type: Sprite
+    sprite: Objects/Weapons/Guns/Ammunition/Casings/ammo_casing.rsi
+    layers:
+    - state: base
+      map: [ "enum.AmmoVisualLayers.Base" ]
+      color: "#818181"
+    - state: tip
+      map: [ "enum.AmmoVisualLayers.Tip" ]
+      color: "#a400af"
+
+- type: entity
+  parent: BaseCartridgeLightRifle
+  id: CartridgeLightRifleHP
+  name: cartridge-light-rifle-hp-name
+  description: cartridge-light-rifle-hp-desc
+  components:
+  - type: CartridgeAmmo
+    proto: BulletLightRifleHP
+  - type: Sprite
+    sprite: Objects/Weapons/Guns/Ammunition/Casings/ammo_casing.rsi
+    layers:
+    - state: base
+      map: [ "enum.AmmoVisualLayers.Base" ]
+    - state: tip
+      map: [ "enum.AmmoVisualLayers.Tip" ]
+      color: "#006c68"
+
+- type: entity
+  parent: BaseCartridgeMagnum
+  id: CartridgeMagnumPC
+  name: cartridge-magnum-pc-name
+  description: cartridge-magnum-pc-desc
+  components:
+  - type: CartridgeAmmo
+    proto: BulletMagnumPC
+  - type: Sprite
+    sprite: Objects/Weapons/Guns/Ammunition/Casings/ammo_casing.rsi
+    layers:
+    - state: base
+      map: [ "enum.AmmoVisualLayers.Base" ]
+      color: "#818181"
+    - state: tip
+      map: [ "enum.AmmoVisualLayers.Tip" ]
+      color: "#a400af"
+
+- type: entity
+  parent: BaseCartridgeMagnum
+  id: CartridgeMagnumHP
+  name: cartridge-magnum-hp-name
+  description: cartridge-magnum-hp-desc
+  components:
+  - type: CartridgeAmmo
+    proto: BulletMagnumHP
+  - type: Sprite
+    sprite: Objects/Weapons/Guns/Ammunition/Casings/ammo_casing.rsi
+    layers:
+    - state: base
+      map: [ "enum.AmmoVisualLayers.Base" ]
+    - state: tip
+      map: [ "enum.AmmoVisualLayers.Tip" ]
+      color: "#006c68"
+
+- type: entity
+  parent: BaseShellShotgun
+  id: ShellShotgunFlechette
+  name: shell-shotgun-flechette-name
+  description: shell-shotgun-flechette-desc
+  components:
+  - type: Sprite
+    sprite: Ashfall/Objects/Weapons/Ammunition/Casings/flechette_shell.rsi
+    layers:
+    - state: flechette
+      map: [ "enum.AmmoVisualLayers.Base" ]
+  - type: CartridgeAmmo
+    proto: PelletShotgunFlechetteSpread
+  - type: SpentAmmoVisuals
+
+# Ammo Boxes
+- type: entity
+  parent: BaseItem
+  id: BoxPistolPC
+  name: box-pistol-pc-name
+  description: box-pistol-pc-desc
+  components:
+  - type: BallisticAmmoProvider
+    proto: CartridgePistolPC
+    capacity: 30
+  - type: Sprite
+    sprite: Ashfall/Objects/Weapons/Ammunition/Boxes/pistol.rsi
+    layers:
+    - state: base
+      map: [ "enum.GunVisualLayers.Base" ]
+    - state: fmj
+      map: [ "enum.GunVisualLayers.Mag" ]
+  - type: Item
+    size: Small
+
+- type: entity
+  parent: BaseItem
+  id: BoxPistolHP
+  name: box-pistol-hp-name
+  description: box-pistol-hp-desc
+  components:
+  - type: BallisticAmmoProvider
+    proto: CartridgePistolHP
+    capacity: 30
+  - type: Sprite
+    sprite: Ashfall/Objects/Weapons/Ammunition/Boxes/pistol.rsi
+    layers:
+    - state: base
+      map: [ "enum.GunVisualLayers.Base" ]
+    - state: hollowpoint
+      map: [ "enum.GunVisualLayers.Mag" ]
+  - type: Item
+    size: Small
+
+- type: entity
+  parent: BaseItem
+  id: BoxRiflePC
+  name: box-rifle-pc-name
+  description: box-rifle-pc-desc
+  components:
+  - type: BallisticAmmoProvider
+    proto: CartridgeRiflePC
+    capacity: 30
+  - type: Sprite
+    sprite: Ashfall/Objects/Weapons/Ammunition/Boxes/rifle.rsi
+    layers:
+    - state: base
+      map: [ "enum.GunVisualLayers.Base" ]
+    - state: fmj
+      map: [ "enum.GunVisualLayers.Mag" ]
+  - type: Item
+    size: Small
+
+- type: entity
+  parent: BaseItem
+  id: BoxRifleHP
+  name: box-rifle-hp-name
+  description: box-rifle-hp-desc
+  components:
+  - type: BallisticAmmoProvider
+    proto: CartridgeRifleHP
+    capacity: 30
+  - type: Sprite
+    sprite: Ashfall/Objects/Weapons/Ammunition/Boxes/rifle.rsi
+    layers:
+    - state: base
+      map: [ "enum.GunVisualLayers.Base" ]
+    - state: hollowpoint
+      map: [ "enum.GunVisualLayers.Mag" ]
+  - type: Item
+    size: Small
+
+- type: entity
+  parent: BaseItem
+  id: BoxLightRiflePC
+  name: box-light-rifle-pc-name
+  description: box-light-rifle-pc-desc
+  components:
+  - type: BallisticAmmoProvider
+    proto: CartridgeLightRiflePC
+    capacity: 30
+  - type: Sprite
+    sprite: Ashfall/Objects/Weapons/Ammunition/Boxes/light_rifle.rsi
+    layers:
+    - state: base
+      map: [ "enum.GunVisualLayers.Base" ]
+    - state: fmj
+      map: [ "enum.GunVisualLayers.Mag" ]
+  - type: Item
+    size: Small
+
+- type: entity
+  parent: BaseItem
+  id: BoxLightRifleHP
+  name: box-light-rifle-hp-name
+  description: box-light-rifle-hp-desc
+  components:
+  - type: BallisticAmmoProvider
+    proto: CartridgeLightRifleHP
+    capacity: 30
+  - type: Sprite
+    sprite: Ashfall/Objects/Weapons/Ammunition/Boxes/light_rifle.rsi
+    layers:
+    - state: base
+      map: [ "enum.GunVisualLayers.Base" ]
+    - state: hollowpoint
+      map: [ "enum.GunVisualLayers.Mag" ]
+  - type: Item
+    size: Small
+
+- type: entity
+  parent: BaseItem
+  id: BoxMagnumPC
+  name: box-magnum-pc-name
+  description: box-magnum-pc-desc
+  components:
+  - type: BallisticAmmoProvider
+    proto: CartridgeMagnumPC
+    capacity: 30
+  - type: Sprite
+    sprite: Ashfall/Objects/Weapons/Ammunition/Boxes/magnum.rsi
+    layers:
+    - state: base
+      map: [ "enum.GunVisualLayers.Base" ]
+    - state: fmj
+      map: [ "enum.GunVisualLayers.Mag" ]
+  - type: Item
+    size: Small
+
+- type: entity
+  parent: BaseItem
+  id: BoxMagnumHP
+  name: box-magnum-hp-name
+  description: box-magnum-hp-desc
+  components:
+  - type: BallisticAmmoProvider
+    proto: CartridgeMagnumHP
+    capacity: 30
+  - type: Sprite
+    sprite: Ashfall/Objects/Weapons/Ammunition/Boxes/magnum.rsi
+    layers:
+    - state: base
+      map: [ "enum.GunVisualLayers.Base" ]
+    - state: hollowpoint
+      map: [ "enum.GunVisualLayers.Mag" ]
+  - type: Item
+    size: Small
+
+- type: entity
+  parent: BaseItem
+  id: BoxShotgunFlechette
+  name: box-shotgun-flechette-name
+  description: box-shotgun-flechette-desc
+  components:
+  - type: BallisticAmmoProvider
+    proto: ShellShotgunFlechette
+    capacity: 12
+  - type: Sprite
+    sprite: Ashfall/Objects/Weapons/Ammunition/Boxes/flechette.rsi
+    layers:
+    - state: base
+      map: [ "enum.GunVisualLayers.Base" ]
+    - state: flechette
+      map: [ "enum.GunVisualLayers.Mag" ]
+  - type: Item
+    size: Small
+
+- type: entity
+  parent: BaseItem
+  id: MagazineShotgunFlechette
+  name: magazine-shotgun-flechette-name
+  description: magazine-shotgun-flechette-desc
+  components:
+  - type: BallisticAmmoProvider
+    proto: ShellShotgunFlechette
+    capacity: 6
+  - type: Sprite
+    sprite: Ashfall/Objects/Weapons/Ammunition/Magazine/Shotgun/flechette.rsi
+    layers:
+    - state: base
+      map: [ "enum.GunVisualLayers.Base" ]
+    - state: flechette
+      map: [ "enum.GunVisualLayers.Mag" ]
+  - type: Item
+    size: Small

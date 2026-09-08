@@ -1,0 +1,6 @@
+- files:
+  - "Attachments/**"
+  - "Ammunition/**"
+  license: "CC-BY-SA-3.0"
+  copyright: "willybillygilly, kasature90 (Monolith), kleinerstation13 (Harmony)"
+  source: "https://github.com/ss14-harmony/ss14-harmony/pull/1052, https://github.com/space-wizards/space-station-14/pull/43042"

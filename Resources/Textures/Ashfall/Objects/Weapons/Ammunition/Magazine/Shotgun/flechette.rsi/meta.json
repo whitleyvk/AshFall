@@ -1,0 +1,36 @@
+{
+    "version": 1,
+    "license": "CC-BY-SA-3.0",
+    "copyright": "Taken from tgstation at commit https://github.com/tgstation/tgstation/commit/6dba9cc3fa0088763a4477e197ae8b4e5f351cf2. Inhands by TiniestShark (Github). Modified by Halycon (kleinerstation13 on Github)",
+    "size": {
+        "x": 32,
+        "y": 32
+    },
+    "states": [
+        {
+            "name": "base"
+        },
+        {
+            "name": "flechette"
+        },
+        {
+            "name": "inhand-left-mag",
+            "directions": 4
+        },
+        {
+            "name": "inhand-right-mag",
+            "directions": 4
+        },
+        {
+            "name": "inhand-right-stripe",
+            "directions": 4
+        },
+        {
+            "name": "inhand-left-stripe",
+            "directions": 4
+        },
+        {
+            "name": "mag-1"
+        }
+    ]
+}

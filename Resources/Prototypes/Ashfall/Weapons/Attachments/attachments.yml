@@ -1,0 +1,127 @@
+- type: entity
+  parent: BaseItem
+  id: BaseGunAttachment
+  abstract: true
+  components:
+  - type: GunAttachment
+  - type: Sprite
+    netsync: false
+  - type: Item
+    size: Small
+
+# Muzzle / Suppressors
+- type: entity
+  parent: BaseGunAttachment
+  id: AttachmentSuppressorPistol
+  name: attachment-suppressor-pistol-name
+  description: attachment-suppressor-pistol-desc
+  components:
+  - type: Sprite
+    sprite: Ashfall/Objects/Weapons/Attachments/Suppressors/multi_cal.rsi
+    state: multical_pistol
+  - type: Tag
+    tags:
+    - GunAttachmentMuzzle
+  - type: GunSoundAttachment
+    sound:
+      path: /Audio/Weapons/Guns/Gunshots/silenced.ogg
+
+- type: entity
+  parent: BaseGunAttachment
+  id: AttachmentSuppressorRifle
+  name: attachment-suppressor-rifle-name
+  description: attachment-suppressor-rifle-desc
+  components:
+  - type: Sprite
+    sprite: Ashfall/Objects/Weapons/Attachments/Suppressors/multi_cal.rsi
+    state: multical_rifle
+  - type: Tag
+    tags:
+    - GunAttachmentMuzzle
+  - type: GunSoundAttachment
+    sound:
+      path: /Audio/Weapons/Guns/Gunshots/silenced.ogg
+
+# Underbarrel / Grips
+- type: entity
+  parent: BaseGunAttachment
+  id: AttachmentGripVFG
+  name: attachment-grip-vfg-name
+  description: attachment-grip-vfg-desc
+  components:
+  - type: Sprite
+    sprite: Ashfall/Objects/Weapons/Attachments/Grips/erebus_railmount.rsi
+    state: vfg
+  - type: Tag
+    tags:
+    - GunAttachmentUnderbarrel
+  - type: GunRecoilAttachment
+    recoilRecoveryModifier: 1.2
+    recoilIncreaseModifier: 0.85
+    minSpreadModifier: 0.75
+    maxSpreadModifier: 0.8
+
+- type: entity
+  parent: BaseGunAttachment
+  id: AttachmentLAM
+  name: attachment-lam-name
+  description: attachment-lam-desc
+  components:
+  - type: Sprite
+    sprite: Ashfall/Objects/Weapons/Attachments/Grips/erebus_railmount.rsi
+    state: lam
+  - type: Tag
+    tags:
+    - GunAttachmentUnderbarrel
+  - type: GunRecoilAttachment
+    minSpreadModifier: 0.9
+    maxSpreadModifier: 0.9
+
+# Optics
+- type: entity
+  parent: BaseGunAttachment
+  id: AttachmentScope2x
+  name: attachment-scope-2x-name
+  description: attachment-scope-2x-desc
+  components:
+  - type: Sprite
+    sprite: Ashfall/Objects/Weapons/Attachments/Optics/scopes.rsi
+    state: erebus_2x
+  - type: Tag
+    tags:
+    - GunAttachmentOptic
+  - type: GunRecoilAttachment
+    minSpreadModifier: 0.85
+    maxSpreadModifier: 0.85
+
+- type: entity
+  parent: BaseGunAttachment
+  id: AttachmentScope4x
+  name: attachment-scope-4x-name
+  description: attachment-scope-4x-desc
+  components:
+  - type: Sprite
+    sprite: Ashfall/Objects/Weapons/Attachments/Optics/scopes.rsi
+    state: erebus_4x
+  - type: Tag
+    tags:
+    - GunAttachmentOptic
+  - type: GunRecoilAttachment
+    minSpreadModifier: 0.70
+    maxSpreadModifier: 0.70
+
+- type: entity
+  parent: BaseGunAttachment
+  id: AttachmentScope8x
+  name: attachment-scope-8x-name
+  description: attachment-scope-8x-desc
+  components:
+  - type: Sprite
+    sprite: Ashfall/Objects/Weapons/Attachments/Optics/scopes.rsi
+    state: erebus_8x
+  - type: Tag
+    tags:
+    - GunAttachmentOptic
+  - type: GunRecoilAttachment
+    minSpreadModifier: 0.55
+    maxSpreadModifier: 0.55

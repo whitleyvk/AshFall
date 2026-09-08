@@ -1,0 +1,113 @@
+- type: entity
+  id: BaseWeaponWorn
+  abstract: true
+  components:
+  - type: RandomDefects
+  - type: GunJamDefect
+    prob: 0.70
+    jamChance: 0.06
+  - type: GunSpreadDefect
+    prob: 0.70
+    minAngleMin: 1
+    minAngleMax: 3
+    maxAngleMin: 6
+    maxAngleMax: 12
+  - type: BackfireDefect
+    prob: 0.15
+    backfireChance: 0.03
+  - type: AttachableGun
+    slots:
+    - name: gun-slot-muzzle
+      containerId: attachment_muzzle
+      whitelist:
+        tags:
+        - GunAttachmentMuzzle
+    - name: gun-slot-underbarrel
+      containerId: attachment_underbarrel
+      whitelist:
+        tags:
+        - GunAttachmentUnderbarrel
+    - name: gun-slot-optic
+      containerId: attachment_optic
+      whitelist:
+        tags:
+        - GunAttachmentOptic
+
+# Pistols
+- type: entity
+  parent: [WeaponPistolMk58, BaseWeaponWorn]
+  id: WeaponPistolMk58Worn
+  suffix: Worn
+
+- type: entity
+  parent: [WeaponPistolViper, BaseWeaponWorn]
+  id: WeaponPistolViperWorn
+  suffix: Worn
+  components:
+  - type: BentSwitchDefect
+    prob: 0.25
+
+# Revolver
+- type: entity
+  parent: [WeaponRevolverDeckard, BaseWeaponWorn]
+  id: WeaponRevolverDeckardWorn
+  suffix: Worn
+
+# SMGs
+- type: entity
+  parent: [WeaponSubMachineGunWt550, BaseWeaponWorn]
+  id: WeaponSubMachineGunWt550Worn
+  suffix: Worn
+  components:
+  - type: BentSwitchDefect
+    prob: 0.30
+
+- type: entity
+  parent: [WeaponSubMachineGunC20r, BaseWeaponWorn]
+  id: WeaponSubMachineGunC20rWorn
+  suffix: Worn
+  components:
+  - type: BentSwitchDefect
+    prob: 0.30
+
+# Rifles & Snipers
+- type: entity
+  parent: [WeaponSniperMosin, BaseWeaponWorn]
+  id: WeaponSniperMosinWorn
+  suffix: Worn
+
+- type: entity
+  parent: [WeaponRifleLecter, BaseWeaponWorn]
+  id: WeaponRifleLecterWorn
+  suffix: Worn
+  components:
+  - type: BentSwitchDefect
+    prob: 0.25
+
+# Shotguns
+- type: entity
+  parent: [WeaponShotgunKammerer, BaseWeaponWorn]
+  id: WeaponShotgunKammererWorn
+  suffix: Worn
+
+- type: entity
+  parent: [WeaponShotgunBulldog, BaseWeaponWorn]
+  id: WeaponShotgunBulldogWorn
+  suffix: Worn
+  components:
+  - type: BentSwitchDefect
+    prob: 0.25
+
+- type: entity
+  parent: [WeaponShotgunEnforcer, BaseWeaponWorn]
+  id: WeaponShotgunEnforcerWorn
+  suffix: Worn
+
+# LMG
+- type: entity
+  parent: [WeaponLightMachineGunL6, BaseWeaponWorn]
+  id: WeaponLightMachineGunL6Worn
+  suffix: Worn
+  components:
+  - type: BentSwitchDefect
+    prob: 0.35

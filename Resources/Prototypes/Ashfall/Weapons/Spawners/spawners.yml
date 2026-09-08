@@ -1,0 +1,161 @@
+- type: entity
+  name: worn pistol loot spawner
+  id: LootSpawnerGunsWornPistol
+  parent: MarkerBase
+  components:
+  - type: Sprite
+    layers:
+    - state: red
+    - sprite: Objects/Weapons/Guns/Pistols/mk58.rsi
+      state: icon
+  - type: EntityTableSpawner
+    table: !type:GroupSelector
+      children:
+      - id: WeaponPistolMk58Worn
+        weight: 10
+      - id: WeaponPistolViperWorn
+        weight: 6
+      - id: WeaponRevolverDeckardWorn
+        weight: 3
+
+- type: entity
+  name: worn rifle and smg loot spawner
+  id: LootSpawnerGunsWornRifle
+  parent: MarkerBase
+  components:
+  - type: Sprite
+    layers:
+    - state: red
+    - sprite: Objects/Weapons/Guns/Rifles/mosin.rsi
+      state: icon
+  - type: EntityTableSpawner
+    table: !type:GroupSelector
+      children:
+      - id: WeaponSniperMosinWorn
+        weight: 8
+      - id: WeaponSubMachineGunWt550Worn
+        weight: 6
+      - id: WeaponRifleLecterWorn
+        weight: 4
+      - id: WeaponSubMachineGunC20rWorn
+        weight: 3
+      - id: WeaponLightMachineGunL6Worn
+        weight: 1
+
+- type: entity
+  name: worn shotgun loot spawner
+  id: LootSpawnerGunsWornShotgun
+  parent: MarkerBase
+  components:
+  - type: Sprite
+    layers:
+    - state: red
+    - sprite: Objects/Weapons/Guns/Shotguns/kammerer.rsi
+      state: icon
+  - type: EntityTableSpawner
+    table: !type:GroupSelector
+      children:
+      - id: WeaponShotgunKammererWorn
+        weight: 8
+      - id: WeaponShotgunEnforcerWorn
+        weight: 4
+      - id: WeaponShotgunBulldogWorn
+        weight: 2
+
+- type: entity
+  name: worn gun loot spawner (all)
+  id: LootSpawnerGunsWornAll
+  parent: MarkerBase
+  components:
+  - type: Sprite
+    layers:
+    - state: red
+    - sprite: Objects/Weapons/Guns/Pistols/viper.rsi
+      state: icon
+  - type: EntityTableSpawner
+    table: !type:GroupSelector
+      children:
+      - id: WeaponPistolMk58Worn
+        weight: 12
+      - id: WeaponPistolViperWorn
+        weight: 8
+      - id: WeaponShotgunKammererWorn
+        weight: 8
+      - id: WeaponSniperMosinWorn
+        weight: 7
+      - id: WeaponSubMachineGunWt550Worn
+        weight: 6
+      - id: WeaponShotgunEnforcerWorn
+        weight: 4
+      - id: WeaponRifleLecterWorn
+        weight: 4
+      - id: WeaponRevolverDeckardWorn
+        weight: 3
+      - id: WeaponSubMachineGunC20rWorn
+        weight: 3
+      - id: WeaponShotgunBulldogWorn
+        weight: 2
+      - id: WeaponLightMachineGunL6Worn
+        weight: 1
+
+- type: entity
+  name: special ammo loot spawner
+  id: LootSpawnerAmmoWorn
+  parent: MarkerBase
+  components:
+  - type: Sprite
+    layers:
+    - state: red
+    - sprite: Ashfall/Objects/Weapons/Ammunition/Boxes/pistol.rsi
+      state: base
+  - type: EntityTableSpawner
+    table: !type:GroupSelector
+      children:
+      - id: BoxPistolPC
+        weight: 6
+      - id: BoxPistolHP
+        weight: 6
+      - id: BoxLightRiflePC
+        weight: 5
+      - id: BoxLightRifleHP
+        weight: 5
+      - id: BoxRiflePC
+        weight: 4
+      - id: BoxRifleHP
+        weight: 4
+      - id: BoxMagnumPC
+        weight: 3
+      - id: BoxMagnumHP
+        weight: 3
+      - id: BoxShotgunFlechette
+        weight: 4
+      - id: MagazineShotgunFlechette
+        weight: 2
+
+- type: entity
+  name: gun attachment loot spawner
+  id: LootSpawnerAttachments
+  parent: MarkerBase
+  components:
+  - type: Sprite
+    layers:
+    - state: red
+    - sprite: Ashfall/Objects/Weapons/Attachments/Grips/erebus_railmount.rsi
+      state: vfg
+  - type: EntityTableSpawner
+    table: !type:GroupSelector
+      children:
+      - id: AttachmentGripVFG
+        weight: 8
+      - id: AttachmentLAM
+        weight: 6
+      - id: AttachmentScope2x
+        weight: 6
+      - id: AttachmentSuppressorPistol
+        weight: 5
+      - id: AttachmentSuppressorRifle
+        weight: 4
+      - id: AttachmentScope4x
+        weight: 4
+      - id: AttachmentScope8x
+        weight: 2
