@@ -62,7 +62,11 @@ public sealed partial class GunAttachmentsSystem : EntitySystem
         }
 
         if (found)
+        {
             _gun.RefreshModifiers(ent.Owner);
+            var ev = new GunAttachmentVisualsChangedEvent();
+            RaiseLocalEvent(ent, ref ev);
+        }
     }
 
     private void OnEntRemovedFromContainer(Entity<AttachableGunComponent> ent, ref EntRemovedFromContainerMessage args)
@@ -79,7 +83,11 @@ public sealed partial class GunAttachmentsSystem : EntitySystem
         }
 
         if (found)
+        {
             _gun.RefreshModifiers(ent.Owner);
+            var ev = new GunAttachmentVisualsChangedEvent();
+            RaiseLocalEvent(ent, ref ev);
+        }
     }
 
     private void OnGunRefreshModifiers(Entity<AttachableGunComponent> ent, ref GunRefreshModifiersEvent args)
@@ -275,3 +283,6 @@ public sealed partial class GunAttachmentsSystem : EntitySystem
         }
     }
 }
+
+[ByRefEvent]
+public record struct GunAttachmentVisualsChangedEvent;

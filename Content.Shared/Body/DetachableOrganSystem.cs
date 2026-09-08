@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using Content.Shared.Body;
 using JetBrains.Annotations;
 using Robust.Shared.Containers;
@@ -9,6 +11,7 @@ public sealed partial class DetachableOrganSystem : EntitySystem
 {
     [Dependency] private EntityQuery<DetachableOrganComponent> _detachableOrgan;
     [Dependency] private EntityQuery<OrganComponent> _organ;
+    [Dependency] private EntityQuery<ChildOrganComponent> _child;
     [Dependency] private OrganRelationSystem _organRelation = default!;
     [Dependency] private SharedContainerSystem _container = default!;
 
@@ -22,6 +25,14 @@ public sealed partial class DetachableOrganSystem : EntitySystem
     {
         if (!_detachableOrgan.Resolve(organ, ref organ.Comp) || !_organ.TryComp(organ, out var organComp) || organComp.Body is not { } oldBody)
             return null;
+
+        var children = _organRelation.AllChildren(organ.Owner).ToList();
+        var relations = new List<(EntityUid parent, EntityUid child)>();
+        foreach (var c in children)
+        {
+            if (_child.TryComp(c, out var childComp) && childComp.Parent is { } p)
+                relations.Add((p, c.Owner));
+        }
 
         _organRelation.Orphan(organ.Owner);
         var body = PredictedSpawnNextToOrDrop(organ.Comp.DetachedBody, oldBody);
@@ -38,13 +49,18 @@ public sealed partial class DetachableOrganSystem : EntitySystem
             Log.Error($"{ToPrettyString(organ)} could not be transferred to new body {ToPrettyString(body)}.");
         }
 
-        foreach (var child in _organRelation.AllChildren(organ.Owner))
+        foreach (var child in children)
         {
             if (!_container.Insert(child.Owner, container, force: true))
             {
                 Log.Error($"{ToPrettyString(child)} could not be transferred to new body {ToPrettyString(body)}.");
                 _organRelation.Orphan(child.AsNullable());
             }
+        }
+
+        foreach (var (p, c) in relations)
+        {
+            _organRelation.Relate(p, c);
         }
 
         return body;

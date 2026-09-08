@@ -68,6 +68,7 @@
                                     <!-- Morphology + culture line is long: RichTextLabel wraps instead of clipping. -->
                                     <RichTextLabel Name="DossierCultureLabel" />
                                     <Label Name="DossierBirthplaceLabel" FontColorOverride="#878C87" />
+                                    <BoxContainer Name="DossierSkills" Orientation="Vertical" HorizontalExpand="True" Margin="0 4 0 0" SeparationOverride="2" />
                                 </BoxContainer>
                             </BoxContainer>
 

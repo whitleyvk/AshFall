@@ -56,6 +56,11 @@ namespace Content.Client.Lobby.UI
         /// </summary>
         public HumanoidCharacterProfile? Profile;
 
+        /// <summary>
+        /// Event invoked when a profile is loaded into the editor.
+        /// </summary>
+        public event Action<HumanoidCharacterProfile?>? OnSetProfile;
+
         private Direction _previewRotation = Direction.North;
 
         private bool _isDirty;
@@ -399,6 +404,8 @@ namespace Content.Client.Lobby.UI
             {
                 PreferenceUnavailableButton.SelectId((int)Profile.PreferenceUnavailable);
             }
+
+            OnSetProfile?.Invoke(Profile);
         }
 
         /// <summary>

@@ -15,6 +15,9 @@
   - Maintenance
   extendedAccess:
   - Chemistry
+  knowledge:
+    FirstAidKnowledge: 2
+    SurgeryKnowledge: 2
   special:
   - !type:GiveItemOnHolidaySpecial
     holiday: DoctorDay

@@ -9,6 +9,7 @@ using System.Net;
 using System.Text.Json;
 using Content.Shared.Database;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Content.Server.Database
 {
@@ -58,9 +59,22 @@ namespace Content.Server.Database
                 .HasIndex(p => p.UserId)
                 .IsUnique();
 
-            modelBuilder.Entity<Profile>()
-                .HasIndex(p => new {p.Slot, PrefsId = p.PreferenceId})
+            var profile = modelBuilder.Entity<Profile>();
+            profile.HasIndex(p => new {p.Slot, PrefsId = p.PreferenceId})
                 .IsUnique();
+
+            profile.Property(p => p.KnowledgeMastery)
+                .HasConversion(
+                    v => JsonSerializer.Serialize(v, (JsonSerializerOptions?)null),
+                    s => string.IsNullOrEmpty(s)
+                        ? new()
+                        : JsonSerializer.Deserialize<Dictionary<string, int>>(s, (JsonSerializerOptions?)null) ?? new()
+                )
+                .Metadata.SetValueComparer(new ValueComparer<Dictionary<string, int>>(
+                    (a, b) => a != null && b != null && a.Count == b.Count && !a.Except(b).Any(),
+                    dict => dict.GetHashCode(),
+                    dict => new Dictionary<string, int>(dict)
+                ));
 
             modelBuilder.Entity<Antag>()
                 .HasIndex(p => new {HumanoidProfileId = p.ProfileId, p.AntagName})
@@ -335,6 +349,7 @@ namespace Content.Server.Database
         public string? Voice { get; set; } = null!; // If null, the voice gets defaulted to the sex associated value
         public string Gender { get; set; } = null!;
         public string Species { get; set; } = null!;
+        public Dictionary<string, int> KnowledgeMastery { get; set; } = new();
         [Column(TypeName = "jsonb")] public JsonDocument? OrganMarkings { get; set; } = null!;
         [Column(TypeName = "jsonb")] public JsonDocument? Markings { get; set; } = null!;
         public string HairName { get; set; } = null!;

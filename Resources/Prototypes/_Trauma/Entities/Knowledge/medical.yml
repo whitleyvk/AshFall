@@ -1,0 +1,29 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+- type: entity
+  parent: BaseMedicalKnowledge
+  id: SurgeryKnowledge
+  name: Surgery
+  description: Skill at performing surgical procedures quickly and precisely.
+  components:
+  - type: Knowledge
+    experienceCost: 24
+  - type: SurgerySpeedKnowledge
+    curve: !type:LinearSkillCurve
+      skillScale: 1.5
+      skillOffset: 0.15
+
+- type: entity
+  parent: BaseMedicalKnowledge
+  id: FirstAidKnowledge
+  name: First Aid
+  description: How good you are with syringes and basic medical aid.
+  components:
+  - type: Knowledge
+    experienceCost: 19
+  - type: InjectTimeKnowledge
+    curve: !type:CubicSkillCurve
+      skillOffset: 0.6
+      skillScale: -1
+      curveOffset: 1
+      curveScale: 1.4

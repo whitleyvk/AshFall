@@ -11,6 +11,9 @@
   - Maintenance
   extendedAccess:
   - Salvage
+  knowledge:
+    StrengthKnowledge: 1
+    FabricationKnowledge: 1
   special:
   - !type:GiveItemOnHolidaySpecial
     holiday: BoxingDay

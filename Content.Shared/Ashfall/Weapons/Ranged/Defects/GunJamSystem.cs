@@ -41,7 +41,7 @@ public sealed partial class GunJamSystem : EntitySystem
             return;
 
         ent.Comp.NextPopupTime = _timing.CurTime + ent.Comp.PopupCooldown;
-        _popup.PopupClient(Loc.GetString("gun-jam-blocked"), ent, args.User, PopupType.SmallCaution);
+        _popup.PopupEntity(Loc.GetString("gun-jam-blocked"), ent, args.User, PopupType.SmallCaution);
     }
 
     private void OnGunShot(Entity<GunJamDefectComponent> ent, ref GunShotEvent args)
@@ -56,7 +56,7 @@ public sealed partial class GunJamSystem : EntitySystem
         Dirty(ent, ent.Comp);
 
         _audio.PlayPredicted(ent.Comp.SoundJamRack, ent.Owner, args.User);
-        _popup.PopupClient(Loc.GetString("gun-jam-jammed"), ent, args.User, PopupType.SmallCaution);
+        _popup.PopupEntity(Loc.GetString("gun-jam-jammed", ("gun", ent.Owner)), ent, args.User, PopupType.SmallCaution);
     }
 
     private void OnUseInHand(Entity<GunJamDefectComponent> ent, ref UseInHandEvent args)
@@ -93,6 +93,6 @@ public sealed partial class GunJamSystem : EntitySystem
             return;
 
         ent.Comp.NextPopupTime = _timing.CurTime + ent.Comp.PopupCooldown;
-        _popup.PopupClient(Loc.GetString("gun-jam-cleared"), ent, user);
+        _popup.PopupEntity(Loc.GetString("gun-jam-cleared"), ent, user);
     }
 }

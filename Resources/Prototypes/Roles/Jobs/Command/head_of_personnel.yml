@@ -51,6 +51,9 @@
   - Medical
   - GenpopEnter
   - GenpopLeave
+  knowledge:
+    FirstAidKnowledge: 1
+    KnowledgeWeaponsPistol: 1
   special:
   - !type:AddImplantSpecial
     implants: [ MindShieldImplant ]

@@ -1,0 +1,26 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+- type: knowledgeProfile
+  id: Human
+  pointsLimit: 6
+  mastery:
+    SurgeryKnowledge: 0
+    FirstAidKnowledge: 0
+    ShootingKnowledge: 0
+    ThrowingKnowledge: 0
+    MeleeKnowledge: 0
+    KnowledgeWeaponsShield: 0
+    KnowledgeWeaponsBludgeon: 0
+    KnowledgeWeaponsShortBlade: 0
+    KnowledgeWeaponsLongBlade: 0
+    KnowledgeWeaponsPolearm: 0
+    KnowledgeWeaponsNonLethal: 0
+    KnowledgeWeaponsTool: 0
+    KnowledgeWeaponsPistol: 0
+    KnowledgeWeaponsRifle: 0
+    KnowledgeWeaponsSMG: 0
+    KnowledgeWeaponsShotgun: 0
+    KnowledgeWeaponsLaser: 0
+    AthleticsKnowledge: 0
+    StrengthKnowledge: 0
+    FabricationKnowledge: 0

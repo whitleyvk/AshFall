@@ -95,6 +95,8 @@ public abstract partial class SharedTabletopSystem : EntitySystem
         var protoId = meta.EntityPrototype?.ID;
 
         var hologram = EntityManager.PredictedSpawn(protoId, session.Position.Offset(-1, 0));
+        var ev = new Content.Trauma.Common.Tabletop.TabletopSpawnedEvent();
+        RaiseLocalEvent(hologram, ref ev);
 
         // Make sure the entity can be dragged and can be removed, move it into the board game world and add it to the Entities hashmap.
         EnsureComp<TabletopDraggableComponent>(hologram);

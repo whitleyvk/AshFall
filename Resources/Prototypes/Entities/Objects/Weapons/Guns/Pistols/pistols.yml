@@ -26,6 +26,20 @@
     slots:
     - suitStorage
     - Belt
+  - type: WeaponClass
+    class: Pistol
+  - type: AttachableGun
+    slots:
+    - name: gun-slot-muzzle
+      containerId: attachment_muzzle
+      whitelist:
+        tags:
+        - GunAttachmentMuzzle
+    - name: gun-slot-optic
+      containerId: attachment_optic
+      whitelist:
+        tags:
+        - GunAttachmentOptic
   - type: Gun
     fireRate: 6
     selectedMode: SemiAuto
@@ -33,7 +47,13 @@
       - SemiAuto
       - FullAuto
     soundGunshot:
-      path: /Audio/Weapons/Guns/Gunshots/pistol.ogg
+      collection: Pistol_1_Gunshots
+  - type: EmitSoundOnPickup
+    sound:
+      collection: GunPickupSoundCollection
+  - type: EmitSoundOnDrop
+    sound:
+      collection: GunDropSoundCollection
   - type: ChamberMagazineAmmoProvider
     soundRack:
       path: /Audio/Weapons/Guns/Cock/pistol_cock.ogg
@@ -118,7 +138,7 @@
     - SemiAuto
     - FullAuto
     soundGunshot:
-      path: /Audio/Weapons/Guns/Gunshots/pistol.ogg
+      collection: Pistol_1_Gunshots
   - type: Sprite
     sprite: Objects/Weapons/Guns/Pistols/viper.rsi
     layers:
@@ -161,9 +181,7 @@
   - type: Gun
     fireRate: 4
     soundGunshot:
-      path: /Audio/Weapons/Guns/Gunshots/silenced.ogg
-      params:
-        volume: -14
+      collection: Supressed_1_Gunshots
     availableModes:
     - SemiAuto
   - type: ItemSlots
@@ -213,7 +231,7 @@
     availableModes:
     - SemiAuto
     soundGunshot:
-      path: /Audio/Weapons/Guns/Gunshots/mk58.ogg
+      collection: Pistol_2_Gunshots
   - type: StealTarget
     stealGroup: OfficerHandgun
 
@@ -241,7 +259,7 @@
     availableModes:
     - SemiAuto
     soundGunshot:
-      path: /Audio/Weapons/Guns/Gunshots/mk58.ogg
+      collection: M1911Gunshots
   - type: ItemSlots
     slots:
       gun_magazine:

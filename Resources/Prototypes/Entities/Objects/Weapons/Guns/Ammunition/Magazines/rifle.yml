@@ -9,6 +9,12 @@
       - MagazineRifle
   - type: Item
     size: Small
+  - type: EmitSoundOnPickup
+    sound:
+      collection: MagazinePickupSoundCollection
+  - type: EmitSoundOnDrop
+    sound:
+      collection: MagazineDropSoundCollection
   - type: BallisticAmmoProvider
     mayTransfer: true
     whitelist:

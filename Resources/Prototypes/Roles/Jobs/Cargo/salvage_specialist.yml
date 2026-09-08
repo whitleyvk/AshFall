@@ -15,6 +15,10 @@
   - Salvage
   - Maintenance
   - External
+  knowledge:
+    ShootingKnowledge: 1
+    StrengthKnowledge: 1
+    KnowledgeWeaponsTool: 1
 
 - type: startingGear
   id: SalvageSpecialistGear

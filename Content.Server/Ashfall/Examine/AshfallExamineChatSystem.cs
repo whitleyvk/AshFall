@@ -35,11 +35,12 @@ public sealed partial class AshfallExamineChatSystem : EntitySystem
         var rawMessage = FormattedMessage.RemoveMarkupPermissive(markup);
 
         _chatManager.ChatMessageToOne(
-            ChatChannel.Emotes,
+            ChatChannel.Server,
             rawMessage,
             markup,
-            uid,
+            default,
             hideChat: false,
-            client: channel);
+            client: channel,
+            colorOverride: Color.FromHex("#A3A8A3"));
     }
 }

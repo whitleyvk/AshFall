@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
+using Content.Trauma.Shared.Knowledge.Systems;
+using Robust.Shared.GameStates;
+
+namespace Content.Trauma.Shared.Knowledge.Components;
+
+/// <summary>
+/// Knowledge component to modify injector time according to a skill curve.
+/// </summary>
+[RegisterComponent, NetworkedComponent, Access(typeof(FirstAidKnowledgeSystem))]
+public sealed partial class InjectTimeKnowledgeComponent : Component
+{
+    /// <summary>
+    /// The skill curve to use.
+    /// </summary>
+    [DataField(required: true)]
+    public SkillCurve Curve = default!;
+}

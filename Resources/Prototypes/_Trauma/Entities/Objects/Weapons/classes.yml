@@ -1,0 +1,73 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+- type: weaponClass
+  id: Unarmed
+  name: weapon-class-unarmed
+  knowledge: MeleeKnowledge
+
+- type: weaponClass
+  id: Bludgeon
+  name: weapon-class-bludgeon
+  knowledge: KnowledgeWeaponsBludgeon
+
+- type: weaponClass
+  id: Knife
+  name: weapon-class-knife
+  knowledge: KnowledgeWeaponsShortBlade
+
+- type: weaponClass
+  id: Sword
+  name: weapon-class-sword
+  knowledge: KnowledgeWeaponsLongBlade
+
+- type: weaponClass
+  id: Polearm
+  name: weapon-class-polearm
+  knowledge: KnowledgeWeaponsPolearm
+
+- type: weaponClass
+  id: NonLethal
+  name: weapon-class-nonlethal
+  knowledge: KnowledgeWeaponsNonLethal
+
+- type: weaponClass
+  id: Tool
+  name: weapon-class-tool
+  knowledge: KnowledgeWeaponsTool
+
+- type: weaponClass
+  id: Energy
+  name: weapon-class-energy
+  knowledge: KnowledgeWeaponsEnergy
+
+- type: weaponClass
+  id: Shield
+  name: weapon-class-shield
+  knowledge: KnowledgeWeaponsShield
+
+## Ranged ##
+
+- type: weaponClass
+  id: Pistol
+  name: weapon-class-pistol
+  knowledge: KnowledgeWeaponsPistol
+
+- type: weaponClass
+  id: Rifle
+  name: weapon-class-rifle
+  knowledge: KnowledgeWeaponsRifle
+
+- type: weaponClass
+  id: SMG
+  name: weapon-class-smg
+  knowledge: KnowledgeWeaponsSMG
+
+- type: weaponClass
+  id: Shotgun
+  name: weapon-class-shotgun
+  knowledge: KnowledgeWeaponsShotgun
+
+- type: weaponClass
+  id: Laser
+  name: weapon-class-laser
+  knowledge: KnowledgeWeaponsLaser

@@ -4,3 +4,4 @@ defibrillator-no-mind = Не удалось обнаружить паттерн�
 defibrillator-not-living = Warning: Defibrillation target was an inanimate object. Consider retargeting.
 defibrillator-rotten = Обнаружено разложение тела: реанимация невозможна.
 defibrillator-unrevivable = Этот пациент не может быть оживлён из-за уникального телосложения.
+defibrillator-missing-organs = Пациент лишён жизненно важных органов, реанимация невозможна!

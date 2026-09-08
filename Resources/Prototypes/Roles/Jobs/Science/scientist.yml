@@ -13,6 +13,8 @@
   access:
   - Research
   - Maintenance
+  knowledge:
+    FabricationKnowledge: 1
 
 - type: startingGear
   id: ScientistGear

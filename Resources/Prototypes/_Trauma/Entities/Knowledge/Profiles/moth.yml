@@ -1,0 +1,14 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+- type: knowledgeProfile
+  id: Moth
+  pointsLimit: 5
+  mastery:
+    FirstAidKnowledge: 0
+    SurgeryKnowledge: 0
+    MeleeKnowledge: 0
+    ShootingKnowledge: 0
+    KnowledgeWeaponsShield: 0
+    ThrowingKnowledge: 0
+    StaminaKnowledge: 0
+    FabricationKnowledge: 1

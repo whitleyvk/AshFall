@@ -12,6 +12,8 @@
     slots:
     - Back
     - suitStorage
+  - type: WeaponClass
+    class: Laser
   - type: Gun
     fireRate: 2
     selectedMode: SemiAuto

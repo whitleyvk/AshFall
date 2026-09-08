@@ -362,6 +362,9 @@ public abstract partial class SharedMoverController : VirtualController
                 {
                     _audio.PlayPredicted(sound, uid, uid, audioParams);
                 }
+
+                var stepEv = new Content.Trauma.Common.Movement.FootStepEvent(uid, wishDir.ToWorldAngle());
+                RaiseLocalEvent(uid, ref stepEv);
             }
         }
     }

@@ -9,5 +9,6 @@ namespace Content.Shared.Movement.Components;
 [RegisterComponent, NetworkedComponent, Access(typeof(SharedWieldableSystem))]
 public sealed partial class CursorOffsetRequiresWieldComponent : Component
 {
-
+    [DataField]
+    public float ViewAngleMultiplier = 0.3f;
 }

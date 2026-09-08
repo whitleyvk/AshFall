@@ -47,6 +47,11 @@
   - type: BentSwitchDefect
     prob: 0.25
 
+- type: entity
+  parent: [WeaponPistolCobra, BaseWeaponWorn]
+  id: WeaponPistolCobraWorn
+  suffix: Worn
+
 # Revolver
 - type: entity
   parent: [WeaponRevolverDeckard, BaseWeaponWorn]
@@ -77,8 +82,21 @@
   suffix: Worn
 
 - type: entity
+  parent: [WeaponSniperHristov, BaseWeaponWorn]
+  id: WeaponSniperHristovWorn
+  suffix: Worn
+
+- type: entity
   parent: [WeaponRifleLecter, BaseWeaponWorn]
   id: WeaponRifleLecterWorn
+  suffix: Worn
+  components:
+  - type: BentSwitchDefect
+    prob: 0.25
+
+- type: entity
+  parent: [WeaponRifleEstoc, BaseWeaponWorn]
+  id: WeaponRifleEstocWorn
   suffix: Worn
   components:
   - type: BentSwitchDefect
@@ -103,6 +121,11 @@
   id: WeaponShotgunEnforcerWorn
   suffix: Worn
 
+- type: entity
+  parent: [WeaponShotgunHushpup, BaseWeaponWorn]
+  id: WeaponShotgunHushpupWorn
+  suffix: Worn
+
 # LMG
 - type: entity
   parent: [WeaponLightMachineGunL6, BaseWeaponWorn]
@@ -111,3 +134,9 @@
   components:
   - type: BentSwitchDefect
     prob: 0.35
+
+# Energy
+- type: entity
+  parent: [WeaponEnergyCrossbow, BaseWeaponWorn]
+  id: WeaponEnergyCrossbowWorn
+  suffix: Worn

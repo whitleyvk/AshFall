@@ -1,0 +1,68 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+- type: entity
+  parent: BaseToolSurgery
+  id: Bonesetter
+  name: bone setter
+  description: Used for setting bones back into place.
+  components:
+  - type: Sprite
+    sprite: _Trauma/Objects/Specific/Medical/Surgery/bonesetter.rsi
+    state: bonesetter
+  - type: Item
+  - type: BoneSetter
+  - type: SurgeryTool
+    startSound:
+      path: /Audio/_Trauma/Medical/Surgery/bone_setter.ogg
+
+- type: entity
+  parent: BaseToolSurgery
+  id: BoneGel
+  name: bottle of bone gel
+  description: A container for bone gel that often needs to be refilled from a specialized machine.
+  components:
+  - type: Sprite
+    sprite: _Trauma/Objects/Specific/Medical/Surgery/bone-gel.rsi
+    state: bone-gel
+  - type: BoneGel
+
+- type: entity
+  parent: BaseToolSurgery
+  id: MedicalStitches
+  name: medical stitches
+  description: A fine, curved needle with a length of absorbable polyglycolide suture thread.
+  components:
+  - type: Sprite
+    sprite: _Trauma/Objects/Specific/Medical/Surgery/stitches.rsi
+    state: stitches
+  - type: SurgeryTool
+    startSound:
+      path: /Audio/_Trauma/Medical/Surgery/hemostat1.ogg
+  - type: Stitches
+
+- type: entity
+  name: surgical omnitool
+  id: OmnimedTool
+  parent: BaseToolSurgery
+  description: A compact surgical omnitool conveniently packed like a Swiss Army knife.
+  components:
+  - type: Sprite
+    sprite: _Trauma/Objects/Specific/Medical/Surgery/omnimed.rsi
+    state: omnimed
+  - type: Item
+    size: Normal
+    sprite: _Trauma/Objects/Specific/Medical/Surgery/omnimed.rsi
+  - type: SurgeryTool
+    startSound:
+      path: /Audio/_Trauma/Medical/Surgery/saw.ogg
+  - type: Hemostat
+  - type: Scalpel
+  - type: Drill
+  - type: BoneSetter
+  - type: Retractor
+  - type: Cautery
+  - type: BoneGel
+  - type: BoneSaw
+  - type: Tweezers
+  - type: Tending
+  - type: Stitches

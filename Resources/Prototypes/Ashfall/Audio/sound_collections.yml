@@ -1,0 +1,45 @@
+- type: soundCollection
+  id: AshfallSparksZap
+  files:
+  - /Audio/Ashfall/Ambience/Sparks/zap1.ogg
+  - /Audio/Ashfall/Ambience/Sparks/zap2.ogg
+  - /Audio/Ashfall/Ambience/Sparks/zap3.ogg
+  - /Audio/Ashfall/Ambience/Sparks/zap4.ogg
+  - /Audio/Ashfall/Ambience/Sparks/zap5.ogg
+
+- type: soundCollection
+  id: AshfallAmeZap
+  files:
+  - /Audio/Ashfall/Ambience/Ame/zap1.ogg
+  - /Audio/Ashfall/Ambience/Ame/zap2.ogg
+  - /Audio/Ashfall/Ambience/Ame/zap3.ogg
+  - /Audio/Ashfall/Ambience/Ame/zap4.ogg
+  - /Audio/Ashfall/Ambience/Ame/zap5.ogg
+
+- type: soundCollection
+  id: AshfallArmorBreak
+  files:
+  - /Audio/Ashfall/Effects/armor_break.ogg
+  - /Audio/Ashfall/Effects/armor_break_2.ogg
+
+- type: soundCollection
+  id: AshfallMagDrop
+  files:
+  - /Audio/Ashfall/Weapons/Interact/mag_drop.ogg
+  - /Audio/Ashfall/Weapons/Interact/big_mag_drop.ogg
+
+- type: soundCollection
+  id: AshfallMagPick
+  files:
+  - /Audio/Ashfall/Weapons/Interact/mag_pick.ogg
+  - /Audio/Ashfall/Weapons/Interact/big_mag_pick.ogg
+
+- type: soundCollection
+  id: AshfallGunDrop
+  files:
+  - /Audio/Ashfall/Weapons/Interact/gun_drop.ogg
+
+- type: soundCollection
+  id: AshfallGunPick
+  files:
+  - /Audio/Ashfall/Weapons/Interact/gun_pick.ogg

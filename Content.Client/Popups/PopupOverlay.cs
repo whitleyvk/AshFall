@@ -99,6 +99,14 @@ public sealed class PopupOverlay : Overlay
                     e => e == popup.InitialPos.EntityId || e == ourEntity))
                 continue;
 
+            if (ourEntity != null)
+            {
+                var ev = new Content.Trauma.Common.Popups.ShowPopupAttemptEvent(mapPos.Position, ourPos);
+                _entManager.EventBus.RaiseLocalEvent(ourEntity.Value, ref ev);
+                if (ev.Cancelled)
+                    continue;
+            }
+
             var pos = Vector2.Transform(mapPos.Position, matrix);
             _controller.DrawPopup(popup, worldHandle, pos, scale);
         }

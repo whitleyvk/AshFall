@@ -34,6 +34,7 @@ public sealed partial class LobbyUIController : UIController, IOnStateEntered<Lo
 
     private CharacterSetupGui? _characterSetup;
     private HumanoidProfileEditor? _profileEditor;
+    public static event Action<HumanoidProfileEditor>? OnProfileEditorCreated;
     private CharacterSetupGuiSavePanel? _savePanel;
     private Ashfall.CharacterGen.UI.AshfallPersonalFilesScreen? _personalFilesScreen;
 
@@ -323,6 +324,7 @@ public sealed partial class LobbyUIController : UIController, IOnStateEntered<Lo
             _markings);
 
         _profileEditor.OnOpenGuidebook += _guide.OpenHelp;
+        OnProfileEditorCreated?.Invoke(_profileEditor);
 
         _characterSetup = new CharacterSetupGui(_profileEditor);
 

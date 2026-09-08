@@ -138,6 +138,150 @@ ashfall-lore-education-performance = {$sex ->
    *[male] Окончил практический курс сценической и общественной работы.
 }
 
+ashfall-lore-career-engineering-1 = {$sex ->
+    [female] Ранее работала дежурным техником на грузовом терминале.
+   *[male] Ранее работал дежурным техником на грузовом терминале.
+}
+ashfall-lore-career-engineering-2 = {$sex ->
+    [female] Ранее работала ремонтным техником на орбитальной верфи.
+   *[male] Ранее работал ремонтным техником на орбитальной верфи.
+}
+ashfall-lore-career-engineering-3 = {$sex ->
+    [female] Ранее обслуживала атмосферные системы.
+   *[male] Ранее обслуживал атмосферные системы.
+}
+ashfall-lore-career-engineering-4 = {$sex ->
+    [female] Ранее работала инженером систем жизнеобеспечения.
+   *[male] Ранее работал инженером систем жизнеобеспечения.
+}
+ashfall-lore-career-engineering-5 = {$sex ->
+    [female] Ранее работала техником в Ashen Industrial.
+   *[male] Ранее работал техником в Ashen Industrial.
+}
+
+ashfall-lore-career-medical-1 = {$sex ->
+    [female] Ранее работала санитаркой в колониальной клинике.
+   *[male] Ранее работал санитаром в колониальной клинике.
+}
+ashfall-lore-career-medical-2 = {$sex ->
+    [female] Ранее работала фельдшером на транспортном узле.
+   *[male] Ранее работал фельдшером на транспортном узле.
+}
+ashfall-lore-career-medical-3 = {$sex ->
+    [female] Ранее работала лаборанткой в медицинском центре.
+   *[male] Ранее работал лаборантом в медицинском центре.
+}
+ashfall-lore-career-medical-4 = {$sex ->
+    [female] Ранее работала дежурным врачом.
+   *[male] Ранее работал дежурным врачом.
+}
+ashfall-lore-career-medical-5 = {$sex ->
+    [female] Ранее работала фельдшером в Ashen Industrial.
+   *[male] Ранее работал фельдшером в Ashen Industrial.
+}
+
+ashfall-lore-career-science-1 = {$sex ->
+    [female] Ранее работала лаборанткой в испытательном центре.
+   *[male] Ранее работал лаборантом в испытательном центре.
+}
+ashfall-lore-career-science-2 = {$sex ->
+    [female] Ранее работала техником на исследовательской станции.
+   *[male] Ранее работал техником на исследовательской станции.
+}
+ashfall-lore-career-science-3 = {$sex ->
+    [female] Ранее работала аналитиком материалов.
+   *[male] Ранее работал аналитиком материалов.
+}
+ashfall-lore-career-science-4 = {$sex ->
+    [female] Ранее работала исследователем в Ashen Industrial.
+   *[male] Ранее работал исследователем в Ashen Industrial.
+}
+ashfall-lore-career-science-5 = {$sex ->
+    [female] Ранее обслуживала экспериментальное оборудование.
+   *[male] Ранее обслуживал экспериментальное оборудование.
+}
+
+ashfall-lore-career-cargo-1 = {$sex ->
+    [female] Ранее работала кладовщицей на грузовой базе.
+   *[male] Ранее работал кладовщиком на грузовой базе.
+}
+ashfall-lore-career-cargo-2 = {$sex ->
+    [female] Ранее работала экспедитором в орбитальном порту.
+   *[male] Ранее работал экспедитором в орбитальном порту.
+}
+ashfall-lore-career-cargo-3 = {$sex ->
+    [female] Ранее занималась возвратом имущества компании.
+   *[male] Ранее занимался возвратом имущества компании.
+}
+ashfall-lore-career-cargo-4 = {$sex ->
+    [female] Ранее отвечала за снабжение жилой станции.
+   *[male] Ранее отвечал за снабжение жилой станции.
+}
+ashfall-lore-career-cargo-5 = {$sex ->
+    [female] Ранее работала логистом в Ashen Industrial.
+   *[male] Ранее работал логистом в Ashen Industrial.
+}
+
+ashfall-lore-career-security-1 = {$sex ->
+    [female] Ранее несла караульную службу в промышленном секторе.
+   *[male] Ранее нёс караульную службу в промышленном секторе.
+}
+ashfall-lore-career-security-2 = {$sex ->
+    [female] Ранее досматривала грузы на терминале.
+   *[male] Ранее досматривал грузы на терминале.
+}
+ashfall-lore-career-security-3 = {$sex ->
+    [female] Ранее работала сотрудницей внутренней безопасности.
+   *[male] Ранее работал сотрудником внутренней безопасности.
+}
+ashfall-lore-career-security-4 = {$sex ->
+    [female] Ранее координировала патрули станционной службы безопасности.
+   *[male] Ранее координировал патрули станционной службы безопасности.
+}
+ashfall-lore-career-security-5 = {$sex ->
+    [female] Ранее работала охранником в Ashen Industrial.
+   *[male] Ранее работал охранником в Ashen Industrial.
+}
+
+ashfall-lore-career-service-1 = {$sex ->
+    [female] Ранее работала в служебной столовой.
+   *[male] Ранее работал в служебной столовой.
+}
+ashfall-lore-career-service-2 = {$sex ->
+    [female] Ранее занималась санитарной обработкой жилых отсеков.
+   *[male] Ранее занимался санитарной обработкой жилых отсеков.
+}
+ashfall-lore-career-service-3 = {$sex ->
+    [female] Ранее вела документацию жилого комплекса.
+   *[male] Ранее вёл документацию жилого комплекса.
+}
+ashfall-lore-career-service-4 = {$sex ->
+    [female] Ранее работала садовницей на орбитальной ферме.
+   *[male] Ранее работал садовником на орбитальной ферме.
+}
+
+ashfall-lore-career-command-1 = {$sex ->
+    [female] Ранее координировала рабочую смену.
+   *[male] Ранее координировал рабочую смену.
+}
+ashfall-lore-career-command-2 = {$sex ->
+    [female] Ранее работала помощницей управляющего объектом.
+   *[male] Ранее работал помощником управляющего объектом.
+}
+ashfall-lore-career-command-3 = {$sex ->
+    [female] Ранее руководила небольшой станцией.
+   *[male] Ранее руководил небольшой станцией.
+}
+ashfall-lore-career-command-4 = {$sex ->
+    [female] Ранее инспектировала производственные подразделения.
+   *[male] Ранее инспектировал производственные подразделения.
+}
+
+ashfall-lore-career-performance-1 = {$sex ->
+    [female] Ранее выступала музыканткой на пассажирских рейсах.
+   *[male] Ранее выступал музыкантом на пассажирских рейсах.
+}
+
 ashfall-lore-career-engineering-hephaestus = {$sex ->
     [female] Ранее работала инженером верфей Hephaestus Industries.
    *[male] Ранее работал инженером верфей Hephaestus Industries.
@@ -736,4 +880,3 @@ ashfall-lore-personality-veiru-2 = {$sex ->
     [female] Нетерпима к шуму, но работает исключительно быстро в одиночных сменах.
    *[male] Нетерпим к шуму, но работает исключительно быстро в одиночных сменах.
 }
-

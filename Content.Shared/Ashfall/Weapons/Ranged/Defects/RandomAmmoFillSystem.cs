@@ -32,8 +32,10 @@ public sealed partial class RandomAmmoFillSystem : EntitySystem
         if (!TryComp<BallisticAmmoProviderComponent>(ent.Owner, out var ballistic))
             return;
 
-        var min = Math.Clamp((int) MathF.Round(ballistic.Capacity * ent.Comp.MinFillFraction), 1, ballistic.Capacity);
-        var max = Math.Clamp((int) MathF.Round(ballistic.Capacity * ent.Comp.MaxFillFraction), min, ballistic.Capacity);
+        var min = Math.Clamp((int) MathF.Round(ballistic.Capacity * ent.Comp.MinFillFraction), 0, ballistic.Capacity);
+        var max = Math.Clamp((int) MathF.Round(ballistic.Capacity * ent.Comp.MaxFillFraction), 0, ballistic.Capacity);
+        if (min > max)
+            min = max;
 
         var count = _random.Next(min, max + 1);
         _gunSystem.SetBallisticUnspawned((ent.Owner, ballistic), count);

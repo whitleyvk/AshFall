@@ -92,7 +92,7 @@
     availableModes:
     - FullAuto
     soundGunshot:
-      path: /Audio/Weapons/Guns/Gunshots/gun_sentry.ogg
+      collection: TurretGunshots
   - type: BallisticAmmoProvider
     proto: CartridgeCaselessRifle
     capacity: 500

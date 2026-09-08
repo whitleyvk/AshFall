@@ -169,6 +169,7 @@ namespace Content.Client.Entry
 
             // Setup key contexts
             ContentContexts.SetupContexts(_inputManager.Contexts);
+            Content.Trauma.Client.Input.TraumaInputContexts.SetupContexts(_inputManager.Contexts);
 
             _parallaxManager.LoadDefaultParallax();
 

@@ -1,0 +1,15 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+- type: entity
+  parent: BasePhysicalKnowledge
+  id: StaminaKnowledge
+  components:
+  - type: Knowledge
+    unremoveable: true
+    experienceCost: 15
+    costs: [0, 1, 3, 6]
+  - type: StaminaKnowledge
+    curve: !type:RootSkillCurve
+      skillScale: 100
+      curveOffset: 1.0
+      curveScale: -0.3

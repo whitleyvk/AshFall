@@ -3,6 +3,8 @@
   parent: BaseItem
   abstract: true
   components:
+  - type: WeaponClass
+    class: Energy
   - type: EnergySword
   - type: ItemToggle
     soundActivate:

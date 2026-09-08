@@ -260,6 +260,15 @@ namespace Content.Server.Database
                         .Select(t => new Trait {TraitName = t})
             );
 
+            profile.KnowledgeMastery.Clear();
+            if (humanoid.Knowledge != null)
+            {
+                foreach (var (id, mastery) in humanoid.Knowledge.Mastery)
+                {
+                    profile.KnowledgeMastery[id] = mastery;
+                }
+            }
+
             profile.Loadouts.Clear();
 
             foreach (var (role, loadouts) in humanoid.Loadouts)

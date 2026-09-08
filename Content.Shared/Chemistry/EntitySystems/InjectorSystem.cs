@@ -305,6 +305,10 @@ public sealed partial class InjectorSystem : EntitySystem
         else if (_standingState.IsDown(target))
             doAfterTime *= activeMode.DownedModifier;
 
+        var ev = new UserModifyInjectTimeEvent(user, injector, doAfterTime);
+        RaiseLocalEvent(user, ref ev);
+        doAfterTime = ev.Delay;
+
         return true;
     }
     #endregion Mob Interaction

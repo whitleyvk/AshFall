@@ -15,6 +15,8 @@
         weight: 10
       - id: WeaponPistolViperWorn
         weight: 6
+      - id: WeaponPistolCobraWorn
+        weight: 3
       - id: WeaponRevolverDeckardWorn
         weight: 3
 
@@ -26,8 +28,8 @@
   - type: Sprite
     layers:
     - state: red
-    - sprite: Objects/Weapons/Guns/Rifles/mosin.rsi
-      state: icon
+    - sprite: Objects/Weapons/Guns/Snipers/bolt_gun_wood.rsi
+      state: base
   - type: EntityTableSpawner
     table: !type:GroupSelector
       children:
@@ -37,6 +39,10 @@
         weight: 6
       - id: WeaponRifleLecterWorn
         weight: 4
+      - id: WeaponRifleEstocWorn
+        weight: 3
+      - id: WeaponSniperHristovWorn
+        weight: 1
       - id: WeaponSubMachineGunC20rWorn
         weight: 3
       - id: WeaponLightMachineGunL6Worn
@@ -50,7 +56,7 @@
   - type: Sprite
     layers:
     - state: red
-    - sprite: Objects/Weapons/Guns/Shotguns/kammerer.rsi
+    - sprite: Objects/Weapons/Guns/Shotguns/pump.rsi
       state: icon
   - type: EntityTableSpawner
     table: !type:GroupSelector
@@ -61,6 +67,8 @@
         weight: 4
       - id: WeaponShotgunBulldogWorn
         weight: 2
+      - id: WeaponShotgunHushpupWorn
+        weight: 1
 
 - type: entity
   name: worn gun loot spawner (all)
@@ -79,6 +87,8 @@
         weight: 12
       - id: WeaponPistolViperWorn
         weight: 8
+      - id: WeaponPistolCobraWorn
+        weight: 4
       - id: WeaponShotgunKammererWorn
         weight: 8
       - id: WeaponSniperMosinWorn
@@ -96,6 +106,14 @@
       - id: WeaponShotgunBulldogWorn
         weight: 2
       - id: WeaponLightMachineGunL6Worn
+        weight: 1
+      - id: WeaponRifleEstocWorn
+        weight: 3
+      - id: WeaponSniperHristovWorn
+        weight: 1
+      - id: WeaponShotgunHushpupWorn
+        weight: 2
+      - id: WeaponEnergyCrossbowWorn
         weight: 1
 
 - type: entity
@@ -130,6 +148,26 @@
       - id: BoxShotgunFlechette
         weight: 4
       - id: MagazineShotgunFlechette
+        weight: 2
+      - id: MagazinePistolPC
+        weight: 4
+      - id: MagazinePistolHP
+        weight: 4
+      - id: MagazinePistolSubMachineGunPC
+        weight: 3
+      - id: MagazinePistolSubMachineGunHP
+        weight: 3
+      - id: MagazineRiflePC
+        weight: 3
+      - id: MagazineRifleHP
+        weight: 3
+      - id: MagazineLightRiflePC
+        weight: 3
+      - id: MagazineLightRifleHP
+        weight: 3
+      - id: SpeedLoaderMagnumPC
+        weight: 2
+      - id: SpeedLoaderMagnumHP
         weight: 2
 
 - type: entity

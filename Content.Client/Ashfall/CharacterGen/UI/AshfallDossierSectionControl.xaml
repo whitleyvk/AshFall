@@ -7,7 +7,7 @@
                                BorderThickness="0 1 0 0" />
     </PanelContainer.PanelOverride>
     <BoxContainer Orientation="Vertical" Margin="12 8" SeparationOverride="4">
-        <RichTextLabel Name="SectionHeader" HorizontalExpand="True" VerticalAlignment="Top" />
+        <RichTextLabel Name="SectionHeader" HorizontalExpand="True" />
         <BoxContainer Name="LinesContainer" Orientation="Vertical" HorizontalExpand="True"
                       Margin="8 0 0 0" SeparationOverride="4" />
     </BoxContainer>

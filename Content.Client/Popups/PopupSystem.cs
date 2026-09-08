@@ -100,7 +100,7 @@ public sealed partial class PopupSystem : SharedPopupSystem
         if (_aliveWorldLabels.TryGetValue(popupData, out var existingLabel))
         {
             WrapAndRepeatPopup(existingLabel, popupData.Message);
-            LogPopupToChat(message, coordinates);
+            LogPopupToChat(message, type, coordinates);
             return;
         }
 
@@ -111,7 +111,7 @@ public sealed partial class PopupSystem : SharedPopupSystem
         };
 
         _aliveWorldLabels.Add(popupData, label);
-        LogPopupToChat(message, coordinates);
+        LogPopupToChat(message, type, coordinates);
     }
 
     /// <summary>
@@ -129,7 +129,7 @@ public sealed partial class PopupSystem : SharedPopupSystem
         if (_aliveCursorLabels.TryGetValue(popupData, out var existingLabel))
         {
             WrapAndRepeatPopup(existingLabel, popupData.Message);
-            LogPopupToChat(message);
+            LogPopupToChat(message, type);
             return;
         }
 
@@ -140,10 +140,10 @@ public sealed partial class PopupSystem : SharedPopupSystem
         };
 
         _aliveCursorLabels.Add(popupData, label);
-        LogPopupToChat(message);
+        LogPopupToChat(message, type);
     }
 
-    private void LogPopupToChat(string message, EntityCoordinates? coordinates = null)
+    private void LogPopupToChat(string message, PopupType type, EntityCoordinates? coordinates = null)
     {
         if (!_configManager.GetCVar(AshfallCCVars.ChatLogInChat))
             return;
@@ -156,16 +156,28 @@ public sealed partial class PopupSystem : SharedPopupSystem
             if (playerCoords.MapId != popupCoords.MapId)
                 return;
 
-            if ((playerCoords.Position - popupCoords.Position).LengthSquared() > ExamineSystemShared.ExamineRange * ExamineSystemShared.ExamineRange)
+            if (!_examine.InRangeUnOccluded(player, coordinates.Value, ExamineSystemShared.ExamineRange))
                 return;
         }
 
+        var fontSize = type switch
+        {
+            PopupType.Medium or PopupType.MediumCaution => 12,
+            PopupType.Large or PopupType.LargeCaution => 15,
+            _ => 10,
+        };
+        var color = type is PopupType.SmallCaution or PopupType.MediumCaution or PopupType.LargeCaution
+            ? "#C62828"
+            : "#AEABC4";
+        var wrappedMessage = $"[font size={fontSize}][color={color}]{message}[/color][/font]";
+        var colorVal = Color.FromHex(color);
         var chatMsg = new ChatMessage(
-            ChatChannel.Emotes,
+            ChatChannel.Server,
             message,
-            message,
+            wrappedMessage,
             NetEntity.Invalid,
-            null);
+            senderKey: null,
+            colorOverride: colorVal);
 
         _uiManager.GetUIController<ChatUIController>().ProcessChatMessage(chatMsg, speechBubble: false);
     }

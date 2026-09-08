@@ -13,9 +13,12 @@
 - type: entity
   parent: BaseGunAttachment
   id: AttachmentSuppressorPistol
-  name: attachment-suppressor-pistol-name
-  description: attachment-suppressor-pistol-desc
   components:
+  - type: GunAttachment
+    attachedSprite:
+      sprite: Ashfall/Objects/Weapons/Attachments/Suppressors/multi_cal.rsi
+      state: multical_pistol
+    attachedOffset: 0.5, 0
   - type: Sprite
     sprite: Ashfall/Objects/Weapons/Attachments/Suppressors/multi_cal.rsi
     state: multical_pistol
@@ -24,14 +27,17 @@
     - GunAttachmentMuzzle
   - type: GunSoundAttachment
     sound:
-      path: /Audio/Weapons/Guns/Gunshots/silenced.ogg
+      collection: Supressed_1_Gunshots
 
 - type: entity
   parent: BaseGunAttachment
   id: AttachmentSuppressorRifle
-  name: attachment-suppressor-rifle-name
-  description: attachment-suppressor-rifle-desc
   components:
+  - type: GunAttachment
+    attachedSprite:
+      sprite: Ashfall/Objects/Weapons/Attachments/Suppressors/multi_cal.rsi
+      state: multical_rifle
+    attachedOffset: 0.5, 0
   - type: Sprite
     sprite: Ashfall/Objects/Weapons/Attachments/Suppressors/multi_cal.rsi
     state: multical_rifle
@@ -40,15 +46,18 @@
     - GunAttachmentMuzzle
   - type: GunSoundAttachment
     sound:
-      path: /Audio/Weapons/Guns/Gunshots/silenced.ogg
+      collection: Supressed_2_Gunshots
 
 # Underbarrel / Grips
 - type: entity
   parent: BaseGunAttachment
   id: AttachmentGripVFG
-  name: attachment-grip-vfg-name
-  description: attachment-grip-vfg-desc
   components:
+  - type: GunAttachment
+    attachedSprite:
+      sprite: Ashfall/Objects/Weapons/Attachments/Grips/erebus_railmount.rsi
+      state: vfg
+    attachedOffset: 0.25, -0.125
   - type: Sprite
     sprite: Ashfall/Objects/Weapons/Attachments/Grips/erebus_railmount.rsi
     state: vfg
@@ -64,9 +73,13 @@
 - type: entity
   parent: BaseGunAttachment
   id: AttachmentLAM
-  name: attachment-lam-name
-  description: attachment-lam-desc
   components:
+  - type: GunAttachment
+    attachedSprite:
+      sprite: Ashfall/Objects/Weapons/Attachments/Grips/erebus_railmount.rsi
+      state: lam
+    attachedOffset: 0.25, -0.125
+    hasUnshaded: true
   - type: Sprite
     sprite: Ashfall/Objects/Weapons/Attachments/Grips/erebus_railmount.rsi
     state: lam
@@ -81,9 +94,12 @@
 - type: entity
   parent: BaseGunAttachment
   id: AttachmentScope2x
-  name: attachment-scope-2x-name
-  description: attachment-scope-2x-desc
   components:
+  - type: GunAttachment
+    attachedSprite:
+      sprite: Ashfall/Objects/Weapons/Attachments/Optics/scopes.rsi
+      state: erebus_2x
+    attachedOffset: 0, 0.1875
   - type: Sprite
     sprite: Ashfall/Objects/Weapons/Attachments/Optics/scopes.rsi
     state: erebus_2x
@@ -97,9 +113,12 @@
 - type: entity
   parent: BaseGunAttachment
   id: AttachmentScope4x
-  name: attachment-scope-4x-name
-  description: attachment-scope-4x-desc
   components:
+  - type: GunAttachment
+    attachedSprite:
+      sprite: Ashfall/Objects/Weapons/Attachments/Optics/scopes.rsi
+      state: erebus_4x
+    attachedOffset: 0, 0.1875
   - type: Sprite
     sprite: Ashfall/Objects/Weapons/Attachments/Optics/scopes.rsi
     state: erebus_4x
@@ -113,9 +132,12 @@
 - type: entity
   parent: BaseGunAttachment
   id: AttachmentScope8x
-  name: attachment-scope-8x-name
-  description: attachment-scope-8x-desc
   components:
+  - type: GunAttachment
+    attachedSprite:
+      sprite: Ashfall/Objects/Weapons/Attachments/Optics/scopes.rsi
+      state: erebus_8x
+    attachedOffset: 0, 0.1875
   - type: Sprite
     sprite: Ashfall/Objects/Weapons/Attachments/Optics/scopes.rsi
     state: erebus_8x

@@ -26,6 +26,9 @@
   - ChiefMedicalOfficer
   - Brig
   - Cryogenics
+  knowledge:
+    FirstAidKnowledge: 3
+    SurgeryKnowledge: 3
   special:
   - !type:AddImplantSpecial
     implants: [ MindShieldImplant ]

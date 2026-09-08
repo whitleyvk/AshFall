@@ -25,6 +25,10 @@
   - Command
   - Brig
   - Cryogenics
+  knowledge:
+    StrengthKnowledge: 1
+    FabricationKnowledge: 1
+    KnowledgeWeaponsTool: 1
   special:
   - !type:AddImplantSpecial
     implants: [ MindShieldImplant ]

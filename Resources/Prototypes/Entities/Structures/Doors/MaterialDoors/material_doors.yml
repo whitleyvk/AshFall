@@ -1,4 +1,4 @@
-﻿- type: entity
+- type: entity
   abstract: true
   parent: BaseStructure
   id: BaseMaterialDoor
@@ -50,6 +50,7 @@
     fx: EffectRCDDeconstruct6
   - type: Occluder
   - type: BlockWeather
+  - type: SoundBlocker
   - type: IconSmooth
     key: walls
     mode: NoSprite

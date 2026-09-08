@@ -1,0 +1,15 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+- type: entity
+  abstract: true
+  id: BaseKnowledgeContainer
+  components:
+  - type: KnowledgeContainer
+  - type: ContainerContainer
+    containers:
+      knowledge: !type:Container
+      Wounds: !type:Container
+  - type: KnowledgeGrant
+    skills:
+      FirstAidKnowledge: 0
+      MeleeKnowledge: 0

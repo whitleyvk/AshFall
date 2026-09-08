@@ -4,6 +4,10 @@
   save: false
   id: BaseControllable
   components:
+  - type: Viewcone
+  - type: ViewconeOccludable
+    useMemory: false
+  - type: ViewconeFootstepsEffect
   - type: Sprite
     noRot: true
     drawdepth: Mobs
@@ -163,6 +167,7 @@
   id: MobCombat
   abstract: true
   components:
+  - type: ViewconeMeleeEffect
   - type: CombatMode
   - type: MeleeWeapon
     hidden: true

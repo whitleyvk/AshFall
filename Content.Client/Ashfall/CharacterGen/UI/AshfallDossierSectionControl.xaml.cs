@@ -1,5 +1,6 @@
 using System.Linq;
 using Content.Shared.Ashfall.CharacterGen;
+using Robust.Client.UserInterface;
 using Robust.Client.UserInterface.Controls;
 using Robust.Client.UserInterface.XAML;
 
@@ -12,7 +13,7 @@ public sealed partial class AshfallDossierSectionControl : PanelContainer
     private RichTextLabel SectionHeader => this.FindControl<RichTextLabel>("SectionHeader");
     private BoxContainer LinesContainer => this.FindControl<BoxContainer>("LinesContainer");
 
-    public AshfallDossierSectionControl(AshfallDossierSection section, bool groupStart)
+    public AshfallDossierSectionControl(AshfallDossierSection section, bool groupStart, Control? extraControl = null)
     {
         RobustXamlLoader.Load(this);
 
@@ -20,35 +21,31 @@ public sealed partial class AshfallDossierSectionControl : PanelContainer
             Margin = new Thickness(0, 10, 0, 0);
 
         var title = section.Title.Trim();
-        if (section.Kind == "qualification")
-        {
-            SectionHeader.Visible = false;
-            var label = new RichTextLabel
-            {
-                HorizontalExpand = true,
-                VerticalAlignment = VAlignment.Top,
-                Text = $"[color={AccentColor}]{title}[/color] — {section.Lines[0].Trim()}",
-            };
-            LinesContainer.AddChild(label);
-            return;
-        }
-
         SectionHeader.Text = $"[color={AccentColor}]{title}[/color]";
 
-        var lines = section.Lines
-            .Select(line => line.Trim())
-            .Where(line => line.Length > 0)
-            .Select(line => section.Kind == "career" ? "• " + line : line);
-
-        foreach (var line in lines)
+        if (section.Lines.Count > 0)
         {
-            var label = new RichTextLabel
+            foreach (var rawLine in section.Lines)
             {
-                HorizontalExpand = true,
-                VerticalAlignment = VAlignment.Top,
-                Text = line,
-            };
-            LinesContainer.AddChild(label);
+                var line = rawLine.Trim();
+                if (line.Length == 0)
+                    continue;
+
+                if (section.Kind == "career")
+                    line = "• " + line;
+
+                var label = new RichTextLabel
+                {
+                    HorizontalExpand = true,
+                    Text = line,
+                };
+                LinesContainer.AddChild(label);
+            }
+        }
+
+        if (extraControl != null)
+        {
+            LinesContainer.AddChild(extraControl);
         }
     }
 }

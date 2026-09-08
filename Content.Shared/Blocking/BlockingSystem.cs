@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using Content.Shared.Actions;
 using Content.Shared.Blocking.Components;
 using Content.Shared.Damage;
@@ -353,6 +353,9 @@ public sealed partial class BlockingSystem : EntitySystem
             return;
 
         var fraction = entity.Comp.IsRaised ? entity.Comp.ActiveBlockFraction : entity.Comp.PassiveBlockFraction;
+        var fractionEv = new Content.Trauma.Common.Knowledge.GetBlockFractionEvent(args.User, entity, fraction);
+        RaiseLocalEvent(args.User, ref fractionEv);
+        fraction = Math.Clamp(fractionEv.Fraction, 0f, 1f);
         var modifier = GetBlockingModifier(entity);
 
         var msg = new FormattedMessage();

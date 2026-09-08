@@ -6,6 +6,8 @@
   - type: Tag
     tags:
     - Knife
+  - type: WeaponClass
+    class: Knife
   - type: Execution
     doAfterDuration: 4.0
   - type: Utensil

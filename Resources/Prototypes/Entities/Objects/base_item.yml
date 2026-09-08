@@ -3,6 +3,7 @@
   id: BaseItem
   name: "item"
   components:
+  - type: ViewconeOccludable
   - type: Item
     size: Small
   - type: Animateable

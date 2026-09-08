@@ -27,24 +27,36 @@ public sealed partial class DefectSystem : EntitySystem
         if (_net.IsClient)
             return;
 
-        // Roll for each possible defect
-        var toRemove = new List<Type>();
+        // Collect candidate optional defects
+        var optionalDefects = new List<DefectComponent>();
         foreach (var comp in AllComps(ent.Owner))
         {
-            if (comp is not DefectComponent defect)
-                continue;
-
-            // 1.0 probability means the defect is guaranteed
-            if (defect.Prob >= 1.0f)
-                continue;
-
-            if (!_random.Prob(defect.Prob))
-                toRemove.Add(comp.GetType());
+            if (comp is DefectComponent defect && defect.Prob < 1.0f)
+            {
+                optionalDefects.Add(defect);
+            }
         }
 
-        foreach (var type in toRemove)
+        // Determine target number of defects:
+        // Highest probability for worst (rusty, 3+ defects), descending towards best (like-new, 0 defects)
+        // Distribution: Rusty 50%, Worn 30%, Used 15%, Like-new 5%
+        var roll = _random.NextFloat();
+        var targetCount = roll switch
         {
-            RemComp(ent.Owner, type);
+            < 0.50f => 3,
+            < 0.80f => 2,
+            < 0.95f => 1,
+            _ => 0,
+        };
+
+        if (targetCount < optionalDefects.Count)
+        {
+            _random.Shuffle(optionalDefects);
+            var removeCount = optionalDefects.Count - targetCount;
+            for (var i = 0; i < removeCount; i++)
+            {
+                RemComp(ent.Owner, optionalDefects[i].GetType());
+            }
         }
 
         // Collect surviving defect labels

@@ -20,6 +20,21 @@
   abstract: true
   parent: BaseItem
   components:
+  - type: Damageable
+  - type: Injurable
+    damageContainer: Biological
+  - type: Destructible
+    thresholds:
+    - trigger: !type:DamageTypeTrigger
+        damageType: Piercing
+        damage: 600
+      behaviors:
+      - !type:GibBehavior
+    - trigger: !type:DamageTypeTrigger
+        damageType: Blunt
+        damage: 400
+      behaviors:
+      - !type:GibBehavior
   - type: Organ
 
 - type: entity
@@ -46,7 +61,6 @@
   parent:
   - OrganBase
   - OrganBaseParent
-  - OrganBaseChildExternal
   id: OrganBaseTorso
   name: torso
   abstract: true
@@ -59,6 +73,50 @@
     layer: enum.HumanoidVisualLayers.Chest
     data:
       state: torso
+  - type: BodyPart
+    partType: Torso
+    slots:
+    # parts
+    - Head
+    - ArmLeft
+    - ArmRight
+    - LegLeft
+    - LegRight
+    # organs
+    - Appendix
+    - Lungs
+    - Heart
+    - Stomach
+    - Liver
+    - Kidneys
+  - type: BodyPartCavity
+    whitelist:
+      sizes:
+      - Tiny
+      - Small
+  - type: UnremoveableOrgan
+  - type: Bone
+  - type: CoveredPart
+  - type: Appearance
+  - type: WoundableVisuals
+    thresholds: [ 100, 70, 50, 30, 20, 10 ]
+    damageGroupSprites:
+      Brute: _Trauma/Mobs/Effects/brute_damage.rsi
+      Burn: _Trauma/Mobs/Effects/burn_damage.rsi
+    bleedingOverlay: _Trauma/Mobs/Effects/bleeding_damage.rsi
+  - type: ContainerContainer
+    containers:
+      Wounds: !type:Container
+  - type: Woundable
+    canRemove: false
+    integrity: 100
+    integrityCap: 100
+    thresholds:
+      Minor: 90
+      Moderate: 70
+      Severe: 45
+      Critical: 20
+      Mangled: 0
   - type: VisualOrganMarkings
     markingData:
       layers:
@@ -99,6 +157,29 @@
       - SnoutCover
       - HeadSide
       - HeadTop
+  - type: BodyPart
+    partType: Head
+    slots:
+    - Brain
+    - Eyes
+    - Tongue
+    - Ears
+  - type: ChildOrgan
+    parents: [ Torso ]
+  - type: Woundable
+    integrity: 60
+    integrityCap: 60
+    thresholds:
+      Minor: 50
+      Moderate: 38
+      Severe: 25
+      Critical: 15
+      Mangled: 0
+  - type: WoundableVisuals
+    damageGroupSprites:
+      Brute: _Trauma/Mobs/Effects/brute_damage.rsi
+      Burn: _Trauma/Mobs/Effects/burn_damage.rsi
+    bleedingOverlay: _Trauma/Mobs/Effects/bleeding_damage.rsi
   - type: Tag
     tags:
     - Head
@@ -120,6 +201,20 @@
     layer: enum.HumanoidVisualLayers.LArm
     data:
       state: l_arm
+  - type: BodyPart
+    partType: Arm
+    symmetry: Left
+    slots:
+    - HandLeft
+  - type: ChildOrgan
+    parents: [ Torso ]
+  - type: Arm
+  - type: Limb
+  - type: WoundableVisuals
+    damageGroupSprites:
+      Brute: _Trauma/Mobs/Effects/brute_damage.rsi
+      Burn: _Trauma/Mobs/Effects/burn_damage.rsi
+    bleedingOverlay: _Trauma/Mobs/Effects/bleeding_damage.rsi
   - type: VisualOrganMarkings
     markingData:
       layers:
@@ -142,6 +237,20 @@
     layer: enum.HumanoidVisualLayers.RArm
     data:
       state: r_arm
+  - type: BodyPart
+    partType: Arm
+    symmetry: Right
+    slots:
+    - HandRight
+  - type: ChildOrgan
+    parents: [ Torso ]
+  - type: Arm
+  - type: Limb
+  - type: WoundableVisuals
+    damageGroupSprites:
+      Brute: _Trauma/Mobs/Effects/brute_damage.rsi
+      Burn: _Trauma/Mobs/Effects/burn_damage.rsi
+    bleedingOverlay: _Trauma/Mobs/Effects/bleeding_damage.rsi
   - type: VisualOrganMarkings
     markingData:
       layers:
@@ -167,6 +276,21 @@
     layer: enum.HumanoidVisualLayers.LHand
     data:
       state: l_hand
+  - type: BodyPart
+    partType: Hand
+    symmetry: Left
+  - type: ChildOrgan
+    parents: [ ArmLeft ]
+  - type: Limb
+  - type: Woundable
+    integrity: 50
+    integrityCap: 50
+    thresholds:
+      Minor: 42
+      Moderate: 36
+      Severe: 26
+      Critical: 15
+      Mangled: 0
   - type: VisualOrganMarkings
     markingData:
       layers:
@@ -192,6 +316,21 @@
     layer: enum.HumanoidVisualLayers.RHand
     data:
       state: r_hand
+  - type: BodyPart
+    partType: Hand
+    symmetry: Right
+  - type: ChildOrgan
+    parents: [ ArmRight ]
+  - type: Limb
+  - type: Woundable
+    integrity: 50
+    integrityCap: 50
+    thresholds:
+      Minor: 42
+      Moderate: 36
+      Severe: 26
+      Critical: 15
+      Mangled: 0
   - type: VisualOrganMarkings
     markingData:
       layers:
@@ -214,6 +353,20 @@
     layer: enum.HumanoidVisualLayers.LLeg
     data:
       state: l_leg
+  - type: BodyPart
+    partType: Leg
+    symmetry: Left
+    slots:
+    - FootLeft
+  - type: ChildOrgan
+    parents: [ Torso ]
+  - type: Leg
+  - type: Limb
+  - type: WoundableVisuals
+    damageGroupSprites:
+      Brute: _Trauma/Mobs/Effects/brute_damage.rsi
+      Burn: _Trauma/Mobs/Effects/burn_damage.rsi
+    bleedingOverlay: _Trauma/Mobs/Effects/bleeding_damage.rsi
   - type: VisualOrganMarkings
     markingData:
       layers:
@@ -236,6 +389,20 @@
     layer: enum.HumanoidVisualLayers.RLeg
     data:
       state: r_leg
+  - type: BodyPart
+    partType: Leg
+    symmetry: Right
+    slots:
+    - FootRight
+  - type: ChildOrgan
+    parents: [ Torso ]
+  - type: Leg
+  - type: Limb
+  - type: WoundableVisuals
+    damageGroupSprites:
+      Brute: _Trauma/Mobs/Effects/brute_damage.rsi
+      Burn: _Trauma/Mobs/Effects/burn_damage.rsi
+    bleedingOverlay: _Trauma/Mobs/Effects/bleeding_damage.rsi
   - type: VisualOrganMarkings
     markingData:
       layers:
@@ -257,6 +424,21 @@
     layer: enum.HumanoidVisualLayers.LFoot
     data:
       state: l_foot
+  - type: BodyPart
+    partType: Foot
+    symmetry: Left
+  - type: ChildOrgan
+    parents: [ LegLeft ]
+  - type: Limb
+  - type: Woundable
+    integrity: 60
+    integrityCap: 60
+    thresholds:
+      Minor: 50
+      Moderate: 40
+      Severe: 30
+      Critical: 18
+      Mangled: 0
   - type: VisualOrganMarkings
     markingData:
       layers:
@@ -278,6 +460,21 @@
     layer: enum.HumanoidVisualLayers.RFoot
     data:
       state: r_foot
+  - type: BodyPart
+    partType: Foot
+    symmetry: Right
+  - type: ChildOrgan
+    parents: [ LegRight ]
+  - type: Limb
+  - type: Woundable
+    integrity: 60
+    integrityCap: 60
+    thresholds:
+      Minor: 50
+      Moderate: 40
+      Severe: 30
+      Critical: 18
+      Mangled: 0
   - type: VisualOrganMarkings
     markingData:
       layers:
@@ -287,6 +484,7 @@
   parent:
   - OrganBase
   - OrganBaseChildInternal
+  - BaseKnowledgeContainer
   id: OrganBaseBrain
   name: brain
   abstract: true
@@ -294,6 +492,8 @@
   - type: GibbableOrgan
   - type: Organ
     category: Brain
+  - type: ChildOrgan
+    parents: [ Head ]
   - type: Sprite
     layers:
     - state: brain
@@ -326,9 +526,12 @@
   name: eyes
   abstract: true
   components:
+  - type: Eyes
   - type: GibbableOrgan
   - type: Organ
     category: Eyes
+  - type: ChildOrgan
+    parents: [ Head ]
   - type: Sprite
     layers:
     - state: eyeball-l
@@ -354,6 +557,8 @@
   - type: GibbableOrgan
   - type: Organ
     category: Tongue
+  - type: ChildOrgan
+    parents: [ Head ]
   - type: Sprite
     layers:
     - state: tongue
@@ -369,6 +574,8 @@
   - type: GibbableOrgan
   - type: Organ
     category: Appendix
+  - type: ChildOrgan
+    parents: [ Torso ]
   - type: Sprite
     layers:
     - state: appendix
@@ -384,6 +591,8 @@
   - type: GibbableOrgan
   - type: Organ
     category: Ears
+  - type: ChildOrgan
+    parents: [ Head ]
   - type: Sprite
     layers:
     - state: ears
@@ -399,6 +608,8 @@
   - type: GibbableOrgan
   - type: Organ
     category: Lungs
+  - type: ChildOrgan
+    parents: [ Torso ]
   - type: Lung
   - type: Metabolizer
     stages: [ Respiration ]
@@ -434,6 +645,9 @@
   - type: GibbableOrgan
   - type: Organ
     category: Heart
+  - type: Heart
+  - type: ChildOrgan
+    parents: [ Torso ]
   - type: Sprite
     layers:
     - state: heart-on
@@ -452,6 +666,8 @@
   - type: GibbableOrgan
   - type: Organ
     category: Stomach
+  - type: ChildOrgan
+    parents: [ Torso ]
   - type: Stomach
   - type: SolutionManager
     solutions:
@@ -486,6 +702,8 @@
   - type: GibbableOrgan
   - type: Organ
     category: Liver
+  - type: ChildOrgan
+    parents: [ Torso ]
   - type: Sprite
     layers:
     - state: liver
@@ -506,6 +724,8 @@
   - type: GibbableOrgan
   - type: Organ
     category: Kidneys
+  - type: ChildOrgan
+    parents: [ Torso ]
   - type: Sprite
     layers:
       - state: kidney-l
@@ -560,13 +780,37 @@
   abstract: true
   id: OrganBaseChildExternal
   components:
-  - type: ChildOrgan
   - type: DetachableOrgan
     detachedBody: DetachedBody
+  - type: Bone
+  - type: BodyPart
+  - type: CoveredPart
+  - type: Woundable
+    integrity: 80
+    integrityCap: 80
+    thresholds:
+      Minor: 70
+      Moderate: 50
+      Severe: 25
+      Critical: 10
+      Mangled: 0
+  - type: WoundableVisuals
+    thresholds: [ 100, 70, 50, 30, 20, 10 ]
+    damageGroupSprites:
+      Brute: _Trauma/Mobs/Effects/brute_damage.rsi
+      Burn: _Trauma/Mobs/Effects/burn_damage.rsi
+  - type: Appearance
+  - type: ContainerContainer
+    containers:
+      Wounds: !type:Container
 
 - type: entity
   abstract: true
   id: OrganBaseChildInternal
   components:
-  - type: ChildOrgan
   - type: InternalChildOrgan
+  - type: SurgeryTool
+    startSound:
+      path: /Audio/_Trauma/Medical/Surgery/organ1.ogg
+    endSound:
+      path: /Audio/_Trauma/Medical/Surgery/organ2.ogg

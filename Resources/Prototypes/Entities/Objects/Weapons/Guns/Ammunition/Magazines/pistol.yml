@@ -15,6 +15,12 @@
     capacity: 10
   - type: Item
     size: Small
+  - type: EmitSoundOnPickup
+    sound:
+      collection: MagazinePickupSoundCollection
+  - type: EmitSoundOnDrop
+    sound:
+      collection: MagazineDropSoundCollection
   - type: ContainerContainer
     containers:
       ballistic-ammo: !type:Container
@@ -48,6 +54,12 @@
     capacity: 15
   - type: Item
     size: Small
+  - type: EmitSoundOnPickup
+    sound:
+      collection: BigMagazinePickupSoundCollection
+  - type: EmitSoundOnDrop
+    sound:
+      collection: BigMagazineDropSoundCollection
   - type: ContainerContainer
     containers:
       ballistic-ammo: !type:Container
@@ -81,6 +93,12 @@
     capacity: 30
   - type: Item
     size: Small
+  - type: EmitSoundOnPickup
+    sound:
+      collection: MagazinePickupSoundCollection
+  - type: EmitSoundOnDrop
+    sound:
+      collection: MagazineDropSoundCollection
   - type: ContainerContainer
     containers:
       ballistic-ammo: !type:Container

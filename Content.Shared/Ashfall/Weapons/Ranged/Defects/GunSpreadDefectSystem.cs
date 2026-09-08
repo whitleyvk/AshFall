@@ -3,6 +3,7 @@ using Content.Shared.Weapons.Ranged.Components;
 using Content.Shared.Weapons.Ranged.Events;
 using Content.Shared.Weapons.Ranged.Systems;
 using Robust.Shared.Maths;
+using Robust.Shared.Network;
 using Robust.Shared.Random;
 
 namespace Content.Shared.Ashfall.Weapons.Ranged.Defects;
@@ -15,6 +16,7 @@ namespace Content.Shared.Ashfall.Weapons.Ranged.Defects;
 public sealed partial class GunSpreadDefectSystem : EntitySystem
 {
     [Dependency] private IRobustRandom _random = default!;
+    [Dependency] private INetManager _net = default!;
     [Dependency] private SharedGunSystem _gunSystem = default!;
 
     public override void Initialize()
@@ -28,6 +30,9 @@ public sealed partial class GunSpreadDefectSystem : EntitySystem
 
     private void OnMapInit(Entity<GunSpreadDefectComponent> ent, ref MapInitEvent args)
     {
+        if (_net.IsClient)
+            return;
+
         var def = ent.Comp;
 
         if (TryComp<GunComponent>(ent.Owner, out var gun))
@@ -62,7 +67,10 @@ public sealed partial class GunSpreadDefectSystem : EntitySystem
         args.MinAngle += ent.Comp.MinAngleDelta;
         args.MaxAngle += ent.Comp.MaxAngleDelta;
 
-        if (args.MinAngle > args.MaxAngle)
+        if (args.MinAngle < Angle.Zero)
+            args.MinAngle = Angle.Zero;
+
+        if (args.MaxAngle < args.MinAngle)
             args.MaxAngle = args.MinAngle;
     }
 

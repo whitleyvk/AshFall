@@ -1,4 +1,4 @@
-﻿version: 1 # Not used right now, whatever.
+version: 1 # Not used right now, whatever.
 binds:
 - function: UIClick
   type: State
@@ -44,6 +44,9 @@ binds:
 - function: Walk
   type: State
   key: Shift
+- function: Strafe
+  type: State
+  key: Control
 # Shuttle
 - function: ShuttleStrafeUp
   type: State
@@ -289,7 +292,7 @@ binds:
   type: State
   key: c
   mod1: Alt
-- function: MouseMiddle
+- function: OpenTargetingMenu
   type: State
   key: MouseMiddle
   canFocus: true

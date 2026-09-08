@@ -1,0 +1,24 @@
+- type: entityCategory
+  id: Surgeries
+  name: entity-category-name-surgeries
+  hideSpawnMenu: true
+
+- type: entityCategory
+  id: SurgerySteps
+  name: entity-category-name-surgery-steps
+  hideSpawnMenu: true
+
+- type: entityCategory
+  id: Wounds
+  name: entity-category-name-wounds
+  hideSpawnMenu: true
+
+- type: entityCategory
+  id: Traumas
+  name: entity-category-name-traumas
+  hideSpawnMenu: true
+
+- type: entityCategory
+  id: Knowledge
+  name: entity-category-name-knowledge
+  hideSpawnMenu: true

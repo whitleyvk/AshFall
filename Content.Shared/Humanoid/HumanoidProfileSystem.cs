@@ -30,6 +30,8 @@ public sealed partial class HumanoidProfileSystem : EntitySystem
         ent.Comp.Sex = profile.Sex;
         Dirty(ent);
 
+        SetKnowledgeProfile((ent, ent.Comp), profile.Knowledge);
+
         var voiceChanged = new VoiceChangedEvent(ent.Comp.Voice, profile.Voice);
         RaiseLocalEvent(ent, ref voiceChanged);
 

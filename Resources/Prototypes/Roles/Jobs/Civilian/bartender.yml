@@ -17,6 +17,8 @@
   extendedAccess:
   - Kitchen
   - Hydroponics
+  knowledge:
+    KnowledgeWeaponsShotgun: 1
 
 - type: startingGear
   id: BartenderGear

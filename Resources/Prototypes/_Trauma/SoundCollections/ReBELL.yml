@@ -1,0 +1,33 @@
+# Trauma Sounds
+- type: soundCollection
+  id: BoneGone
+  files:
+  - /Audio/_Trauma/ReBELL/Bone/BoneGone1.ogg
+  - /Audio/_Trauma/ReBELL/Bone/BoneGone2.ogg
+  - /Audio/_Trauma/ReBELL/Bone/BoneGone3.ogg
+  - /Audio/_Trauma/ReBELL/Bone/BoneGone4.ogg
+  - /Audio/_Trauma/ReBELL/Bone/BoneGone5.ogg
+
+# Organs
+- type: soundCollection
+  id: OrganDestroyed
+  files:
+  - /Audio/_Trauma/ReBELL/Organs/OrganDestroyed1.ogg
+  - /Audio/_Trauma/ReBELL/Organs/OrganDestroyed2.ogg
+  - /Audio/_Trauma/ReBELL/Organs/OrganDestroyed3.ogg
+  - /Audio/_Trauma/ReBELL/Organs/OrganDestroyed4.ogg
+
+# Dismemberment
+- type: soundCollection
+  id: WoundableDestroyed
+  files:
+  - /Audio/_Trauma/ReBELL/Woundables/WoundableDestroyed1.ogg
+  - /Audio/_Trauma/ReBELL/Woundables/WoundableDestroyed2.ogg
+
+- type: soundCollection
+  id: WoundableDelimbed
+  files:
+  - /Audio/_Trauma/ReBELL/Woundables/WoundableAmputated1.ogg
+  - /Audio/_Trauma/ReBELL/Woundables/WoundableAmputated2.ogg
+  - /Audio/_Trauma/ReBELL/Woundables/WoundableAmputated3.ogg
+  - /Audio/_Trauma/ReBELL/Woundables/WoundableAmputated4.ogg

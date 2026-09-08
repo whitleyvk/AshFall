@@ -1,23 +1,42 @@
+using Content.Medical.Common.Body;
 using Content.Shared.Body.Components;
 using Content.Shared.Ghost.Components;
 using Content.Shared.Mind;
 using Content.Shared.Mind.Components;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Pointing;
+using Robust.Shared.Timing;
 
 namespace Content.Shared.Body.Systems;
 
 public sealed partial class BrainSystem : EntitySystem
 {
     [Dependency] private SharedMindSystem _mindSystem = default!;
+    [Dependency] private IGameTiming _timing = default!;
 
     public override void Initialize()
     {
         base.Initialize();
 
-        SubscribeLocalEvent<BrainComponent, OrganGotInsertedEvent>((uid, _, args) => HandleMind(args.Target, uid));
-        SubscribeLocalEvent<BrainComponent, OrganGotRemovedEvent>((uid, _, args) => HandleMind(uid, args.Target));
+        SubscribeLocalEvent<BrainComponent, OrganGotInsertedEvent>(OnBrainInserted);
+        SubscribeLocalEvent<BrainComponent, OrganGotRemovedEvent>(OnBrainRemoved);
         SubscribeLocalEvent<BrainComponent, PointAttemptEvent>(OnPointAttempt);
+    }
+
+    private void OnBrainInserted(EntityUid uid, BrainComponent comp, ref OrganGotInsertedEvent args)
+    {
+        HandleMind(args.Target, uid);
+
+        if (!_timing.ApplyingState && !TerminatingOrDeleted(args.Target))
+            RemComp<DebrainedComponent>(args.Target);
+    }
+
+    private void OnBrainRemoved(EntityUid uid, BrainComponent comp, ref OrganGotRemovedEvent args)
+    {
+        HandleMind(uid, args.Target);
+
+        if (!_timing.ApplyingState && !TerminatingOrDeleted(args.Target))
+            EnsureComp<DebrainedComponent>(args.Target);
     }
 
     private void HandleMind(EntityUid newEntity, EntityUid oldEntity)

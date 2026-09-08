@@ -75,6 +75,13 @@ public sealed partial class JobPrototype : IPrototype
     public bool ApplyTraits = true;
 
     /// <summary>
+    /// Minimum knowledge/skill mastery floors granted by this job.
+    /// Does not stack additional levels on top of character profile choices.
+    /// </summary>
+    [DataField]
+    public Dictionary<EntProtoId, int> Knowledge = new();
+
+    /// <summary>
     /// Whether this job should show in the ID Card Console.
     /// If set to null, it will default to SetPreference's value.
     /// </summary>

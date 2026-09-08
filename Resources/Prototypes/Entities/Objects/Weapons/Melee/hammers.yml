@@ -4,6 +4,8 @@
   id: Sledgehammer
   description: The perfect tool for wanton carnage.
   components:
+  - type: WeaponClass
+    class: Bludgeon
   - type: Sprite
     sprite: Objects/Weapons/Melee/sledgehammer.rsi
     state: icon

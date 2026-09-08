@@ -1,4 +1,4 @@
-﻿- type: job
+- type: job
   id: MedicalIntern
   name: job-name-intern
   description: job-description-intern
@@ -14,6 +14,9 @@
   access:
   - Medical
   - Maintenance
+  knowledge:
+    FirstAidKnowledge: 1
+    SurgeryKnowledge: 1
 
 - type: startingGear
   id: MedicalInternGear

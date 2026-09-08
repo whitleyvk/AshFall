@@ -1,4 +1,5 @@
 using System.Linq;
+using Content.Medical.Common.Targeting;
 using Content.Shared.Damage;
 using Content.Shared.Damage.Components;
 using Content.Shared.Damage.Prototypes;
@@ -41,7 +42,7 @@ public abstract partial class SharedSuicideSystem : EntitySystem
             appliedDamageSpecifier.DamageDict[key] = Math.Ceiling((double) (value * lethalAmountOfDamage / totalDamage));
         }
 
-        _damageableSystem.ChangeDamage(target.AsNullable(), appliedDamageSpecifier, true, origin: target);
+        _damageableSystem.ChangeDamage(target.AsNullable(), appliedDamageSpecifier, true, origin: target, targetPart: TargetBodyPart.Chest, canMiss: false);
     }
 
     /// <summary>
@@ -65,6 +66,6 @@ public abstract partial class SharedSuicideSystem : EntitySystem
         }
 
         var damage = new DamageSpecifier(damagePrototype, lethalAmountOfDamage);
-        _damageableSystem.ChangeDamage(target.AsNullable(), damage, true, origin: target);
+        _damageableSystem.ChangeDamage(target.AsNullable(), damage, true, origin: target, targetPart: TargetBodyPart.Chest, canMiss: false);
     }
 }

@@ -373,13 +373,9 @@ public partial class SharedGunSystem
                 if (chamber == true)
                 {
                     // Pretend it's always been there.
-                    ammoEnt = SpawnAtPosition(ent.Comp.FillPrototype, args.Coordinates);
-
-                    if (!_netManager.IsClient)
-                    {
-                        ent.Comp.AmmoSlots[index] = ammoEnt;
-                        Containers.Insert(ammoEnt.Value, ent.Comp.AmmoContainer);
-                    }
+                    ammoEnt = PredictedSpawnAtPosition(ent.Comp.FillPrototype, args.Coordinates);
+                    ent.Comp.AmmoSlots[index] = ammoEnt;
+                    Containers.Insert(ammoEnt.Value, ent.Comp.AmmoContainer);
 
                     ent.Comp.Chambers[index] = false;
                 }
@@ -396,7 +392,7 @@ public partial class SharedGunSystem
 
                 // Mark cartridge as spent and if it's caseless delete from the chamber slot.
                 SetCartridgeSpent(ammoEnt.Value, cartridge, true);
-                var spawned = SpawnAtPosition(cartridge.Prototype, args.Coordinates);
+                var spawned = PredictedSpawnAtPosition(cartridge.Prototype, args.Coordinates);
                 args.Ammo.Add((spawned, EnsureComp<AmmoComponent>(spawned)));
 
                 if (cartridge.DeleteOnSpawn)
@@ -412,11 +408,6 @@ public partial class SharedGunSystem
                 args.Ammo.Add((ammoEnt.Value, EnsureComp<AmmoComponent>(ammoEnt.Value)));
             }
 
-            // Delete the cartridge entity on client
-            if (_netManager.IsClient)
-            {
-                QueueDel(ammoEnt);
-            }
         }
 
         UpdateAmmoCount(ent, prediction: false);

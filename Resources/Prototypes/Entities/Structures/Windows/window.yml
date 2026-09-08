@@ -9,6 +9,8 @@
     snap:
     - Window
   components:
+  - type: SoundBlocker
+    soundBlockPercent: 0.5
   - type: Anchorable
     flags:
     - Anchorable

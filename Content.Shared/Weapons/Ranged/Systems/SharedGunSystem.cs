@@ -608,15 +608,18 @@ public abstract partial class SharedGunSystem : EntitySystem
             DirtyField(gun, nameof(GunComponent.AngleDecayModified));
         }
 
-        if (!comp.MaxAngleModified.EqualsApprox(ev.MaxAngle))
+        var maxAngle = ev.MaxAngle < Angle.Zero ? Angle.Zero : ev.MaxAngle;
+        var minAngle = ev.MinAngle < Angle.Zero ? Angle.Zero : (ev.MinAngle > maxAngle ? maxAngle : ev.MinAngle);
+
+        if (!comp.MaxAngleModified.EqualsApprox(maxAngle))
         {
-            comp.MaxAngleModified = ev.MaxAngle;
+            comp.MaxAngleModified = maxAngle;
             DirtyField(gun, nameof(GunComponent.MaxAngleModified));
         }
 
-        if (!comp.MinAngleModified.EqualsApprox(ev.MinAngle))
+        if (!comp.MinAngleModified.EqualsApprox(minAngle))
         {
-            comp.MinAngleModified = ev.MinAngle;
+            comp.MinAngleModified = minAngle;
             DirtyField(gun, nameof(GunComponent.MinAngleModified));
         }
 

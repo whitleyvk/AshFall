@@ -4,6 +4,8 @@
   id: Stunbaton
   description: A stun baton for incapacitating people with. Actively harming with this is considered bad tone.
   components:
+  - type: WeaponClass
+    class: NonLethal
   - type: Sprite
     sprite: Objects/Weapons/Melee/stunbaton.rsi
     layers:
@@ -106,6 +108,8 @@
   id: Truncheon
   description: A rigid, steel-studded baton, meant to harm.
   components:
+  - type: WeaponClass
+    class: Bludgeon
   - type: Sprite
     sprite: Objects/Weapons/Melee/truncheon.rsi
     state: icon

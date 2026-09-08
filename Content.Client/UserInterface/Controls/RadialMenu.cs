@@ -434,6 +434,26 @@ public class RadialMenuButtonWithSector : RadialMenuButton, IRadialMenuItemWithS
     private Color _hoverBorderColorSrgb = Color.ToSrgb(new Color(87, 91, 127, 128));
 
     /// <summary>
+    /// Angular gap in radians subtracted from both sides of the sector to create spacing between adjacent sectors.
+    /// </summary>
+    public float AngularGap { get; set; } = 0f;
+
+    /// <summary>
+    /// Whether this sector represents the currently selected target.
+    /// </summary>
+    public bool IsSelected { get; set; } = false;
+
+    /// <summary>
+    /// Color of background when selected. Accepts RGB color, works with sRGB for DrawPrimitive internally.
+    /// </summary>
+    public Color? SelectedBackgroundColor { get; set; }
+
+    /// <summary>
+    /// Color of button border when selected. Accepts RGB color, works with sRGB for DrawPrimitive internally.
+    /// </summary>
+    public Color? SelectedBorderColor { get; set; }
+
+    /// <summary>
     /// Marker, that controls if border of segment should be rendered. Is false by default.
     /// </summary>
     /// <remarks>
@@ -490,8 +510,9 @@ public class RadialMenuButtonWithSector : RadialMenuButton, IRadialMenuItemWithS
     public Color SeparatorColor { get; set; } = new Color(128, 128, 128, 128);
 
     /// <inheritdoc />
-    float IRadialMenuItemWithSector.AngleSectorFrom
+    public float AngleSectorFrom
     {
+        get => _angleSectorFrom;
         set
         {
             _angleSectorFrom = value;
@@ -500,8 +521,9 @@ public class RadialMenuButtonWithSector : RadialMenuButton, IRadialMenuItemWithS
     }
 
     /// <inheritdoc />
-    float IRadialMenuItemWithSector.AngleSectorTo
+    public float AngleSectorTo
     {
+        get => _angleSectorTo;
         set
         {
             _angleSectorTo = value;
@@ -510,16 +532,32 @@ public class RadialMenuButtonWithSector : RadialMenuButton, IRadialMenuItemWithS
     }
 
     /// <inheritdoc />
-    float IRadialMenuItemWithSector.OuterRadius { set => _outerRadius = value; }
+    public float OuterRadius
+    {
+        get => _outerRadius;
+        set => _outerRadius = value;
+    }
 
     /// <inheritdoc />
-    float IRadialMenuItemWithSector.InnerRadius { set => _innerRadius = value; }
+    public float InnerRadius
+    {
+        get => _innerRadius;
+        set => _innerRadius = value;
+    }
 
     /// <inheritdoc />
-    public float AngleOffset { set => _angleOffset = value; }
+    public float AngleOffset
+    {
+        get => _angleOffset;
+        set => _angleOffset = value;
+    }
 
     /// <inheritdoc />
-    Vector2 IRadialMenuItemWithSector.ParentCenter { set => _parentCenter = value; }
+    public Vector2 ParentCenter
+    {
+        get => _parentCenter ?? Vector2.Zero;
+        set => _parentCenter = value;
+    }
 
     /// <summary>
     /// A simple texture button that can move the user to a different layer within a radial menu
@@ -541,28 +579,34 @@ public class RadialMenuButtonWithSector : RadialMenuButton, IRadialMenuItemWithS
         // draw sector where space that button occupies actually is
         var containerCenter = (_parentCenter.Value - Position) * UIScale;
 
-        var angleFrom = _angleSectorFrom + _angleOffset;
-        var angleTo = _angleSectorTo + _angleOffset;
+        var halfGap = AngularGap * 0.5f;
+        var angleFrom = _angleSectorFrom + _angleOffset + halfGap;
+        var angleTo = _angleSectorTo + _angleOffset - halfGap;
+        if (angleTo <= angleFrom)
+            return;
+
         if (DrawBackground)
         {
             var segmentColor = DrawMode == DrawModeEnum.Hover
                 ? _hoverBackgroundColorSrgb
-                : _backgroundColorSrgb;
+                : (IsSelected && SelectedBackgroundColor.HasValue ? Color.ToSrgb(SelectedBackgroundColor.Value) : _backgroundColorSrgb);
 
             DrawAnnulusSector(handle, containerCenter, _innerRadius * UIScale, _outerRadius * UIScale, angleFrom, angleTo, segmentColor);
         }
 
-        if (DrawBorder)
+        var shouldDrawBorder = DrawBorder || (IsSelected && SelectedBorderColor.HasValue);
+        if (shouldDrawBorder)
         {
             var borderColor = DrawMode == DrawModeEnum.Hover
                 ? _hoverBorderColorSrgb
-                : _borderColorSrgb;
+                : (IsSelected && SelectedBorderColor.HasValue ? Color.ToSrgb(SelectedBorderColor.Value) : _borderColorSrgb);
             DrawAnnulusSector(handle, containerCenter, _innerRadius * UIScale, _outerRadius * UIScale, angleFrom, angleTo, borderColor, false);
-        }
 
-        if (!_isWholeCircle && DrawBorder)
-        {
-            DrawSeparatorLines(handle, containerCenter, _innerRadius * UIScale, _outerRadius * UIScale, angleFrom, angleTo, SeparatorColor);
+            if (!_isWholeCircle || AngularGap > 0f)
+            {
+                var sepColor = IsSelected && SelectedBorderColor.HasValue ? SelectedBorderColor.Value : SeparatorColor;
+                DrawSeparatorLines(handle, containerCenter, _innerRadius * UIScale, _outerRadius * UIScale, angleFrom, angleTo, sepColor);
+            }
         }
     }
 
@@ -596,7 +640,13 @@ public class RadialMenuButtonWithSector : RadialMenuButton, IRadialMenuItemWithS
             angle = MathF.PI * 2 + angle;
         }
 
-        var isInAngle = angle >= _angleSectorFrom && angle < _angleSectorTo;
+        var halfGap = AngularGap * 0.5f;
+        var minAngle = _angleSectorFrom + halfGap;
+        var maxAngle = _angleSectorTo - halfGap;
+        if (maxAngle <= minAngle)
+            return false;
+
+        var isInAngle = angle >= minAngle && angle < maxAngle;
         return isInAngle;
     }
 

@@ -13,15 +13,23 @@
     walkModifier: 0.8
     sprintModifier: 0.8
   - type: HeldSpeedModifier
+  - type: WeaponClass
+    class: Rifle
   - type: Gun
     fireRate: 20
     selectedMode: FullAuto
     availableModes:
     - FullAuto
     soundGunshot:
-      path: /Audio/Weapons/Guns/Gunshots/lmg.ogg
+      collection: Lmg_2_Gunshots
     soundEmpty:
       path: /Audio/Weapons/Guns/Empty/lmg_empty.ogg
+  - type: EmitSoundOnPickup
+    sound:
+      collection: GunPickupSoundCollection
+  - type: EmitSoundOnDrop
+    sound:
+      collection: GunDropSoundCollection
   - type: StaticPrice
     price: 500
   # No chamber because HMG may want its own

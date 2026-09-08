@@ -232,17 +232,6 @@ public abstract partial class SharedGunSystem
                 FinaliseMagazineTakeAmmo(uid, component, ammoEv.Count, ammoEv.Capacity, user, appearance);
                 UpdateAmmoCount(uid);
 
-                // Clientside reconciliation things
-                if (_netManager.IsClient)
-                {
-                    foreach (var (ent, _) in relayedArgs.Ammo)
-                    {
-                        if (!IsClientSide(ent!.Value))
-                            continue;
-
-                        Del(ent.Value);
-                    }
-                }
             }
             else
             {

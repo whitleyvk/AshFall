@@ -16,6 +16,10 @@
   - Maintenance
   - External
   - Cryogenics
+  knowledge:
+    ShootingKnowledge: 1
+    KnowledgeWeaponsNonLethal: 1
+    KnowledgeWeaponsPistol: 1
   special:
   - !type:AddImplantSpecial
     implants: [ MindShieldImplant ]

@@ -1,3 +1,7 @@
+// <Trauma>
+using Content.Medical.Common.Body;
+using Content.Medical.Common.Targeting;
+// </Trauma>
 using Content.Shared.CCVar;
 using Content.Shared.Damage.Components;
 using Content.Shared.Damage.Prototypes;
@@ -14,6 +18,7 @@ public sealed partial class DamageableSystem
 {
     public override void Initialize()
     {
+        CacheVitalPrototypes(); // Trauma
         RebuildContainerCache();
 
         SubscribeLocalEvent<PrototypesReloadedEventArgs>(OnPrototypesReloaded);
@@ -123,6 +128,10 @@ public sealed partial class DamageableSystem
 
     private void OnPrototypesReloaded(PrototypesReloadedEventArgs ev)
     {
+        // <Trauma>
+        if (ev.WasModified<DamageTypePrototype>())
+            CacheVitalPrototypes();
+        // </Trauma>
         if (!ev.WasModified<DamageContainerPrototype>() && !ev.WasModified<DamageGroupPrototype>())
             return;
 
@@ -217,6 +226,9 @@ public sealed partial class DamageableSystem
 
     private void OnDamageDealt(Entity<InjurableComponent> ent, ref DamageDealtEvent args)
     {
+        if (_bodyQuery.HasComp(ent)) // Trauma - don't change damagedict for entities with body, damage should be applied to body parts
+            return;
+
         if (!_damageableQuery.TryGetComponent(ent, out var damageable))
             return;
 
@@ -241,6 +253,8 @@ public sealed partial class DamageableSystem
 
         if (!damageDone.Empty)
             OnEntityDamageChanged((ent, damageable), damageDone, args.InterruptsDoAfters, args.Origin);
+
+        args.ModifiedDamage = damageDone; // Trauma
     }
 }
 
@@ -248,7 +262,12 @@ public sealed partial class DamageableSystem
 ///     Raised before damage is done, so stuff can cancel it if necessary.
 /// </summary>
 [ByRefEvent]
-public record struct BeforeDamageChangedEvent(DamageSpecifier Damage, EntityUid? Origin = null, bool Cancelled = false);
+public record struct BeforeDamageChangedEvent(DamageSpecifier Damage, EntityUid Target, EntityUid? Origin = null, bool Cancelled = false, // Trauma - added Target
+    bool CanBeCancelled = false, TargetBodyPart? TargetPart = null) : IInventoryRelayEvent // Trauma
+{
+    // Trauma
+    public SlotFlags TargetSlots => SlotFlags.WITHOUT_POCKET;
+}
 
 /// <summary>
 ///     Raised on an entity when damage is about to be dealt,
@@ -257,7 +276,8 @@ public record struct BeforeDamageChangedEvent(DamageSpecifier Damage, EntityUid?
 ///
 ///     For example, armor.
 /// </summary>
-public sealed class DamageModifyEvent(DamageSpecifier damage, EntityUid? origin = null)
+// Goob - added target, targetPart
+public sealed class DamageModifyEvent(EntityUid target, DamageSpecifier damage, EntityUid? origin = null, BodyPartType? targetPart = null)
     : EntityEventArgs, IInventoryRelayEvent
 {
     /// <inheritdoc/>
@@ -265,6 +285,11 @@ public sealed class DamageModifyEvent(DamageSpecifier damage, EntityUid? origin 
     ///     Whenever locational damage is a thing, this should just check only that bit of armor.
     /// </remarks>
     public SlotFlags TargetSlots => ~SlotFlags.POCKET;
+
+    // <Goob>
+    public readonly EntityUid Target = target;
+    public readonly BodyPartType? TargetPart = targetPart;
+    // </Goob>
 
     /// <summary>
     ///     Contains the original damage, prior to any modifers.
@@ -290,7 +315,8 @@ public sealed class DamageModifyEvent(DamageSpecifier damage, EntityUid? origin 
 /// <param name="Origin">The originator of the damage</param>
 /// <param name="InterruptsDoAfters">If the damage being dealt will interrupt do-afters</param>
 [ByRefEvent]
-public readonly record struct DamageDealtEvent(DamageSpecifier Damage, EntityUid? Origin, bool InterruptsDoAfters);
+public record struct DamageDealtEvent(DamageSpecifier Damage, EntityUid? Origin, bool InterruptsDoAfters,
+    bool IgnoreBlockers, DamageSpecifier ModifiedDamage); // Trauma - Whether or not wounding should ignore blockers. Removed readonly, added ModifiedDamage
 
 [Obsolete("Will be replaced with damage-model specific events; general 'took damage' can be served by DamageDealtEvent")]
 public sealed class DamageChangedEvent : EntityEventArgs

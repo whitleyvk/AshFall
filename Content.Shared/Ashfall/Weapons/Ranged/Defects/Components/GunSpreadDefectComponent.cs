@@ -8,7 +8,7 @@ namespace Content.Shared.Ashfall.Weapons.Ranged.Defects.Components;
 /// Sampled angle deltas are added on top of the gun's base angles so they
 /// compose correctly with other modifiers (e.g. GunWieldBonus or attachments).
 /// </summary>
-[RegisterComponent, NetworkedComponent]
+[RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
 public sealed partial class GunSpreadDefectComponent : DefectComponent
 {
     public GunSpreadDefectComponent()
@@ -22,8 +22,8 @@ public sealed partial class GunSpreadDefectComponent : DefectComponent
     [DataField] public Angle? MaxAngleMin;
     [DataField] public Angle? MaxAngleMax;
 
-    [DataField] public Angle MinAngleDelta;
-    [DataField] public Angle MaxAngleDelta;
+    [DataField, AutoNetworkedField] public Angle MinAngleDelta;
+    [DataField, AutoNetworkedField] public Angle MaxAngleDelta;
 
     [DataField] public float? SpreadMultiplierMin;
     [DataField] public float? SpreadMultiplierMax;

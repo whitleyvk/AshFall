@@ -33,7 +33,7 @@ public abstract partial class SharedGunSystem
             if (ent.Comp.Count != null)
                 ent.Comp.Count--;
 
-            var ammoEnt = SpawnAtPosition(ent.Comp.Proto, args.Coordinates);
+            var ammoEnt = PredictedSpawnAtPosition(ent.Comp.Proto, args.Coordinates);
             args.Ammo.Add((ammoEnt, EnsureShootable(ammoEnt)));
         }
 

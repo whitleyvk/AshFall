@@ -1,0 +1,94 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+- type: entity
+  id: BasePerceptionStealth
+  abstract: true
+  components:
+  - type: LightDetection
+    onLightLevel: 0.25
+  - type: PerceptionStealth
+    minVisibility: 0.15
+    maxVisibility: 1.0
+    lightThresholdLow: 0.10
+    lightThresholdHigh: 0.45
+    runningVisibilityPenalty: 0.35
+    revealOnAttack: true
+    revealOnDamage: true
+
+- type: entity
+  parent: [BaseItem, BasePerceptionStealth]
+  id: ClothingOuterShadowCloak
+  name: shadow cloak
+  description: An enigmatic mantle woven from light-absorbing fibers, allowing the wearer to dissolve into ambient shadows.
+  components:
+  - type: Sprite
+    sprite: Clothing/OuterClothing/Coats/bomber.rsi
+    state: icon
+  - type: Clothing
+    slots: [outerClothing]
+  - type: LightSpeedModifier
+    requiredLightLevel: 0.25
+    applyInDarkness: true
+    walkModifier: 1.15
+    sprintModifier: 1.20
+
+- type: entity
+  parent: SimpleSpaceMobBase
+  id: MobShadowStalker
+  name: shadow stalker
+  description: A creature that thrives in absolute darkness, moving silently between the shadows.
+  components:
+  - type: LightDetection
+    onLightLevel: 0.25
+  - type: PerceptionStealth
+    minVisibility: 0.10
+    maxVisibility: 1.0
+    lightThresholdLow: 0.15
+    lightThresholdHigh: 0.50
+  - type: LightSpeedModifier
+    requiredLightLevel: 0.25
+    applyInDarkness: true
+    walkModifier: 1.25
+    sprintModifier: 1.35
+  - type: PerceptionSensory
+    nightVision: true
+    proximityRevealRadius: 3.0
+  - type: LightDetectionDamage
+    detectionValue: 10
+    detectionValueMax: 10
+    detectionValueRegeneration: 1.0
+    takeDamageOnLight: true
+    healOnShadows: true
+    damageToDeal:
+      types:
+        Heat: 8
+    damageToHeal:
+      types:
+        Heat: -5
+        Blunt: -5
+        Slash: -5
+        Piercing: -5
+
+- type: entity
+  parent: MobStatusEffectBase
+  id: StatusEffectDarknessStealth
+  name: cloak of darkness
+  components:
+  - type: DarknessStealthStatusEffect
+    triggerAt: 0.25
+    visibility: 0.15
+  - type: LightSpeedModifier
+    requiredLightLevel: 0.25
+    applyInDarkness: true
+    walkModifier: 1.15
+    sprintModifier: 1.20
+
+- type: trait
+  id: TraitEnhancedPerception
+  name: trait-enhanced-perception-name
+  description: trait-enhanced-perception-desc
+  category: Quirks
+  components:
+  - type: PerceptionSensory
+    darkSightLevel: 0.65
+    proximityRevealRadius: 3.0

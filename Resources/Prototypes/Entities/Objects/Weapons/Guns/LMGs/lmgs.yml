@@ -16,6 +16,25 @@
     slots:
     - Back
     - suitStorage
+  - type: WeaponClass
+    class: Rifle
+  - type: AttachableGun
+    slots:
+    - name: gun-slot-muzzle
+      containerId: attachment_muzzle
+      whitelist:
+        tags:
+        - GunAttachmentMuzzle
+    - name: gun-slot-underbarrel
+      containerId: attachment_underbarrel
+      whitelist:
+        tags:
+        - GunAttachmentUnderbarrel
+    - name: gun-slot-optic
+      containerId: attachment_optic
+      whitelist:
+        tags:
+        - GunAttachmentOptic
   - type: Wieldable
     unwieldOnUse: false
   - type: GunWieldBonus
@@ -31,7 +50,13 @@
     availableModes:
       - FullAuto
     soundGunshot:
-      path: /Audio/Weapons/Guns/Gunshots/lmg.ogg
+      collection: Lmg_1_Gunshots
+  - type: EmitSoundOnPickup
+    sound:
+      collection: GunPickupSoundCollection
+  - type: EmitSoundOnDrop
+    sound:
+      collection: GunDropSoundCollection
     soundEmpty:
       path: /Audio/Weapons/Guns/Empty/lmg_empty.ogg
   - type: ChamberMagazineAmmoProvider
@@ -101,7 +126,7 @@
       availableModes:
         - FullAuto
       soundGunshot:
-        path: /Audio/Weapons/Guns/Gunshots/lmg.ogg
+        collection: Lmg_1_Gunshots
       soundEmpty:
         path: /Audio/Weapons/Guns/Empty/lmg_empty.ogg
     - type: Sprite

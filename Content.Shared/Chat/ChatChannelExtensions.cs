@@ -1,4 +1,4 @@
-﻿namespace Content.Shared.Chat;
+namespace Content.Shared.Chat;
 
 public static class ChatChannelExtensions
 {
@@ -15,6 +15,7 @@ public static class ChatChannelExtensions
             ChatChannel.AdminAlert => Color.FromHex("#D84A3D"),
             ChatChannel.AdminChat => Color.FromHex("#D84A3D"),
             ChatChannel.Whisper => Color.DarkGray,
+            ChatChannel.Emotes => Color.FromHex("#AEABC4"),
             _ => Color.LightGray
         };
     }

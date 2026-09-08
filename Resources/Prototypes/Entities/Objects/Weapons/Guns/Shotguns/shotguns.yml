@@ -19,6 +19,25 @@
     slots:
     - Back
     - suitStorage
+  - type: WeaponClass
+    class: Shotgun
+  - type: AttachableGun
+    slots:
+    - name: gun-slot-muzzle
+      containerId: attachment_muzzle
+      whitelist:
+        tags:
+        - GunAttachmentMuzzle
+    - name: gun-slot-underbarrel
+      containerId: attachment_underbarrel
+      whitelist:
+        tags:
+        - GunAttachmentUnderbarrel
+    - name: gun-slot-optic
+      containerId: attachment_optic
+      whitelist:
+        tags:
+        - GunAttachmentOptic
   - type: AmmoCounter
   - type: Gun
     fireRate: 2
@@ -26,7 +45,13 @@
     availableModes:
     - SemiAuto
     soundGunshot:
-      path: /Audio/Weapons/Guns/Gunshots/shotgun.ogg
+      collection: Shotgun_1_Gunshots
+  - type: EmitSoundOnPickup
+    sound:
+      collection: GunPickupSoundCollection
+  - type: EmitSoundOnDrop
+    sound:
+      collection: GunDropSoundCollection
     soundEmpty:
       path: /Audio/Weapons/Guns/Empty/empty.ogg
   - type: CustomSpriteAmmoCounter
@@ -80,7 +105,7 @@
     availableModes:
     - FullAuto
     soundGunshot:
-      path: /Audio/Weapons/Guns/Gunshots/shotgun.ogg
+      collection: Shotgun_2_Gunshots
     soundEmpty:
       path: /Audio/Weapons/Guns/Empty/empty.ogg
   - type: ItemSlots
@@ -320,10 +345,7 @@
   - type: GunRequiresWield
   - type: Gun
     soundGunshot:
-      path: /Audio/Weapons/Guns/Gunshots/hushpup.ogg
-      params:
-        volume: -3
-        rolloffFactor: 1.3
+      collection: SupressedShotgunGunshots
     fireRate: 2
   - type: GunSpreadModifier
     spread: 0.8

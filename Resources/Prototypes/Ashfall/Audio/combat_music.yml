@@ -1,0 +1,24 @@
+# Ashfall Dynamic Combat Music Sound Collections
+
+- type: soundCollection
+  id: CombatMusicScavenger
+  files:
+  - "/Audio/Ashfall/Ambience/Combat/SAW_1.ogg"
+  - "/Audio/Ashfall/Ambience/Combat/SAW_2.ogg"
+  - "/Audio/Ashfall/Ambience/Combat/COMBAT_quarrel.ogg"
+  - "/Audio/Ashfall/Ambience/Combat/fallback.ogg"
+
+- type: soundCollection
+  id: CombatMusicSecurity
+  files:
+  - "/Audio/Ashfall/Ambience/Combat/DSM_1.ogg"
+  - "/Audio/Ashfall/Ambience/Combat/DSM_2.ogg"
+  - "/Audio/Ashfall/Ambience/Combat/IPM_1.ogg"
+
+- type: soundCollection
+  id: CombatMusicSyndicate
+  files:
+  - "/Audio/Ashfall/Ambience/Combat/SHI_1.ogg"
+  - "/Audio/Ashfall/Ambience/Combat/SHI_2.ogg"
+  - "/Audio/Ashfall/Ambience/Combat/SHI_3.ogg"
+  - "/Audio/Ashfall/Ambience/Combat/SHI_4.ogg"

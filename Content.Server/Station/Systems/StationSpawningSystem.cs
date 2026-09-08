@@ -43,6 +43,7 @@ public sealed partial class StationSpawningSystem : SharedStationSpawningSystem
     [Dependency] private MetaDataSystem _metaSystem = default!;
     [Dependency] private PdaSystem _pdaSystem = default!;
     [Dependency] private MindSystem _mindSystem = default!;
+    [Dependency] private Content.Trauma.Shared.Knowledge.Systems.SharedKnowledgeSystem _knowledge = default!;
 
     /// <summary>
     /// Attempts to spawn a player character onto the given station.
@@ -172,6 +173,9 @@ public sealed partial class StationSpawningSystem : SharedStationSpawningSystem
     {
         if (!ProtoMan.Resolve(job, out JobPrototype? prototype))
             return;
+
+        if (prototype.Knowledge.Count > 0)
+            _knowledge.ApplyJobFloors(entity, prototype.Knowledge);
 
         foreach (var jobSpecial in prototype.Special)
         {

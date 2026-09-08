@@ -50,21 +50,24 @@ public sealed partial class InitialBodySystem : EntitySystem
             spawned[part] = spawn;
         }
 
-        if (ent.Comp.Relationships is null)
-            return;
-
-        foreach (var (partId, parentUid) in spawned)
+        if (ent.Comp.Relationships != null)
         {
-            if (!ent.Comp.Relationships.TryGetValue(partId, out var children))
-                continue;
-
-            foreach (var childId in children)
+            foreach (var (parentSlot, childSlots) in ent.Comp.Relationships)
             {
-                if (!spawned.TryGetValue(childId, out var childUid))
+                if (!spawned.TryGetValue(parentSlot, out var parent))
                     continue;
 
-                _organRelation.Relate(parentUid, childUid);
+                foreach (var childSlot in childSlots)
+                {
+                    if (!spawned.TryGetValue(childSlot, out var child))
+                        continue;
+
+                    _organRelation.Relate(parent, child);
+                }
             }
         }
+
+        var ev = new Content.Medical.Common.Body.BodyInitEvent();
+        RaiseLocalEvent(ent, ref ev);
     }
 }

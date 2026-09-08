@@ -1,0 +1,11 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+- type: entity
+  parent: BaseCraftingKnowledge
+  id: FabricationKnowledge
+  name: Fabrication
+  description: Higher tiers of fabrication allow you to construct and craft advanced structures and equipment.
+  components:
+  - type: Knowledge
+    experienceCost: 15
+    costs: [0, 1, 3, 6]

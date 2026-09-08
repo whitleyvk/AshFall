@@ -23,6 +23,11 @@
   - Cryogenics
   - GenpopEnter
   - GenpopLeave
+  knowledge:
+    ShootingKnowledge: 2
+    KnowledgeWeaponsNonLethal: 2
+    KnowledgeWeaponsShotgun: 2
+    KnowledgeWeaponsPistol: 2
   special:
   - !type:AddImplantSpecial
     implants: [ MindShieldImplant ]

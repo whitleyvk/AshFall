@@ -13,6 +13,8 @@
   extendedAccess:
   - Kitchen
   - Bar
+  knowledge:
+    KnowledgeWeaponsTool: 1
   special:
   - !type:GiveItemOnHolidaySpecial
     holiday: FourTwenty

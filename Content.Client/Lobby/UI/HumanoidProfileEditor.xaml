@@ -61,7 +61,7 @@
             </BoxContainer>
             <Control MinHeight="10" />
             <!-- tabContainer -->
-            <TabContainer Name="TabContainer" VerticalExpand="True">
+            <TabContainer Name="TabContainer" VerticalExpand="True" Access="Public">
                 <BoxContainer Orientation="Vertical">
                     <ScrollContainer VerticalExpand="True">
                         <!-- appearanceList -->
@@ -146,7 +146,7 @@
                         <BoxContainer Name="TraitsList" Orientation="Vertical" />
                     </ScrollContainer>
                 </BoxContainer>
-                <BoxContainer Name="MarkingsTab" Orientation="Vertical" Margin="10">
+                <BoxContainer Name="MarkingsTab" Orientation="Vertical" Margin="10" Access="Public">
                     <!-- Markings -->
                     <humanoid:MarkingPicker Name="Markings" HorizontalExpand="True" VerticalExpand="True" />
                 </BoxContainer>

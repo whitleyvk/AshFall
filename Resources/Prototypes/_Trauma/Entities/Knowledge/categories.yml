@@ -1,0 +1,62 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+- type: entity
+  abstract: true
+  parent: BaseKnowledge
+  id: BaseMedicalKnowledge
+  components:
+  - type: Knowledge
+    category: Medical
+    color: "#1865d8"
+
+- type: entity
+  abstract: true
+  parent: BaseKnowledge
+  id: BaseWarKnowledge
+  components:
+  - type: Knowledge
+    color: "#f71818"
+    experienceCost: 15
+
+- type: entity
+  abstract: true
+  parent: BaseKnowledge
+  id: BasePhysicalKnowledge
+  components:
+  - type: Knowledge
+    category: Physical
+    color: "#e67e22"
+    experienceCost: 15
+
+- type: entity
+  parent: BaseKnowledge
+  id: BaseCraftingKnowledge
+  abstract: true
+  components:
+  - type: Knowledge
+    category: Crafting
+    color: "#0ba881"
+    experienceCost: 20
+    timeBetweenExperience: 1
+
+# Actual categories
+
+- type: knowledgeCategory
+  id: Medical
+  name: knowledge-category-Medical
+
+- type: knowledgeCategory
+  id: MeleeCombat
+  name: knowledge-category-MeleeCombat
+
+- type: knowledgeCategory
+  id: RangedCombat
+  name: knowledge-category-RangedCombat
+
+- type: knowledgeCategory
+  id: Physical
+  name: knowledge-category-Physical
+
+- type: knowledgeCategory
+  id: Crafting
+  name: knowledge-category-Crafting

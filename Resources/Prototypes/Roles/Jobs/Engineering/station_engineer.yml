@@ -16,6 +16,8 @@
   - External
   extendedAccess:
   - Atmospherics
+  knowledge:
+    FabricationKnowledge: 2
 
 - type: startingGear
   id: StationEngineerGear

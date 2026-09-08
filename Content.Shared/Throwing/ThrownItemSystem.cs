@@ -94,6 +94,9 @@ namespace Content.Shared.Throwing
         {
             if (TryComp<PhysicsComponent>(uid, out var physics))
             {
+                if (HasComp<LandAtCursorComponent>(uid))
+                    _physics.SetLinearVelocity(uid, Vector2.Zero, body: physics);
+
                 _physics.SetBodyStatus(uid, physics, BodyStatus.OnGround);
 
                 if (physics.Awake)

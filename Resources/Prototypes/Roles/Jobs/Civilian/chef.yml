@@ -17,6 +17,8 @@
   extendedAccess:
   - Hydroponics
   - Bar
+  knowledge:
+    KnowledgeWeaponsShortBlade: 1
 
 - type: startingGear
   id: ChefGear

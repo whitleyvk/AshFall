@@ -793,16 +793,15 @@ public sealed class AshfallPersonGenerator
 
         var education = _prototypes.Index(person.Education);
 
-        // One line per education: the diploma with its specializations and courses merged by
-        // a dash. A second (retraining) education gets its own line.
+        // Primary education diploma followed by bulleted certifications and retraining.
         var educationLine = Loc.GetString(education.Text, ("sex", sexKey));
+        var educationLines = new List<string> { DomainTag(education.Domain) + educationLine };
+
         foreach (var certId in person.Certifications)
         {
             if (_prototypes.TryIndex(certId, out var cert))
-                educationLine += " — " + Loc.GetString(cert.Text, ("sex", sexKey));
+                educationLines.Add("• " + Loc.GetString(cert.Text, ("sex", sexKey)));
         }
-
-        var educationLines = new List<string> { DomainTag(education.Domain) + educationLine };
 
         if (person.RetrainingCount > 0)
             educationLines.Add(DomainTag(person.PrimaryDomain) + Loc.GetString("ashfall-education-retrained", ("sex", sexKey)));

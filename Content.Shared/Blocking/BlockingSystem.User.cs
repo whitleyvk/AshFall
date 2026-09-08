@@ -47,6 +47,9 @@ public sealed partial class BlockingSystem
             return;
 
         var blockFraction = blocking.IsRaised ? blocking.ActiveBlockFraction : blocking.PassiveBlockFraction;
+        var fractionEv = new Content.Trauma.Common.Knowledge.GetBlockFractionEvent(entity, item, blockFraction);
+        RaiseLocalEvent(entity, ref fractionEv);
+        blockFraction = fractionEv.Fraction;
         blockFraction = Math.Clamp(blockFraction, 0, 1);
 
         // This is how much damage the shield is attempting to block

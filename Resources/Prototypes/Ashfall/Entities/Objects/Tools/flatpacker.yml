@@ -1,0 +1,28 @@
+- type: entity
+  name: инженерный флэтпакер
+  description: Портативное гидравлическое устройство утилизатора для аккуратного демонтажа и упаковки оборудования в транспортировочные контейнеры.
+  parent: BaseItem
+  id: AshfallFlatpacker
+  components:
+  - type: Flatpacker
+  - type: Item
+    size: Normal
+  - type: Sprite
+    sprite: Objects/Tools/appraisal-tool.rsi
+    state: icon
+  - type: Tag
+    tags:
+    - Tool
+
+- type: entity
+  name: транспортировочный ящик (оборудование)
+  description: Упрочнённый плоский грузовой контейнер, защищающий упакованное оборудование при транспортировке через завалы и руины.
+  parent: BaseItem
+  id: AshfallFlatpack
+  components:
+  - type: AshfallFlatpack
+  - type: Item
+    size: Huge
+  - type: Sprite
+    sprite: Objects/Misc/ParcelWrap/wrapped_parcel.rsi
+    state: crate

@@ -11,6 +11,7 @@
   - type: Tag
     tags:
     - SurgeryTool
+  - type: SurgeryTool
 
 # Cautery
 
@@ -20,6 +21,12 @@
   parent: BaseToolSurgery
   description: A surgical tool used to cauterize open wounds.
   components:
+  - type: SurgeryTool
+    startSound:
+      path: /Audio/_Trauma/Medical/Surgery/cautery1.ogg
+    endSound:
+      path: /Audio/_Trauma/Medical/Surgery/cautery2.ogg
+  - type: Cautery
   - type: Sprite
     sprite: Objects/Specific/Medical/Surgery/cautery.rsi
     state: cautery
@@ -41,6 +48,10 @@
   parent: BaseToolSurgery
   description: A surgical drill for making holes into hard material.
   components:
+  - type: SurgeryTool
+    startSound:
+      path: /Audio/_Trauma/Medical/Surgery/saw.ogg
+  - type: Drill
   - type: Sprite
     sprite: Objects/Specific/Medical/Surgery/drill.rsi
     state: drill
@@ -66,6 +77,12 @@
   parent: BaseToolSurgery
   description: A surgical tool used to make incisions into flesh.
   components:
+  - type: SurgeryTool
+    startSound:
+      path: /Audio/_Trauma/Medical/Surgery/scalpel1.ogg
+    endSound:
+      path: /Audio/_Trauma/Medical/Surgery/scalpel2.ogg
+  - type: Scalpel
   - type: Tool
     qualities:
     - Slicing
@@ -145,6 +162,12 @@
   parent: BaseToolSurgery
   description: A surgical tool used to hold open incisions.
   components:
+  - type: SurgeryTool
+    startSound:
+      path: /Audio/_Trauma/Medical/Surgery/retractor1.ogg
+    endSound:
+      path: /Audio/_Trauma/Medical/Surgery/retractor2.ogg
+  - type: Retractor
   - type: Sprite
     sprite: Objects/Specific/Medical/Surgery/scissors.rsi
     state: retractor
@@ -158,6 +181,14 @@
   parent: Retractor
   description: A surgical tool used to compress blood vessels to prevent bleeding.
   components:
+  - type: SurgeryTool
+    startSound:
+      path: /Audio/_Trauma/Medical/Surgery/retractor1.ogg
+    endSound:
+      path: /Audio/_Trauma/Medical/Surgery/hemostat1.ogg
+  - type: Hemostat
+  - type: Tweezers
+  - type: Tending
   - type: Sprite
     state: hemostat
   - type: Item
@@ -178,6 +209,10 @@
   parent: BaseToolSurgery
   description: For cutting wood and other objects to pieces. Or sawing bones, in case of emergency.
   components:
+  - type: SurgeryTool
+    startSound:
+      path: /Audio/_Trauma/Medical/Surgery/bone_saw.ogg
+  - type: BoneSaw
   - type: Utensil
     types:
       - Knife
@@ -220,6 +255,9 @@
   parent: Saw
   description: For heavy duty cutting.
   components:
+  - type: SurgeryTool
+    startSound:
+      path: /Audio/_Trauma/Medical/Surgery/saw.ogg
   - type: Sprite
     state: electric
   - type: Item

@@ -1,6 +1,7 @@
-﻿defibrillator-begin = {$name} places the defibrillator pads against {THE($target)}
+defibrillator-begin = {$name} places the defibrillator pads against {THE($target)}
 defibrillator-not-on = The defibrillator isn't turned on.
 defibrillator-no-mind = No intelligence pattern can be detected in patient's brain. Further attempts futile.
 defibrillator-not-living = Warning: Defibrillation target was an inanimate object. Consider retargeting.
 defibrillator-rotten = Body decomposition detected: resuscitation failed.
 defibrillator-unrevivable = This patient is unable to be revived due to a unique body composition.
+defibrillator-missing-organs = Patient is missing vital organs, resuscitation impossible!

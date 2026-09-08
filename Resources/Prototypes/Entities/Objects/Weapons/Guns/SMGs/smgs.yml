@@ -16,6 +16,25 @@
     slots:
     - Back
     - suitStorage
+  - type: WeaponClass
+    class: SMG
+  - type: AttachableGun
+    slots:
+    - name: gun-slot-muzzle
+      containerId: attachment_muzzle
+      whitelist:
+        tags:
+        - GunAttachmentMuzzle
+    - name: gun-slot-underbarrel
+      containerId: attachment_underbarrel
+      whitelist:
+        tags:
+        - GunAttachmentUnderbarrel
+    - name: gun-slot-optic
+      containerId: attachment_optic
+      whitelist:
+        tags:
+        - GunAttachmentOptic
   - type: AmmoCounter
   - type: Gun
     minAngle: 2
@@ -29,7 +48,13 @@
     - SemiAuto
     - FullAuto
     soundGunshot:
-      path: /Audio/Weapons/Guns/Gunshots/smg.ogg
+      collection: SMG_1_Gunshots
+  - type: EmitSoundOnPickup
+    sound:
+      collection: GunPickupSoundCollection
+  - type: EmitSoundOnDrop
+    sound:
+      collection: GunDropSoundCollection
     defaultDirection: 1, 0
   - type: ChamberMagazineAmmoProvider
     soundRack:
@@ -75,7 +100,7 @@
   - type: Gun
     fireRate: 10
     soundGunshot:
-      path: /Audio/Weapons/Guns/Gunshots/atreides.ogg
+      collection: SMG_2_Gunshots
   - type: MagazineVisuals
     magState: mag
     steps: 1
@@ -111,7 +136,7 @@
     - FullAuto
     - SemiAuto
     soundGunshot:
-      path: /Audio/Weapons/Guns/Gunshots/c-20r.ogg
+      collection: SMG_3_Gunshots
   - type: ChamberMagazineAmmoProvider
     autoEject: true
   - type: MagazineVisuals
@@ -190,7 +215,7 @@
       fireRate: 6
       burstFireRate: 18
       soundGunshot:
-        path: /Audio/Weapons/Guns/Gunshots/atreides.ogg
+        collection: SMG_2_Gunshots
       selectedMode: Burst
       availableModes:
       - Burst
@@ -317,7 +342,7 @@
     availableModes:
     - FullAuto
     soundGunshot:
-      path: /Audio/Weapons/Guns/Gunshots/atreides.ogg
+      collection: SMG_2_Gunshots
   - type: ChamberMagazineAmmoProvider
     autoEject: false
   - type: Appearance

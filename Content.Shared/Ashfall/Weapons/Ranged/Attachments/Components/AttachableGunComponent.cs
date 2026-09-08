@@ -7,14 +7,13 @@ namespace Content.Shared.Ashfall.Weapons.Ranged.Attachments.Components;
 /// <summary>
 /// Used to hold data for guns which can have attachments mounted onto them.
 /// </summary>
-[RegisterComponent, NetworkedComponent]
-[Access(typeof(GunAttachmentsSystem))]
+[RegisterComponent, NetworkedComponent, AutoGenerateComponentState(true)]
 public sealed partial class AttachableGunComponent : Component
 {
     /// <summary>
     /// The slots that can have attachments mounted.
     /// </summary>
-    [DataField]
+    [DataField, AutoNetworkedField]
     public List<GunAttachmentSlot> Slots = new();
 }
 

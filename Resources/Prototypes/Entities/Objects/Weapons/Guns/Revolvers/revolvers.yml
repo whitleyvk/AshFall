@@ -22,6 +22,15 @@
     slots:
     - suitStorage
     - Belt
+  - type: WeaponClass
+    class: Pistol
+  - type: AttachableGun
+    slots:
+    - name: gun-slot-optic
+      containerId: attachment_optic
+      whitelist:
+        tags:
+        - GunAttachmentOptic
   - type: AmmoCounter
   - type: Gun
     selectedMode: SemiAuto
@@ -29,7 +38,13 @@
     availableModes:
     - SemiAuto
     soundGunshot:
-      path: /Audio/Weapons/Guns/Gunshots/revolver.ogg
+      collection: Revolver_1_Gunshots
+  - type: EmitSoundOnPickup
+    sound:
+      collection: GunPickupSoundCollection
+  - type: EmitSoundOnDrop
+    sound:
+      collection: GunDropSoundCollection
   - type: UseDelay
     delay: 0.66
   - type: ContainerContainer
@@ -113,7 +128,7 @@
   - type: Gun
     fireRate: 3
     soundGunshot:
-      path: /Audio/Weapons/Guns/Gunshots/mateba.ogg
+      collection: Revolver_1_Gunshots
 
 - type: entity
   parent: WeaponRevolverMateba
@@ -141,7 +156,7 @@
     availableModes:
     - SemiAuto
     soundGunshot:
-      path: /Audio/Weapons/Guns/Gunshots/revolver.ogg
+      collection: Revolver_1_Gunshots
       params:
         volume: 2.25
   - type: StaticPrice

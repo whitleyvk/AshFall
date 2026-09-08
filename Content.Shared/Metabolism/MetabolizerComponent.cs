@@ -84,7 +84,10 @@ public sealed partial class MetabolizerComponent : Component
     ///     List of metabolizer types that this organ is. ex. Human, Slime, Felinid, w/e.
     /// </summary>
     [DataField]
-    [Access(typeof(MetabolizerSystem), Other = AccessPermissions.ReadExecute)] // FIXME Friends
+    [Access(typeof(MetabolizerSystem),
+        typeof(Content.Medical.Shared.EntityEffects.AddMetabolizerTypeEffectSystem),
+        typeof(Content.Medical.Server.EntityEffects.RemoveMetabolizerTypeEffectSystem),
+        Other = AccessPermissions.ReadExecute)] // FIXME Friends
     public HashSet<ProtoId<MetabolizerTypePrototype>>? MetabolizerTypes;
 
     /// <summary>

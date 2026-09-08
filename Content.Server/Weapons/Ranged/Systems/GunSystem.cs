@@ -69,7 +69,7 @@ public sealed partial class GunSystem : SharedGunSystem
         var toMap = TransformSystem.ToMapCoordinates(toCoordinates).Position;
         var mapDirection = toMap - fromMap.Position;
         var mapAngle = mapDirection.ToAngle();
-        var angle = GetRecoilAngle(Timing.CurTime, gun, mapDirection.ToAngle());
+        var angle = GetRecoilAngle(Timing.CurTime, gun, mapDirection.ToAngle(), user);
 
         // If applicable, this ensures the projectile is parented to grid on spawn, instead of the map.
         var fromEnt = Maps.TryFindGridAt(fromMap, out var gridUid, out _)
@@ -161,6 +161,12 @@ public sealed partial class GunSystem : SharedGunSystem
             FiredProjectiles = shotProjectiles,
         });
 
+        if (user.HasValue)
+        {
+            var userEv = new AmmoShotUserEvent(gun, shotProjectiles);
+            RaiseLocalEvent(user.Value, ref userEv);
+        }
+
         void CreateAndFireProjectiles(EntityUid ammoEnt, AmmoComponent ammoComp)
         {
             if (TryComp<ProjectileSpreadComponent>(ammoEnt, out var ammoSpreadComp))
@@ -232,18 +238,36 @@ public sealed partial class GunSystem : SharedGunSystem
         return angles;
     }
 
-    private Angle GetRecoilAngle(TimeSpan curTime, GunComponent component, Angle direction)
+    private Angle GetRecoilAngle(TimeSpan curTime, Entity<GunComponent> gun, Angle direction, EntityUid? user = null)
     {
+        var component = gun.Comp;
         var timeSinceLastFire = (curTime - component.LastFire).TotalSeconds;
-        var newTheta = MathHelper.Clamp(component.CurrentAngle.Theta + component.AngleIncreaseModified.Theta - component.AngleDecayModified.Theta * timeSinceLastFire, component.MinAngleModified.Theta, component.MaxAngleModified.Theta);
+        var minTheta = Math.Max(0.0, component.MinAngleModified.Theta);
+        var maxTheta = Math.Max(minTheta, component.MaxAngleModified.Theta);
+        var newTheta = Math.Clamp(component.CurrentAngle.Theta + component.AngleIncreaseModified.Theta - component.AngleDecayModified.Theta * timeSinceLastFire, minTheta, maxTheta);
         component.CurrentAngle = new Angle(newTheta);
         component.LastFire = component.NextFire;
 
         // Convert it so angle can go either side.
         var random = Random.NextFloat(-0.5f, 0.5f);
-        var spread = component.CurrentAngle.Theta * random;
-        var angle = new Angle(direction.Theta + component.CurrentAngle.Theta * random);
-        DebugTools.Assert(spread <= component.MaxAngleModified.Theta);
+        var modifier = 1f;
+        if (user != null)
+        {
+            var angleEv = new GetRecoilModifiersEvent(gun.Owner, user.Value);
+            RaiseLocalEvent(user.Value, ref angleEv);
+            RaiseLocalEvent(gun.Owner, ref angleEv);
+            modifier = Math.Max(0.01f, angleEv.Modifier);
+        }
+        // Keep the skill penalty noticeable instead of flattening it. The cap prevents even a completely
+        // untrained shooter from firing backwards.
+        var spreadCap = MathHelper.DegreesToRadians(35);
+        var minSpread = Math.Min(minTheta * modifier, spreadCap);
+        var maxSpread = Math.Min(maxTheta * modifier, spreadCap);
+        maxSpread = Math.Max(minSpread, maxSpread);
+        var effectiveAngle = Math.Clamp(component.CurrentAngle.Theta * modifier, minSpread, maxSpread);
+
+        var spread = Math.Clamp(effectiveAngle * random, -maxSpread * 0.5, maxSpread * 0.5);
+        var angle = new Angle(direction.Theta + spread);
         return angle;
     }
 

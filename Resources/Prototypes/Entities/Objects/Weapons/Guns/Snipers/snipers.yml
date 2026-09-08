@@ -17,6 +17,25 @@
     slots:
     - Back
     - suitStorage
+  - type: WeaponClass
+    class: Rifle
+  - type: AttachableGun
+    slots:
+    - name: gun-slot-muzzle
+      containerId: attachment_muzzle
+      whitelist:
+        tags:
+        - GunAttachmentMuzzle
+    - name: gun-slot-underbarrel
+      containerId: attachment_underbarrel
+      whitelist:
+        tags:
+        - GunAttachmentUnderbarrel
+    - name: gun-slot-optic
+      containerId: attachment_optic
+      whitelist:
+        tags:
+        - GunAttachmentOptic
   - type: AmmoCounter
   - type: Gun
     fireRate: 0.75
@@ -24,7 +43,13 @@
     availableModes:
     - SemiAuto
     soundGunshot:
-      path: /Audio/Weapons/Guns/Gunshots/sniper.ogg
+      collection: Dmr_1_Gunshots
+  - type: EmitSoundOnPickup
+    sound:
+      collection: GunPickupSoundCollection
+  - type: EmitSoundOnDrop
+    sound:
+      collection: GunDropSoundCollection
   - type: BallisticAmmoProvider
     capacity: 10
     proto: CartridgeLightRifle
@@ -107,7 +132,7 @@
     availableModes:
     - SemiAuto
     soundGunshot:
-      path: /Audio/Weapons/Guns/Gunshots/sniper.ogg
+      collection: AmrGunshot
   - type: CustomSpriteAmmoCounter
     loadedAmmoSprite: Interface/ItemStatus/Sniper_Cartriges/not_spent.png
     spentAmmoSprite: Interface/ItemStatus/Sniper_Cartriges/spent.png

@@ -41,6 +41,11 @@ public sealed partial class AudioTab : Control
             scale: ContentAudioSystem.AmbientMusicMultiplier);
 
         Control.AddOptionPercentSlider(
+            CCVars.CombatMusicVolume,
+            SliderVolumeCombatMusic,
+            scale: ContentAudioSystem.CombatMusicMultiplier);
+
+        Control.AddOptionPercentSlider(
             CCVars.AmbienceVolume,
             SliderVolumeAmbience,
             scale: ContentAudioSystem.AmbienceMultiplier);
@@ -61,6 +66,7 @@ public sealed partial class AudioTab : Control
             _cfg.GetCVar(CCVars.MinMaxAmbientSourcesConfigured),
             _cfg.GetCVar(CCVars.MaxMaxAmbientSourcesConfigured));
 
+        Control.AddOptionCheckBox(CCVars.CombatMusicEnabled, CombatMusicCheckBox);
         Control.AddOptionCheckBox(CCVars.LobbyMusicEnabled, LobbyMusicCheckBox);
         Control.AddOptionCheckBox(CCVars.RestartSoundsEnabled, RestartSoundsCheckBox);
         Control.AddOptionCheckBox(CCVars.EventMusicEnabled, EventMusicCheckBox);

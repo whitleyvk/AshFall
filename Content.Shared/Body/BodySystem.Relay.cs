@@ -20,12 +20,12 @@ public sealed partial class BodySystem
         SubscribeLocalEvent<BodyComponent, HumanoidLayerVisibilityChangedEvent>(RefRelayBodyEvent);
     }
 
-    private void RefRelayBodyEvent<T>(EntityUid uid, BodyComponent component, ref T args) where T : struct
+    public void RefRelayBodyEvent<T>(EntityUid uid, BodyComponent component, ref T args) where T : struct
     {
         RelayEvent((uid, component), ref args);
     }
 
-    private void RelayBodyEvent<T>(EntityUid uid, BodyComponent component, T args) where T : class
+    public void RelayBodyEvent<T>(EntityUid uid, BodyComponent component, T args) where T : class
     {
         RelayEvent((uid, component), args);
     }

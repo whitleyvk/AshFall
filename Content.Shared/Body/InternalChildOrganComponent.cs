@@ -1,4 +1,5 @@
 using Robust.Shared.GameStates;
+using Content.Medical.Common.Surgery.Tools;
 
 namespace Content.Shared.Body;
 
@@ -6,4 +7,5 @@ namespace Content.Shared.Body;
 /// Marker components for child organs that are considered "internal" to their parent. e.g. kidneys are internal to a torso, but an arm isn't.
 /// </summary>
 [RegisterComponent, NetworkedComponent]
-public sealed partial class InternalChildOrganComponent : Component;
+[AutoGenerateComponentState(fieldDeltas: true)]
+public sealed partial class InternalChildOrganComponent : BaseSurgeryToolComponent;

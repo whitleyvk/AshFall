@@ -1,0 +1,201 @@
+# Heavy tactical gunshot sounds ported from Hullrot (Vunsunta's gunshot pack)
+
+- type: soundCollection
+  id: SMG_1_Gunshots
+  files:
+  - "/Audio/Ashfall/Weapons/Guns/smg_1/smg_gunshot_1.ogg"
+  - "/Audio/Ashfall/Weapons/Guns/smg_1/smg_gunshot_2.ogg"
+  - "/Audio/Ashfall/Weapons/Guns/smg_1/smg_gunshot_3.ogg"
+  - "/Audio/Ashfall/Weapons/Guns/smg_1/smg_gunshot_4.ogg"
+  - "/Audio/Ashfall/Weapons/Guns/smg_1/smg_gunshot_5.ogg"
+  - "/Audio/Ashfall/Weapons/Guns/smg_1/smg_gunshot_6.ogg"
+  - "/Audio/Ashfall/Weapons/Guns/smg_1/smg_gunshot_7.ogg"
+  - "/Audio/Ashfall/Weapons/Guns/smg_1/smg_gunshot_8.ogg"
+  - "/Audio/Ashfall/Weapons/Guns/smg_1/smg_gunshot_9.ogg"
+
+- type: soundCollection
+  id: SMG_2_Gunshots
+  files:
+  - "/Audio/Ashfall/Weapons/Guns/smg_2/smg_gunshot_1.ogg"
+  - "/Audio/Ashfall/Weapons/Guns/smg_2/smg_gunshot_2.ogg"
+  - "/Audio/Ashfall/Weapons/Guns/smg_2/smg_gunshot_3.ogg"
+
+- type: soundCollection
+  id: SMG_3_Gunshots
+  files:
+  - "/Audio/Ashfall/Weapons/Guns/smg_3/smg_gunshot_1.ogg"
+  - "/Audio/Ashfall/Weapons/Guns/smg_3/smg_gunshot_2.ogg"
+  - "/Audio/Ashfall/Weapons/Guns/smg_3/smg_gunshot_3.ogg"
+
+- type: soundCollection
+  id: Pistol_1_Gunshots
+  files:
+  - "/Audio/Ashfall/Weapons/Guns/pistol_1/pistol_gunshot_1.ogg"
+  - "/Audio/Ashfall/Weapons/Guns/pistol_1/pistol_gunshot_2.ogg"
+  - "/Audio/Ashfall/Weapons/Guns/pistol_1/pistol_gunshot_3.ogg"
+
+- type: soundCollection
+  id: Pistol_2_Gunshots
+  files:
+  - "/Audio/Ashfall/Weapons/Guns/pistol_2/pistol_gunshot_1.ogg"
+  - "/Audio/Ashfall/Weapons/Guns/pistol_2/pistol_gunshot_2.ogg"
+  - "/Audio/Ashfall/Weapons/Guns/pistol_2/pistol_gunshot_3.ogg"
+
+- type: soundCollection
+  id: Pistol_3_Gunshots
+  files:
+  - "/Audio/Ashfall/Weapons/Guns/pistol_3/pistol_gunshot_1.ogg"
+  - "/Audio/Ashfall/Weapons/Guns/pistol_3/pistol_gunshot_2.ogg"
+  - "/Audio/Ashfall/Weapons/Guns/pistol_3/pistol_gunshot_3.ogg"
+
+- type: soundCollection
+  id: Supressed_1_Gunshots
+  files:
+  - "/Audio/Ashfall/Weapons/Guns/supressed_1/supressed_gunshot_1.ogg"
+  - "/Audio/Ashfall/Weapons/Guns/supressed_1/supressed_gunshot_2.ogg"
+  - "/Audio/Ashfall/Weapons/Guns/supressed_1/supressed_gunshot_3.ogg"
+  - "/Audio/Ashfall/Weapons/Guns/supressed_1/supressed_gunshot_4.ogg"
+
+- type: soundCollection
+  id: Supressed_2_Gunshots
+  files:
+  - "/Audio/Ashfall/Weapons/Guns/supressed_2/supressed_gunshot_1.ogg"
+  - "/Audio/Ashfall/Weapons/Guns/supressed_2/supressed_gunshot_2.ogg"
+  - "/Audio/Ashfall/Weapons/Guns/supressed_2/supressed_gunshot_3.ogg"
+
+- type: soundCollection
+  id: SupressedShotgunGunshots
+  files:
+  - "/Audio/Ashfall/Weapons/Guns/supressed_shotgun/suppressed_shotgun_fire.ogg"
+
+- type: soundCollection
+  id: Revolver_1_Gunshots
+  files:
+  - "/Audio/Ashfall/Weapons/Guns/revolver_1/revolver_gunshot_1.ogg"
+  - "/Audio/Ashfall/Weapons/Guns/revolver_1/revolver_gunshot_2.ogg"
+
+- type: soundCollection
+  id: Shotgun_1_Gunshots
+  files:
+  - "/Audio/Ashfall/Weapons/Guns/shotgun_1/shotgun_gunshot_1.ogg"
+  - "/Audio/Ashfall/Weapons/Guns/shotgun_1/shotgun_gunshot_2.ogg"
+  - "/Audio/Ashfall/Weapons/Guns/shotgun_1/shotgun_gunshot_3.ogg"
+  - "/Audio/Ashfall/Weapons/Guns/shotgun_1/shotgun_gunshot_4.ogg"
+  - "/Audio/Ashfall/Weapons/Guns/shotgun_1/shotgun_gunshot_5.ogg"
+  - "/Audio/Ashfall/Weapons/Guns/shotgun_1/shotgun_gunshot_6.ogg"
+
+- type: soundCollection
+  id: Shotgun_2_Gunshots
+  files:
+  - "/Audio/Ashfall/Weapons/Guns/shotgun_2/shotgun_gunshot_1.ogg"
+  - "/Audio/Ashfall/Weapons/Guns/shotgun_2/shotgun_gunshot_2.ogg"
+  - "/Audio/Ashfall/Weapons/Guns/shotgun_2/shotgun_gunshot_3.ogg"
+  - "/Audio/Ashfall/Weapons/Guns/shotgun_2/shotgun_gunshot_4.ogg"
+
+- type: soundCollection
+  id: Rifle_1_Gunshots
+  files:
+  - "/Audio/Ashfall/Weapons/Guns/rifle_1/rifle_gunshot_1.ogg"
+  - "/Audio/Ashfall/Weapons/Guns/rifle_1/rifle_gunshot_2.ogg"
+  - "/Audio/Ashfall/Weapons/Guns/rifle_1/rifle_gunshot_3.ogg"
+  - "/Audio/Ashfall/Weapons/Guns/rifle_1/rifle_gunshot_4.ogg"
+  - "/Audio/Ashfall/Weapons/Guns/rifle_1/rifle_gunshot_5.ogg"
+  - "/Audio/Ashfall/Weapons/Guns/rifle_1/rifle_gunshot_6.ogg"
+
+- type: soundCollection
+  id: Rifle_2_Gunshots
+  files:
+  - "/Audio/Ashfall/Weapons/Guns/rifle_2/rifle_gunshot_1.ogg"
+  - "/Audio/Ashfall/Weapons/Guns/rifle_2/rifle_gunshot_2.ogg"
+  - "/Audio/Ashfall/Weapons/Guns/rifle_2/rifle_gunshot_3.ogg"
+
+- type: soundCollection
+  id: Dmr_1_Gunshots
+  files:
+  - "/Audio/Ashfall/Weapons/Guns/dmr_1/dmr_gunshot_1.ogg"
+  - "/Audio/Ashfall/Weapons/Guns/dmr_1/dmr_gunshot_2.ogg"
+  - "/Audio/Ashfall/Weapons/Guns/dmr_1/dmr_gunshot_3.ogg"
+
+- type: soundCollection
+  id: Lmg_1_Gunshots
+  files:
+  - "/Audio/Ashfall/Weapons/Guns/lmg_1/lmg_gunshot_1.ogg"
+  - "/Audio/Ashfall/Weapons/Guns/lmg_1/lmg_gunshot_2.ogg"
+
+- type: soundCollection
+  id: Lmg_2_Gunshots
+  files:
+  - "/Audio/Ashfall/Weapons/Guns/lmg_2/lmg_gunshot_1.ogg"
+  - "/Audio/Ashfall/Weapons/Guns/lmg_2/lmg_gunshot_2.ogg"
+  - "/Audio/Ashfall/Weapons/Guns/lmg_2/lmg_gunshot_3.ogg"
+  - "/Audio/Ashfall/Weapons/Guns/lmg_2/lmg_gunshot_4.ogg"
+
+# Tactical Magazine and Weapon Handling sounds
+- type: soundCollection
+  id: MagazineDropSoundCollection
+  files:
+  - "/Audio/Ashfall/Weapons/Interact/mag_drop.ogg"
+
+- type: soundCollection
+  id: MagazinePickupSoundCollection
+  files:
+  - "/Audio/Ashfall/Weapons/Interact/mag_pick.ogg"
+
+- type: soundCollection
+  id: BigMagazineDropSoundCollection
+  files:
+  - "/Audio/Ashfall/Weapons/Interact/big_mag_drop.ogg"
+
+- type: soundCollection
+  id: BigMagazinePickupSoundCollection
+  files:
+  - "/Audio/Ashfall/Weapons/Interact/big_mag_pick.ogg"
+
+- type: soundCollection
+  id: GunDropSoundCollection
+  files:
+  - "/Audio/Ashfall/Weapons/Interact/gun_drop.ogg"
+
+- type: soundCollection
+  id: GunPickupSoundCollection
+  files:
+  - "/Audio/Ashfall/Weapons/Interact/gun_pick.ogg"
+
+- type: soundCollection
+  id: TurretGunshots
+  files:
+  - "/Audio/Ashfall/Weapons/Guns/Turret/turret_gunshot_1.ogg"
+  - "/Audio/Ashfall/Weapons/Guns/Turret/turret_gunshot_2.ogg"
+  - "/Audio/Ashfall/Weapons/Guns/Turret/turret_gunshot_3.ogg"
+
+- type: soundCollection
+  id: AK47Gunshots
+  files:
+  - "/Audio/Ashfall/Weapons/Guns/AK_47/rifle_gunshot_1.ogg"
+  - "/Audio/Ashfall/Weapons/Guns/AK_47/rifle_gunshot_2.ogg"
+
+- type: soundCollection
+  id: AK74Gunshots
+  files:
+  - "/Audio/Ashfall/Weapons/Guns/AK_74/rifle_gunshot_1.ogg"
+  - "/Audio/Ashfall/Weapons/Guns/AK_74/rifle_gunshot_2.ogg"
+  - "/Audio/Ashfall/Weapons/Guns/AK_74/rifle_gunshot_3.ogg"
+
+- type: soundCollection
+  id: M16Gunshots
+  files:
+  - "/Audio/Ashfall/Weapons/Guns/M16/rifle_gunshot_1.ogg"
+  - "/Audio/Ashfall/Weapons/Guns/M16/rifle_gunshot_2.ogg"
+  - "/Audio/Ashfall/Weapons/Guns/M16/rifle_gunshot_3.ogg"
+
+- type: soundCollection
+  id: M1911Gunshots
+  files:
+  - "/Audio/Ashfall/Weapons/Guns/M1911/pistol_gunshot_1.ogg"
+  - "/Audio/Ashfall/Weapons/Guns/M1911/pistol_gunshot_2.ogg"
+  - "/Audio/Ashfall/Weapons/Guns/M1911/pistol_gunshot_3.ogg"
+
+- type: soundCollection
+  id: AmrGunshot
+  files:
+  - "/Audio/Ashfall/Weapons/Guns/non_collection/amr.ogg"

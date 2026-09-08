@@ -10,6 +10,9 @@
   - Service
   - Janitor
   - Maintenance
+  knowledge:
+    StrengthKnowledge: 1
+    KnowledgeWeaponsTool: 1
   special:
   - !type:GiveItemOnHolidaySpecial
     holiday: GarbageDay

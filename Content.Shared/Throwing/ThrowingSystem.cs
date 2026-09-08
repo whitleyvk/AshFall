@@ -166,6 +166,13 @@ public sealed partial class ThrowingSystem : EntitySystem
         if (tileFriction == 0f)
             compensateFriction = false; // cannot calculate this if there is no friction
 
+        if (user != null)
+        {
+            var ev = new Content.Trauma.Common.Knowledge.ModifyThrownSpeedEvent(user.Value, baseThrowSpeed, direction.Length());
+            RaiseLocalEvent(uid, ref ev);
+            baseThrowSpeed = ev.BaseThrowSpeed;
+        }
+
         // Set the time the item is supposed to be in the air so we can apply OnGround status.
         // This is a free parameter, but we should set it to something reasonable.
         var flyTime = direction.Length() / baseThrowSpeed;

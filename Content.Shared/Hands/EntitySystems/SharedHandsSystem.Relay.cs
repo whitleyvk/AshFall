@@ -27,12 +27,12 @@ public abstract partial class SharedHandsSystem
         SubscribeLocalEvent<HandsComponent, RefreshWeightlessModifiersEvent>(RefRelayEvent);
     }
 
-    private void RelayEvent<T>(Entity<HandsComponent> entity, ref T args) where T : EntityEventArgs
+    public void RelayEvent<T>(Entity<HandsComponent> entity, ref T args) where T : EntityEventArgs
     {
         CoreRelayEvent(entity, ref args);
     }
 
-    private void RefRelayEvent<T>(Entity<HandsComponent> entity, ref T args)
+    public void RefRelayEvent<T>(Entity<HandsComponent> entity, ref T args)
     {
         var ev = CoreRelayEvent(entity, ref args);
         args = ev.Args;

@@ -20,7 +20,7 @@
   - type: Projectile
     damage:
       types:
-        Piercing: 24
+        Piercing: 19
       armorPenetration: -0.60
 
 - type: entity
@@ -56,7 +56,7 @@
   - type: Projectile
     damage:
       types:
-        Piercing: 16
+        Piercing: 17
       armorPenetration: 0.60
 
 - type: entity
@@ -80,7 +80,7 @@
   - type: Projectile
     damage:
       types:
-        Piercing: 24
+        Piercing: 30
       armorPenetration: 0.60
 
 - type: entity
@@ -92,7 +92,7 @@
   - type: Projectile
     damage:
       types:
-        Piercing: 36
+        Piercing: 40
       armorPenetration: -0.60
 
 - type: entity
@@ -104,7 +104,7 @@
   - type: Projectile
     damage:
       types:
-        Piercing: 7
+        Piercing: 6.25
       armorPenetration: 0.60
 
 - type: entity
@@ -114,15 +114,13 @@
   components:
   - type: ProjectileSpread
     proto: PelletShotgunFlechette
-    count: 7
-    spread: 12
+    count: 8
+    spread: 15
 
 # Cartridges
 - type: entity
   parent: BaseCartridgePistol
   id: CartridgePistolPC
-  name: cartridge-pistol-pc-name
-  description: cartridge-pistol-pc-desc
   components:
   - type: CartridgeAmmo
     proto: BulletPistolPC
@@ -139,8 +137,6 @@
 - type: entity
   parent: BaseCartridgePistol
   id: CartridgePistolHP
-  name: cartridge-pistol-hp-name
-  description: cartridge-pistol-hp-desc
   components:
   - type: CartridgeAmmo
     proto: BulletPistolHP
@@ -156,8 +152,6 @@
 - type: entity
   parent: BaseCartridgeRifle
   id: CartridgeRiflePC
-  name: cartridge-rifle-pc-name
-  description: cartridge-rifle-pc-desc
   components:
   - type: CartridgeAmmo
     proto: BulletRiflePC
@@ -174,8 +168,6 @@
 - type: entity
   parent: BaseCartridgeRifle
   id: CartridgeRifleHP
-  name: cartridge-rifle-hp-name
-  description: cartridge-rifle-hp-desc
   components:
   - type: CartridgeAmmo
     proto: BulletRifleHP
@@ -191,8 +183,6 @@
 - type: entity
   parent: BaseCartridgeLightRifle
   id: CartridgeLightRiflePC
-  name: cartridge-light-rifle-pc-name
-  description: cartridge-light-rifle-pc-desc
   components:
   - type: CartridgeAmmo
     proto: BulletLightRiflePC
@@ -209,8 +199,6 @@
 - type: entity
   parent: BaseCartridgeLightRifle
   id: CartridgeLightRifleHP
-  name: cartridge-light-rifle-hp-name
-  description: cartridge-light-rifle-hp-desc
   components:
   - type: CartridgeAmmo
     proto: BulletLightRifleHP
@@ -226,8 +214,6 @@
 - type: entity
   parent: BaseCartridgeMagnum
   id: CartridgeMagnumPC
-  name: cartridge-magnum-pc-name
-  description: cartridge-magnum-pc-desc
   components:
   - type: CartridgeAmmo
     proto: BulletMagnumPC
@@ -244,8 +230,6 @@
 - type: entity
   parent: BaseCartridgeMagnum
   id: CartridgeMagnumHP
-  name: cartridge-magnum-hp-name
-  description: cartridge-magnum-hp-desc
   components:
   - type: CartridgeAmmo
     proto: BulletMagnumHP
@@ -261,8 +245,6 @@
 - type: entity
   parent: BaseShellShotgun
   id: ShellShotgunFlechette
-  name: shell-shotgun-flechette-name
-  description: shell-shotgun-flechette-desc
   components:
   - type: Sprite
     sprite: Ashfall/Objects/Weapons/Ammunition/Casings/flechette_shell.rsi
@@ -273,12 +255,277 @@
     proto: PelletShotgunFlechetteSpread
   - type: SpentAmmoVisuals
 
+# Magazines and speedloaders
+- type: entity
+  parent: MagazinePistol
+  id: MagazinePistolHP
+  components:
+  - type: BallisticAmmoProvider
+    proto: CartridgePistolHP
+  - type: Sprite
+    layers:
+    - state: base
+      map: [ "enum.GunVisualLayers.Base" ]
+    - state: mag-1
+      map: [ "enum.GunVisualLayers.Mag" ]
+    - state: stripe
+      color: "#006c68"
+  - type: Item
+    inhandVisuals:
+      left:
+      - state: inhand-left-mag
+      - state: inhand-left-stripe
+        color: "#006c68"
+      right:
+      - state: inhand-right-mag
+      - state: inhand-right-stripe
+        color: "#006c68"
+
+- type: entity
+  parent: MagazinePistol
+  id: MagazinePistolPC
+  components:
+  - type: BallisticAmmoProvider
+    capacity: 8
+    proto: CartridgePistolPC
+  - type: Sprite
+    layers:
+    - state: base
+      map: [ "enum.GunVisualLayers.Base" ]
+    - state: mag-1
+      map: [ "enum.GunVisualLayers.Mag" ]
+    - state: stripe
+      color: "#a400af"
+  - type: Item
+    inhandVisuals:
+      left:
+      - state: inhand-left-mag
+      - state: inhand-left-stripe
+        color: "#a400af"
+      right:
+      - state: inhand-right-mag
+      - state: inhand-right-stripe
+        color: "#a400af"
+
+- type: entity
+  parent: BaseMagazinePistolSubMachineGun
+  id: MagazinePistolSubMachineGunHP
+  components:
+  - type: BallisticAmmoProvider
+    proto: CartridgePistolHP
+  - type: Sprite
+    layers:
+    - state: base
+      map: [ "enum.GunVisualLayers.Base" ]
+    - state: mag-1
+      map: [ "enum.GunVisualLayers.Mag" ]
+    - state: stripe
+      color: "#006c68"
+  - type: Item
+    inhandVisuals:
+      left:
+      - state: inhand-left-mag
+      - state: inhand-left-stripe
+        color: "#006c68"
+      right:
+      - state: inhand-right-mag
+      - state: inhand-right-stripe
+        color: "#006c68"
+
+- type: entity
+  parent: BaseMagazinePistolSubMachineGun
+  id: MagazinePistolSubMachineGunPC
+  components:
+  - type: BallisticAmmoProvider
+    capacity: 25
+    proto: CartridgePistolPC
+  - type: Sprite
+    layers:
+    - state: base
+      map: [ "enum.GunVisualLayers.Base" ]
+    - state: mag-1
+      map: [ "enum.GunVisualLayers.Mag" ]
+    - state: stripe
+      color: "#a400af"
+  - type: Item
+    inhandVisuals:
+      left:
+      - state: inhand-left-mag
+      - state: inhand-left-stripe
+        color: "#a400af"
+      right:
+      - state: inhand-right-mag
+      - state: inhand-right-stripe
+        color: "#a400af"
+
+- type: entity
+  parent: MagazineRifle
+  id: MagazineRifleHP
+  components:
+  - type: BallisticAmmoProvider
+    proto: CartridgeRifleHP
+  - type: Sprite
+    layers:
+    - state: base
+      map: [ "enum.GunVisualLayers.Base" ]
+    - state: mag-1
+      map: [ "enum.GunVisualLayers.Mag" ]
+    - state: stripe
+      color: "#006c68"
+  - type: Item
+    inhandVisuals:
+      left:
+      - state: inhand-left-mag
+      - state: inhand-left-stripe
+        color: "#006c68"
+      right:
+      - state: inhand-right-mag
+      - state: inhand-right-stripe
+        color: "#006c68"
+
+- type: entity
+  parent: MagazineRifle
+  id: MagazineRiflePC
+  components:
+  - type: BallisticAmmoProvider
+    capacity: 20
+    proto: CartridgeRiflePC
+  - type: Sprite
+    layers:
+    - state: base
+      map: [ "enum.GunVisualLayers.Base" ]
+    - state: mag-1
+      map: [ "enum.GunVisualLayers.Mag" ]
+    - state: stripe
+      color: "#a400af"
+  - type: Item
+    inhandVisuals:
+      left:
+      - state: inhand-left-mag
+      - state: inhand-left-stripe
+        color: "#a400af"
+      right:
+      - state: inhand-right-mag
+      - state: inhand-right-stripe
+        color: "#a400af"
+
+- type: entity
+  parent: MagazineLightRifle
+  id: MagazineLightRifleHP
+  components:
+  - type: BallisticAmmoProvider
+    proto: CartridgeLightRifleHP
+  - type: Sprite
+    layers:
+    - state: base
+      map: [ "enum.GunVisualLayers.Base" ]
+    - state: mag-1
+      map: [ "enum.GunVisualLayers.Mag" ]
+    - state: stripe
+      color: "#006c68"
+  - type: Item
+    inhandVisuals:
+      left:
+      - state: inhand-left-mag
+      - state: inhand-left-stripe
+        color: "#006c68"
+      right:
+      - state: inhand-right-mag
+      - state: inhand-right-stripe
+        color: "#006c68"
+
+- type: entity
+  parent: MagazineLightRifle
+  id: MagazineLightRiflePC
+  components:
+  - type: BallisticAmmoProvider
+    capacity: 25
+    proto: CartridgeLightRiflePC
+  - type: Sprite
+    layers:
+    - state: base
+      map: [ "enum.GunVisualLayers.Base" ]
+    - state: mag-1
+      map: [ "enum.GunVisualLayers.Mag" ]
+    - state: stripe
+      color: "#a400af"
+  - type: Item
+    inhandVisuals:
+      left:
+      - state: inhand-left-mag
+      - state: inhand-left-stripe
+        color: "#a400af"
+      right:
+      - state: inhand-right-mag
+      - state: inhand-right-stripe
+        color: "#a400af"
+
+- type: entity
+  parent: BaseSpeedLoaderMagnum
+  id: SpeedLoaderMagnumHP
+  components:
+  - type: BallisticAmmoProvider
+    proto: CartridgeMagnumHP
+  - type: Sprite
+    sprite: Ashfall/Objects/Weapons/Ammunition/SpeedLoaders/Magnum/magnum_speed_loader.rsi
+    layers:
+    - state: base
+      map: [ "enum.GunVisualLayers.Base" ]
+    - state: base-6
+      map: [ "enum.GunVisualLayers.Mag" ]
+  - type: MagazineVisuals
+    magState: base
+    steps: 7
+    zeroVisible: false
+  - type: Appearance
+  - type: Item
+    inhandVisuals:
+      left:
+      - state: inhand-left-mag
+      - state: inhand-left-ammo
+      - state: inhand-left-stripe
+        color: "#006c68"
+      right:
+      - state: inhand-right-mag
+      - state: inhand-right-ammo
+      - state: inhand-right-stripe
+        color: "#006c68"
+
+- type: entity
+  parent: BaseSpeedLoaderMagnum
+  id: SpeedLoaderMagnumPC
+  components:
+  - type: BallisticAmmoProvider
+    proto: CartridgeMagnumPC
+  - type: Sprite
+    sprite: Ashfall/Objects/Weapons/Ammunition/SpeedLoaders/Magnum/magnum_speed_loader.rsi
+    layers:
+    - state: base
+      map: [ "enum.GunVisualLayers.Base" ]
+    - state: fmj-6
+      map: [ "enum.GunVisualLayers.Mag" ]
+  - type: MagazineVisuals
+    magState: fmj
+    steps: 7
+    zeroVisible: false
+  - type: Appearance
+  - type: Item
+    inhandVisuals:
+      left:
+      - state: inhand-left-mag
+      - state: inhand-left-ammo
+      - state: inhand-left-stripe
+        color: "#272727"
+      right:
+      - state: inhand-right-mag
+      - state: inhand-right-ammo
+      - state: inhand-right-stripe
+        color: "#272727"
+
 # Ammo Boxes
 - type: entity
   parent: BaseItem
   id: BoxPistolPC
-  name: box-pistol-pc-name
-  description: box-pistol-pc-desc
   components:
   - type: BallisticAmmoProvider
     proto: CartridgePistolPC
@@ -296,8 +543,6 @@
 - type: entity
   parent: BaseItem
   id: BoxPistolHP
-  name: box-pistol-hp-name
-  description: box-pistol-hp-desc
   components:
   - type: BallisticAmmoProvider
     proto: CartridgePistolHP
@@ -315,8 +560,6 @@
 - type: entity
   parent: BaseItem
   id: BoxRiflePC
-  name: box-rifle-pc-name
-  description: box-rifle-pc-desc
   components:
   - type: BallisticAmmoProvider
     proto: CartridgeRiflePC
@@ -334,8 +577,6 @@
 - type: entity
   parent: BaseItem
   id: BoxRifleHP
-  name: box-rifle-hp-name
-  description: box-rifle-hp-desc
   components:
   - type: BallisticAmmoProvider
     proto: CartridgeRifleHP
@@ -353,8 +594,6 @@
 - type: entity
   parent: BaseItem
   id: BoxLightRiflePC
-  name: box-light-rifle-pc-name
-  description: box-light-rifle-pc-desc
   components:
   - type: BallisticAmmoProvider
     proto: CartridgeLightRiflePC
@@ -372,8 +611,6 @@
 - type: entity
   parent: BaseItem
   id: BoxLightRifleHP
-  name: box-light-rifle-hp-name
-  description: box-light-rifle-hp-desc
   components:
   - type: BallisticAmmoProvider
     proto: CartridgeLightRifleHP
@@ -391,8 +628,6 @@
 - type: entity
   parent: BaseItem
   id: BoxMagnumPC
-  name: box-magnum-pc-name
-  description: box-magnum-pc-desc
   components:
   - type: BallisticAmmoProvider
     proto: CartridgeMagnumPC
@@ -410,8 +645,6 @@
 - type: entity
   parent: BaseItem
   id: BoxMagnumHP
-  name: box-magnum-hp-name
-  description: box-magnum-hp-desc
   components:
   - type: BallisticAmmoProvider
     proto: CartridgeMagnumHP
@@ -429,8 +662,6 @@
 - type: entity
   parent: BaseItem
   id: BoxShotgunFlechette
-  name: box-shotgun-flechette-name
-  description: box-shotgun-flechette-desc
   components:
   - type: BallisticAmmoProvider
     proto: ShellShotgunFlechette
@@ -448,8 +679,6 @@
 - type: entity
   parent: BaseItem
   id: MagazineShotgunFlechette
-  name: magazine-shotgun-flechette-name
-  description: magazine-shotgun-flechette-desc
   components:
   - type: BallisticAmmoProvider
     proto: ShellShotgunFlechette

@@ -66,4 +66,16 @@ public sealed partial class CCVars
     [CVarControl(AdminFlags.VarEdit)]
     public static readonly CVarDef<string> LobbyMusicCollection =
         CVarDef.Create("audio.lobby_music_collection", "LobbyMusic", CVar.REPLICATED | CVar.SERVER);
+
+    /// <summary>
+    ///     Combat music enabled.
+    /// </summary>
+    public static readonly CVarDef<bool> CombatMusicEnabled =
+        CVarDef.Create("audio.combat_music_enabled", true, CVar.ARCHIVE | CVar.CLIENTONLY);
+
+    /// <summary>
+    ///     Combat music volume.
+    /// </summary>
+    public static readonly CVarDef<float> CombatMusicVolume =
+        CVarDef.Create("audio.combat_music_volume", 1.5f, CVar.ARCHIVE | CVar.CLIENTONLY);
 }

@@ -2,6 +2,7 @@
   id: Veiru
   name: species-name-veiru
   roundStart: true
+  knowledge: Veiru
   prototype: MobVeiru
   defaultSkinTone: "#eb943d"
   dollPrototype: AppearanceVeiru

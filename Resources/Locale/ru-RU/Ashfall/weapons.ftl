@@ -83,3 +83,160 @@ box-shotgun-flechette-name = коробка патронов (.50 флешетт
 box-shotgun-flechette-desc = Коробка на 12 ружейных патронов с бронебойными дротиками.
 magazine-shotgun-flechette-name = барабанный магазин (.50 флешетта)
 magazine-shotgun-flechette-desc = Барабанный магазин на 6 патронов со стреловидными поражающими элементами.
+
+# Автоматическая локализация боеприпасов и модификаций Ashfall
+ent-BulletPistolPC = пуля (.35 авто, бронебойная)
+ent-BulletPistolHP = пуля (.35 авто, экспансивная)
+ent-BulletRiflePC = пуля (0.20 винтовочная, бронебойная)
+ent-BulletRifleHP = пуля (0.20 винтовочная, экспансивная)
+ent-BulletLightRiflePC = пуля (.30 винтовочная, бронебойная)
+ent-BulletLightRifleHP = пуля (.30 винтовочная, экспансивная)
+ent-BulletMagnumPC = пуля (.45 магнум, бронебойная)
+ent-BulletMagnumHP = пуля (.45 магнум, экспансивная)
+ent-PelletShotgunFlechette = флешетта (.50)
+
+ent-CartridgePistolPC = { cartridge-pistol-pc-name }
+    .desc = { cartridge-pistol-pc-desc }
+ent-CartridgePistolHP = { cartridge-pistol-hp-name }
+    .desc = { cartridge-pistol-hp-desc }
+ent-CartridgeRiflePC = { cartridge-rifle-pc-name }
+    .desc = { cartridge-rifle-pc-desc }
+ent-CartridgeRifleHP = { cartridge-rifle-hp-name }
+    .desc = { cartridge-rifle-hp-desc }
+ent-CartridgeLightRiflePC = { cartridge-light-rifle-pc-name }
+    .desc = { cartridge-light-rifle-pc-desc }
+ent-CartridgeLightRifleHP = { cartridge-light-rifle-hp-name }
+    .desc = { cartridge-light-rifle-hp-desc }
+ent-CartridgeMagnumPC = { cartridge-magnum-pc-name }
+    .desc = { cartridge-magnum-pc-desc }
+ent-CartridgeMagnumHP = { cartridge-magnum-hp-name }
+    .desc = { cartridge-magnum-hp-desc }
+ent-ShellShotgunFlechette = { shell-shotgun-flechette-name }
+    .desc = { shell-shotgun-flechette-desc }
+ent-BoxPistolPC = { box-pistol-pc-name }
+    .desc = { box-pistol-pc-desc }
+ent-BoxPistolHP = { box-pistol-hp-name }
+    .desc = { box-pistol-hp-desc }
+ent-BoxRiflePC = { box-rifle-pc-name }
+    .desc = { box-rifle-pc-desc }
+ent-BoxRifleHP = { box-rifle-hp-name }
+    .desc = { box-rifle-hp-desc }
+ent-BoxLightRiflePC = { box-light-rifle-pc-name }
+    .desc = { box-light-rifle-pc-desc }
+ent-BoxLightRifleHP = { box-light-rifle-hp-name }
+    .desc = { box-light-rifle-hp-desc }
+ent-BoxMagnumPC = { box-magnum-pc-name }
+    .desc = { box-magnum-pc-desc }
+ent-BoxMagnumHP = { box-magnum-hp-name }
+    .desc = { box-magnum-hp-desc }
+ent-BoxShotgunFlechette = { box-shotgun-flechette-name }
+    .desc = { box-shotgun-flechette-desc }
+ent-MagazineShotgunFlechette = { magazine-shotgun-flechette-name }
+    .desc = { magazine-shotgun-flechette-desc }
+ent-MagazinePistolPC = магазин (.35 авто, бронебойные)
+    .desc = Пистолетный магазин на 8 патронов с пласталевым сердечником для стрельбы по бронированным целям.
+ent-MagazinePistolHP = магазин (.35 авто, экспансивные)
+    .desc = Пистолетный магазин на 10 экспансивных патронов для стрельбы по незащищённым целям.
+ent-MagazinePistolSubMachineGunPC = магазин ПП (.35 авто, бронебойные)
+    .desc = Магазин пистолета-пулемёта на 25 патронов с пласталевым сердечником.
+ent-MagazinePistolSubMachineGunHP = магазин ПП (.35 авто, экспансивные)
+    .desc = Магазин пистолета-пулемёта на 30 экспансивных патронов.
+ent-MagazineRiflePC = магазин (0.20 винтовочные, бронебойные)
+    .desc = Винтовочный магазин на 20 патронов с пласталевым сердечником.
+ent-MagazineRifleHP = магазин (0.20 винтовочные, экспансивные)
+    .desc = Винтовочный магазин на 25 экспансивных патронов.
+ent-MagazineLightRiflePC = магазин (.30 винтовочные, бронебойные)
+    .desc = Винтовочный магазин на 25 патронов с пласталевым сердечником.
+ent-MagazineLightRifleHP = магазин (.30 винтовочные, экспансивные)
+    .desc = Винтовочный магазин на 30 экспансивных патронов.
+ent-SpeedLoaderMagnumPC = спидлоадер (.45 магнум, бронебойные)
+    .desc = Спидлоадер на 6 патронов с пласталевым сердечником для быстрой перезарядки револьвера.
+ent-SpeedLoaderMagnumHP = спидлоадер (.45 магнум, экспансивные)
+    .desc = Спидлоадер на 6 экспансивных патронов для быстрой перезарядки револьвера.
+
+ent-AttachmentSuppressorPistol = { attachment-suppressor-pistol-name }
+    .desc = { attachment-suppressor-pistol-desc }
+ent-AttachmentSuppressorRifle = { attachment-suppressor-rifle-name }
+    .desc = { attachment-suppressor-rifle-desc }
+ent-AttachmentGripVFG = { attachment-grip-vfg-name }
+    .desc = { attachment-grip-vfg-desc }
+ent-AttachmentLAM = { attachment-lam-name }
+    .desc = { attachment-lam-desc }
+ent-AttachmentScope2x = { attachment-scope-2x-name }
+    .desc = { attachment-scope-2x-desc }
+ent-AttachmentScope4x = { attachment-scope-4x-name }
+    .desc = { attachment-scope-4x-desc }
+ent-AttachmentScope8x = { attachment-scope-8x-name }
+    .desc = { attachment-scope-8x-desc }
+
+ent-LootSpawnerGunsWornPistol = спавнер изношенных пистолетов
+ent-LootSpawnerGunsWornRifle = спавнер изношенных винтовок и ПП
+ent-LootSpawnerGunsWornShotgun = спавнер изношенных дробовиков
+ent-LootSpawnerGunsWornAll = спавнер изношенного оружия
+ent-LootSpawnerAmmoWorn = спавнер специальных боеприпасов
+ent-LootSpawnerAttachments = спавнер оружейных модификаций
+
+# Изношенное оружие
+ent-WeaponPistolMk58Worn = изношенный МК 58
+    .desc = { ent-WeaponPistolMk58.desc }
+    .suffix = Изношенный
+
+ent-WeaponPistolViperWorn = изношенный Вайпер
+    .desc = { ent-WeaponPistolViper.desc }
+    .suffix = Изношенный
+
+ent-WeaponPistolCobraWorn = изношенная Кобра
+    .desc = { ent-WeaponPistolCobra.desc }
+    .suffix = Изношенный
+
+ent-WeaponRevolverDeckardWorn = изношенный Деккард
+    .desc = { ent-WeaponRevolverDeckard.desc }
+    .suffix = Изношенный
+
+ent-WeaponSubMachineGunWt550Worn = изношенный WT550
+    .desc = { ent-WeaponSubMachineGunWt550.desc }
+    .suffix = Изношенный
+
+ent-WeaponSubMachineGunC20rWorn = изношенный C-20r
+    .desc = { ent-WeaponSubMachineGunC20r.desc }
+    .suffix = Изношенный
+
+ent-WeaponSniperMosinWorn = изношенная винтовка Мосина
+    .desc = { ent-WeaponSniperMosin.desc }
+    .suffix = Изношенный
+
+ent-WeaponSniperHristovWorn = изношенный Христов
+    .desc = { ent-WeaponSniperHristov.desc }
+    .suffix = Изношенный
+
+ent-WeaponRifleLecterWorn = изношенный Лектер
+    .desc = { ent-WeaponRifleLecter.desc }
+    .suffix = Изношенный
+
+ent-WeaponRifleEstocWorn = изношенный Эсток
+    .desc = { ent-WeaponRifleEstoc.desc }
+    .suffix = Изношенный
+
+ent-WeaponShotgunKammererWorn = изношенный Каммерер
+    .desc = { ent-WeaponShotgunKammerer.desc }
+    .suffix = Изношенный
+
+ent-WeaponShotgunBulldogWorn = изношенный Бульдог
+    .desc = { ent-WeaponShotgunBulldog.desc }
+    .suffix = Изношенный
+
+ent-WeaponShotgunEnforcerWorn = изношенный Инфорсер
+    .desc = { ent-WeaponShotgunEnforcer.desc }
+    .suffix = Изношенный
+
+ent-WeaponShotgunHushpupWorn = изношенный Хашпап
+    .desc = { ent-WeaponShotgunHushpup.desc }
+    .suffix = Изношенный
+
+ent-WeaponLightMachineGunL6Worn = изношенный L6 SAW
+    .desc = { ent-WeaponLightMachineGunL6.desc }
+    .suffix = Изношенный
+
+ent-WeaponEnergyCrossbowWorn = изношенный мини-арбалет
+    .desc = { ent-WeaponEnergyCrossbow.desc }
+    .suffix = Изношенный

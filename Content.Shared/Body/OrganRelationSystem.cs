@@ -49,6 +49,9 @@ public sealed partial class OrganRelationSystem : EntitySystem
         if (!_parent.Resolve(parent, ref parent.Comp) || !_child.Resolve(child, ref child.Comp))
             return;
 
+        if (child.Comp.Parent == parent.Owner)
+            return;
+
         DebugTools.Assert(child.Comp.Parent == null);
 
         parent.Comp.Children.Add(child);
