@@ -10,9 +10,7 @@
   - type: Sprite
     sprite: Objects/Tools/appraisal-tool.rsi
     state: icon
-  - type: Tag
-    tags:
-    - Tool
+
 
 - type: entity
   name: транспортировочный ящик (оборудование)

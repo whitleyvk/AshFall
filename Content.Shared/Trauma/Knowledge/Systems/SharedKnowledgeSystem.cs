@@ -135,10 +135,28 @@ public abstract partial class SharedKnowledgeSystem : CommonKnowledgeSystem
         if (holder.KnowledgeEntity == ent.Owner)
             return;
 
-        DebugTools.Assert(ent.Comp.Holder == null,
-            $"Tried to link {ToPrettyString(target)} to {ToPrettyString(ent)} but it was already linked to another holder {ToPrettyString(ent.Comp.Holder)}!");
-        DebugTools.Assert(holder.KnowledgeEntity == null,
-            $"Tried to link {ToPrettyString(target)} to {ToPrettyString(ent)} but it was already linked to another container {ToPrettyString(holder.KnowledgeEntity)}!");
+        // If target was self-linked as a placeholder before organs were inserted, allow the brain organ to take over
+        if (holder.KnowledgeEntity == target && ent.Owner != target)
+        {
+            if (_containerQuery.TryComp(target, out var targetContainerComp))
+            {
+                targetContainerComp.Holder = null;
+                DirtyField(target, targetContainerComp, nameof(KnowledgeContainerComponent.Holder));
+            }
+            holder.KnowledgeEntity = null;
+        }
+
+        if (ent.Comp.Holder != null && ent.Comp.Holder != target)
+        {
+            Log.Warning($"Tried to link {ToPrettyString(target)} to {ToPrettyString(ent)} but it was already linked to holder {ToPrettyString(ent.Comp.Holder)}!");
+            return;
+        }
+
+        if (holder.KnowledgeEntity != null && holder.KnowledgeEntity != ent.Owner)
+        {
+            Log.Warning($"Tried to link {ToPrettyString(target)} to {ToPrettyString(ent)} but target is already linked to container {ToPrettyString(holder.KnowledgeEntity)}!");
+            return;
+        }
 
         holder.KnowledgeEntity = ent;
         Dirty(target, holder);
@@ -149,19 +167,23 @@ public abstract partial class SharedKnowledgeSystem : CommonKnowledgeSystem
     private void UnlinkContainer(EntityUid target, Entity<KnowledgeContainerComponent> ent)
     {
         if (_timing.ApplyingState ||
-            !_holderQuery.TryComp(target, out var holder) ||
-            holder.KnowledgeEntity == null)
+            !_holderQuery.TryComp(target, out var holder))
             return;
 
-        DebugTools.Assert(ent.Comp.Holder == target,
-            $"Tried to unlink {ToPrettyString(target)} from {ToPrettyString(ent)} but it was linked to a different holder {ToPrettyString(ent.Comp.Holder)}!");
-        DebugTools.Assert(holder.KnowledgeEntity == ent.Owner,
-            $"Tried to unlink {ToPrettyString(target)} from {ToPrettyString(ent)} but it was linked to a different container {ToPrettyString(holder.KnowledgeEntity)}!");
+        if (holder.KnowledgeEntity != ent.Owner && ent.Comp.Holder != target)
+            return;
 
-        holder.KnowledgeEntity = null;
-        Dirty(target, holder);
-        ent.Comp.Holder = null;
-        DirtyField(ent, ent.Comp, nameof(KnowledgeContainerComponent.Holder));
+        if (holder.KnowledgeEntity == ent.Owner)
+        {
+            holder.KnowledgeEntity = null;
+            Dirty(target, holder);
+        }
+
+        if (ent.Comp.Holder == target)
+        {
+            ent.Comp.Holder = null;
+            DirtyField(ent, ent.Comp, nameof(KnowledgeContainerComponent.Holder));
+        }
     }
 
     private void OnOrganInserted(Entity<KnowledgeContainerComponent> ent, ref OrganGotInsertedEvent args)

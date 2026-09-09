@@ -1,0 +1,20 @@
+cpr-start-second-person = You start performing CPR on {THE($target)}.
+cpr-start-second-person-patient = {CAPITALIZE(THE($user))} starts performing CPR on you.
+cpr-must-remove = You must remove {THE($clothing)} from the patient.
+cpr-must-remove-own-mask = You must remove your {THE($clothing)}.
+cpr-target-rotting = {CAPITALIZE($entity)} is too far gone...
+cpr-target-cantbreathe = {CAPITALIZE($entity)} or you are incapable of breathing.
+cpr-already-performing = Someone is already performing CPR on {THE($entity)}.
+cpr-failed-lungs-damaged = {CAPITALIZE(THE($target))}'s lungs are too damaged for CPR.
+cpr-verb = Perform CPR
+
+surgery-pain-thrash = {CAPITALIZE($target)} cries and thrashes in excruciating pain!
+surgery-pain-thrash-patient = You scream and thrash in agonizing pain!
+surgery-slip-thrash = The tool slipped as {THE($target)} thrashed in pain!
+surgery-cautery-unlit = The tool is not lit!
+cpr-target-nohead = {CAPITALIZE(THE($entity))} has no head!
+edible-cannot-eat-head = You cannot eat a head!
+head-extraction-verb = Extract organs
+head-extraction-already-empty = There are no more organs to extract from this head.
+head-extraction-complete = {CAPITALIZE($user)} extracts organs from {THE($head)}.
+surgery-error-rotting = You cannot attach a rotting organ!

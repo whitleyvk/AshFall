@@ -1659,6 +1659,14 @@ namespace Content.Client.Stylesheets
                     .Pseudo(TextureButton.StylePseudoClassHover)
                     .Prop(TextureButton.StylePropertyTexture, resCache.GetTexture("/Textures/_Trauma/Interface/Targeting/Doll/mouth_hover.png")),
 
+                Element<TextureButton>().Class("TargetDollButtonTail")
+                    .Pseudo(TextureButton.StylePseudoClassHover)
+                    .Prop(TextureButton.StylePropertyTexture, resCache.GetTexture("/Textures/_Trauma/Interface/Targeting/Doll/tail_hover.png")),
+
+                Element<TextureButton>().Class("TargetDollButtonWings")
+                    .Pseudo(TextureButton.StylePseudoClassHover)
+                    .Prop(TextureButton.StylePropertyTexture, resCache.GetTexture("/Textures/_Trauma/Interface/Targeting/Doll/wings_hover.png")),
+
                 // Inset background (News manager, notifications)
                 Element<PanelContainer>().Class("InsetBackground")
                     .Prop(PanelContainer.StylePropertyPanel, new StyleBoxFlat

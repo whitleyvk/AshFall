@@ -1229,18 +1229,27 @@ namespace Robust.Shared.Prototypes
 
             public void Freeze()
             {
-                DebugTools.AssertNotNull(UnfrozenInstances);
-                Instances = UnfrozenInstances?.ToFrozenDictionary() ?? FrozenDictionary<string, IPrototype>.Empty;
-                UnfrozenInstances = null;
-
-                // Freeze prototype variants associated with this kind
-                if (UnfrozenVariants != null)
+                lock (this)
                 {
-                    Variants = UnfrozenVariants.ToFrozenDictionary(kvp => kvp.Key, kvp => (IReadOnlyList<string>)kvp.Value);
-                    UnfrozenVariants = null;
-                }
+                    DebugTools.AssertNotNull(UnfrozenInstances);
+                    Instances = UnfrozenInstances?.ToFrozenDictionary() ?? FrozenDictionary<string, IPrototype>.Empty;
+                    UnfrozenInstances = null;
 
-                _freezeDirectInfo.Invoke(this, null);
+                    // Freeze prototype variants associated with this kind
+                    if (UnfrozenVariants != null)
+                    {
+                        var cleanVariants = new Dictionary<string, IReadOnlyList<string>>();
+                        foreach (var kvp in UnfrozenVariants)
+                        {
+                            if (kvp.Key != null && kvp.Value != null)
+                                cleanVariants[kvp.Key] = kvp.Value;
+                        }
+                        Variants = cleanVariants.ToFrozenDictionary();
+                        UnfrozenVariants = null;
+                    }
+
+                    _freezeDirectInfo.Invoke(this, null);
+                }
             }
         }
 

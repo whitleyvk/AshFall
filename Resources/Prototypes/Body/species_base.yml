@@ -42,6 +42,8 @@
         - MobLayer
   - type: FloorOcclusion
   - type: Footprint
+  - type: CPRTraining
+  - type: OfferItem
   - type: Carriable
   - type: RangedDamageSound
     soundGroups:
@@ -144,6 +146,7 @@
     - FootstepSound
     - DoorBumpOpener
     - AnomalyHost
+  - type: BodyEquipment
 
 - type: entity
   abstract: true

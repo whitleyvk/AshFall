@@ -113,7 +113,20 @@ public sealed partial class DamageableSystem
             for (var i = 0; i < targetedBodyParts.Count; i++)
             {
                 var (partId, partDamageable) = targetedBodyParts[i];
-                var modifiedDamage = damagePerPart;
+                var modifiedDamage = new DamageSpecifier(damagePerPart);
+                if (splitDamageBehavior == SplitDamageBehavior.Split && multipliers == null)
+                {
+                    // Distribute any remainder from integer division across the first N parts
+                    // so fractional damage (e.g. FixedPoint2.Epsilon) isn't truncated to 0
+                    foreach (var (type, val) in adjustedDamage.DamageDict)
+                    {
+                        var rem = val.Value % targetedBodyParts.Count;
+                        if (rem > 0 && i < rem)
+                            modifiedDamage.DamageDict[type] += FixedPoint2.FromCents(1);
+                        else if (rem < 0 && i < -rem)
+                            modifiedDamage.DamageDict[type] -= FixedPoint2.FromCents(1);
+                    }
+                }
                 if (multipliers != null && multipliers.Count == targetedBodyParts.Count)
                     modifiedDamage *= multipliers[i];
                 modifiedDamage += surplusHealing;
@@ -184,27 +197,24 @@ public sealed partial class DamageableSystem
             interruptsDoAfters, origin, ignoreBlockers: ignoreBlockers, increaseOnly: increaseOnly);
     }
 
-    private List<float> _weights = new();
-
     public List<float> GetDamageVariationMultipliers(EntityUid uid, float variation, int count)
     {
         DebugTools.AssertNotEqual(count, 0);
         variation = MathF.Abs(variation);
         var list = new List<float>(count);
-        _weights.Clear();
-        _weights.EnsureCapacity(count);
+        var weights = new List<float>(count);
         var totalWeight = 0f;
         var random = SharedRandomExtensions.PredictedRandom(_timing, GetNetEntity(uid));
         for (var i = 0; i < count; i++)
         {
             var weight = random.NextFloat() * MathF.Abs(variation) + 1f;
-            _weights.Add(weight);
+            weights.Add(weight);
             totalWeight += weight;
         }
 
         DebugTools.AssertNotEqual(totalWeight, 0f);
 
-        foreach (var weight in _weights)
+        foreach (var weight in weights)
         {
             list.Add(weight / totalWeight);
         }
@@ -225,12 +235,15 @@ public sealed partial class DamageableSystem
     /// <returns>True if parent damage was updated, false otherwise</returns>
     public bool UpdateParentDamageFromBodyParts(
         EntityUid body,
-        DamageSpecifier? appliedDamage,
-        bool interruptsDoAfters,
-        EntityUid? origin,
+        DamageSpecifier? appliedDamage = null,
+        bool interruptsDoAfters = true,
+        EntityUid? origin = null,
         bool ignoreBlockers = false)
     {
         if (!_damageableQuery.TryComp(body, out var bodyDamage))
+            return false;
+
+        if (!_body.HasExternalOrgans(body))
             return false;
 
         // Reset the parent's damage values

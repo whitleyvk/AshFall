@@ -258,13 +258,20 @@ public sealed partial class GunSystem : SharedGunSystem
             RaiseLocalEvent(gun.Owner, ref angleEv);
             modifier = Math.Max(0.01f, angleEv.Modifier);
         }
+
+        // Add base inaccuracy for untrained shooters (modifier > 1.0f).
+        // This ensures skills affect ALL guns, even clean ones with minAngle = 0.
+        var baseInaccuracy = modifier > 1.0f
+            ? MathHelper.DegreesToRadians(3.5f) * (modifier - 1.0f)
+            : 0.0;
+
         // Keep the skill penalty noticeable instead of flattening it. The cap prevents even a completely
         // untrained shooter from firing backwards.
         var spreadCap = MathHelper.DegreesToRadians(35);
-        var minSpread = Math.Min(minTheta * modifier, spreadCap);
-        var maxSpread = Math.Min(maxTheta * modifier, spreadCap);
+        var minSpread = Math.Min(minTheta * modifier + baseInaccuracy, spreadCap);
+        var maxSpread = Math.Min(maxTheta * modifier + baseInaccuracy, spreadCap);
         maxSpread = Math.Max(minSpread, maxSpread);
-        var effectiveAngle = Math.Clamp(component.CurrentAngle.Theta * modifier, minSpread, maxSpread);
+        var effectiveAngle = Math.Clamp((component.CurrentAngle.Theta + baseInaccuracy) * modifier, minSpread, maxSpread);
 
         var spread = Math.Clamp(effectiveAngle * random, -maxSpread * 0.5, maxSpread * 0.5);
         var angle = new Angle(direction.Theta + spread);

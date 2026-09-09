@@ -30,4 +30,5 @@ public sealed class PartStatus(
     public BoneSeverity BoneSeverity = boneSeverity;
 
     public bool Bleeding = bleeding;
+    public bool Missing = false;
 }

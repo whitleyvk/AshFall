@@ -1,18 +1,27 @@
-// SPDX-License-Identifier: AGPL-3.0-or-later
-
 using Content.Medical.Common.Body;
 using Content.Medical.Common.CCVar;
+using Content.Medical.Common.Targeting;
+using Content.Medical.Shared.Surgery.Tools;
 using Content.Medical.Shared.Wounds;
 using Content.Medical.Shared.Traumas;
 using Content.Shared.Alert;
 using Content.Shared.Body;
 using Content.Shared.Body.Components;
 using Content.Shared.Body.Systems;
+using Content.Shared.Damage;
+using Content.Shared.Damage.Systems;
+using Content.Shared.DoAfter;
 using Content.Shared.FixedPoint;
+using Content.Shared.Hands.EntitySystems;
+using Content.Shared.Interaction;
+using Content.Shared.Item.ItemToggle;
+using Content.Shared.Item.ItemToggle.Components;
 using Content.Shared.Popups;
+using Content.Shared.Tools.Components;
 using Robust.Shared.Audio;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Configuration;
+using Robust.Shared.Serialization;
 using Robust.Shared.Timing;
 
 namespace Content.Medical.Shared.Body;
@@ -27,6 +36,9 @@ public sealed partial class BodyBloodstreamSystem : EntitySystem
     [Dependency] private BloodstreamSystem _bloodstream = default!;
     [Dependency] private SharedPopupSystem _popup = default!;
     [Dependency] private WoundSystem _wound = default!;
+    [Dependency] private DamageableSystem _damageable = default!;
+    [Dependency] private SharedHandsSystem _hands = default!;
+    [Dependency] private SharedDoAfterSystem _doAfter = default!;
     [Dependency] private EntityQuery<BleedInflicterComponent> _bleedQuery = default!;
     [Dependency] private EntityQuery<WoundableComponent> _woundableQuery = default!;
 
@@ -39,6 +51,10 @@ public sealed partial class BodyBloodstreamSystem : EntitySystem
 
         Subs.CVar(_cfg, SurgeryCVars.BleedingSeverityTrade, x => _bleedingSeverity = x, true);
         Subs.CVar(_cfg, SurgeryCVars.BleedsScalingTime, x => _bleedScaleTime = x, true);
+
+        SubscribeLocalEvent<BodyComponent, InteractUsingEvent>(OnInteractUsing);
+        SubscribeLocalEvent<BodyComponent, FieldCauterizeDoAfterEvent>(OnCauterizeDoAfter);
+        SubscribeLocalEvent<CauteryComponent, ItemToggledEvent>(OnCauteryToggled);
     }
 
     public override void Update(float frameTime)
@@ -334,5 +350,177 @@ public sealed partial class BodyBloodstreamSystem : EntitySystem
             var severity = (short) Math.Clamp(Math.Round(blood.BleedAmount, MidpointRounding.ToZero), 0, 10);
             _alerts.ShowAlert(ent.Owner, blood.BleedingAlert, severity);
         }
+    }
+
+    private void OnInteractUsing(Entity<BodyComponent> ent, ref InteractUsingEvent args)
+    {
+        if (args.Handled)
+            return;
+
+        if (!TryGetActiveCautery(args.Used, out var isImprovised))
+            return;
+
+        EntityUid? bleedingPart = null;
+        if (TryGetTargetedPart(args.User, ent, out var targetedPart) && HasBleedingWounds(targetedPart))
+            bleedingPart = targetedPart;
+
+        if (bleedingPart == null)
+        {
+            _popup.PopupClient(Loc.GetString("cauterize-no-bleeding-wounds"), ent.Owner, args.User);
+            return;
+        }
+
+        var delay = isImprovised ? 3.0f : 2.0f;
+        var startPopup = isImprovised
+            ? Loc.GetString("cauterize-welder-begin")
+            : Loc.GetString("cauterize-tool-begin");
+
+        var doAfterArgs = new DoAfterArgs(EntityManager, args.User, delay, new FieldCauterizeDoAfterEvent(GetNetEntity(bleedingPart.Value)), ent.Owner, target: ent.Owner, used: args.Used)
+        {
+            BreakOnMove = true,
+            BreakOnDamage = true,
+            NeedHand = true,
+            BreakOnHandChange = true
+        };
+        if (!_doAfter.TryStartDoAfter(doAfterArgs))
+            return;
+
+        args.Handled = true;
+        _popup.PopupClient(startPopup, ent.Owner, args.User);
+    }
+
+    private bool TryGetTargetedPart(EntityUid user, Entity<BodyComponent> body, out EntityUid part)
+    {
+        part = default;
+        if (!TryComp<TargetingComponent>(user, out var targeting))
+            return false;
+
+        var (partType, symmetry) = _body.ConvertTargetBodyPart(targeting.Target);
+        foreach (var organ in _body.GetOrgans<BodyPartComponent>(body.AsNullable()))
+        {
+            if (organ.Comp.PartType != partType ||
+                (symmetry != BodyPartSymmetry.None && organ.Comp.Symmetry != symmetry))
+                continue;
+
+            part = organ.Owner;
+            return true;
+        }
+
+        return false;
+    }
+
+    private void OnCauteryToggled(Entity<CauteryComponent> ent, ref ItemToggledEvent args)
+    {
+        if (args.Activated)
+            return;
+
+        var query = EntityQueryEnumerator<DoAfterComponent>();
+        while (query.MoveNext(out var user, out var doAfters))
+        {
+            foreach (var (id, doAfter) in doAfters.DoAfters)
+            {
+                if (!doAfter.Cancelled &&
+                    doAfter.Args.Used == ent.Owner &&
+                    doAfter.Args.Event is FieldCauterizeDoAfterEvent)
+                    _doAfter.Cancel(user, id, doAfters);
+            }
+        }
+    }
+
+    private bool TryGetActiveCautery(EntityUid tool, out bool isImprovised)
+    {
+        isImprovised = false;
+        if (!HasComp<CauteryComponent>(tool))
+            return false;
+
+        if (TryComp<ItemToggleComponent>(tool, out var toggle))
+        {
+            isImprovised = true;
+            if (!toggle.Activated)
+                return false;
+        }
+
+        return !TryComp<WelderComponent>(tool, out var welder) || welder.Enabled;
+    }
+
+    private bool HasBleedingWounds(EntityUid organUid)
+    {
+        foreach (var wound in _wound.GetWoundableWounds(organUid))
+        {
+            if (_bleedQuery.TryComp(wound, out var bleeds) && bleeds.IsBleeding)
+                return true;
+        }
+        return false;
+    }
+
+    private void OnCauterizeDoAfter(Entity<BodyComponent> ent, ref FieldCauterizeDoAfterEvent args)
+    {
+        if (args.Cancelled || args.Handled)
+            return;
+
+        args.Handled = true;
+
+        if (args.Used is not { } used ||
+            !Exists(used) ||
+            _hands.GetActiveItem(args.User) != used ||
+            !TryGetActiveCautery(used, out var isImprovised))
+            return;
+
+        var part = GetEntity(args.TargetPart);
+        if (!Exists(part) ||
+            TerminatingOrDeleted(part) ||
+            _body.GetBody(part) != ent.Owner ||
+            !TryGetTargetedPart(args.User, ent, out var targetedPart) ||
+            targetedPart != part)
+            return;
+
+        EntityUid? worstWound = null;
+        var worstBleeding = FixedPoint2.Zero;
+        foreach (var wound in _wound.GetWoundableWounds(part))
+        {
+            if (!_bleedQuery.TryComp(wound, out var bleeds) || !bleeds.IsBleeding)
+                continue;
+
+            if (worstWound == null || bleeds.BleedingAmountRaw > worstBleeding)
+            {
+                worstWound = wound;
+                worstBleeding = bleeds.BleedingAmountRaw;
+            }
+        }
+
+        if (worstWound is not { } woundUid || !_bleedQuery.TryComp(woundUid, out var worstBleed))
+            return;
+
+        if (isImprovised)
+        {
+            var burn = new DamageSpecifier();
+            burn.DamageDict["Heat"] = 15;
+            _damageable.TryChangeDamage(part, burn, origin: args.User);
+        }
+
+        worstBleed.BleedingAmountRaw = 0;
+        worstBleed.IsBleeding = false;
+        worstBleed.Scaling = 0;
+        DirtyFields(woundUid, worstBleed, null,
+            nameof(BleedInflicterComponent.BleedingAmountRaw),
+            nameof(BleedInflicterComponent.IsBleeding),
+            nameof(BleedInflicterComponent.Scaling));
+
+        _audio.PlayPredicted(new SoundPathSpecifier("/Audio/Effects/lightburn.ogg"), ent.Owner, args.User);
+        var msg = isImprovised
+            ? Loc.GetString("cauterize-welder-success")
+            : Loc.GetString("cauterize-tool-success");
+        _popup.PopupEntity(msg, ent.Owner, args.User, PopupType.Medium);
+    }
+}
+
+[Serializable, NetSerializable]
+public sealed partial class FieldCauterizeDoAfterEvent : SimpleDoAfterEvent
+{
+    public NetEntity TargetPart;
+
+    public FieldCauterizeDoAfterEvent(NetEntity targetPart)
+    {
+        TargetPart = targetPart;
     }
 }

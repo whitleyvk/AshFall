@@ -15,6 +15,14 @@
   - type: HeldSpeedModifier
   - type: WeaponClass
     class: Rifle
+  - type: MeleeWeapon
+    soundHit:
+      collection: MetalThud
+    damage:
+      types:
+        Blunt: 15
+  - type: AltFireMelee
+    attackType: Light
   - type: Gun
     fireRate: 20
     selectedMode: FullAuto

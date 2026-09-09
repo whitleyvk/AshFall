@@ -217,6 +217,34 @@ SPDX-License-Identifier: AGPL-3.0-or-later
                     </TextureButton>
                 </PanelContainer>
             </PanelContainer>
+            <TextureButton
+                Name="TailButton"
+                MinSize="36 21"
+                Margin="0 0 0 9"
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Left"
+                StyleClasses="TargetDollButtonTail">
+                <TextureRect
+                    TexturePath="/Textures/_Trauma/Interface/Targeting/Doll/tail.png"
+                    Stretch="KeepAspectCentered"
+                    SetSize="36 21"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"/>
+            </TextureButton>
+            <TextureButton
+                Name="WingsButton"
+                MinSize="33 30"
+                Margin="0 0 0 6"
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Right"
+                StyleClasses="TargetDollButtonWings">
+                <TextureRect
+                    TexturePath="/Textures/_Trauma/Interface/Targeting/Doll/wings.png"
+                    Stretch="KeepAspectCentered"
+                    SetSize="33 30"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"/>
+            </TextureButton>
         </TextureRect>
     </Control>
 </widgets:TargetingControl>

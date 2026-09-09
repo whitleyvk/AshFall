@@ -16,11 +16,11 @@ namespace Content.Trauma.Shared.Knowledge.Systems;
 /// </summary>
 public sealed partial class KnowledgeGrantSystem : EntitySystem
 {
-    [Dependency] private readonly SharedKnowledgeSystem _knowledge = default!;
-    [Dependency] private readonly SharedDoAfterSystem _doAfter = default!;
-    [Dependency] private readonly SharedPopupSystem _popup = default!;
-    [Dependency] private readonly INetManager _net = default!;
-    [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private SharedKnowledgeSystem _knowledge = default!;
+    [Dependency] private SharedDoAfterSystem _doAfter = default!;
+    [Dependency] private SharedPopupSystem _popup = default!;
+    [Dependency] private INetManager _net = default!;
+    [Dependency] private IGameTiming _timing = default!;
 
     public override void Initialize()
     {
@@ -112,7 +112,7 @@ public sealed partial class KnowledgeGrantSystem : EntitySystem
             if (_knowledge.EnsureKnowledge(brain, id) is not { } skill)
                 continue;
 
-            if (!(!ent.Comp.Skills.TryGetValue(id, out var skillCap) || (skill.Comp.LearnedLevel < skillCap || skillCap < 0)))
+            if (ent.Comp.Skills.TryGetValue(id, out var skillCap) && skillCap >= 0 && skill.Comp.LearnedLevel >= skillCap)
                 continue;
 
             hasLearned = true;

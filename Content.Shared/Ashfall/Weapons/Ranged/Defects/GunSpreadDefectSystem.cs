@@ -51,6 +51,7 @@ public sealed partial class GunSpreadDefectSystem : EntitySystem
                 ent.Comp.MaxAngleDelta = sampled - gun.MaxAngle;
             }
 
+            Dirty(ent);
             _gunSystem.RefreshModifiers((ent.Owner, gun));
         }
 

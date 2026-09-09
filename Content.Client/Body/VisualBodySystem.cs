@@ -1,5 +1,7 @@
 using System.Linq;
 using Content.Client.DisplacementMap;
+using Content.Medical.Common.Body;
+using Content.Medical.Shared.Body;
 using Content.Shared.Body;
 using Content.Shared.CCVar;
 using Content.Shared.DisplacementMap;
@@ -26,6 +28,7 @@ public sealed partial class VisualBodySystem : SharedVisualBodySystem
 
         SubscribeLocalEvent<VisualOrganComponent, OrganGotInsertedEvent>(OnOrganGotInserted);
         SubscribeLocalEvent<VisualOrganComponent, OrganGotRemovedEvent>(OnOrganGotRemoved);
+        SubscribeLocalEvent<VisualOrganComponent, ComponentStartup>(OnVisualOrganStartup);
         SubscribeLocalEvent<VisualOrganComponent, AfterAutoHandleStateEvent>(OnOrganState);
 
         SubscribeLocalEvent<VisualOrganMarkingsComponent, OrganGotInsertedEvent>(OnMarkingsGotInserted);
@@ -33,6 +36,7 @@ public sealed partial class VisualBodySystem : SharedVisualBodySystem
         SubscribeLocalEvent<VisualOrganMarkingsComponent, AfterAutoHandleStateEvent>(OnMarkingsState);
 
         SubscribeLocalEvent<VisualOrganMarkingsComponent, BodyRelayedEvent<HumanoidLayerVisibilityChangedEvent>>(OnMarkingsChangedVisibility);
+        SubscribeLocalEvent<HeadOrgansExtractedComponent, ComponentStartup>(OnHeadOrgansExtracted);
 
         Subs.CVar(_cfg, CCVars.AccessibilityClientCensorNudity, OnCensorshipChanged, true);
         Subs.CVar(_cfg, CCVars.AccessibilityServerCensorNudity, OnCensorshipChanged, true);
@@ -54,20 +58,135 @@ public sealed partial class VisualBodySystem : SharedVisualBodySystem
     private void OnOrganGotInserted(Entity<VisualOrganComponent> ent, ref OrganGotInsertedEvent args)
     {
         ApplyVisual(ent, args.Target);
+        if (TryComp<SpriteComponent>(ent.Owner, out var organSprite))
+        {
+            _sprite.SetOffset((ent.Owner, organSprite), System.Numerics.Vector2.Zero);
+            _sprite.RemoveLayer((ent.Owner, organSprite), "dropped-head-eyes", logMissing: false);
+            if (TryComp<VisualOrganMarkingsComponent>(ent.Owner, out var markingsComp))
+            {
+                CleanDroppedHeadMarkings((ent.Owner, markingsComp), organSprite);
+            }
+        }
     }
 
     private void OnOrganGotRemoved(Entity<VisualOrganComponent> ent, ref OrganGotRemovedEvent args)
     {
         RemoveVisual(ent, args.Target);
+        UpdateOrganDroppedSprite(ent);
+    }
+
+    private void OnVisualOrganStartup(Entity<VisualOrganComponent> ent, ref ComponentStartup args)
+    {
+        if (Comp<OrganComponent>(ent).Body == null)
+            UpdateOrganDroppedSprite(ent);
     }
 
     private void OnOrganState(Entity<VisualOrganComponent> ent, ref AfterAutoHandleStateEvent args)
     {
         if (Comp<OrganComponent>(ent).Body is not { } body)
+        {
+            UpdateOrganDroppedSprite(ent);
             return;
+        }
 
         RemoveVisual(ent, body);
         ApplyVisual(ent, body);
+    }
+
+    private void UpdateOrganDroppedSprite(Entity<VisualOrganComponent> ent)
+    {
+        // Internal organs must NOT inherit human skin color
+        if (HasComp<InternalChildOrganComponent>(ent.Owner))
+            return;
+
+        if (!TryComp<SpriteComponent>(ent.Owner, out var organSprite))
+            return;
+
+        _sprite.SetColor((ent.Owner, organSprite), ent.Comp.Profile.SkinColor);
+        _sprite.SetOffset((ent.Owner, organSprite), ent.Comp.DroppedOffset);
+
+        // If this dropped organ is a head with markings (hair, facial hair), render them on the severed head!
+        var isHead = (TryComp<OrganComponent>(ent.Owner, out var organ) && organ.Category?.Id == "Head") ||
+                     (TryComp<BodyPartComponent>(ent.Owner, out var part) && part.PartType == BodyPartType.Head);
+
+        if (isHead && TryComp<VisualOrganMarkingsComponent>(ent.Owner, out var markingsComp))
+        {
+            if (!HasComp<HeadOrgansExtractedComponent>(ent.Owner))
+                UpdateOrganDroppedEyes(ent, organSprite);
+            else
+                _sprite.RemoveLayer((ent.Owner, organSprite), "dropped-head-eyes", logMissing: false);
+
+            UpdateOrganDroppedHeadMarkings((ent.Owner, markingsComp), organSprite);
+        }
+    }
+
+    private void OnHeadOrgansExtracted(Entity<HeadOrgansExtractedComponent> ent, ref ComponentStartup args)
+    {
+        if (TryComp<VisualOrganComponent>(ent, out var visual))
+            UpdateOrganDroppedSprite((ent.Owner, visual));
+    }
+
+    private void UpdateOrganDroppedEyes(Entity<VisualOrganComponent> ent, SpriteComponent sprite)
+    {
+        var layerId = "dropped-head-eyes";
+        _sprite.RemoveLayer((ent.Owner, sprite), layerId, logMissing: false);
+
+        var eyeRsi = new SpriteSpecifier.Rsi(new ResPath("Mobs/Customization/eyes.rsi"), "eyes");
+        var layerIndex = _sprite.AddLayer((ent.Owner, sprite), eyeRsi);
+        _sprite.LayerMapSet((ent.Owner, sprite), layerId, layerIndex);
+        _sprite.LayerSetSprite((ent.Owner, sprite), layerIndex, eyeRsi);
+        _sprite.LayerSetColor((ent.Owner, sprite), layerIndex, ent.Comp.Profile.EyeColor);
+    }
+
+    private void CleanDroppedHeadMarkings(Entity<VisualOrganMarkingsComponent> ent, SpriteComponent sprite)
+    {
+        foreach (var markingsList in ent.Comp.Markings.Values)
+        {
+            foreach (var marking in markingsList)
+            {
+                if (!_marking.TryGetMarking(marking, out var proto))
+                    continue;
+
+                for (var i = 0; i < proto.Sprites.Count; i++)
+                {
+                    if (proto.Sprites[i] is not SpriteSpecifier.Rsi rsi)
+                        continue;
+
+                    var layerId = $"dropped-head-{proto.ID}-{rsi.RsiState}-{i}";
+                    _sprite.RemoveLayer((ent.Owner, sprite), layerId, logMissing: false);
+                }
+            }
+        }
+    }
+
+    private void UpdateOrganDroppedHeadMarkings(Entity<VisualOrganMarkingsComponent> ent, SpriteComponent sprite)
+    {
+        CleanDroppedHeadMarkings(ent, sprite);
+
+        foreach (var markingsList in ent.Comp.Markings.Values)
+        {
+            foreach (var marking in markingsList)
+            {
+                if (!_marking.TryGetMarking(marking, out var proto))
+                    continue;
+
+                for (var i = 0; i < proto.Sprites.Count; i++)
+                {
+                    if (proto.Sprites[i] is not SpriteSpecifier.Rsi rsi)
+                        continue;
+
+                    var layerId = $"dropped-head-{proto.ID}-{rsi.RsiState}-{i}";
+                    var layerIndex = _sprite.AddLayer((ent.Owner, sprite), rsi);
+                    _sprite.LayerMapSet((ent.Owner, sprite), layerId, layerIndex);
+                    _sprite.LayerSetSprite((ent.Owner, sprite), layerIndex, rsi);
+
+                    if (marking.MarkingColors.Count > i)
+                    {
+                        _sprite.LayerSetColor((ent.Owner, sprite), layerIndex, marking.MarkingColors[i]);
+                    }
+                }
+            }
+        }
     }
 
     private void ApplyVisual(Entity<VisualOrganComponent> ent, EntityUid target)
@@ -105,6 +224,9 @@ public sealed partial class VisualBodySystem : SharedVisualBodySystem
 
     private void OnMarkingsGotInserted(Entity<VisualOrganMarkingsComponent> ent, ref OrganGotInsertedEvent args)
     {
+        if (TryComp<SpriteComponent>(ent.Owner, out var sprite))
+            CleanDroppedHeadMarkings(ent, sprite);
+
         ApplyMarkings(ent, args.Target);
     }
 

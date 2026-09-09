@@ -8,6 +8,9 @@
     - state: red
     - sprite: Objects/Weapons/Guns/Pistols/mk58.rsi
       state: icon
+  - type: Icon
+    sprite: Objects/Weapons/Guns/Pistols/mk58.rsi
+    state: icon
   - type: EntityTableSpawner
     table: !type:GroupSelector
       children:
@@ -30,6 +33,9 @@
     - state: red
     - sprite: Objects/Weapons/Guns/Snipers/bolt_gun_wood.rsi
       state: base
+  - type: Icon
+    sprite: Objects/Weapons/Guns/Snipers/bolt_gun_wood.rsi
+    state: base
   - type: EntityTableSpawner
     table: !type:GroupSelector
       children:
@@ -58,6 +64,9 @@
     - state: red
     - sprite: Objects/Weapons/Guns/Shotguns/pump.rsi
       state: icon
+  - type: Icon
+    sprite: Objects/Weapons/Guns/Shotguns/pump.rsi
+    state: icon
   - type: EntityTableSpawner
     table: !type:GroupSelector
       children:
@@ -80,6 +89,9 @@
     - state: red
     - sprite: Objects/Weapons/Guns/Pistols/viper.rsi
       state: icon
+  - type: Icon
+    sprite: Objects/Weapons/Guns/Pistols/viper.rsi
+    state: icon
   - type: EntityTableSpawner
     table: !type:GroupSelector
       children:
@@ -126,6 +138,9 @@
     - state: red
     - sprite: Ashfall/Objects/Weapons/Ammunition/Boxes/pistol.rsi
       state: base
+  - type: Icon
+    sprite: Ashfall/Objects/Weapons/Ammunition/Boxes/pistol.rsi
+    state: base
   - type: EntityTableSpawner
     table: !type:GroupSelector
       children:
@@ -180,6 +195,9 @@
     - state: red
     - sprite: Ashfall/Objects/Weapons/Attachments/Grips/erebus_railmount.rsi
       state: vfg
+  - type: Icon
+    sprite: Ashfall/Objects/Weapons/Attachments/Grips/erebus_railmount.rsi
+    state: vfg
   - type: EntityTableSpawner
     table: !type:GroupSelector
       children:

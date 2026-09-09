@@ -9,6 +9,12 @@ namespace Content.Shared.Ashfall;
 public sealed class AshfallCCVars
 {
     /// <summary>
+    ///     Whether the roundstart character pool system is enabled.
+    /// </summary>
+    public static readonly CVarDef<bool> CharacterPoolEnabled =
+        CVarDef.Create("ashfall.character_pool_enabled", true, CVar.SERVERONLY);
+
+    /// <summary>
     ///     Number of candidates generated per round pool.
     /// </summary>
     public static readonly CVarDef<int> CharacterPoolSize =

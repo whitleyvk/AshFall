@@ -123,9 +123,10 @@ public sealed partial class ClientPerceptionSystem : SharedPerceptionSystem
                 }
 
                 // Proximity detection: cannot remain hidden at point-blank range
-                if (sensory.ProximityRevealRadius > 0f && xform.MapID == Transform(viewer).MapID)
+                var viewerXform = Transform(viewer);
+                if (sensory.ProximityRevealRadius > 0f && xform.MapID == viewerXform.MapID)
                 {
-                    var dist = (_transform.GetWorldPosition(xform) - _transform.GetWorldPosition(viewer)).Length();
+                    var dist = (_transform.GetWorldPosition(xform) - _transform.GetWorldPosition(viewerXform)).Length();
                     if (dist <= sensory.ProximityRevealRadius)
                     {
                         var proximityFactor = 1f - (dist / sensory.ProximityRevealRadius);

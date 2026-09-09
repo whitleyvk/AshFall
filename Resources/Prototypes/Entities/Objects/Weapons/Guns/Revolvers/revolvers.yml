@@ -24,6 +24,14 @@
     - Belt
   - type: WeaponClass
     class: Pistol
+  - type: MeleeWeapon
+    soundHit:
+      collection: MetalThud
+    damage:
+      types:
+        Blunt: 9
+  - type: AltFireMelee
+    attackType: Light
   - type: AttachableGun
     slots:
     - name: gun-slot-optic

@@ -207,13 +207,6 @@
         Piercing: -0.05
         Slash: -0.05
         Poison: -0.2 # needs to be less than the PendingZombieComponent does or they never become zombies by the disease.
-  - type: DamageVisuals
-    damageOverlayGroups:
-      Brute:
-        sprite: Mobs/Effects/brute_damage.rsi
-        color: "#7a8bf2"
-      Burn:
-        sprite: Mobs/Effects/burn_damage.rsi
   - type: Bloodstream
     bloodReferenceSolution:
       reagents:

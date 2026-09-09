@@ -143,7 +143,8 @@ namespace Content.Client.UserInterface.Controls
             {
                 Scale = new Vector2(2, 2),
                 SetSize = new Vector2(DefaultButtonSize, DefaultButtonSize),
-                OverrideDirection = Direction.South
+                OverrideDirection = Direction.South,
+                SpriteOffset = true
             });
             AddChild(ProtoView = new EntityPrototypeView
             {
@@ -157,7 +158,8 @@ namespace Content.Client.UserInterface.Controls
             {
                 Scale = new Vector2(2, 2),
                 SetSize = new Vector2(DefaultButtonSize, DefaultButtonSize),
-                OverrideDirection = Direction.South
+                OverrideDirection = Direction.South,
+                SpriteOffset = true
             });
 
             AddChild(StorageButton = new TextureButton

@@ -1,4 +1,7 @@
 using System.Linq;
+using Content.Medical.Common.Body;
+using Content.Medical.Shared.Body;
+using Content.Shared.Body;
 using Content.Shared.Chemistry.Components;
 using Content.Shared.Clothing;
 using Content.Shared.Containers.ItemSlots;
@@ -78,6 +81,14 @@ public sealed partial class IngestionSystem
     {
         if (args.Cancelled || args.Solution != null)
             return;
+
+        if ((TryComp<OrganComponent>(entity.Owner, out var organ) && organ.Category?.Id == "Head") ||
+            (TryComp<BodyPartComponent>(entity.Owner, out var part) && part.PartType == BodyPartType.Head))
+        {
+            args.Cancelled = true;
+            _popup.PopupEntity(Loc.GetString("edible-cannot-eat-head"), entity, args.User);
+            return;
+        }
 
         if (entity.Comp.UtensilRequired && !HasRequiredUtensils(args.User, entity.Comp.Utensil))
         {

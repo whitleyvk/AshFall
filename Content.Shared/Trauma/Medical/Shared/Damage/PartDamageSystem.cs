@@ -10,6 +10,7 @@ namespace Content.Medical.Shared.Damage;
 public sealed partial class PartDamageSystem : EntitySystem
 {
     [Dependency] private DamageableSystem _damage = default!;
+    [Dependency] private BodySystem _body = default!;
 
     public override void Initialize()
     {
@@ -17,10 +18,15 @@ public sealed partial class PartDamageSystem : EntitySystem
 
         SubscribeLocalEvent<DamageableComponent, MapInitEvent>(OnMapInit);
         SubscribeLocalEvent<OrganComponent, DamageDealtEvent>(OnDamageDealt, after: new[] { typeof(DamageableSystem) });
+        SubscribeLocalEvent<DamageableComponent, OrganRemovedFromEvent>(OnOrganRemoved);
+        SubscribeLocalEvent<DamageableComponent, OrganInsertedIntoEvent>(OnOrganInserted);
     }
 
     private void OnMapInit(Entity<DamageableComponent> ent, ref MapInitEvent args)
     {
+        if (!_body.HasExternalOrgans(ent.Owner))
+            return;
+
         var damage = _damage.GetAllDamage(ent.AsNullable());
         if (damage.GetTotal() == 0)
             return;
@@ -40,5 +46,15 @@ public sealed partial class PartDamageSystem : EntitySystem
             args.Damage,
             args.InterruptsDoAfters,
             args.Origin);
+    }
+
+    private void OnOrganRemoved(Entity<DamageableComponent> ent, ref OrganRemovedFromEvent args)
+    {
+        _damage.UpdateParentDamageFromBodyParts(ent.Owner);
+    }
+
+    private void OnOrganInserted(Entity<DamageableComponent> ent, ref OrganInsertedIntoEvent args)
+    {
+        _damage.UpdateParentDamageFromBodyParts(ent.Owner);
     }
 }

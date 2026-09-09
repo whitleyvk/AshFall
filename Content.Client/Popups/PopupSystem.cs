@@ -151,9 +151,9 @@ public sealed partial class PopupSystem : SharedPopupSystem
         if (coordinates != null && _playerManager.LocalEntity is { Valid: true } player)
         {
             var playerCoords = _transform.GetMapCoordinates(player);
-            var popupCoords = _transform.ToMapCoordinates(coordinates.Value);
+            var popupCoords = _transform.ToMapCoordinates(coordinates.Value, logError: false);
 
-            if (playerCoords.MapId != popupCoords.MapId)
+            if (popupCoords.MapId == MapId.Nullspace || playerCoords.MapId != popupCoords.MapId)
                 return;
 
             if (!_examine.InRangeUnOccluded(player, coordinates.Value, ExamineSystemShared.ExamineRange))

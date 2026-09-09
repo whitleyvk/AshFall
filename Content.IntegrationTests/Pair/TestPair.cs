@@ -5,6 +5,7 @@ using Content.Client.Parallax.Managers;
 using Content.IntegrationTests.Tests.Destructible;
 using Content.IntegrationTests.Tests.DeviceNetwork;
 using Content.Server.GameTicking;
+using Content.Shared.Ashfall;
 using Content.Shared.CCVar;
 using Content.Shared.Players;
 using Robust.Shared.ContentPack;
@@ -78,6 +79,9 @@ public sealed partial class TestPair : RobustIntegrationTest.TestPair
 
             if (cfg.IsCVarRegistered(CCVars.AdminLogsEnabled.Name))
                 cfg.SetCVar(CCVars.AdminLogsEnabled, next.AdminLogsEnabled);
+
+            if (cfg.IsCVarRegistered(AshfallCCVars.CharacterPoolEnabled.Name))
+                cfg.SetCVar(AshfallCCVars.CharacterPoolEnabled, false);
         });
     }
 

@@ -1,3 +1,5 @@
+using Content.Medical.Common.Body;
+using Content.Medical.Shared.Body;
 using Content.Shared.Actions.Events;
 using Content.Shared.Administration.Logs;
 using Content.Shared.Body;
@@ -522,6 +524,10 @@ public sealed partial class IngestionSystem : EntitySystem
         var user = args.User;
 
         if (entity.Owner == user || !args.CanInteract || !args.CanAccess)
+            return;
+
+        if ((TryComp<OrganComponent>(entity.Owner, out var organ) && organ.Category?.Id == "Head") ||
+            (TryComp<BodyPartComponent>(entity.Owner, out var part) && part.PartType == BodyPartType.Head))
             return;
 
         if (!TryGetIngestionVerb(user, entity, entity.Comp.Edible, out var verb))

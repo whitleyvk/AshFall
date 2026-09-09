@@ -48,6 +48,12 @@ public abstract partial class SharedArmorSystem : EntitySystem
         if (TryComp<MaskComponent>(uid, out var mask) && mask.IsToggled)
             return;
 
+        if (args.Args.TargetPart is { } partType && component.ArmorCoverage.Count > 0)
+        {
+            if (!component.ArmorCoverage.Contains(partType))
+                return;
+        }
+
         args.Args.Damage = DamageSpecifier.ApplyModifierSet(args.Args.Damage,
             DamageSpecifier.PenetrateArmor(component.Modifiers, args.Args.OriginalDamage.ArmorPenetration));
     }

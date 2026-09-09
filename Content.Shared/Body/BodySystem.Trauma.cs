@@ -54,7 +54,7 @@ public sealed partial class BodySystem
         {BodyPartType.Arm, [ "ArmLeft", "ArmRight" ]},
         {BodyPartType.Hand, [ "HandLeft", "HandRight" ]},
         {BodyPartType.Leg, [ "LegLeft", "LegRight" ]},
-        {BodyPartType.Foot, [" FootLeft", "FootRight" ]},
+        {BodyPartType.Foot, [ "FootLeft", "FootRight" ]},
         {BodyPartType.Tail, [ "Tail" ]},
         {BodyPartType.Wings, [ "Wings" ]}
     };
@@ -154,6 +154,23 @@ public sealed partial class BodySystem
     }
 
     /// <summary>
+    /// Check if a body has any external organs.
+    /// </summary>
+    public bool HasExternalOrgans(Entity<BodyComponent?> body)
+    {
+        if (!_bodyQuery.Resolve(body, ref body.Comp, false))
+            return false;
+
+        foreach (var organ in GetOrgans(body))
+        {
+            if (!_internalQuery.HasComp(organ))
+                return true;
+        }
+
+        return false;
+    }
+
+    /// <summary>
     /// Get a list of vital bodyparts, which contribute to vital damage.
     /// </summary>
     public List<EntityUid> GetVitalParts(EntityUid body)
@@ -171,8 +188,7 @@ public sealed partial class BodySystem
 
     /// <summary>
     /// Gets the fraction of bodyparts that are vital.
-    /// For a torso or torso+head this is 1, for invalid bodies this is 0.
-    /// Non-bodies will return 1 for damage scaling etc.
+    /// For a torso or torso+head this is 1, for invalid bodies this is 0.\n    /// Non-bodies will return 1 for damage scaling etc.
     /// </summary>
     public float GetVitalBodyPartRatio(Entity<BodyComponent?> body)
     {
@@ -194,7 +210,7 @@ public sealed partial class BodySystem
 
         return vital == 0
             ? 0f // no dividing by zero incase a body somehow has no parts?!
-            : (float) total / vital;
+            : (float) vital / total;
     }
 
     /// <summary>

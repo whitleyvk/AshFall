@@ -24,6 +24,7 @@ using Content.Shared.Damage.Systems;
 using Content.Shared.FixedPoint;
 using Content.Shared.Gibbing;
 using Content.Shared.Humanoid;
+using Content.Shared.IdentityManagement;
 using Content.Shared.Inventory;
 using Content.Shared.Popups;
 using Content.Shared.Random.Helpers;
@@ -42,6 +43,8 @@ public sealed partial class WoundSystem
     private const string WoundContainerId = "Wounds";
     public static readonly ProtoId<DamageTypePrototype> Blunt = "Blunt";
     public static readonly ProtoId<DamageGroupPrototype> Brute = "Brute";
+    public static readonly ProtoId<DamageTypePrototype> Slash = "Slash";
+    public static readonly EntProtoId LacerationWoundProtoId = "Laceration";
     public static readonly ProtoId<OrganCategoryPrototype> HeadCategory = "Head";
 
     private readonly List<Entity<WoundComponent>> _wounds = new();
@@ -398,11 +401,45 @@ public sealed partial class WoundSystem
             !_woundableQuery.Resolve(parent, ref parent.Comp) ||
             !_woundableQuery.Resolve(part, ref part.Comp) ||
             _body.GetBody(parent) is not {} body ||
-            _body.GetBody(part) != body || // the parts have to be from the same body
-            !_body.RemoveOrgan(body, part.Owner))
+            _body.GetBody(part) != body) // the parts have to be from the same body
             return false;
 
+        var children = _organRelation.AllChildren(part.Owner).ToList();
+
+        if (!_body.RemoveOrgan(body, part.Owner))
+            return false;
+
+        var partContainer = _container.EnsureContainer<Container>(part.Owner, "body_part_organs");
+        foreach (var child in children)
+        {
+            if (HasComp<InternalChildOrganComponent>(child))
+            {
+                _body.RemoveOrgan(body, child.Owner);
+                _container.Insert(child.Owner, partContainer, force: true);
+            }
+        }
+
         _audio.PlayPredicted(part.Comp.WoundableDelimbedSound, body, user);
+
+        var delimbedEvent = new BodyPartDelimbedEvent(body, part.Owner, user);
+        RaiseLocalEvent(body, ref delimbedEvent);
+
+        string msg;
+        if (user != null && user.Value != body)
+        {
+            msg = Loc.GetString("dismemberment-notification-with-user",
+                ("user", Identity.Entity(user.Value, EntityManager)),
+                ("target", Identity.Entity(body, EntityManager)),
+                ("part", Identity.Entity(part.Owner, EntityManager)));
+        }
+        else
+        {
+            msg = Loc.GetString("dismemberment-notification-passive",
+                ("target", Identity.Entity(body, EntityManager)),
+                ("part", Identity.Entity(part.Owner, EntityManager)));
+        }
+
+        _popup.PopupEntity(msg, body, PopupType.LargeCaution);
 
         var ampEv = new BeforeAmputationDamageEvent();
         RaiseLocalEvent(body, ref ampEv);
@@ -412,12 +449,13 @@ public sealed partial class WoundSystem
 
         if (parent.Comp.CanBleed)
         {
+            var found = false;
             foreach (var wound in GetWoundableWounds(parent))
             {
                 if (!_bleedQuery.TryComp(wound, out var bleeds))
                     continue;
 
-                bleeds.BleedingAmountRaw += 20f;
+                bleeds.BleedingAmountRaw += 40f;
                 bleeds.Scaling = 1f;
                 bleeds.ScalingLimit = 1f;
                 bleeds.IsBleeding = true;
@@ -426,6 +464,27 @@ public sealed partial class WoundSystem
                     nameof(BleedInflicterComponent.Scaling),
                     nameof(BleedInflicterComponent.ScalingLimit),
                     nameof(BleedInflicterComponent.IsBleeding));
+                found = true;
+                break;
+            }
+
+            if (!found)
+            {
+                if (TryInduceWound(parent, LacerationWoundProtoId, 60, out var inducedWound, Brute, Slash))
+                {
+                    if (_bleedQuery.TryComp(inducedWound.Value, out var bleeds))
+                    {
+                        bleeds.BleedingAmountRaw = 40f;
+                        bleeds.Scaling = 1f;
+                        bleeds.ScalingLimit = 1f;
+                        bleeds.IsBleeding = true;
+                        DirtyFields(inducedWound.Value, bleeds, null,
+                            nameof(BleedInflicterComponent.BleedingAmountRaw),
+                            nameof(BleedInflicterComponent.Scaling),
+                            nameof(BleedInflicterComponent.ScalingLimit),
+                            nameof(BleedInflicterComponent.IsBleeding));
+                    }
+                }
             }
         }
 

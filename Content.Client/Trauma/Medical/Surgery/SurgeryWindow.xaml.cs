@@ -129,7 +129,9 @@ public sealed partial class SurgeryWindow : FancyWindow
         var netPart = _ent.GetNetEntity(part);
         foreach (var stepId in comp.Steps)
         {
-            var step = _system.GetSingleton(stepId)!.Value;
+            if (_system.GetSingleton(stepId) is not { } step)
+                continue;
+
             var stepButton = new SurgeryStepButton { Step = step };
             var texture = _ent.GetComponentOrNull<SpriteComponent>(step)?.Icon?.Default;
             var stepName = new FormattedMessage();

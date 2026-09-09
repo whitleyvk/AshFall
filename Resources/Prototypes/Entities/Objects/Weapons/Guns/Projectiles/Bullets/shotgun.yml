@@ -10,8 +10,8 @@
   - type: Projectile
     damage:
       types:
-        Piercing: 35
-        Structural: 25
+        Piercing: 55
+        Structural: 35
       armorPenetration: 0.25
 
 - type: entity
@@ -40,8 +40,8 @@
   - type: Projectile
     damage:
       types:
-        Piercing: 10
-        Structural: 8
+        Piercing: 14
+        Structural: 10
       armorPenetration: -0.25
 
 - type: entity

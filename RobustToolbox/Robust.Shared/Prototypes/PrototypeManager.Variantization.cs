@@ -2,6 +2,7 @@ using Robust.Shared.Serialization.Markdown;
 using Robust.Shared.Serialization.Markdown.Mapping;
 using Robust.Shared.Serialization.Markdown.Sequence;
 using Robust.Shared.Serialization.Markdown.Value;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -85,16 +86,23 @@ public partial class PrototypeManager
     /// <param name="collectionVariants">A list of prototype variants derived from the same source prototype.</param>
     private void RegisterVariantCollection(KindData kindData, List<string> collectionVariants)
     {
-        if (kindData.UnfrozenVariants == null)
+        lock (kindData)
         {
-            kindData.UnfrozenVariants = kindData.Variants.ToDictionary(kvp => kvp.Key, kvp => kvp.Value.ToList());
-        }
+            if (kindData.UnfrozenVariants == null)
+            {
+                kindData.UnfrozenVariants = kindData.Variants.ToDictionary(kvp => kvp.Key, kvp => kvp.Value.ToList());
+            }
 
-        kindData.UnfrozenVariants.EnsureCapacity(kindData.UnfrozenVariants.Count + collectionVariants.Count);
+            kindData.UnfrozenVariants.EnsureCapacity(kindData.UnfrozenVariants.Count + collectionVariants.Count);
 
-        foreach (var collectionMember in collectionVariants)
-        {
-            kindData.UnfrozenVariants[collectionMember] = collectionVariants;
+            foreach (var collectionMember in collectionVariants)
+            {
+                if (collectionMember == null)
+                {
+                    throw new InvalidOperationException($"RegisterVariantCollection in Kind={kindData.Name} has null member! Full list={string.Join(", ", collectionVariants.Select(x => x ?? "<NULL>"))}");
+                }
+                kindData.UnfrozenVariants[collectionMember] = collectionVariants;
+            }
         }
     }
 

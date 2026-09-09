@@ -7,6 +7,7 @@ using Content.Shared.Mobs;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Mobs.Systems;
 using Content.Shared.Popups;
+using Content.Shared.Rejuvenate;
 using Robust.Shared.Timing;
 
 namespace Content.Medical.Shared.DelayedDeath;
@@ -28,6 +29,7 @@ public sealed partial class DelayedDeathSystem : EntitySystem
 
         SubscribeLocalEvent<DelayedDeathComponent, TargetBeforeDefibrillatorZapsEvent>(OnDefibZap);
         SubscribeLocalEvent<DelayedDeathComponent, MapInitEvent>(OnMapInit);
+        SubscribeLocalEvent<DelayedDeathComponent, RejuvenateEvent>(OnRejuvenate);
     }
 
     public override void Update(float frameTime)
@@ -43,10 +45,6 @@ public sealed partial class DelayedDeathSystem : EntitySystem
                 _mob.IsDead(ent, mob))
                 continue;
 
-            // go crit then dead so deathgasp can happen
-            _mob.ChangeMobState(ent, MobState.Critical, mob);
-            _mob.ChangeMobState(ent, MobState.Dead, mob);
-
             var ev = new DelayedDeathEvent(ent, PreventRevive: comp.PreventAllRevives);
             RaiseLocalEvent(ent, ref ev);
 
@@ -55,6 +53,10 @@ public sealed partial class DelayedDeathSystem : EntitySystem
                 RemCompDeferred(ent, comp);
                 continue;
             }
+
+            // go crit then dead so deathgasp can happen
+            _mob.ChangeMobState(ent, MobState.Critical, mob);
+            _mob.ChangeMobState(ent, MobState.Dead, mob);
 
             if (!string.IsNullOrWhiteSpace(comp.DeathMessageId))
                 _popup.PopupEntity(Loc.GetString(comp.DeathMessageId), ent, ent, PopupType.LargeCaution);
@@ -74,5 +76,10 @@ public sealed partial class DelayedDeathSystem : EntitySystem
     {
         ent.Comp.NextDeath = _timing.CurTime + ent.Comp.DeathDelay;
         Dirty(ent);
+    }
+
+    private void OnRejuvenate(Entity<DelayedDeathComponent> ent, ref RejuvenateEvent args)
+    {
+        RemCompDeferred<DelayedDeathComponent>(ent);
     }
 }

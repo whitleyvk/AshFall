@@ -45,24 +45,25 @@ public sealed partial class FootprintSystem : EntitySystem
             return;
 
         // Calculate alternating foot placement
-        var forward = args.WorldAngle.ToVec();
+        var forward = args.WorldAngle.ToWorldVec();
         var right = new Vector2(forward.Y, -forward.X);
         var side = component.RightFoot ? 1f : -1f;
         component.RightFoot = !component.RightFoot;
 
         var offset = right * (component.FootOffset * side);
-        var footCoords = xform.Coordinates.Offset(offset);
+        var footCoords = xform.Coordinates.Offset(offset).Offset(new Vector2(-0.5f, -0.5f));
 
         // Calculate fade based on remaining steps
         var alpha = (float) component.StepCount / component.MaxSteps;
         var decalColor = component.PrintColor.Value.WithAlpha(Math.Clamp(alpha, 0.25f, 0.95f));
+        var decalAngle = args.WorldAngle - Math.PI;
 
         if (_decalSystem.TryAddDecal(
             component.DecalId,
             footCoords,
             out var decalIndex,
             decalColor,
-            args.WorldAngle,
+            decalAngle,
             zIndex: -1,
             cleanable: true))
         {

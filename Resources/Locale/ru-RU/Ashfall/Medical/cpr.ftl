@@ -1,0 +1,20 @@
+cpr-start-second-person = Вы начинаете проводить сердечно-лёгочную реанимацию {THE($target)}.
+cpr-start-second-person-patient = {CAPITALIZE(THE($user))} начинает проводить вам сердечно-лёгочную реанимацию.
+cpr-must-remove = Сначала необходимо снять {THE($clothing)} с пациента.
+cpr-must-remove-own-mask = Сначала снимите {THE($clothing)}.
+cpr-target-rotting = {CAPITALIZE($entity)} уже разлагается...
+cpr-target-cantbreathe = {CAPITALIZE($entity)} или вы не можете дышать.
+cpr-already-performing = Кто-то уже проводит сердечно-лёгочную реанимацию {THE($entity)}.
+cpr-failed-lungs-damaged = Лёгкие {THE($target)} слишком сильно повреждены для проведения СЛР.
+cpr-verb = Провести СЛР
+
+surgery-pain-thrash = {CAPITALIZE($target)} кричит и извивается от невыносимой боли!
+surgery-pain-thrash-patient = Вы кричите и дёргаетесь от нестерпимой боли!
+surgery-slip-thrash = Инструмент соскользнул из-за того, что {THE($target)} дёрнулся от боли!
+surgery-cautery-unlit = Инструмент не зажжён!
+cpr-target-nohead = У {THE($entity)} нет головы!
+edible-cannot-eat-head = Вы не можете съесть голову!
+head-extraction-verb = Извлечь органы
+head-extraction-already-empty = В этой голове больше нет органов для извлечения.
+head-extraction-complete = {CAPITALIZE($user)} извлекает органы из {THE($head)}.
+surgery-error-rotting = Вы не можете прикрепить гниющий орган!

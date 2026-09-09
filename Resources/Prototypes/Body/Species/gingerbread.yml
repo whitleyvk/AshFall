@@ -49,13 +49,6 @@
       amount: 5
   - type: Damageable
     damageModifierSet: Gingerbread
-  - type: DamageVisuals
-    damageOverlayGroups:
-      Brute:
-        sprite: Mobs/Effects/brute_damage.rsi
-        color: "#896e55"
-      Burn:
-        sprite: Mobs/Effects/burn_damage.rsi
   - type: Bloodstream
     bloodReferenceSolution:
       reagents:

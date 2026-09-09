@@ -56,6 +56,8 @@
     tags:
     - Raw
     - Meat
+  - type: Perishable
+    rotAfter: 480
 
 - type: entity
   parent:
@@ -107,6 +109,7 @@
   - type: ContainerContainer
     containers:
       Wounds: !type:Container
+      body_part_organs: !type:Container
   - type: Woundable
     canRemove: false
     integrity: 100
@@ -143,6 +146,7 @@
     state: head
   - type: VisualOrgan
     layer: enum.HumanoidVisualLayers.Head
+    droppedOffset: 0, -0.25
     data:
       state: head
   - type: VisualOrganMarkings
@@ -199,6 +203,7 @@
     state: l_arm
   - type: VisualOrgan
     layer: enum.HumanoidVisualLayers.LArm
+    droppedOffset: 0.25, -0.0625
     data:
       state: l_arm
   - type: BodyPart
@@ -235,6 +240,7 @@
     state: r_arm
   - type: VisualOrgan
     layer: enum.HumanoidVisualLayers.RArm
+    droppedOffset: -0.25, -0.0625
     data:
       state: r_arm
   - type: BodyPart
@@ -274,6 +280,7 @@
     state: l_hand
   - type: VisualOrgan
     layer: enum.HumanoidVisualLayers.LHand
+    droppedOffset: 0.3125, 0
     data:
       state: l_hand
   - type: BodyPart
@@ -314,6 +321,7 @@
     state: r_hand
   - type: VisualOrgan
     layer: enum.HumanoidVisualLayers.RHand
+    droppedOffset: -0.3125, 0
     data:
       state: r_hand
   - type: BodyPart
@@ -351,6 +359,7 @@
     state: l_leg
   - type: VisualOrgan
     layer: enum.HumanoidVisualLayers.LLeg
+    droppedOffset: 0.125, 0.25
     data:
       state: l_leg
   - type: BodyPart
@@ -387,6 +396,7 @@
     state: r_leg
   - type: VisualOrgan
     layer: enum.HumanoidVisualLayers.RLeg
+    droppedOffset: -0.125, 0.25
     data:
       state: r_leg
   - type: BodyPart
@@ -422,6 +432,7 @@
     state: l_foot
   - type: VisualOrgan
     layer: enum.HumanoidVisualLayers.LFoot
+    droppedOffset: 0.125, 0.375
     data:
       state: l_foot
   - type: BodyPart
@@ -458,6 +469,7 @@
     state: r_foot
   - type: VisualOrgan
     layer: enum.HumanoidVisualLayers.RFoot
+    droppedOffset: -0.125, 0.375
     data:
       state: r_foot
   - type: BodyPart

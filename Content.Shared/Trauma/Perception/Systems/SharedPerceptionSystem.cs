@@ -16,10 +16,10 @@ namespace Content.Shared.Trauma.Perception.Systems;
 
 public abstract partial class SharedPerceptionSystem : EntitySystem
 {
-    [Dependency] private readonly IGameTiming _timing = default!;
-    [Dependency] private readonly MovementSpeedModifierSystem _movement = default!;
-    [Dependency] private readonly StatusEffectsSystem _status = default!;
-    [Dependency] private readonly SharedStealthSystem _stealth = default!;
+    [Dependency] private IGameTiming _timing = default!;
+    [Dependency] private MovementSpeedModifierSystem _movement = default!;
+    [Dependency] private StatusEffectsSystem _status = default!;
+    [Dependency] private SharedStealthSystem _stealth = default!;
 
     public override void Initialize()
     {

@@ -32,12 +32,39 @@
   id: OrganAnimalStomach
 
 - type: entity
-  parent: [ OrganBaseLiver, OrganAnimalInternal, OrganAnimalMetabolizer ]
+  parent: [ OrganAnimalInternal, OrganAnimalMetabolizer ]
   id: OrganAnimalLiver
+  name: liver
+  components:
+  - type: GibbableOrgan
+  - type: Organ
+    category: Liver
+  - type: Sprite
+    layers:
+    - state: liver
+  - type: Item
+    heldPrefix: liver
+  - type: Metabolizer
+    maxReagents: 1
+    stages: [ Metabolites ]
 
 - type: entity
-  parent: [ OrganBaseKidneys, OrganAnimalInternal, OrganAnimalMetabolizer ]
+  parent: [ OrganAnimalInternal, OrganAnimalMetabolizer ]
   id: OrganAnimalKidneys
+  name: kidneys
+  components:
+  - type: GibbableOrgan
+  - type: Organ
+    category: Kidneys
+  - type: Sprite
+    layers:
+    - state: kidney-l
+    - state: kidney-r
+  - type: Item
+    heldPrefix: kidneys
+  - type: Metabolizer
+    maxReagents: 1
+    stages: [ Metabolites ]
 
 - type: entity
   id: BaseMobAnimal

@@ -14,6 +14,14 @@
     - suitStorage
   - type: WeaponClass
     class: Laser
+  - type: MeleeWeapon
+    soundHit:
+      collection: MetalThud
+    damage:
+      types:
+        Blunt: 10
+  - type: AltFireMelee
+    attackType: Light
   - type: Gun
     fireRate: 2
     selectedMode: SemiAuto

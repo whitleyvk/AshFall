@@ -265,7 +265,7 @@ public abstract partial class SharedMeleeWeaponSystem : EntitySystem
 
         if (uid == user || _hands.IsHolding(user, uid))
         {
-            var userEv = new GetUserMeleeDamageEvent(uid, ev.Damage, ev.Modifiers);
+            var userEv = new GetUserMeleeDamageEvent(uid, ev.Damage, ev.Modifiers, user);
             RaiseLocalEvent(user, ref userEv);
             ev.Damage = userEv.Damage;
             ev.Modifiers = userEv.Modifiers;

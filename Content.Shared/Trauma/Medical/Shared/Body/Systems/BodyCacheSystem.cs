@@ -82,8 +82,15 @@ public sealed partial class BodyCacheSystem : CommonBodyCacheSystem
             if (!_childQuery.TryComp(organ, out var child) || child.Parent != null)
                 continue;
 
+            if (child.Parents.Count == 0)
+                continue;
+
             if (GetOrgan(ent.AsNullable(), child.Parents) is not { } parent)
             {
+                // Simple bodies without torso (animals, drones, etc.) don't attach organs to torso
+                if (!ent.Comp.Organs.ContainsKey("Torso"))
+                    continue;
+
                 Log.Error($"Organ {ToPrettyString(organ)} expected a parent of {child.Parents[0]} but none was found in {ToPrettyString(ent)}!");
                 continue;
             }

@@ -23,12 +23,10 @@
   - type: TraumaInflicter
     severityThreshold: 12
     allowedTraumas:
-    - Dismemberment
     - OrganDamage
     - BoneDamage
     - VeinsDamage
     allowArmourDeduction:
-    - Dismemberment
     - OrganDamage
     - BoneDamage
     - VeinsDamage
@@ -67,12 +65,10 @@
   - type: TraumaInflicter
     severityThreshold: 12
     allowedTraumas:
-    - Dismemberment
     - OrganDamage
     - BoneDamage
     - VeinsDamage
     allowArmourDeduction:
-    - Dismemberment
     - OrganDamage
     - BoneDamage
     - VeinsDamage
@@ -110,7 +106,7 @@
   parent: WoundBase
   components:
   - type: Wound
-    damageType: Ballistic
+    damageType: Piercing
     scarWound: PiercingScar
     mangleSeverity: Severe
     textString: Ballistic
@@ -224,7 +220,7 @@
   categories: [ HideSpawnMenu ]
   components:
   - type: Wound
-    damageType: Ion
+    damageType: Shock
     scarWound: BurnScar
   - type: TraumaInflicter
     severityThreshold: 0

@@ -48,3 +48,6 @@ ent-Fracture = fracture
 ent-Puncture = puncture wound
 ent-Laceration = laceration
 ent-Burns = burn
+
+dismemberment-notification-with-user = {CAPITALIZE($user)} severs {THE($target)}'s {THE($part)}!
+dismemberment-notification-passive = {CAPITALIZE(THE($target))}'s {THE($part)} is severed!

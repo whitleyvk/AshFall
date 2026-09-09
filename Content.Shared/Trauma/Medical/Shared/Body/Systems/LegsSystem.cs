@@ -1,13 +1,15 @@
-// SPDX-License-Identifier: AGPL-3.0-or-later
-
 using Content.Shared.Body;
 using Content.Shared.Containers;
 using Content.Shared.Movement.Components;
 using Content.Shared.Movement.Systems;
+using Content.Shared.Popups;
 using Content.Shared.Pulling.Events;
 using Content.Shared.Standing;
 using Content.Shared.Stunnable;
 using Content.Shared.Traits.Assorted;
+using Content.Trauma.Common.Movement;
+using Robust.Shared.Network;
+using Robust.Shared.Random;
 
 namespace Content.Medical.Shared.Body;
 
@@ -15,6 +17,11 @@ namespace Content.Medical.Shared.Body;
 public sealed partial class LegsSystem : EntitySystem
 {
     [Dependency] private MovementSpeedModifierSystem _movement = default!;
+    [Dependency] private INetManager _net = default!;
+    [Dependency] private IRobustRandom _random = default!;
+    [Dependency] private SharedPopupSystem _popup = default!;
+    [Dependency] private StandingStateSystem _standing = default!;
+    [Dependency] private SharedStunSystem _stun = default!;
 
     private EntityQuery<LegsComponent> _query;
     private EntityQuery<LegComponent> _legQuery;
@@ -27,6 +34,7 @@ public sealed partial class LegsSystem : EntitySystem
         _legQuery = GetEntityQuery<LegComponent>();
 
         SubscribeLocalEvent<LegsComponent, StandAttemptEvent>(OnStandAttempt);
+        SubscribeLocalEvent<LegsComponent, FootStepEvent>(OnFootStep);
         SubscribeLocalEvent<LegsComponent, AttemptStopPullingEvent>(OnAttemptStopPulling);
 
         SubscribeLocalEvent<LegComponent, OrganGotInsertedEvent>(OnLegAdded);
@@ -40,7 +48,7 @@ public sealed partial class LegsSystem : EntitySystem
 
     private void OnStandAttempt(Entity<LegsComponent> ent, ref StandAttemptEvent args)
     {
-        if (ent.Comp.Legs.Count < ent.Comp.Required)
+        if (ent.Comp.Legs.Count == 0)
             args.Cancel();
     }
 
@@ -78,6 +86,36 @@ public sealed partial class LegsSystem : EntitySystem
         Dirty(args.Target, comp);
 
         UpdateMovementSpeed((args.Target, comp));
+
+        if (comp.Legs.Count == 0 && !_standing.IsDown(args.Target))
+        {
+            _standing.Down(args.Target);
+        }
+    }
+
+    private void OnFootStep(Entity<LegsComponent> ent, ref FootStepEvent args)
+    {
+        if (_net.IsClient)
+            return;
+
+        if (ent.Comp.Legs.Count != 1)
+            return;
+
+        if (_standing.IsDown(ent.Owner))
+            return;
+
+        var isWalking = false;
+        if (TryComp<InputMoverComponent>(ent.Owner, out var mover))
+        {
+            isWalking = (mover.HeldMoveButtons & MoveButtons.Walk) != MoveButtons.None;
+        }
+
+        var stumbleChance = isWalking ? 0.08f : 0.28f;
+        if (_random.Prob(stumbleChance))
+        {
+            _stun.TryKnockdown(ent.Owner, TimeSpan.FromSeconds(1.2), drop: false, force: true);
+            _popup.PopupEntity(Loc.GetString("legs-stumble-single-leg"), ent.Owner, ent.Owner);
+        }
     }
 
     private void OnParalyzedInit(Entity<LegsParalyzedComponent> ent, ref MapInitEvent args)

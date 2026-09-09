@@ -261,7 +261,7 @@ public sealed partial class PerceptionSystem : SharedPerceptionSystem
                 continue;
             }
 
-            if (comp.DetectionValue > 0f && comp.HealOnShadows && !_mobState.IsDead(uid))
+            if (comp.DetectionValue > 0f && comp.HealOnShadows && !lightDet.OnLight && !_mobState.IsDead(uid))
             {
                 _damageable.TryChangeDamage(uid, comp.DamageToHeal, true);
             }

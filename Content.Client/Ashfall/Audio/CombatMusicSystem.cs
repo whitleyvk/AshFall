@@ -1,6 +1,7 @@
 using Content.Client.Audio;
 using Content.Client.Gameplay;
 using Content.Shared.Access.Components;
+using Content.Shared.Access.Systems;
 using Content.Shared.Audio;
 using Content.Shared.Body;
 using Content.Shared.CCVar;
@@ -51,6 +52,7 @@ public sealed partial class CombatMusicSystem : EntitySystem
     [Dependency] private ContentAudioSystem _contentAudio = default!;
     [Dependency] private InventorySystem _inventory = default!;
     [Dependency] private MobStateSystem _mobState = default!;
+    [Dependency] private SharedIdCardSystem _idCard = default!;
 
     private static readonly ProtoId<SoundCollectionPrototype> ScavengerMusicCollection = "CombatMusicScavenger";
     private static readonly ProtoId<SoundCollectionPrototype> SecurityMusicCollection = "CombatMusicSecurity";
@@ -238,6 +240,8 @@ public sealed partial class CombatMusicSystem : EntitySystem
         }
     }
 
+    private string? _lastPlayedTrack;
+
     private void StartCombatMusic()
     {
         var collectionId = ResolveCombatCollection();
@@ -248,6 +252,7 @@ public sealed partial class CombatMusicSystem : EntitySystem
         }
 
         _inCombat = true;
+        _lastPlayedTrack = track;
         _contentAudio.DisableAmbientMusic();
 
         var volume = SharedAudioSystem.GainToVolume(_volumeGain);
@@ -284,8 +289,25 @@ public sealed partial class CombatMusicSystem : EntitySystem
             return null;
         }
 
-        var track = _random.Pick(soundCollection.PickFiles).ToString();
-        if (!_resourceCache.TryGetResource<AudioResource>(track, out _))
+        var candidateFiles = new List<ResPath>(soundCollection.PickFiles);
+        if (candidateFiles.Count > 1 && _lastPlayedTrack != null)
+        {
+            candidateFiles.RemoveAll(f => f.ToString() == _lastPlayedTrack);
+        }
+
+        _random.Shuffle(candidateFiles);
+        string? track = null;
+        foreach (var file in candidateFiles)
+        {
+            var path = file.ToString();
+            if (_resourceCache.TryGetResource<AudioResource>(path, out _))
+            {
+                track = path;
+                break;
+            }
+        }
+
+        if (track == null)
             return null;
 
         _preparedCollection = collectionId;
@@ -298,9 +320,18 @@ public sealed partial class CombatMusicSystem : EntitySystem
         if (_player.LocalEntity is not { } player)
             return ScavengerMusicCollection;
 
-        // Check if player has ID with Security or Syndicate access
-        if (_inventory.TryGetSlotEntity(player, "id", out var idUid) &&
-            TryComp<AccessComponent>(idUid, out var access))
+        // Check if player has ID with Security or Syndicate access (including inside PDA)
+        EntityUid? cardUid = null;
+        if (_idCard.TryFindIdCard(player, out var idCard))
+        {
+            cardUid = idCard.Owner;
+        }
+        else if (_inventory.TryGetSlotEntity(player, "id", out var idSlotEnt))
+        {
+            cardUid = idSlotEnt;
+        }
+
+        if (cardUid != null && TryComp<AccessComponent>(cardUid, out var access))
         {
             foreach (var tag in access.Tags)
             {
@@ -341,6 +372,7 @@ public sealed partial class CombatMusicSystem : EntitySystem
         // Check if song finished playing while combat is still going
         if (_combatStream == null || !TryComp<AudioComponent>(_combatStream, out var audioComp) || !audioComp.Playing)
         {
+            _preparedTrack = null;
             StartCombatMusic();
         }
     }
@@ -349,6 +381,8 @@ public sealed partial class CombatMusicSystem : EntitySystem
     {
         _inCombat = false;
         _combatEndTime = TimeSpan.Zero;
+        _preparedTrack = null;
+        _preparedCollection = null;
 
         if (_combatStream != null)
         {

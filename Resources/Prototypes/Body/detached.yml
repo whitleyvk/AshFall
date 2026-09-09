@@ -13,3 +13,5 @@
   - type: Item
   - type: InteractionOutline
   - type: InputMover
+  - type: Perishable
+    rotAfter: 480

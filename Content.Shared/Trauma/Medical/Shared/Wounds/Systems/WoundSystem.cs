@@ -7,6 +7,7 @@ using Content.Shared.Body;
 using Content.Shared.Damage.Systems;
 using Content.Shared.Hands.EntitySystems;
 using Content.Shared.Inventory;
+using Content.Shared.Popups;
 using Content.Shared.Throwing;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Configuration;
@@ -29,12 +30,14 @@ public sealed partial class WoundSystem : EntitySystem
 
     [Dependency] private BodySystem _body = default!;
     [Dependency] private BodyPartSystem _part = default!;
+    [Dependency] private OrganRelationSystem _organRelation = default!;
     [Dependency] private SharedAppearanceSystem _appearance = default!;
     [Dependency] private SharedContainerSystem _container = default!;
     [Dependency] private SharedTransformSystem _transform = default!;
     [Dependency] private SharedAudioSystem _audio = default!;
 
     [Dependency] private DamageableSystem _damageable = default!;
+    [Dependency] private SharedPopupSystem _popup = default!;
 
     // I'm the one.... who throws........
     [Dependency] private ThrowingSystem _throwing = default!;

@@ -60,5 +60,5 @@ public enum TargetBodyPartNonFlag : byte
     Tail,
     Wings,
 
-    Max = RightFoot, // Wings and Tail do not work
+    Max = Wings,
 }

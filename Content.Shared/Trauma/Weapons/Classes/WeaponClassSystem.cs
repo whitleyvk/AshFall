@@ -13,8 +13,8 @@ namespace Content.Trauma.Shared.Weapons.Classes;
 /// </summary>
 public sealed partial class WeaponClassSystem : EntitySystem
 {
-    [Dependency] private readonly SharedKnowledgeSystem _knowledge = default!;
-    [Dependency] private readonly EntityQuery<WeaponClassComponent> _query = default!;
+    [Dependency] private SharedKnowledgeSystem _knowledge = default!;
+    [Dependency] private EntityQuery<WeaponClassComponent> _query = default!;
 
     public static readonly ProtoId<WeaponClassPrototype> Unarmed = "Unarmed";
 

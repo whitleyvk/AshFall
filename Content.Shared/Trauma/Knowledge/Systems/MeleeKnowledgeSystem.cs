@@ -8,7 +8,7 @@ namespace Content.Trauma.Shared.Knowledge.Systems;
 
 public sealed partial class MeleeKnowledgeSystem : EntitySystem
 {
-    [Dependency] private readonly SharedKnowledgeSystem _knowledge = default!;
+    [Dependency] private SharedKnowledgeSystem _knowledge = default!;
 
     public override void Initialize()
     {
@@ -31,6 +31,9 @@ public sealed partial class MeleeKnowledgeSystem : EntitySystem
 
     private void OnGetMeleeDamage(Entity<MeleeDamageKnowledgeComponent> ent, ref GetUserMeleeDamageEvent args)
     {
+        if (args.Weapon != args.User)
+            return;
+
         var level = _knowledge.GetLevel(ent.Owner);
         args.Damage *= ent.Comp.Curve.GetCurve(level);
     }

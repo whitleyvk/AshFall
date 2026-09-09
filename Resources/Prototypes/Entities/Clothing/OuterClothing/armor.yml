@@ -15,6 +15,7 @@
   - type: Clothing
     sprite: Clothing/OuterClothing/Armor/security.rsi
   - type: Armor #Based on /tg/ but slightly compensated to fit the fact that armor stacks in SS14.
+    coverage: [ Torso ]
     modifiers:
       coefficients:
         Blunt: 0.70

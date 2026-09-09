@@ -123,13 +123,6 @@
         Blunt: -0.05
         Piercing: -0.05
         Slash: -0.05
-  - type: DamageVisuals
-    damageOverlayGroups:
-      Brute:
-        sprite: Mobs/Effects/brute_damage.rsi
-        color: "#2cf274"
-      Burn:
-        sprite: Mobs/Effects/burn_damage.rsi
   - type: Bloodstream
     bloodReferenceSolution: # TODO Color slime blood based on their slime color or smth
       reagents:
@@ -212,6 +205,15 @@
 - type: entity
   parent: [ OrganBaseTorsoSexed, OrganBaseTorso, OrganSlimePersonExternal ]
   id: OrganSlimePersonTorso
+  components:
+  - type: BodyPart
+    partType: Torso
+    slots:
+    - Head
+    - ArmLeft
+    - ArmRight
+    - LegLeft
+    - LegRight
 
 - type: entity
   parent: [ OrganBaseHead, OrganSlimePersonExternal ]

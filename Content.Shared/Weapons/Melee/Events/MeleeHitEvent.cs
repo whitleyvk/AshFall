@@ -86,7 +86,7 @@ public record struct GetMeleeDamageEvent(EntityUid Weapon, DamageSpecifier Damag
 /// Raised on a melee user to calculate potential damage bonuses or decreases.
 /// </summary>
 [ByRefEvent]
-public record struct GetUserMeleeDamageEvent(EntityUid Weapon, DamageSpecifier Damage, List<DamageModifierSet> Modifiers);
+public record struct GetUserMeleeDamageEvent(EntityUid Weapon, DamageSpecifier Damage, List<DamageModifierSet> Modifiers, EntityUid User);
 
 /// <summary>
 /// Raised on a melee weapon to calculate the attack rate.

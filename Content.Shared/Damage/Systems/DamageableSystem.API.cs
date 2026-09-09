@@ -44,6 +44,32 @@ public sealed partial class DamageableSystem
         if (!_damageableQuery.Resolve(ent, ref ent.Comp, false))
             return;
 
+        if (_bodyQuery.TryComp(ent, out var body) && _body.HasExternalOrgans((ent.Owner, body)))
+        {
+            foreach (var organ in _body.GetExternalOrgans((ent.Owner, body)))
+            {
+                if (_damageableQuery.TryComp(organ, out var organDamage))
+                {
+                    organDamage.Damage.DamageDict.Clear();
+                    OnEntityDamageChanged((organ, organDamage));
+                }
+            }
+
+            if (!damage.Empty && damage.GetTotal() > 0)
+            {
+                ApplyDamageToBodyParts(ent, damage,
+                    origin: null,
+                    ignoreResistances: true,
+                    interruptsDoAfters: false,
+                    targetPart: TargetBodyPart.Chest,
+                    partMultiplier: 1f,
+                    canMiss: false);
+            }
+
+            UpdateParentDamageFromBodyParts(ent.Owner);
+            return;
+        }
+
         foreach (var type in ent.Comp.Damage.DamageDict.Keys)
         {
             if (!damage.DamageDict.ContainsKey(type))
@@ -176,7 +202,7 @@ public sealed partial class DamageableSystem
 
         // <Trauma>
         damage = before.Damage;
-        var isBody = _bodyQuery.HasComp(ent);
+        var isBody = _bodyQuery.TryComp(ent, out var bodyComp) && _body.HasExternalOrgans((ent.Owner, bodyComp));
         // </Trauma>
 
         // Apply resistances
@@ -301,7 +327,7 @@ public sealed partial class DamageableSystem
         }
 
         // apply healing to each individual part
-        if (_bodyQuery.TryComp(ent, out var body))
+        if (_bodyQuery.TryComp(ent, out var body) && _body.HasExternalOrgans((ent, body)))
         {
             foreach (var organ in _body.GetExternalOrgans((ent, body)))
             {
@@ -382,7 +408,7 @@ public sealed partial class DamageableSystem
         if (!_damageableQuery.Resolve(ent, ref ent.Comp, false) || amount >= 0)
             return damageChange;
         // <Trauma> - apply healing to each individual part
-        if (_bodyQuery.TryComp(ent, out var body))
+        if (_bodyQuery.TryComp(ent, out var body) && _body.HasExternalOrgans((ent, body)))
         {
             foreach (var organ in _body.GetExternalOrgans((ent, body)))
             {
@@ -588,7 +614,7 @@ public sealed partial class DamageableSystem
             return new();
 
         // <Trauma>
-        if (_bodyQuery.TryComp(ent, out var body))
+        if (_bodyQuery.TryComp(ent, out var body) && _body.HasExternalOrgans((ent, body)))
         {
             var all = new DamageSpecifier();
             foreach (var organ in _body.GetExternalOrgans((ent, body)))
@@ -611,7 +637,7 @@ public sealed partial class DamageableSystem
             return FixedPoint2.Zero;
 
         // <Trauma>
-        if (_bodyQuery.TryComp(ent, out var body))
+        if (_bodyQuery.TryComp(ent, out var body) && _body.HasExternalOrgans((ent, body)))
         {
             var total = FixedPoint2.Zero;
             foreach (var organ in _body.GetExternalOrgans((ent, body)))
@@ -634,7 +660,7 @@ public sealed partial class DamageableSystem
             return new Dictionary<ProtoId<DamageGroupPrototype>, FixedPoint2>();
 
         // <Trauma> - let body handle it
-        if (_bodyQuery.TryComp(ent, out var body))
+        if (_bodyQuery.TryComp(ent, out var body) && _body.HasExternalOrgans((ent, body)))
         {
             var groups = new Dictionary<ProtoId<DamageGroupPrototype>, FixedPoint2>();
             foreach (var organ in _body.GetExternalOrgans((ent, body)))

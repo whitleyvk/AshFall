@@ -187,6 +187,7 @@
   domain: Logistics
   requiredCompetencies:
     Cargo: Junior
+  preferredCompetencies:
     Engineering: Junior
   maximumCompetencies:
     Cargo: Experienced

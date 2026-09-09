@@ -14,9 +14,12 @@ using Content.Medical.Shared.Traumas;
 using Content.Medical.Shared.Wounds;
 using Content.Shared.Humanoid;
 using Content.Shared.Humanoid.Markings;
+using Content.Shared.Atmos.Rotting;
 using Content.Shared.Bed.Sleep;
 using Content.Shared.Body;
 using Content.Shared.Buckle.Components;
+using Content.Shared.Mobs;
+using Content.Shared.Mobs.Components;
 using Content.Shared.Damage;
 using Content.Shared.Damage.Components;
 using Content.Shared.Damage.Prototypes;
@@ -27,8 +30,11 @@ using Content.Shared.IdentityManagement;
 using Content.Shared.Inventory;
 using Content.Shared.Item;
 using Content.Shared.Popups;
+using Content.Shared.Tools.Components;
+using Content.Shared.Traits.Assorted;
 using Content.Trauma.Common.Body.Part;
 using Robust.Shared.Containers;
+using Robust.Shared.Timing;
 using System.Linq;
 
 namespace Content.Medical.Shared.Surgery;
@@ -69,6 +75,8 @@ public abstract partial class SharedSurgerySystem
         SubSurgery<SurgeryAddOrganSlotStepComponent>(OnAddOrganSlotStep, OnAddOrganSlotCheck);
         SubSurgery<SurgeryTraumaTreatmentStepComponent>(OnTraumaTreatmentStep, OnTraumaTreatmentCheck);
         SubSurgery<SurgeryBleedsTreatmentStepComponent>(OnBleedsTreatmentStep, OnBleedsTreatmentCheck);
+        SubscribeLocalEvent<SurgeryAddPartStepComponent, SurgeryCanPerformStepEvent>(OnAddPartCanPerform);
+        SubscribeLocalEvent<SurgeryAddOrganStepComponent, SurgeryCanPerformStepEvent>(OnAddOrganCanPerform);
         Subs.BuiEvents<SurgeryTargetComponent>(SurgeryUIKey.Key, subs =>
         {
             subs.Event<SurgeryStepChosenBuiMsg>(OnSurgeryTargetStepChosen);
@@ -93,6 +101,12 @@ public abstract partial class SharedSurgerySystem
         HandleOrganModifications(args, ent.Comp);
 
         HandleSanitization(args);
+
+        OnStepApplied(ent, ref args);
+    }
+
+    protected virtual void OnStepApplied(Entity<SurgeryStepComponent> ent, ref SurgeryStepEvent args)
+    {
     }
 
     private void ApplyComponentChanges(SurgeryStepEvent args, SurgeryStepComponent comp)
@@ -168,7 +182,9 @@ public abstract partial class SharedSurgerySystem
 
             args.Invalid = StepInvalidReason.MissingTool;
 
-            if (reg.Component is BaseSurgeryToolComponent required)
+            if (reg.Component is CauteryComponent && TryComp<WelderComponent>(args.Tool, out var welder) && !welder.Enabled)
+                args.Popup = Loc.GetString("surgery-cautery-unlit");
+            else if (reg.Component is BaseSurgeryToolComponent required)
                 args.Popup = Loc.GetString("surgery-ui-window-tool-required", ("tool", required.ToolName));
             else
                 Log.Error($"Surgery step {ToPrettyString(ent)} wants bad component {reg.Component} which isn't a ISurgeryTool");
@@ -256,8 +272,34 @@ public abstract partial class SharedSurgerySystem
             || organ.Category != removedComp.Category)
             return;
 
+        if (HasComp<RottingComponent>(args.Tool))
+            return;
+
         if (_body.InsertOrgan(args.Body, (args.Tool, organ)))
+        {
             EnsureComp<OrganReattachedComponent>(args.Tool);
+
+            if (_container.TryGetContainer(args.Tool, "body_part_organs", out var partContainer))
+            {
+                foreach (var contained in partContainer.ContainedEntities.ToArray())
+                {
+                    _container.Remove(contained, partContainer);
+                    _body.InsertOrgan(args.Body, contained);
+                }
+            }
+        }
+    }
+
+    private void OnAddPartCanPerform(Entity<SurgeryAddPartStepComponent> ent, ref SurgeryCanPerformStepEvent args)
+    {
+        if (args.IsInvalid)
+            return;
+
+        if (HasComp<RottingComponent>(args.Tool))
+        {
+            args.Invalid = StepInvalidReason.ToolInvalid;
+            args.Popup = Loc.GetString("surgery-error-rotting");
+        }
     }
 
     private void OnAddOrganSlotStep(Entity<SurgeryAddOrganSlotStepComponent> ent, ref SurgeryStepEvent args)
@@ -308,6 +350,12 @@ public abstract partial class SharedSurgerySystem
         if (!_organQuery.TryComp(args.Part, out var organ) || organ.Body != args.Body)
             return;
 
+        if (_part.GetParentPart(args.Part) is { } parentPart &&
+            _wounds.AmputateWoundable(parentPart, args.Part, args.User))
+        {
+            return;
+        }
+
         if (_body.RemoveOrgan(args.Body, args.Part))
             _hands.TryPickupAnyHand(args.User, args.Part);
         else
@@ -324,6 +372,9 @@ public abstract partial class SharedSurgerySystem
         if (!TryComp(args.Surgery, out SurgeryOrganConditionComponent? organComp))
             return;
 
+        if (HasComp<RottingComponent>(args.Tool))
+            return;
+
         if (!HasComp<InternalChildOrganComponent>(args.Tool) ||
             _body.GetCategory(args.Tool) is not {} category ||
             category != organComp.Organ ||
@@ -335,6 +386,18 @@ public abstract partial class SharedSurgerySystem
         var ev = new SurgeryStepDamageChangeEvent(args.User, args.Body, args.Part, ent);
             RaiseLocalEvent(ent, ref ev);
             args.Complete = true;
+    }
+
+    private void OnAddOrganCanPerform(Entity<SurgeryAddOrganStepComponent> ent, ref SurgeryCanPerformStepEvent args)
+    {
+        if (args.IsInvalid)
+            return;
+
+        if (HasComp<RottingComponent>(args.Tool))
+        {
+            args.Invalid = StepInvalidReason.ToolInvalid;
+            args.Popup = Loc.GetString("surgery-error-rotting");
+        }
     }
 
     private void OnAddOrganCheck(Entity<SurgeryAddOrganStepComponent> ent, ref SurgeryStepCompleteCheckEvent args)
@@ -713,7 +776,41 @@ public abstract partial class SharedSurgerySystem
         if (!Loc.TryGetString(locName, out var locResult, ("user", userName), ("target", targetName), ("part", part), ("tool", tool)))
             locResult = Loc.GetString($"surgery-popup-step-{stepId}", ("user", userName), ("target", targetName), ("part", part), ("tool", tool));
 
-        _popup.PopupEntity(locResult, user, user);
+        if (_net.IsServer)
+        {
+            _popup.PopupEntity(locResult, user, user);
+
+            if (IsConsciousAndAwake(body))
+            {
+                Timer.Spawn(TimeSpan.FromSeconds(0.6), () =>
+                {
+                    if (Deleted(user) || Deleted(body))
+                        return;
+
+                    _popup.PopupEntity(Loc.GetString("surgery-pain-thrash", ("target", targetName)), user, user, PopupType.MediumCaution);
+                    if (body != user)
+                        _popup.PopupEntity(Loc.GetString("surgery-pain-thrash-patient"), body, body, PopupType.LargeCaution);
+                });
+            }
+        }
+
+        return true;
+    }
+
+    public bool IsConsciousAndAwake(EntityUid target)
+    {
+        if (Status.HasEffectComp<ForcedSleepingStatusEffectComponent>(target))
+            return false;
+
+        if (Status.TryEffectsWithComp<PainNumbnessStatusEffectComponent>(target, out _))
+            return false;
+
+        if (TryComp<MobStateComponent>(target, out var mobState) && mobState.CurrentState != MobState.Alive)
+            return false;
+
+        if (HasComp<SleepingComponent>(target))
+            return false;
+
         return true;
     }
 
@@ -728,6 +825,9 @@ public abstract partial class SharedSurgerySystem
                 speed *= operatingTableComponent.SpeedModifier; // apply surgery speed modifier
         if (TryComp(user, out SurgerySpeedModifierComponent? surgerySpeedMod))
             speed *= surgerySpeedMod.SpeedModifier;
+
+        if (IsConsciousAndAwake(target))
+            speed *= 0.55f;
 
         var ev = new BeforeSurgeryStepDurationEvent(user, surgeryStep, target, speed);
         RaiseLocalEvent(user, ref ev);
@@ -873,7 +973,12 @@ public abstract partial class SharedSurgerySystem
     private BaseSurgeryToolComponent? GetSurgeryComp(EntityUid tool, IComponent component)
     {
         if (TryComp(tool, component.GetType(), out var found) && found is BaseSurgeryToolComponent data)
+        {
+            if (data is CauteryComponent && TryComp<WelderComponent>(tool, out var welder) && !welder.Enabled)
+                return null;
+
             return data;
+        }
 
         return null;
     }

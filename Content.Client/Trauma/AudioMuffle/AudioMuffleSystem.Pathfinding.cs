@@ -210,6 +210,7 @@ public sealed partial class AudioMuffleSystem
                         if (diff >= 0)
                             continue;
 
+                        next.Previous?.Next.Remove(next);
                         next.Previous = node;
                         node.Next.Add(next);
 

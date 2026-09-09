@@ -21,6 +21,7 @@ using Content.Shared.IdentityManagement;
 using Content.Shared.Mobs.Systems;
 using Content.Shared.Verbs;
 using Robust.Shared.Player;
+using Robust.Shared.Prototypes;
 
 namespace Content.Medical.Server.PartStatus;
 
@@ -43,6 +44,8 @@ public sealed partial class PartStatusSystem : EntitySystem
         BodyPartType.Hand,
         BodyPartType.Leg,
         BodyPartType.Foot,
+        BodyPartType.Tail,
+        BodyPartType.Wings,
     ];
 
     private static List<BodyPartSymmetry> _symmetryPriority =
@@ -54,6 +57,43 @@ public sealed partial class PartStatusSystem : EntitySystem
 
     private const string BleedLocaleStr = "inspect-wound-Bleeding-moderate";
     private const string BoneLocaleStr = "inspect-trauma-BoneDamage";
+
+    public override void Initialize()
+    {
+        base.Initialize();
+        SubscribeLocalEvent<BodyComponent, BodyPartDelimbedEvent>(OnBodyPartDelimbed);
+    }
+
+    private void OnBodyPartDelimbed(Entity<BodyComponent> ent, ref BodyPartDelimbedEvent args)
+    {
+        string msg;
+        if (args.User != null && args.User.Value != args.Body)
+        {
+            msg = Loc.GetString("dismemberment-notification-with-user",
+                ("user", Identity.Entity(args.User.Value, EntityManager)),
+                ("target", Identity.Entity(args.Body, EntityManager)),
+                ("part", Identity.Entity(args.Part, EntityManager)));
+        }
+        else
+        {
+            msg = Loc.GetString("dismemberment-notification-passive",
+                ("target", Identity.Entity(args.Body, EntityManager)),
+                ("part", Identity.Entity(args.Part, EntityManager)));
+        }
+
+        var filter = Filter.Pvs(args.Body);
+        var color = Color.FromHex("#C62828");
+        var wrapped = $"[color=#C62828]{msg}[/color]";
+        _chat.ChatMessageToManyFiltered(
+            filter,
+            ChatChannel.Visual,
+            msg,
+            wrapped,
+            args.Body,
+            hideChat: false,
+            recordReplay: true,
+            colorOverride: color);
+    }
 
     [SubscribeNetworkEvent]
     private void OnGetPartStatus(GetPartStatusEvent message, EntitySessionEventArgs args)
@@ -108,7 +148,7 @@ public sealed partial class PartStatusSystem : EntitySystem
     public FormattedMessage CreateMarkup(EntityUid uid, EntityUid examiner, HealthExaminableComponent component, DamageableComponent damage)
     {
         var partStatusSet = CollectPartStatuses(uid);
-        var text = GetExamineText(uid, examiner, partStatusSet, false);
+        var text = GetExamineText(uid, examiner, partStatusSet, true);
         // Anything else want to add on to this?
         RaiseLocalEvent(uid, new HealthBeingExaminedEvent(text), true);
 
@@ -119,6 +159,7 @@ public sealed partial class PartStatusSystem : EntitySystem
     private HashSet<PartStatus> CollectPartStatuses(EntityUid body)
     {
         var partStatusSet = new HashSet<PartStatus>();
+        var presentCategories = new HashSet<ProtoId<OrganCategoryPrototype>>();
 
         foreach (var woundable in _body.GetOrgans<WoundableComponent>(body))
         {
@@ -126,6 +167,7 @@ public sealed partial class PartStatusSystem : EntitySystem
                 _body.GetCategory(woundable.Owner) is not {} category)
                 continue;
 
+            presentCategories.Add(category);
             var (damageSeverities, isBleeding) = AnalyzeWounds(woundable);
             var boneSev = _boneQuery.CompOrNull(woundable)?.BoneSeverity ?? BoneSeverity.Normal; // fallback for boneless limbs like slimes
             partStatusSet.Add(new PartStatus(
@@ -136,6 +178,32 @@ public sealed partial class PartStatusSystem : EntitySystem
                 damageSeverities,
                 boneSev,
                 isBleeding));
+        }
+
+        // Check for missing limbs
+        if (TryComp<InitialBodyComponent>(body, out var initialBody))
+        {
+            foreach (var (category, proto) in initialBody.Organs)
+            {
+                if (presentCategories.Contains(category))
+                    continue;
+
+                if (!ProtoMan.TryIndex<EntityPrototype>(proto, out var entProto) ||
+                    !entProto.TryGetComponent<BodyPartComponent>(out var partComp, EntityManager.ComponentFactory))
+                    continue;
+
+                partStatusSet.Add(new PartStatus(
+                    partComp.PartType,
+                    partComp.Symmetry,
+                    ProtoMan.Index(category).Name.ToLowerInvariant(),
+                    WoundableSeverity.Severe,
+                    new(),
+                    BoneSeverity.Normal,
+                    false)
+                {
+                    Missing = true
+                });
+            }
         }
 
         return partStatusSet;
@@ -153,12 +221,14 @@ public sealed partial class PartStatusSystem : EntitySystem
                 || wound.Comp.WoundSeverity == WoundSeverity.Healed)
                 continue;
 
+            var key = wound.Comp.TextString ?? (ProtoMan.TryIndex<DamageGroupPrototype>(wound.Comp.DamageGroup, out var groupProto)
+                ? groupProto.ID
+                : wound.Comp.DamageType.Id);
+
             if (wound.Comp.AlwaysShowInInspects ||
-                !damageSeverities.TryGetValue(wound.Comp.DamageType, out var existingSeverity) ||
+                !damageSeverities.TryGetValue(key, out var existingSeverity) ||
                 wound.Comp.WoundSeverity > existingSeverity)
-                damageSeverities[wound.Comp.TextString == null
-                    ? ProtoMan.Index(wound.Comp.DamageGroup).ID
-                    : wound.Comp.TextString] = wound.Comp.WoundSeverity;
+                damageSeverities[key] = wound.Comp.WoundSeverity;
 
             if (!isBleeding && _bleedQuery.TryComp(wound, out var bleeds) && bleeds.IsBleeding)
                 isBleeding = true;
@@ -210,20 +280,25 @@ public sealed partial class PartStatusSystem : EntitySystem
 
         foreach (var partStatus in orderedParts)
         {
-            var statusDescription = BuildStatusDescription(partStatus, inspectingSelf);
             var possessive = inspectingSelf
                 ? Loc.GetString("inspect-part-status-you")
                 : Loc.GetString("inspect-part-status-their");
 
-            var healthy = IsHealthy(partStatus);
-            var locString = healthy
-                ? "inspect-part-status-line-fine"
-                : "inspect-part-status-line";
-
-            if (styleless)
+            string locString;
+            if (partStatus.Missing)
             {
-                locString = "inspect-part-status-line-styleless";
+                locString = styleless ? "inspect-part-status-line-missing-styleless" : "inspect-part-status-line-missing";
             }
+            else
+            {
+                var healthy = IsHealthy(partStatus);
+                if (healthy)
+                    locString = styleless ? "inspect-part-status-line-styleless" : "inspect-part-status-line-fine";
+                else
+                    locString = styleless ? "inspect-part-status-line-styleless" : "inspect-part-status-line";
+            }
+
+            var statusDescription = partStatus.Missing ? string.Empty : BuildStatusDescription(partStatus, inspectingSelf);
 
             var line = Loc.GetString(locString,
                 ("possessive", possessive),
@@ -246,6 +321,9 @@ public sealed partial class PartStatusSystem : EntitySystem
 
     private static string GetStatusColor(PartStatus status)
     {
+        if (status.Missing)
+            return "#FF4444";
+
         if (IsHealthy(status))
             return "#6F7470";
 
@@ -262,7 +340,8 @@ public sealed partial class PartStatusSystem : EntitySystem
 
     private static bool IsHealthy(PartStatus status)
     {
-        return status.PartSeverity == WoundableSeverity.Healthy &&
+        return !status.Missing &&
+               status.PartSeverity == WoundableSeverity.Healthy &&
                status.DamageSeverities.Count == 0 &&
                status.BoneSeverity == BoneSeverity.Normal &&
                !status.Bleeding;
@@ -278,6 +357,12 @@ public sealed partial class PartStatusSystem : EntitySystem
         if (overallSeverity != WoundSeverity.Healed)
         {
             var localeText = $"inspect-wound-{overallSeverity.ToString().ToLower()}";
+            sb.Append(Loc.GetString(localeText));
+            hasStatus = true;
+        }
+        else if (partStatus.PartSeverity > WoundableSeverity.Healthy)
+        {
+            var localeText = $"inspect-wound-{partStatus.PartSeverity.ToString().ToLower()}";
             sb.Append(Loc.GetString(localeText));
             hasStatus = true;
         }
@@ -306,7 +391,17 @@ public sealed partial class PartStatusSystem : EntitySystem
         }
 
         if (!hasStatus)
-            sb.Append(Loc.GetString("inspect-part-status-fine"));
+        {
+            if (partStatus.PartSeverity > WoundableSeverity.Healthy)
+            {
+                var localeText = $"inspect-wound-{partStatus.PartSeverity.ToString().ToLower()}";
+                sb.Append(Loc.GetString(localeText));
+            }
+            else
+            {
+                sb.Append(Loc.GetString("inspect-part-status-fine"));
+            }
+        }
 
         return sb.ToString();
     }

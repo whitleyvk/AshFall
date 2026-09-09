@@ -7,7 +7,7 @@
   - type: Projectile
     damage:
       types:
-        Piercing: 35
+        Piercing: 48
 
 - type: entity
   parent: BaseBulletPractice
@@ -29,8 +29,8 @@
   - type: Projectile
     damage:
       types:
-        Piercing: 26
-        Heat: 9
+        Piercing: 36
+        Heat: 13
 
 - type: entity
   parent: BaseBulletAP
@@ -41,7 +41,7 @@
   - type: Projectile
     damage:
       types:
-        Piercing: 26 # 20% decrease
+        Piercing: 36 # 20% decrease
     ignoreResistances: true
 
 - type: entity
@@ -53,5 +53,5 @@
   - type: Projectile
     damage:
       types:
-        Radiation: 15
-        Piercing: 20
+        Radiation: 20
+        Piercing: 28

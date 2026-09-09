@@ -1,8 +1,12 @@
-// SPDX-License-Identifier: AGPL-3.0-or-later
-
 using Content.Medical.Common.Body;
 using Content.Shared.Body;
+using Content.Shared.Chemistry.Components;
+using Content.Shared.FixedPoint;
+using Content.Shared.Fluids;
 using Content.Shared.Gibbing;
+using Content.Shared.Throwing;
+using Robust.Shared.Audio;
+using Robust.Shared.Audio.Systems;
 using Robust.Shared.Containers;
 using Robust.Shared.Timing;
 
@@ -16,10 +20,16 @@ public sealed partial class BodyPartSystem : CommonBodyPartSystem
     [Dependency] private BodySystem _body = default!;
     [Dependency] private BodyCacheSystem _cache = default!;
     [Dependency] private IGameTiming _timing = default!;
+    [Dependency] private SharedAudioSystem _audio = default!;
     [Dependency] private SharedContainerSystem _container = default!;
+    [Dependency] private SharedPuddleSystem _puddle = default!;
+    [Dependency] private SharedTransformSystem _transform = default!;
+    [Dependency] private ThrowingSystem _throwing = default!;
     [Dependency] private EntityQuery<BodyPartComponent> _query = default!;
     [Dependency] private EntityQuery<ChildOrganComponent> _childQuery = default!;
     [Dependency] private EntityQuery<OrganComponent> _organQuery = default!;
+
+    private static readonly SoundSpecifier GibSound = new SoundCollectionSpecifier("gib", AudioParams.Default.WithVariation(0.025f));
 
     public override void Initialize()
     {
@@ -85,13 +95,48 @@ public sealed partial class BodyPartSystem : CommonBodyPartSystem
 
     private void OnBeingGibbed(Entity<BodyPartComponent> ent, ref BeingGibbedEvent args)
     {
-        if (GetSeveredOrgansContainer(ent.AsNullable()) is not {} container)
+        var organsToSpill = new List<EntityUid>();
+
+        if (GetSeveredOrgansContainer(ent.AsNullable()) is {} container)
+        {
+            foreach (var organ in container.ContainedEntities)
+            {
+                organsToSpill.Add(organ);
+            }
+        }
+
+        foreach (var (category, organ) in ent.Comp.Children)
+        {
+            if (Deleted(organ) || organsToSpill.Contains(organ))
+                continue;
+
+            if (_organQuery.TryComp(organ, out var organComp) && organComp.Body is { } body)
+            {
+                _body.RemoveOrgan(body, organ);
+            }
+            organsToSpill.Add(organ);
+        }
+
+        if (organsToSpill.Count == 0)
             return;
 
-        // gibbing a severed head spills its brains out >:D
-        foreach (var organ in container.ContainedEntities)
+        _audio.PlayPvs(GibSound, ent.Owner);
+
+        var bloodSolution = new Solution();
+        bloodSolution.AddReagent("Blood", FixedPoint2.New(15));
+        _puddle.TrySpillAt(ent.Owner, bloodSolution, out _, sound: false);
+
+        var rand = new System.Random();
+        foreach (var organ in organsToSpill)
         {
             args.Giblets.Add(organ);
+
+            _transform.DropNextTo(organ, ent.Owner);
+
+            var angle = rand.NextSingle() * MathF.PI * 2f;
+            var dir = new System.Numerics.Vector2(MathF.Cos(angle), MathF.Sin(angle));
+            var dist = 1.0f + rand.NextSingle() * 1.5f;
+            _throwing.TryThrow(organ, dir * dist, 1.5f, pushbackRatio: 0.2f);
         }
     }
 

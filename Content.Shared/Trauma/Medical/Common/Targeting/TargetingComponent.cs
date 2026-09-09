@@ -116,6 +116,20 @@ public sealed partial class TargetingComponent : Component
                 { TargetBodyPart.LeftLeg, 0.2f },
             }
         },
+        {
+            TargetBodyPart.Tail, new Dictionary<TargetBodyPart, float>
+            {
+                { TargetBodyPart.Tail, 0.5f },
+                { TargetBodyPart.Groin, 0.5f },
+            }
+        },
+        {
+            TargetBodyPart.Wings, new Dictionary<TargetBodyPart, float>
+            {
+                { TargetBodyPart.Wings, 0.5f },
+                { TargetBodyPart.Chest, 0.5f },
+            }
+        },
     };
 
     /// <summary>

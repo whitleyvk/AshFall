@@ -303,7 +303,7 @@ public sealed partial class ParticleSystem : EntitySystem
                 TickEmitter(emitter, frameTime, eyeAngle, ref remainingBudget);
             }
 
-            if (emitter.Exhausted && !emitter.HasLiveParticles())
+            if (emitter.Exhausted && (!inView || !emitter.HasLiveParticles()))
                 _emitters.RemoveAt(i);
         }
 

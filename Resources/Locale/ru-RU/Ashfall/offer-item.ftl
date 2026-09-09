@@ -1,4 +1,28 @@
-ashfall-verb-offer-item = Передать {THE($item)}
-ashfall-offer-item-success-user = Вы передали {THE($item)} {THE($target)}.
-ashfall-offer-item-success-target = {THE($user)} передал вам {THE($item)}.
-ashfall-offer-item-no-free-hands = У {THE($target)} заняты все руки!
+offer-item-empty-hand = У вас в руках ничего нет!
+
+offer-item-full-hand = Ваши руки заняты!
+
+offer-item-try-give = Вы предлагаете {$item} {$target}
+offer-item-try-give-target = {CAPITALIZE($user)} предлагает вам {$item}
+
+offer-item-give = Вы отдали {$item} {$target}
+offer-item-give-other = {CAPITALIZE($user)} {GENDER($user) ->
+                        [male] отдал
+                        [female] отдала
+                        [epicene] отдали
+                        *[neuter] отдало
+                        } {$item} {$target}
+offer-item-give-target = {CAPITALIZE($user)} {GENDER($user) ->
+                        [male] отдал
+                        [female] отдала
+                        [epicene] отдали
+                        *[neuter] отдало
+                        } вам {$item}
+
+offer-item-no-give = Вы перестаёте предлагать {$item} {$target}
+offer-item-no-give-target = {CAPITALIZE($user)} больше не предлагает вам {$item}
+
+alerts-offer-name = Взять предмет
+alerts-offer-desc = Нажмите, чтобы забрать предлагаемый предмет.
+
+ui-options-function-offer-item = Предложить предмет

@@ -43,6 +43,12 @@ public sealed partial class VisualOrganComponent : Component
     /// </summary>
     [DataField, AutoNetworkedField]
     public ProtoId<DisplacementDataPrototype>? Displacement;
+
+    /// <summary>
+    /// Visual offset applied to the sprite when this organ is dropped/detached.
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public System.Numerics.Vector2 DroppedOffset = System.Numerics.Vector2.Zero;
 }
 
 /// <summary>

@@ -30,6 +30,8 @@ public sealed partial class TargetingControl : UIWidget
             { TargetBodyPart.LeftFoot, LeftFootButton },
             { TargetBodyPart.RightLeg, RightLegButton },
             { TargetBodyPart.RightFoot, RightFootButton },
+            { TargetBodyPart.Tail, TailButton },
+            { TargetBodyPart.Wings, WingsButton },
         };
 
         foreach (var bodyPartButton in _bodyPartControls)

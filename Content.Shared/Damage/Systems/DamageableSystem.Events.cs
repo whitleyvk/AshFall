@@ -226,7 +226,7 @@ public sealed partial class DamageableSystem
 
     private void OnDamageDealt(Entity<InjurableComponent> ent, ref DamageDealtEvent args)
     {
-        if (_bodyQuery.HasComp(ent)) // Trauma - don't change damagedict for entities with body, damage should be applied to body parts
+        if (_bodyQuery.TryComp(ent, out var body) && _body.HasExternalOrgans((ent.Owner, body))) // Trauma - don't change damagedict for entities with body, damage should be applied to body parts
             return;
 
         if (!_damageableQuery.TryGetComponent(ent, out var damageable))
@@ -284,7 +284,14 @@ public sealed class DamageModifyEvent(EntityUid target, DamageSpecifier damage, 
     /// <remarks>
     ///     Whenever locational damage is a thing, this should just check only that bit of armor.
     /// </remarks>
-    public SlotFlags TargetSlots => ~SlotFlags.POCKET;
+    public SlotFlags TargetSlots => TargetPart switch
+    {
+        BodyPartType.Head => SlotFlags.HEAD | SlotFlags.MASK | SlotFlags.EYES,
+        BodyPartType.Torso => SlotFlags.OUTERCLOTHING | SlotFlags.INNERCLOTHING,
+        BodyPartType.Arm or BodyPartType.Hand => SlotFlags.GLOVES | SlotFlags.OUTERCLOTHING | SlotFlags.INNERCLOTHING,
+        BodyPartType.Leg or BodyPartType.Foot => SlotFlags.FEET | SlotFlags.OUTERCLOTHING | SlotFlags.INNERCLOTHING,
+        _ => ~SlotFlags.POCKET
+    };
 
     // <Goob>
     public readonly EntityUid Target = target;

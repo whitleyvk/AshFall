@@ -2,6 +2,8 @@
 
 using Content.Shared.Atmos.Rotting;
 using Content.Shared.Body;
+using Content.Shared.Mobs.Components;
+using Content.Shared.Mobs.Systems;
 
 namespace Content.Medical.Shared.Body;
 
@@ -10,6 +12,8 @@ namespace Content.Medical.Shared.Body;
 /// </summary>
 public sealed partial class OrganRottingSystem : EntitySystem
 {
+    [Dependency] private MobStateSystem _mobState = default!;
+
     public override void Initialize()
     {
         base.Initialize();
@@ -19,6 +23,11 @@ public sealed partial class OrganRottingSystem : EntitySystem
 
     private void OnIsRotting(Entity<OrganComponent> ent, ref IsRottingEvent args)
     {
-        args.Handled |= ent.Comp.Body == null;
+        if (ent.Comp.Body is { } body &&
+            TryComp<MobStateComponent>(body, out var mobState) &&
+            !_mobState.IsDead(body, mobState))
+        {
+            args.Handled = true;
+        }
     }
 }

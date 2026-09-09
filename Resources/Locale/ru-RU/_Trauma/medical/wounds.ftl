@@ -48,3 +48,6 @@ ent-Fracture = перелом
 ent-Puncture = колотая рана
 ent-Laceration = рваная рана
 ent-Burns = ожог
+
+dismemberment-notification-with-user = {CAPITALIZE($user)} отсекает {THE($part)} у {THE($target)}!
+dismemberment-notification-passive = {CAPITALIZE(THE($part))} у {THE($target)} отсечена!

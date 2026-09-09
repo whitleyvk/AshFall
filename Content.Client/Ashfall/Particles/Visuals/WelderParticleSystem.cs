@@ -65,13 +65,22 @@ public sealed partial class WelderParticleSystem : EntitySystem
             }
         }
 
+        List<EntityUid>? toRemove = null;
         foreach (var (target, state) in _active)
         {
             if (!_currentlyWelding.Contains(target) && state.SparksEmitter != null)
             {
                 state.SparksEmitter.Exhausted = true;
                 state.SparksEmitter = null;
+                toRemove ??= new();
+                toRemove.Add(target);
             }
+        }
+
+        if (toRemove != null)
+        {
+            foreach (var target in toRemove)
+                _active.Remove(target);
         }
     }
 

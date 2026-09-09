@@ -79,13 +79,6 @@
     damageModifierSet: Skeleton
   - type: Injurable
     damageContainer: BiologicalMetaphysical
-  - type: DamageVisuals
-    damageOverlayGroups:
-      Brute:
-        sprite: Mobs/Effects/brute_damage.rsi
-        color: "#555555AA"
-      Burn:
-        sprite: Mobs/Effects/burn_damage.rsi
   - type: MobThresholds
     thresholds:
       0: Alive
@@ -196,6 +189,9 @@
   id: OrganSkeletonPerson
   abstract: true
   suffix: SkeletonPerson
+  components:
+  - type: Injurable
+    damageContainer: BiologicalMetaphysical
 
 - type: entity
   parent: OrganSkeletonPerson
@@ -211,46 +207,57 @@
     markingData:
       group: Skeleton
   - type: GibbableOrgan
+  - type: Injurable
+    damageContainer: BiologicalMetaphysical
 
 - type: entity
-  parent: [ OrganBaseTorsoSexed, OrganBaseTorso, OrganSkeletonPersonExternal ]
+  parent: [ OrganSkeletonPersonExternal, OrganBaseTorsoSexed, OrganBaseTorso ]
   id: OrganSkeletonPersonTorso
+  components:
+  - type: BodyPart
+    partType: Torso
+    slots:
+    - Head
+    - ArmLeft
+    - ArmRight
+    - LegLeft
+    - LegRight
 
 - type: entity
-  parent: [ OrganBaseHead, OrganSkeletonPersonExternal ]
+  parent: [ OrganSkeletonPersonExternal, OrganBaseHead ]
   id: OrganSkeletonPersonHead
   components:
   - type: Sprite
     state: skull_icon
 
 - type: entity
-  parent: [ OrganBaseArmLeft, OrganSkeletonPersonExternal ]
+  parent: [ OrganSkeletonPersonExternal, OrganBaseArmLeft ]
   id: OrganSkeletonPersonArmLeft
 
 - type: entity
-  parent: [ OrganBaseArmRight, OrganSkeletonPersonExternal ]
+  parent: [ OrganSkeletonPersonExternal, OrganBaseArmRight ]
   id: OrganSkeletonPersonArmRight
 
 - type: entity
-  parent: [ OrganBaseHandLeft, OrganSkeletonPersonExternal ]
+  parent: [ OrganSkeletonPersonExternal, OrganBaseHandLeft ]
   id: OrganSkeletonPersonHandLeft
 
 - type: entity
-  parent: [ OrganBaseHandRight, OrganSkeletonPersonExternal ]
+  parent: [ OrganSkeletonPersonExternal, OrganBaseHandRight ]
   id: OrganSkeletonPersonHandRight
 
 - type: entity
-  parent: [ OrganBaseLegLeft, OrganSkeletonPersonExternal ]
+  parent: [ OrganSkeletonPersonExternal, OrganBaseLegLeft ]
   id: OrganSkeletonPersonLegLeft
 
 - type: entity
-  parent: [ OrganBaseLegRight, OrganSkeletonPersonExternal ]
+  parent: [ OrganSkeletonPersonExternal, OrganBaseLegRight ]
   id: OrganSkeletonPersonLegRight
 
 - type: entity
-  parent: [ OrganBaseFootLeft, OrganSkeletonPersonExternal ]
+  parent: [ OrganSkeletonPersonExternal, OrganBaseFootLeft ]
   id: OrganSkeletonPersonFootLeft
 
 - type: entity
-  parent: [ OrganBaseFootRight, OrganSkeletonPersonExternal ]
+  parent: [ OrganSkeletonPersonExternal, OrganBaseFootRight ]
   id: OrganSkeletonPersonFootRight

@@ -1,5 +1,6 @@
 using System.Linq;
 using Content.Shared.GameTicking;
+using Content.Shared.Ashfall;
 using Content.Server.Station.Components;
 using Robust.Shared.Network;
 using Robust.Shared.Player;
@@ -150,14 +151,9 @@ namespace Content.Server.GameTicking
 
         public void ToggleReadyAll(bool ready)
         {
+            var status = ready ? PlayerGameStatus.ReadyToPlay : PlayerGameStatus.NotReadyToPlay;
             foreach (var playerUserId in _playerGameStatuses.Keys)
             {
-                var hasSelection = !ready ||
-                                   !EntityManager.TrySystem<Ashfall.CharacterGen.AshfallCharacterPoolSystem>(out var ashfallPool) ||
-                                   ashfallPool.HasCompleteSelection(playerUserId);
-                var status = ready && hasSelection
-                    ? PlayerGameStatus.ReadyToPlay
-                    : PlayerGameStatus.NotReadyToPlay;
                 _playerGameStatuses[playerUserId] = status;
                 if (!_playerManager.TryGetSessionById(playerUserId, out var playerSession))
                     continue;
@@ -179,6 +175,7 @@ namespace Content.Server.GameTicking
             }
 
             if (ready &&
+                _cfg.GetCVar(AshfallCCVars.CharacterPoolEnabled) &&
                 EntityManager.TrySystem<Ashfall.CharacterGen.AshfallCharacterPoolSystem>(out var ashfallPool) &&
                 !ashfallPool.HasCompleteSelection(player.UserId))
             {
