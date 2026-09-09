@@ -322,3 +322,6 @@ error.glsl
 
 # Local ASHFALL staging area. Nothing in this directory belongs in commits.
 /!Test-Do-Not-Push/
+
+# Local Ashfall tools
+/Tools/Ashfall/AttachmentEditor/

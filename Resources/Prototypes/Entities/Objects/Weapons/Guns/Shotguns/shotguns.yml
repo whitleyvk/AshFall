@@ -21,13 +21,16 @@
     - suitStorage
   - type: WeaponClass
     class: Shotgun
+  - type: MeleeWeapon
+    soundHit:
+      collection: MetalThud
+    damage:
+      types:
+        Blunt: 12
+  - type: AltFireMelee
+    attackType: Light
   - type: AttachableGun
     slots:
-    - name: gun-slot-muzzle
-      containerId: attachment_muzzle
-      whitelist:
-        tags:
-        - GunAttachmentMuzzle
     - name: gun-slot-underbarrel
       containerId: attachment_underbarrel
       whitelist:

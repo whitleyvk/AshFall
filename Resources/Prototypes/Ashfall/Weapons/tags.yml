@@ -2,6 +2,12 @@
   id: GunAttachmentMuzzle
 
 - type: Tag
+  id: GunAttachmentMuzzlePistol
+
+- type: Tag
+  id: GunAttachmentMuzzleRifle
+
+- type: Tag
   id: GunAttachmentUnderbarrel
 
 - type: Tag

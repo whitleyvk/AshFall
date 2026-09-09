@@ -135,66 +135,66 @@ ent-LootSpawnerAmmoWorn = special ammunition loot spawner
 ent-LootSpawnerAttachments = gun attachment loot spawner
 
 # Worn weapons
-ent-WeaponPistolMk58Worn = worn MK 58
+ent-WeaponPistolMk58Worn = MK 58
     .desc = { ent-WeaponPistolMk58.desc }
     .suffix = Worn
 
-ent-WeaponPistolViperWorn = worn Viper
+ent-WeaponPistolViperWorn = Viper
     .desc = { ent-WeaponPistolViper.desc }
     .suffix = Worn
 
-ent-WeaponPistolCobraWorn = worn Cobra
+ent-WeaponPistolCobraWorn = Cobra
     .desc = { ent-WeaponPistolCobra.desc }
     .suffix = Worn
 
-ent-WeaponRevolverDeckardWorn = worn Deckard
+ent-WeaponRevolverDeckardWorn = Deckard
     .desc = { ent-WeaponRevolverDeckard.desc }
     .suffix = Worn
 
-ent-WeaponSubMachineGunWt550Worn = worn WT550
+ent-WeaponSubMachineGunWt550Worn = WT550
     .desc = { ent-WeaponSubMachineGunWt550.desc }
     .suffix = Worn
 
-ent-WeaponSubMachineGunC20rWorn = worn C-20r
+ent-WeaponSubMachineGunC20rWorn = C-20r
     .desc = { ent-WeaponSubMachineGunC20r.desc }
     .suffix = Worn
 
-ent-WeaponSniperMosinWorn = worn Mosin-Nagant
+ent-WeaponSniperMosinWorn = Mosin-Nagant
     .desc = { ent-WeaponSniperMosin.desc }
     .suffix = Worn
 
-ent-WeaponSniperHristovWorn = worn Hristov
+ent-WeaponSniperHristovWorn = Hristov
     .desc = { ent-WeaponSniperHristov.desc }
     .suffix = Worn
 
-ent-WeaponRifleLecterWorn = worn Lecter
+ent-WeaponRifleLecterWorn = Lecter
     .desc = { ent-WeaponRifleLecter.desc }
     .suffix = Worn
 
-ent-WeaponRifleEstocWorn = worn Estoc
+ent-WeaponRifleEstocWorn = Estoc
     .desc = { ent-WeaponRifleEstoc.desc }
     .suffix = Worn
 
-ent-WeaponShotgunKammererWorn = worn Kammerer
+ent-WeaponShotgunKammererWorn = Kammerer
     .desc = { ent-WeaponShotgunKammerer.desc }
     .suffix = Worn
 
-ent-WeaponShotgunBulldogWorn = worn Bulldog
+ent-WeaponShotgunBulldogWorn = Bulldog
     .desc = { ent-WeaponShotgunBulldog.desc }
     .suffix = Worn
 
-ent-WeaponShotgunEnforcerWorn = worn Enforcer
+ent-WeaponShotgunEnforcerWorn = Enforcer
     .desc = { ent-WeaponShotgunEnforcer.desc }
     .suffix = Worn
 
-ent-WeaponShotgunHushpupWorn = worn Hushpup
+ent-WeaponShotgunHushpupWorn = Hushpup
     .desc = { ent-WeaponShotgunHushpup.desc }
     .suffix = Worn
 
-ent-WeaponLightMachineGunL6Worn = worn L6 SAW
+ent-WeaponLightMachineGunL6Worn = L6 SAW
     .desc = { ent-WeaponLightMachineGunL6.desc }
     .suffix = Worn
 
-ent-WeaponEnergyCrossbowWorn = worn mini energy crossbow
+ent-WeaponEnergyCrossbowWorn = mini energy crossbow
     .desc = { ent-WeaponEnergyCrossbow.desc }
     .suffix = Worn

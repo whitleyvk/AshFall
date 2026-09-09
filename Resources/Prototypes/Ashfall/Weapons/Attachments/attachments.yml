@@ -25,6 +25,7 @@
   - type: Tag
     tags:
     - GunAttachmentMuzzle
+    - GunAttachmentMuzzlePistol
   - type: GunSoundAttachment
     sound:
       collection: Supressed_1_Gunshots
@@ -44,6 +45,7 @@
   - type: Tag
     tags:
     - GunAttachmentMuzzle
+    - GunAttachmentMuzzleRifle
   - type: GunSoundAttachment
     sound:
       collection: Supressed_2_Gunshots

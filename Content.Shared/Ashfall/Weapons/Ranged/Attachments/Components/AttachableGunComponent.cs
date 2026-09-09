@@ -1,3 +1,4 @@
+using System.Numerics;
 using Content.Shared.Whitelist;
 using Robust.Shared.GameStates;
 using Robust.Shared.Serialization;
@@ -15,6 +16,12 @@ public sealed partial class AttachableGunComponent : Component
     /// </summary>
     [DataField, AutoNetworkedField]
     public List<GunAttachmentSlot> Slots = new();
+
+    /// <summary>
+    /// Per-gun visual overrides, keyed by the slot container ID.
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public Dictionary<string, GunAttachmentVisual> Visuals = new();
 }
 
 [Serializable, NetSerializable]
@@ -38,4 +45,46 @@ public partial record struct GunAttachmentSlot
     /// </summary>
     [DataField(required: true)]
     public EntityWhitelist Whitelist = new();
+}
+
+[Serializable, NetSerializable]
+[DataDefinition]
+public partial record struct GunAttachmentVisual
+{
+    /// <summary>
+    /// Offset applied to every attachment mounted in this slot on this gun.
+    /// </summary>
+    [DataField]
+    public Vector2 Offset = Vector2.Zero;
+
+    /// <summary>
+    /// Rotation applied to every attachment mounted in this slot on this gun.
+    /// </summary>
+    [DataField]
+    public Angle Rotation = Angle.Zero;
+
+    /// <summary>
+    /// Sprite layer map key used as the insertion anchor. "top" and "bottom" are special values.
+    /// </summary>
+    [DataField]
+    public string LayerAnchor = "top";
+
+    /// <summary>
+    /// Whether the attachment is inserted before or after the anchor layer.
+    /// </summary>
+    [DataField]
+    public GunAttachmentLayerPosition LayerPosition = GunAttachmentLayerPosition.After;
+
+    /// <summary>
+    /// Ordering for attachments which share the same anchor and position.
+    /// </summary>
+    [DataField]
+    public int DrawOrder;
+}
+
+[Serializable, NetSerializable]
+public enum GunAttachmentLayerPosition : byte
+{
+    Before,
+    After,
 }

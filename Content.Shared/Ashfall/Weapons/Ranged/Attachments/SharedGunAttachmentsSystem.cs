@@ -170,11 +170,20 @@ public sealed partial class GunAttachmentsSystem : EntitySystem
         if (_timing.ApplyingState)
             return;
 
-        EntityManager.AddComponents(args.Gun.Owner, component.Components);
+        EntityManager.AddComponents(args.Gun.Owner, component.Components, removeExisting: false);
     }
 
     private void OnCompAttachmentUnequip(EntityUid uid, GunComponentAttachmentComponent component, EntGotRemovedFromContainerMessage args)
     {
+        if (TerminatingOrDeleted(args.Container.Owner))
+            return;
+
+        if (!TryComp<AttachableGunComponent>(args.Container.Owner, out var gun))
+            return;
+
+        if (!gun.Slots.Any(s => s.ContainerId == args.Container.ID))
+            return;
+
         EntityManager.RemoveComponents(args.Container.Owner, component.Components);
     }
 

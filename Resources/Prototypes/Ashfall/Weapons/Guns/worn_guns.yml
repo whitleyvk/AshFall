@@ -15,23 +15,6 @@
   - type: BackfireDefect
     prob: 0.15
     backfireChance: 0.03
-  - type: AttachableGun
-    slots:
-    - name: gun-slot-muzzle
-      containerId: attachment_muzzle
-      whitelist:
-        tags:
-        - GunAttachmentMuzzle
-    - name: gun-slot-underbarrel
-      containerId: attachment_underbarrel
-      whitelist:
-        tags:
-        - GunAttachmentUnderbarrel
-    - name: gun-slot-optic
-      containerId: attachment_optic
-      whitelist:
-        tags:
-        - GunAttachmentOptic
 
 # Pistols
 - type: entity

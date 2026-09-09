@@ -177,66 +177,66 @@ ent-LootSpawnerAmmoWorn = спавнер специальных боеприпа
 ent-LootSpawnerAttachments = спавнер оружейных модификаций
 
 # Изношенное оружие
-ent-WeaponPistolMk58Worn = изношенный МК 58
+ent-WeaponPistolMk58Worn = МК 58
     .desc = { ent-WeaponPistolMk58.desc }
     .suffix = Изношенный
 
-ent-WeaponPistolViperWorn = изношенный Вайпер
+ent-WeaponPistolViperWorn = Вайпер
     .desc = { ent-WeaponPistolViper.desc }
     .suffix = Изношенный
 
-ent-WeaponPistolCobraWorn = изношенная Кобра
+ent-WeaponPistolCobraWorn = Кобра
     .desc = { ent-WeaponPistolCobra.desc }
     .suffix = Изношенный
 
-ent-WeaponRevolverDeckardWorn = изношенный Деккард
+ent-WeaponRevolverDeckardWorn = Деккард
     .desc = { ent-WeaponRevolverDeckard.desc }
     .suffix = Изношенный
 
-ent-WeaponSubMachineGunWt550Worn = изношенный WT550
+ent-WeaponSubMachineGunWt550Worn = WT550
     .desc = { ent-WeaponSubMachineGunWt550.desc }
     .suffix = Изношенный
 
-ent-WeaponSubMachineGunC20rWorn = изношенный C-20r
+ent-WeaponSubMachineGunC20rWorn = C-20r
     .desc = { ent-WeaponSubMachineGunC20r.desc }
     .suffix = Изношенный
 
-ent-WeaponSniperMosinWorn = изношенная винтовка Мосина
+ent-WeaponSniperMosinWorn = винтовка Мосина
     .desc = { ent-WeaponSniperMosin.desc }
     .suffix = Изношенный
 
-ent-WeaponSniperHristovWorn = изношенный Христов
+ent-WeaponSniperHristovWorn = Христов
     .desc = { ent-WeaponSniperHristov.desc }
     .suffix = Изношенный
 
-ent-WeaponRifleLecterWorn = изношенный Лектер
+ent-WeaponRifleLecterWorn = Лектер
     .desc = { ent-WeaponRifleLecter.desc }
     .suffix = Изношенный
 
-ent-WeaponRifleEstocWorn = изношенный Эсток
+ent-WeaponRifleEstocWorn = Эсток
     .desc = { ent-WeaponRifleEstoc.desc }
     .suffix = Изношенный
 
-ent-WeaponShotgunKammererWorn = изношенный Каммерер
+ent-WeaponShotgunKammererWorn = Каммерер
     .desc = { ent-WeaponShotgunKammerer.desc }
     .suffix = Изношенный
 
-ent-WeaponShotgunBulldogWorn = изношенный Бульдог
+ent-WeaponShotgunBulldogWorn = Бульдог
     .desc = { ent-WeaponShotgunBulldog.desc }
     .suffix = Изношенный
 
-ent-WeaponShotgunEnforcerWorn = изношенный Инфорсер
+ent-WeaponShotgunEnforcerWorn = Инфорсер
     .desc = { ent-WeaponShotgunEnforcer.desc }
     .suffix = Изношенный
 
-ent-WeaponShotgunHushpupWorn = изношенный Хашпап
+ent-WeaponShotgunHushpupWorn = Хашпап
     .desc = { ent-WeaponShotgunHushpup.desc }
     .suffix = Изношенный
 
-ent-WeaponLightMachineGunL6Worn = изношенный L6 SAW
+ent-WeaponLightMachineGunL6Worn = L6 SAW
     .desc = { ent-WeaponLightMachineGunL6.desc }
     .suffix = Изношенный
 
-ent-WeaponEnergyCrossbowWorn = изношенный мини-арбалет
+ent-WeaponEnergyCrossbowWorn = мини-арбалет
     .desc = { ent-WeaponEnergyCrossbow.desc }
     .suffix = Изношенный

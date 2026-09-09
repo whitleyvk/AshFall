@@ -24,6 +24,12 @@ public sealed partial class GunAttachmentComponent : Component
     public Vector2 AttachedOffset;
 
     /// <summary>
+    /// Rotation applied to the sprite while it is displayed on a gun.
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public Angle AttachedRotation;
+
+    /// <summary>
     /// Whether this attachment has an unshaded layer (e.g. laser beam/dot) with state "{state}_unshaded".
     /// </summary>
     [DataField, AutoNetworkedField]
