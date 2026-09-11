@@ -1,9 +1,11 @@
 # ASHFALL project licensing
 
-Unless a file or asset metadata says otherwise, original ASHFALL-authored source code and documentation are
-licensed under the GNU Affero General Public License, version 3 or (at your option) any later version
-([SPDX: AGPL-3.0-or-later](https://spdx.org/licenses/AGPL-3.0-or-later.html)).
+Unless explicitly stated otherwise, all source code and documentation authored for ASHFALL, including ASHFALL-specific modifications to upstream code, is licensed under the GNU Affero General Public License, version 3 or (at your option) any later version (`AGPL-3.0-or-later`).
 
-Code inherited from Space Station 14 remains available under its MIT license and copyright notice in `LICENSE.TXT`.
-RobustToolbox is a separately pinned submodule with its own license. Assets retain the license and attribution declared
-in their metadata. This declaration does not replace or narrow those existing grants.
+Code originating from Space Station 14 remains under its original MIT license and copyright notices, as provided in `LICENSE.TXT`. The AGPL license covering ASHFALL contributions does not remove or restrict the license grants applicable to upstream code.
+
+RobustToolbox is maintained as a separate pinned submodule and remains subject to its own license.
+
+Assets are licensed independently from the source code. Their applicable licenses, authorship and attribution requirements are specified in their metadata. Where asset metadata declares a different license, that license takes precedence for that asset.
+
+Third-party code and assets retain their respective licenses and attribution requirements. See `UPSTREAM.md` and `DONORS.yml` for additional provenance information.
