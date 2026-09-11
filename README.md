@@ -1,4 +1,6 @@
-<img width="1920" height="1080" alt="AshFall" src="https://github.com/user-attachments/assets/67bb3ebc-364b-4d36-8939-e8fbc8df2868" />
+<p align="center">
+  <img width="1536" height="384" alt="AshFallLogo" src="https://github.com/user-attachments/assets/4ed25746-1ff0-4449-ad20-a23680c597e3" />
+</p>
 
 # ASHFALL
 
