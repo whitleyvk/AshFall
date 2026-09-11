@@ -2,8 +2,6 @@
   <img width="1536" height="384" alt="AshFallLogo" src="https://github.com/user-attachments/assets/4ed25746-1ff0-4449-ad20-a23680c597e3" />
 </p>
 
-# ASHFALL
-
 **ASHFALL** - русскоязычный High RP сервер на базе [Space Station 14](https://github.com/space-wizards/space-station-14).
 
 2291 год. После банкротства корпорации **Ashen Industrial** станция осталась без снабжения и связи с внешним миром. Забытый экипаж годами находился в криосне, пока аварийный сбой автоматики не вызвал экстренное пробуждение.
