@@ -109,7 +109,8 @@ public sealed class AshfallCareerCoherenceTests : GameTest
     [RunOnSide(Side.Server)]
     public void TramDriverIsNeverGeneratedTest()
     {
-        Assert.That(_protoMan.HasIndex<AshfallJobCareerPrototype>("TramDriver"), Is.False,
+        ProtoId<AshfallJobCareerPrototype> tramDriver = "TramDriver";
+        Assert.That(_protoMan.HasIndex(tramDriver), Is.False,
             "tram driver was deliberately removed from generation");
     }
 

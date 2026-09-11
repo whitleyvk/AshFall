@@ -35,7 +35,7 @@ public sealed partial class AshfallExamineChatSystem : EntitySystem
         var rawMessage = FormattedMessage.RemoveMarkupPermissive(markup);
 
         _chatManager.ChatMessageToOne(
-            ChatChannel.Server,
+            ChatChannel.Examine,
             rawMessage,
             markup,
             default,

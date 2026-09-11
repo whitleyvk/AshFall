@@ -11,6 +11,12 @@ namespace Content.Shared.Trauma.Perception.Components;
 public sealed partial class LightDetectionComponent : Component
 {
     /// <summary>
+    /// Server-side stagger gate for periodic light recalculation, so entities do not all update in the same tick.
+    /// </summary>
+    [ViewVariables]
+    public TimeSpan NextUpdate;
+
+    /// <summary>
     /// Current calculated light level reaching this entity.
     /// </summary>
     [ViewVariables(VVAccess.ReadWrite), AutoNetworkedField]

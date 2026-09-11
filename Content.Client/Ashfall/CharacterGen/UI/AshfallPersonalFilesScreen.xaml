@@ -65,8 +65,10 @@
                                         <Label Name="DossierNumberLabel" StyleClasses="Status" FontColorOverride="#878C87" Align="Right" />
                                     </BoxContainer>
                                     <Label Name="DossierBioLabel" FontColorOverride="#878C87" />
-                                    <!-- Morphology + culture line is long: RichTextLabel wraps instead of clipping. -->
-                                    <RichTextLabel Name="DossierCultureLabel" />
+                                    <BoxContainer Orientation="Horizontal" HorizontalExpand="True" SeparationOverride="8">
+                                        <RichTextLabel Name="DossierCultureLabel" HorizontalExpand="True" VerticalAlignment="Center" />
+                                        <Button Name="CultureWikiButton" Text="{Loc 'ashfall-dossier-culture-wiki'}" StyleClasses="AshfallUtilityAction" MinWidth="90" MinHeight="28" VerticalAlignment="Center" />
+                                    </BoxContainer>
                                     <Label Name="DossierBirthplaceLabel" FontColorOverride="#878C87" />
                                     <BoxContainer Name="DossierSkills" Orientation="Vertical" HorizontalExpand="True" Margin="0 4 0 0" SeparationOverride="2" />
                                 </BoxContainer>

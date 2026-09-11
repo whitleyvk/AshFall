@@ -59,6 +59,22 @@ public sealed partial class DefectSystem : EntitySystem
             }
         }
 
+        // The condition tier only bounds how many defect slots the gun gets; every surviving
+        // optional defect still rolls its own spawn probability, so per-defect prob tuning
+        // (rare backfire vs common jam) stays meaningful within every tier.
+        var surviving = new List<DefectComponent>();
+        foreach (var comp in AllComps(ent.Owner))
+        {
+            if (comp is DefectComponent defect && defect.Prob < 1.0f)
+                surviving.Add(defect);
+        }
+
+        foreach (var defect in surviving)
+        {
+            if (!_random.Prob(defect.Prob))
+                RemComp(ent.Owner, defect.GetType());
+        }
+
         // Collect surviving defect labels
         var labels = new List<string>();
         foreach (var comp in AllComps(ent.Owner))

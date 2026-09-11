@@ -233,6 +233,15 @@ namespace Content.Client.UserInterface.Controls
             SpriteView.Visible = true;
             ProtoView.Visible = false;
             UpdateButtonTexture();
+            UpdateEntityVisualScale(ent);
+        }
+
+        private void UpdateEntityVisualScale(EntityUid? ent)
+        {
+            SpriteView.Scale = new Vector2(2, 2);
+            SpriteView.Margin = new Thickness(0, 0, 0, 0);
+            HoverSpriteView.Scale = new Vector2(2, 2);
+            HoverSpriteView.Margin = new Thickness(0, 0, 0, 0);
         }
 
         /// <summary>

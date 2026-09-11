@@ -32,11 +32,23 @@ public sealed partial class OrganActionsSystem : EntitySystem
         {
             _actionContainer.AddAction(ent, id, actions);
         }
+
+        if (_organQuery.TryComp(ent, out var organ) && organ.Body is { } body)
+        {
+            _actions.GrantContainedActions(body, (ent, actions));
+        }
     }
 
     private void OnEnabled(Entity<OrganActionsComponent> ent, ref OrganEnabledEvent args)
     {
         var container = EnsureComp<ActionsContainerComponent>(ent);
+        if (container.Container.ContainedEntities.Count == 0 && ent.Comp.Actions.Count > 0)
+        {
+            foreach (var id in ent.Comp.Actions)
+            {
+                _actionContainer.AddAction(ent, id, container);
+            }
+        }
         _actions.GrantContainedActions(args.Body, (ent, container));
     }
 

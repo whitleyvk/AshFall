@@ -77,14 +77,22 @@ public abstract partial class SharedPerceptionSystem : EntitySystem
 
     private void OnDarknessStealthApplied(Entity<DarknessStealthStatusEffectComponent> ent, ref StatusEffectAppliedEvent args)
     {
-        EnsureComp<LightDetectionComponent>(args.Target);
-        EnsureComp<StealthComponent>(args.Target);
+        // Record ownership: a second effect instance (or an unrelated stealth source) must
+        // keep working after this instance is removed.
+        ent.Comp.OwnsLightDetection = !HasComp<LightDetectionComponent>(args.Target);
+        ent.Comp.OwnsStealth = !HasComp<StealthComponent>(args.Target);
+        if (ent.Comp.OwnsLightDetection)
+            EnsureComp<LightDetectionComponent>(args.Target);
+        if (ent.Comp.OwnsStealth)
+            EnsureComp<StealthComponent>(args.Target);
     }
 
     private void OnDarknessStealthRemoved(Entity<DarknessStealthStatusEffectComponent> ent, ref StatusEffectRemovedEvent args)
     {
-        RemCompDeferred<LightDetectionComponent>(args.Target);
-        RemCompDeferred<StealthComponent>(args.Target);
+        if (ent.Comp.OwnsLightDetection)
+            RemCompDeferred<LightDetectionComponent>(args.Target);
+        if (ent.Comp.OwnsStealth)
+            RemCompDeferred<StealthComponent>(args.Target);
     }
 
     private void OnDamageChanged(Entity<PerceptionStealthComponent> ent, ref DamageChangedEvent args)

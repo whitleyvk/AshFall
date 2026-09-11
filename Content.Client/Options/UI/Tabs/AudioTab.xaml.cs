@@ -74,6 +74,8 @@ public sealed partial class AudioTab : Control
         Control.AddOptionCheckBox(CCVars.BwoinkSoundEnabled, BwoinkSoundCheckBox);
         Control.AddOptionCheckBox(CCVars.AudioHrtf, AudioHrtfCheckBox);
         Control.AddOptionCheckBox(CVars.AudioMuteUnfocused, MuteUnfocusedCheckBox);
+        Control.AddOptionCheckBox(Content.Trauma.Common.CCVar.TraumaCVars.SubtleReverb, SubtleReverbCheckBox);
+        Control.AddOptionCheckBox(Content.Trauma.Common.CCVar.TraumaCVars.AudioMufflePathfinding, AudioMuffleCheckBox);
 
         Control.Initialize();
     }

@@ -1,6 +1,8 @@
+using System.Linq;
 using Content.Medical.Common.Body;
 using Content.Shared.Body;
 using Content.Shared.Chemistry.Components;
+using Content.Shared.Chemistry.Reagent;
 using Content.Shared.FixedPoint;
 using Content.Shared.Fluids;
 using Content.Shared.Gibbing;
@@ -8,6 +10,7 @@ using Content.Shared.Throwing;
 using Robust.Shared.Audio;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Containers;
+using Robust.Shared.Prototypes;
 using Robust.Shared.Timing;
 
 namespace Content.Medical.Shared.Body;
@@ -30,6 +33,7 @@ public sealed partial class BodyPartSystem : CommonBodyPartSystem
     [Dependency] private EntityQuery<OrganComponent> _organQuery = default!;
 
     private static readonly SoundSpecifier GibSound = new SoundCollectionSpecifier("gib", AudioParams.Default.WithVariation(0.025f));
+    private static readonly ProtoId<ReagentPrototype> BloodReagent = "Blood";
 
     public override void Initialize()
     {
@@ -73,7 +77,7 @@ public sealed partial class BodyPartSystem : CommonBodyPartSystem
         if (TerminatingOrDeleted(ent))
         {
             // this part is being deleted so detach the children
-            foreach (var organ in ent.Comp.Children.Values)
+            foreach (var organ in ent.Comp.Children.Values.ToArray())
             {
                 _body.RemoveOrgan(body, organ);
             }
@@ -81,7 +85,7 @@ public sealed partial class BodyPartSystem : CommonBodyPartSystem
         }
 
         var container = EnsureSeveredOrgansContainer(ent);
-        foreach (var (category, organ) in ent.Comp.Children)
+        foreach (var (category, organ) in ent.Comp.Children.ToArray())
         {
             // slot has an organ so try to put it in the container
             if (!_container.Insert(organ, container))
@@ -105,7 +109,7 @@ public sealed partial class BodyPartSystem : CommonBodyPartSystem
             }
         }
 
-        foreach (var (category, organ) in ent.Comp.Children)
+        foreach (var (category, organ) in ent.Comp.Children.ToArray())
         {
             if (Deleted(organ) || organsToSpill.Contains(organ))
                 continue;
@@ -123,7 +127,7 @@ public sealed partial class BodyPartSystem : CommonBodyPartSystem
         _audio.PlayPvs(GibSound, ent.Owner);
 
         var bloodSolution = new Solution();
-        bloodSolution.AddReagent("Blood", FixedPoint2.New(15));
+        bloodSolution.AddReagent(BloodReagent, FixedPoint2.New(15));
         _puddle.TrySpillAt(ent.Owner, bloodSolution, out _, sound: false);
 
         var rand = new System.Random();

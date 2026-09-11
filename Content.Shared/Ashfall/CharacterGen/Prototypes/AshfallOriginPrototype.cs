@@ -20,7 +20,16 @@ public sealed partial class AshfallOriginPrototype : IPrototype
     public float Weight { get; private set; } = 1f;
 
     [DataField]
+    public HashSet<string> RequiredTags { get; private set; } = new();
+
+    [DataField]
+    public HashSet<string> ExcludedTags { get; private set; } = new();
+
+    [DataField]
     public HashSet<string> ProvidedTags { get; private set; } = new();
+
+    [DataField]
+    public List<AshfallTagWeightModifier> WeightModifiers { get; private set; } = new();
 
     /// <summary>
     ///     Birthplace datasets this origin biases towards (weight 2 in the birthplace pool).

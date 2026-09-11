@@ -74,23 +74,21 @@ public partial class WoundSystem
             .Select(x => x.Woundable)
             .ToList();
 
-        float remainingHealAmount = healAmount * sortedWoundables.Count();
-        bool anyHealed = false;
+        var remainingHealAmount = (FixedPoint2) healAmount;
+        var anyHealed = false;
 
         // Apply healing to each woundable in order
         foreach (var woundable in sortedWoundables)
         {
-            if (remainingHealAmount <= 0)
+            if (remainingHealAmount <= FixedPoint2.Zero)
                 break;
 
-            FixedPoint2 modifiedBleed;
-            bool didHeal = TryHealBleedingWounds(woundable, -remainingHealAmount, out modifiedBleed);
-            if (!didHeal)
-                continue;
-
-            anyHealed = true;
-            healed += -modifiedBleed - remainingHealAmount;
-            remainingHealAmount -= (float) modifiedBleed;
+            if (TryHealBleedingWounds(woundable, remainingHealAmount, out var modifiedBleed) && modifiedBleed > FixedPoint2.Zero)
+            {
+                anyHealed = true;
+                healed += (float) modifiedBleed;
+                remainingHealAmount -= modifiedBleed;
+            }
         }
 
         return anyHealed;
@@ -99,6 +97,9 @@ public partial class WoundSystem
     public bool TryHealBleedingWounds(Entity<WoundableComponent?> part, FixedPoint2 bleedStopAbility, out FixedPoint2 modifiedBleed)
     {
         modifiedBleed = FixedPoint2.Zero;
+        if (!_woundableQuery.Resolve(part, ref part.Comp) || bleedStopAbility <= FixedPoint2.Zero)
+            return false;
+
         foreach (var wound in GetWoundableWounds(part))
         {
             if (!_bleedQuery.TryComp(wound, out var bleeds) || !bleeds.IsBleeding)
@@ -108,20 +109,28 @@ public partial class WoundSystem
 
             if (bleedStopAbility <= bleeds.BleedingAmount)
             {
-                bleeds.BleedingAmountRaw += bleedStopAbility;
+                bleeds.BleedingAmountRaw = FixedPoint2.Max(FixedPoint2.Zero, bleeds.BleedingAmountRaw - bleedStopAbility);
                 modifiedBleed += bleedStopAbility;
+                bleedStopAbility = FixedPoint2.Zero;
+                if (bleeds.BleedingAmountRaw <= FixedPoint2.Zero)
+                {
+                    bleeds.IsBleeding = false;
+                    bleeds.Scaling = 0;
+                    DirtyFields(wound, bleeds, null, nameof(BleedInflicterComponent.IsBleeding), nameof(BleedInflicterComponent.Scaling));
+                }
                 break; // cant heal anymore
             }
 
-            bleedStopAbility -= bleeds.BleedingAmount;
-            modifiedBleed += bleeds.BleedingAmount;
+            var healedThisWound = (FixedPoint2) bleeds.BleedingAmount;
+            bleedStopAbility -= healedThisWound;
+            modifiedBleed += healedThisWound;
             bleeds.BleedingAmountRaw = 0;
             bleeds.IsBleeding = false;
             bleeds.Scaling = 0;
             DirtyFields(wound, bleeds, null, nameof(BleedInflicterComponent.IsBleeding), nameof(BleedInflicterComponent.Scaling));
         }
 
-        return modifiedBleed >= FixedPoint2.Zero;
+        return modifiedBleed > FixedPoint2.Zero;
     }
 
     public bool TryHealWounds(Entity<WoundableComponent?> part,
@@ -265,6 +274,8 @@ public partial class WoundSystem
             return false;
 
         var holdingWoundable = wound.Comp.HoldingWoundable;
+        if (!_woundableQuery.TryComp(holdingWoundable, out var woundableComp))
+            return false;
 
         var ev = new WoundHealAttemptOnWoundableEvent(wound);
         RaiseLocalEvent(holdingWoundable, ref ev);
@@ -272,7 +283,7 @@ public partial class WoundSystem
         if (ev.Cancelled)
             return false;
 
-        var ev1 = new WoundHealAttemptEvent((holdingWoundable, _woundableQuery.Comp(holdingWoundable)), ignoreBlockers);
+        var ev1 = new WoundHealAttemptEvent((holdingWoundable, woundableComp), ignoreBlockers);
         RaiseLocalEvent(wound, ref ev1);
 
         return !ev1.Cancelled;
@@ -280,12 +291,10 @@ public partial class WoundSystem
 
     /// <summary>
     /// Method to get all wounds of some entity
-    /// The list is reused between calls with GetWoundableWounds, do not store it
     /// </summary>
     public bool TryGetBodyWounds(EntityUid body, out List<Entity<WoundComponent>> wounds)
     {
-        wounds = _wounds;
-        wounds.Clear();
+        wounds = new List<Entity<WoundComponent>>();
         foreach (var part in _body.GetOrgans<WoundableComponent>(body))
         {
             AddWounds(part, wounds);
@@ -327,32 +336,46 @@ public partial class WoundSystem
         if (!TryGetBodyWoundedParts(body, out var woundables) || !TryGetBodyWounds(body, out var wounds))
             return false;
 
-        DamageSpecifier healingPerPart = new DamageSpecifier(healing);
-        healingPerPart.DamageDict.Clear();
-
         var woundCountByType = new Dictionary<string, int>();
         foreach (var w in wounds)
         {
-            var type = w.Comp.DamageType;
-            woundCountByType[type] = woundCountByType.GetValueOrDefault(type) + 1;
-        }
-
-        // TODO: this makes no sense really it should just have a finite healing amount or operate directly on each wound
-        foreach (var (healingType, amount) in healing.DamageDict)
-        {
-            var splitAmount = woundCountByType.GetValueOrDefault(healingType);
-
-            // If we don't have wounds with this damage type don't bother with it at all
-            if (splitAmount == 0)
-                continue;
-
-            healingPerPart.DamageDict.Add(healingType, amount / splitAmount);
+            if (CanHealWound(w, ignoreBlockers))
+            {
+                var type = w.Comp.DamageType;
+                woundCountByType[type] = woundCountByType.GetValueOrDefault(type) + 1;
+            }
         }
 
         var healed = false;
-        foreach (var woundable in woundables)
+        foreach (var w in wounds)
         {
-            healed |= TryHealWounds(woundable.AsNullable(), healingPerPart, out _, ignoreBlockers);
+            if (!CanHealWound(w, ignoreBlockers))
+                continue;
+
+            var type = w.Comp.DamageType;
+            if (!healing.DamageDict.TryGetValue(type, out var totalAmount))
+                continue;
+
+            var count = woundCountByType.GetValueOrDefault(type);
+            if (count == 0)
+                continue;
+
+            var healPerWound = totalAmount / count;
+            if (healPerWound <= FixedPoint2.Zero)
+                continue;
+
+            var changed = ChangeWoundSeverity(w, -healPerWound);
+            if (changed != FixedPoint2.Zero)
+                healed = true;
+        }
+
+        if (healed)
+        {
+            foreach (var woundable in woundables)
+            {
+                UpdateWoundableIntegrity(woundable.AsNullable());
+                CheckWoundableSeverityThresholds(woundable.AsNullable());
+            }
         }
 
         return healed;

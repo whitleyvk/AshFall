@@ -106,3 +106,97 @@
   id: AshfallOriginCoastalCity
   text: ashfall-lore-origin-coastalcity
   providedTags: [origin-urban, origin-logistics]
+
+- type: ashfallOrigin
+  id: AshfallOriginUnathiWasteland
+  text: ashfall-lore-origin-unathi-wasteland
+  requiredTags: [species-reptilian]
+  providedTags: [origin-frontier, origin-clan]
+  birthplaceDatasets: [AshfallUnathiBirthplaces]
+
+- type: ashfallOrigin
+  id: AshfallOriginUnathiForgeGuild
+  text: ashfall-lore-origin-unathi-forgeguild
+  requiredTags: [species-reptilian]
+  providedTags: [origin-industrial, origin-clan]
+  birthplaceDatasets: [AshfallUnathiBirthplaces]
+
+- type: ashfallOrigin
+  id: AshfallOriginLuamSilkHive
+  text: ashfall-lore-origin-luam-silkhive
+  requiredTags: [species-moth]
+  providedTags: [origin-agricultural, origin-science]
+  birthplaceDatasets: [AshfallLuamBirthplaces]
+
+- type: ashfallOrigin
+  id: AshfallOriginLuamNomadCaravan
+  text: ashfall-lore-origin-luam-nomadcaravan
+  requiredTags: [species-moth]
+  providedTags: [origin-nomad, origin-logistics, origin-ship]
+  birthplaceDatasets: [AshfallLuamBirthplaces]
+
+- type: ashfallOrigin
+  id: AshfallOriginArachnidCavern
+  text: ashfall-lore-origin-arachnid-cavern
+  requiredTags: [species-arachnid]
+  providedTags: [origin-mining, origin-industrial]
+  birthplaceDatasets: [AshfallArachnidBirthplaces]
+
+- type: ashfallOrigin
+  id: AshfallOriginArachnidWebNest
+  text: ashfall-lore-origin-arachnid-webnest
+  requiredTags: [species-arachnid]
+  providedTags: [origin-station, origin-logistics]
+  birthplaceDatasets: [AshfallArachnidBirthplaces]
+
+- type: ashfallOrigin
+  id: AshfallOriginVeiruHighlandPride
+  text: ashfall-lore-origin-veiru-highlandpride
+  requiredTags: [species-veiru]
+  providedTags: [origin-frontier, origin-clan, origin-security]
+  birthplaceDatasets: [AshfallVeiruBirthplaces]
+
+- type: ashfallOrigin
+  id: AshfallOriginVeiruDesertOutpost
+  text: ashfall-lore-origin-veiru-desertoutpost
+  requiredTags: [species-veiru]
+  providedTags: [origin-frontier, origin-logistics]
+  birthplaceDatasets: [AshfallVeiruBirthplaces]
+
+- type: ashfallOrigin
+  id: AshfallOriginPenalContract
+  text: ashfall-lore-origin-penalcontract
+  providedTags: [origin-industrial, origin-frontier]
+  excludedTags: [leadership]
+  birthplaceDatasets: [AshfallBirthplacesCommon]
+
+- type: ashfallOrigin
+  id: AshfallOriginSalvageBarge
+  text: ashfall-lore-origin-salvagebarge
+  providedTags: [origin-ship, origin-industrial]
+  birthplaceDatasets: [AshfallBirthplacesCommon]
+
+- type: ashfallOrigin
+  id: AshfallOriginDebtRefinery
+  text: ashfall-lore-origin-debtrefinery
+  providedTags: [origin-industrial, origin-mining]
+  excludedTags: [leadership]
+  birthplaceDatasets: [AshfallBirthplacesCommon]
+
+- type: ashfallOrigin
+  id: AshfallOriginUnderdeckSlums
+  text: ashfall-lore-origin-underdeckslums
+  providedTags: [origin-station, origin-urban]
+  birthplaceDatasets: [AshfallBirthplacesCommon]
+
+- type: ashfallOrigin
+  id: AshfallOriginAbandonedOutpost
+  text: ashfall-lore-origin-abandonedoutpost
+  providedTags: [origin-frontier, origin-agricultural]
+  birthplaceDatasets: [AshfallBirthplacesCommon]
+
+- type: ashfallOrigin
+  id: AshfallOriginDeepSpaceBuoy
+  text: ashfall-lore-origin-deepspacebuoy
+  providedTags: [origin-station, origin-nomad]
+  birthplaceDatasets: [AshfallBirthplacesCommon]

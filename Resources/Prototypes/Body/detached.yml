@@ -15,3 +15,4 @@
   - type: InputMover
   - type: Perishable
     rotAfter: 480
+  - type: SurgeryTarget

@@ -296,7 +296,8 @@ public sealed partial class AudioMuffleSystem
                     if (!invalidated.Contains(neighbor))
                         continue;
 
-                    if (Vector2.Distance(node.Indices, neighbor) > AudioRange)
+                    var origin = OldPlayerTile ?? first.Indices;
+                    if (Vector2.Distance(origin, neighbor) > AudioRange)
                         continue;
 
                     invalidated.Remove(neighbor);

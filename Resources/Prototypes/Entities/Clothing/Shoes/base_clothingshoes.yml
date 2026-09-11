@@ -44,6 +44,12 @@
   id: ClothingShoesMilitaryBase
   components:
   - type: Matchbox
+  - type: FootstepModifier
+    footstepSoundCollection:
+      collection: FootstepGear
+      params:
+        volume: -5
+        variation: 0.08
   - type: ItemSlots
     slots:
       item:

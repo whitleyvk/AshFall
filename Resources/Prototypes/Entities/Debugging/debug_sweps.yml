@@ -69,6 +69,11 @@
           tags:
             - CartridgeDebug
 
+  - type: AttachableGun
+    compatibility:
+      attachment_muzzle:
+        allowedAttachments: []
+        deniedAttachments: ["AttachmentSuppressorPistol"]
 - type: entity
   id: MagazinePistolDebug
   name: bang, ded mag

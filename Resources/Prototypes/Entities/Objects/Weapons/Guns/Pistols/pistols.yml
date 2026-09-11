@@ -133,6 +133,14 @@
   - type: StaticPrice
     price: 1000
 
+  - type: AttachableGun
+    visuals:
+      attachment_muzzle:
+        offset: 0.09375, 0.21875
+        rotation: 0
+        layerAnchor: top
+        layerPosition: After
+        drawOrder: 0
 - type: entity
   name: echis
   parent: [ BaseItem, BaseSyndicateContraband ]
@@ -217,6 +225,14 @@
   - type: StaticPrice
     price: 1500
 
+  - type: AttachableGun
+    visuals:
+      attachment_muzzle:
+        offset: 0.0625, 0.21875
+        rotation: 0
+        layerAnchor: top
+        layerPosition: After
+        drawOrder: 0
 - type: entity
   name: mk 58
   parent: [BaseWeaponPistol, BaseSecurityContraband]
@@ -243,6 +259,14 @@
   - type: StealTarget
     stealGroup: OfficerHandgun
 
+  - type: AttachableGun
+    visuals:
+      attachment_muzzle:
+        offset: 0.09375, 0.21875
+        rotation: 0
+        layerAnchor: top
+        layerPosition: After
+        drawOrder: 0
 - type: entity
   name: N1984
   parent: [BaseWeaponPistol, BaseSecurityContraband]
@@ -286,3 +310,11 @@
         whitelist:
           tags:
             - CartridgeMagnum
+  - type: AttachableGun
+    visuals:
+      attachment_muzzle:
+        offset: 0.15625, 0.21875
+        rotation: 0
+        layerAnchor: top
+        layerPosition: After
+        drawOrder: 0

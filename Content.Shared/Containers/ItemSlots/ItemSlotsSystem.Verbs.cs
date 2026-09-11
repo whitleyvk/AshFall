@@ -5,6 +5,14 @@ namespace Content.Shared.Containers.ItemSlots;
 
 public sealed partial class ItemSlotsSystem
 {
+    private string GetSlotVerbSubject(ItemSlot slot, string fallback)
+    {
+        if (string.IsNullOrEmpty(slot.Name))
+            return fallback;
+
+        return Loc.TryGetString(slot.Name, out var locName) ? locName : slot.Name;
+    }
+
     [SubscribeLocalEvent]
     private void AddAlternativeVerbs(Entity<ItemSlotsComponent> ent, ref GetVerbsEvent<AlternativeVerb> args)
     {
@@ -21,9 +29,7 @@ public sealed partial class ItemSlotsSystem
                 if (slot.InsertOnInteract || !CanInsert(ent, slot, usingEntity, user))
                     continue;
 
-                var verbSubject = slot.Name != string.Empty
-                    ? Loc.GetString(slot.Name)
-                    : Name(usingEntity);
+                var verbSubject = GetSlotVerbSubject(slot, Name(usingEntity));
 
                 AlternativeVerb verb = new()
                 {
@@ -69,9 +75,7 @@ public sealed partial class ItemSlotsSystem
             if (!_actionBlockerSystem.CanPickup(user, slot.Item!.Value))
                 continue;
 
-            var verbSubject = slot.Name != string.Empty
-                ? Loc.GetString(slot.Name)
-                : Comp<MetaDataComponent>(slot.Item.Value).EntityName;
+            var verbSubject = GetSlotVerbSubject(slot, Comp<MetaDataComponent>(slot.Item.Value).EntityName);
 
             AlternativeVerb verb = new()
             {
@@ -109,9 +113,7 @@ public sealed partial class ItemSlotsSystem
             if (!_actionBlockerSystem.CanPickup(user, slot.Item!.Value))
                 continue;
 
-            var verbSubject = slot.Name != string.Empty
-                ? Loc.GetString(slot.Name)
-                : Name(slot.Item!.Value);
+            var verbSubject = GetSlotVerbSubject(slot, Name(slot.Item!.Value));
 
             InteractionVerb takeVerb = new()
             {
@@ -137,9 +139,7 @@ public sealed partial class ItemSlotsSystem
             if (!slot.InsertOnInteract || !CanInsert(ent, slot, usingEntity, user))
                 continue;
 
-            var verbSubject = slot.Name != string.Empty
-                ? Loc.GetString(slot.Name)
-                : Name(usingEntity);
+            var verbSubject = GetSlotVerbSubject(slot, Name(usingEntity));
 
             InteractionVerb insertVerb = new()
             {

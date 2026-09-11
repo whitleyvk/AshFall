@@ -22,6 +22,12 @@ public sealed partial class AttachableGunComponent : Component
     /// </summary>
     [DataField, AutoNetworkedField]
     public Dictionary<string, GunAttachmentVisual> Visuals = new();
+
+    /// <summary>
+    /// Per-gun compatibility exceptions, keyed by the slot container ID.
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public Dictionary<string, GunAttachmentCompatibility> Compatibility = new();
 }
 
 [Serializable, NetSerializable]
@@ -45,6 +51,35 @@ public partial record struct GunAttachmentSlot
     /// </summary>
     [DataField(required: true)]
     public EntityWhitelist Whitelist = new();
+
+    /// <summary>
+    /// Exact attachment prototypes allowed even when the whitelist does not match.
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public List<EntProtoId> AllowedAttachments = new();
+
+    /// <summary>
+    /// Exact attachment prototypes denied even when the whitelist matches.
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public List<EntProtoId> DeniedAttachments = new();
+}
+
+[Serializable, NetSerializable]
+[DataDefinition]
+public partial record struct GunAttachmentCompatibility
+{
+    /// <summary>
+    /// Exact attachment prototypes allowed even when the slot whitelist does not match.
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public List<EntProtoId> AllowedAttachments = new();
+
+    /// <summary>
+    /// Exact attachment prototypes denied even when the slot whitelist matches.
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public List<EntProtoId> DeniedAttachments = new();
 }
 
 [Serializable, NetSerializable]

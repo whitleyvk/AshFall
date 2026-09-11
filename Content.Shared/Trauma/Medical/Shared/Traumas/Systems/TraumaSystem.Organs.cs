@@ -135,10 +135,14 @@ public partial class TraumaSystem
         var oldIntegrity = ent.Comp.OrganIntegrity;
 
         if (ent.Comp.IntegrityModifiers.Count > 0)
-            ent.Comp.OrganIntegrity = FixedPoint2.Clamp(ent.Comp.IntegrityModifiers
-                .Aggregate(FixedPoint2.Zero, (current, modifier) => current + modifier.Value),
-                0,
-                ent.Comp.IntegrityCap);
+        {
+            var damageSum = ent.Comp.IntegrityModifiers.Aggregate(FixedPoint2.Zero, (current, modifier) => current + modifier.Value);
+            ent.Comp.OrganIntegrity = FixedPoint2.Clamp(ent.Comp.IntegrityCap - damageSum, 0, ent.Comp.IntegrityCap);
+        }
+        else
+        {
+            ent.Comp.OrganIntegrity = ent.Comp.IntegrityCap;
+        }
 
         if (oldIntegrity == ent.Comp.OrganIntegrity)
             return;
@@ -161,14 +165,15 @@ public partial class TraumaSystem
         if (nearestSeverity == ent.Comp.OrganSeverity)
             return;
 
+        var oldSeverity = ent.Comp.OrganSeverity;
         ent.Comp.OrganSeverity = nearestSeverity;
         DirtyField(ent, ent.Comp, nameof(InternalChildOrganComponent.OrganSeverity));
 
-        var sevEv = new OrganDamageSeverityChanged(ent.Comp.OrganSeverity, nearestSeverity);
+        var sevEv = new OrganDamageSeverityChanged(oldSeverity, nearestSeverity);
         RaiseLocalEvent(ent, ref sevEv);
         if (_container.TryGetContainingContainer(ent.Owner, out var container))
         {
-            var ev1 = new OrganDamageSeverityChangedOnWoundable((ent, ent.Comp), ent.Comp.OrganSeverity, nearestSeverity);
+            var ev1 = new OrganDamageSeverityChangedOnWoundable((ent, ent.Comp), oldSeverity, nearestSeverity);
             RaiseLocalEvent(container.Owner, ref ev1);
         }
     }

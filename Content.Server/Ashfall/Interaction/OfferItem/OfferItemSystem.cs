@@ -33,7 +33,8 @@ public sealed partial class OfferItemSystem : SharedOfferItemSystem
 
             if (!offerItem.IsInReceiveMode)
             {
-                _alertsSystem.ClearAlert(uid, OfferAlert);
+                if (_alertsSystem.IsShowingAlert(uid, OfferAlert))
+                    _alertsSystem.ClearAlert(uid, OfferAlert);
                 continue;
             }
 

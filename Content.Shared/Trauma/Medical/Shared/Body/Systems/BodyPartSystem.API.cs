@@ -38,12 +38,10 @@ public sealed partial class BodyPartSystem
 
     /// <summary>
     /// Get a dictionary of every organ and bodypart parented to the given part, indexed by organ category.
-    /// Does nothing if the part is severed.
     /// </summary>
     public Dictionary<ProtoId<OrganCategoryPrototype>, Entity<OrganComponent>> GetPartOrgans(Entity<BodyPartComponent?> part)
     {
-        if (!_query.Resolve(part, ref part.Comp) ||
-            _body.GetBody(part.Owner) is not {} body)
+        if (!_query.Resolve(part, ref part.Comp))
             return [];
 
         var organs = new Dictionary<ProtoId<OrganCategoryPrototype>, Entity<OrganComponent>>();
@@ -93,15 +91,30 @@ public sealed partial class BodyPartSystem
     /// Checks whether the part is valid and has an organ for a given category.
     /// </summary>
     public bool HasOrgan(Entity<BodyPartComponent?> ent, [ForbidLiteral] ProtoId<OrganCategoryPrototype> category)
-        => _query.Resolve(ent, ref ent.Comp) && ent.Comp.Children.ContainsKey(category);
+        => _query.Resolve(ent, ref ent.Comp) && (ent.Comp.Children.ContainsKey(category) || GetOrgan(ent, category) != null);
 
     /// <summary>
     /// Tries to get an organ from a part's slots.
     /// </summary>
     public EntityUid? GetOrgan(Entity<BodyPartComponent?> ent, [ForbidLiteral] ProtoId<OrganCategoryPrototype> category)
-        => _query.Resolve(ent, ref ent.Comp) && ent.Comp.Children.TryGetValue(category, out var organ)
-            ? organ
-            : null;
+    {
+        if (!_query.Resolve(ent, ref ent.Comp))
+            return null;
+
+        if (ent.Comp.Children.TryGetValue(category, out var organ))
+            return organ;
+
+        if (GetSeveredOrgansContainer(ent) is { } container)
+        {
+            foreach (var contained in container.ContainedEntities)
+            {
+                if (_body.GetCategory(contained) == category)
+                    return contained;
+            }
+        }
+
+        return null;
+    }
 
     public bool TryAddSlot(Entity<BodyPartComponent?> ent, [ForbidLiteral] ProtoId<OrganCategoryPrototype> category)
     {
@@ -190,7 +203,15 @@ public sealed partial class BodyPartSystem
         }
 
         if (GetSeveredOrgansContainer(part) is {} container)
-            return _container.Insert(organ.Owner, container);
+        {
+            if (_container.Insert(organ.Owner, container))
+            {
+                part.Comp.Children[category] = organ.Owner;
+                DirtyField(part, part.Comp, nameof(BodyPartComponent.Children));
+                return true;
+            }
+            return false;
+        }
 
         Log.Error($"{ToPrettyString(part)} was neither attached to a body nor severed when trying to insert {ToPrettyString(organ)}!?");
         return false;
@@ -211,7 +232,15 @@ public sealed partial class BodyPartSystem
             return _body.RemoveOrgan(body, organ);
 
         if (GetSeveredOrgansContainer(part) is {} container)
-            return _container.Remove(organ.Owner, container);
+        {
+            if (_container.Remove(organ.Owner, container))
+            {
+                part.Comp.Children.Remove(category);
+                DirtyField(part, part.Comp, nameof(BodyPartComponent.Children));
+                return true;
+            }
+            return false;
+        }
 
         Log.Error($"{ToPrettyString(part)} was neither attached to a body nor severed when trying to remove {ToPrettyString(organ)}!?");
         return false;

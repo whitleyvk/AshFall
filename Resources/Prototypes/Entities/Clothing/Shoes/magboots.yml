@@ -26,6 +26,12 @@
   - type: ClothingSpeedModifier
     walkModifier: 0.8
     sprintModifier: 0.8
+  - type: FootstepModifier
+    footstepSoundCollection:
+      collection: FootstepSuit
+      params:
+        volume: -4
+        variation: 0.08
   - type: Appearance
   - type: GenericVisualizer
     visuals:

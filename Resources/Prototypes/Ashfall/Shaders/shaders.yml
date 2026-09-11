@@ -1,0 +1,4 @@
+- type: shader
+  id: AshfallAgony
+  kind: source
+  path: "/Textures/Ashfall/Shaders/agony.swsl"

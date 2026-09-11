@@ -1,12 +1,15 @@
 using Content.Shared.Dataset;
+using Content.Shared.Humanoid.Markings;
 using Content.Shared.Humanoid.Prototypes;
+using Robust.Shared.Maths;
 using Robust.Shared.Prototypes;
 
 namespace Content.Shared.Ashfall.CharacterGen.Prototypes;
 
 /// <summary>
-///     A cultural / naming group of a species. Determines given names and surnames only; the
+///     A cultural / naming group of a species. Determines given names and surnames; the
 ///     birthplace is biased by both culture and origin but never determined by either.
+///     Can optionally constrain the skin tone melanin range for human cultures.
 /// </summary>
 [Prototype]
 public sealed partial class AshfallCulturePrototype : IPrototype
@@ -46,4 +49,18 @@ public sealed partial class AshfallCulturePrototype : IPrototype
     /// </summary>
     [DataField]
     public List<ProtoId<DatasetPrototype>> BirthplaceDatasets { get; private set; } = new();
+
+    /// <summary>
+    ///     Optional min/max range of melanin skin tone (0-100) for human cultures.
+    /// </summary>
+    [DataField]
+    public Vector2? SkinToneRange { get; private set; }
+
+    /// <summary>
+    ///     Culture-specific hairstyles that this culture can roll in dossier generation.
+    ///     Hairstyles registered in this list across all cultures are considered restricted
+    ///     and will NOT be rolled by cultures that do not include them.
+    /// </summary>
+    [DataField]
+    public List<ProtoId<MarkingPrototype>> CultureHairstyles { get; private set; } = new();
 }

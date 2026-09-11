@@ -2,6 +2,7 @@
 
 using System.Linq;
 using Content.Medical.Common.Body;
+using Content.Medical.Shared.Surgery;
 using Content.Medical.Shared.Surgery.Tools;
 using Content.Shared.Body;
 using Content.Shared.DoAfter;
@@ -9,6 +10,7 @@ using Content.Shared.Hands.EntitySystems;
 using Content.Shared.Interaction;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Popups;
+using Content.Shared.UserInterface;
 using Content.Shared.Verbs;
 using Robust.Shared.Audio;
 using Robust.Shared.Audio.Systems;
@@ -28,12 +30,12 @@ public sealed partial class SeveredHeadExtractionSystem : EntitySystem
     [Dependency] private SharedContainerSystem _container = default!;
     [Dependency] private SharedTransformSystem _transform = default!;
     [Dependency] private SharedAudioSystem _audio = default!;
+    [Dependency] private SharedUserInterfaceSystem _ui = default!;
 
     public override void Initialize()
     {
         base.Initialize();
 
-        SubscribeLocalEvent<OrganComponent, GetVerbsEvent<AlternativeVerb>>(OnGetVerbs);
         SubscribeLocalEvent<OrganComponent, InteractUsingEvent>(OnInteractUsing);
         SubscribeLocalEvent<OrganComponent, SeveredHeadExtractDoAfterEvent>(OnDoAfter);
     }
@@ -68,32 +70,6 @@ public sealed partial class SeveredHeadExtractionSystem : EntitySystem
         return false;
     }
 
-    private void OnGetVerbs(Entity<OrganComponent> ent, ref GetVerbsEvent<AlternativeVerb> args)
-    {
-        if (!args.CanAccess || !args.CanInteract)
-            return;
-
-        if (!IsSeveredHead(ent.Owner, out var headUid))
-            return;
-
-        var user = args.User;
-        var held = _hands.GetActiveItem(user);
-        if (held == null || !HasComp<ScalpelComponent>(held.Value))
-            return;
-
-        var head = headUid;
-        var tool = held.Value;
-
-        var verb = new AlternativeVerb
-        {
-            Text = Loc.GetString("head-extraction-verb"),
-            Act = () => StartExtraction(user, head, tool),
-            Icon = new SpriteSpecifier.Texture(new ResPath("/Textures/Interface/VerbIcons/cut.svg.192dpi.png")),
-            Priority = 1,
-        };
-        args.Verbs.Add(verb);
-    }
-
     private void OnInteractUsing(Entity<OrganComponent> ent, ref InteractUsingEvent args)
     {
         if (args.Handled)
@@ -105,7 +81,9 @@ public sealed partial class SeveredHeadExtractionSystem : EntitySystem
         if (!IsSeveredHead(ent.Owner, out var headUid))
             return;
 
-        args.Handled = StartExtraction(args.User, headUid, args.Used);
+        EnsureComp<SurgeryTargetComponent>(headUid);
+        _ui.OpenUi(headUid, SurgeryUIKey.Key, args.User);
+        args.Handled = true;
     }
 
     private bool StartExtraction(EntityUid user, EntityUid headUid, EntityUid tool)
@@ -176,7 +154,7 @@ public sealed partial class SeveredHeadExtractionSystem : EntitySystem
             _transform.DropNextTo(eyes, target);
         }
 
-        _audio.PlayPredicted(new SoundPathSpecifier("/Audio/Effects/flesh_squish.ogg"), target, args.User);
+        _audio.PlayPredicted(new SoundPathSpecifier("/Audio/Effects/Fluids/splat.ogg"), target, args.User);
         _popup.PopupPredicted(Loc.GetString("head-extraction-complete", ("user", args.User), ("head", target)), target, args.User, PopupType.Medium);
     }
 }

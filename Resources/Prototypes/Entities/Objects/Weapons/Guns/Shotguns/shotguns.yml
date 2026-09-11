@@ -158,6 +158,18 @@
     node: start
     deconstructionTarget: null
 
+  - type: AttachableGun
+    visuals:
+      attachment_underbarrel:
+        offset: -0.125, 0.25
+        rotation: 0
+        layerAnchor: top
+        layerPosition: After
+        drawOrder: 0
+    compatibility:
+      attachment_underbarrel:
+        allowedAttachments: []
+        deniedAttachments: ["AttachmentGripVFG"]
 - type: entity
   name: double-barreled shotgun
   parent: WeaponShotgunDoubleBarreled
@@ -168,6 +180,18 @@
   - type: BallisticAmmoProvider
     proto: ShellShotgunBeanbag
 
+  - type: AttachableGun
+    visuals:
+      attachment_underbarrel:
+        offset: -0.125, 0.25
+        rotation: 0
+        layerAnchor: top
+        layerPosition: After
+        drawOrder: 0
+    compatibility:
+      attachment_underbarrel:
+        allowedAttachments: []
+        deniedAttachments: ["AttachmentGripVFG"]
 - type: entity
   name: Enforcer
   parent: [BaseWeaponShotgun, BaseGunWieldable, BaseSecurityContraband]
@@ -183,6 +207,14 @@
   - type: BallisticAmmoProvider
   - type: GunRequiresWield #remove when inaccuracy on spreads is fixed
 
+  - type: AttachableGun
+    visuals:
+      attachment_underbarrel:
+        offset: 0, 0.03125
+        rotation: 0
+        layerAnchor: top
+        layerPosition: After
+        drawOrder: 0
 - type: entity
   parent: WeaponShotgunEnforcer
   id: WeaponShotgunEnforcerRubber
@@ -191,6 +223,14 @@
   - type: BallisticAmmoProvider
     proto: ShellShotgunBeanbag
 
+  - type: AttachableGun
+    visuals:
+      attachment_underbarrel:
+        offset: 0, 0.03125
+        rotation: 0
+        layerAnchor: top
+        layerPosition: After
+        drawOrder: 0
 - type: entity
   name: Kammerer
   parent: [BaseWeaponShotgun, BaseGunWieldable, BaseSecurityContraband]
@@ -212,6 +252,18 @@
     tags:
     - WeaponShotgunKammerer
 
+  - type: AttachableGun
+    visuals:
+      attachment_underbarrel:
+        offset: -0.1875, 0.28125
+        rotation: 0
+        layerAnchor: top
+        layerPosition: After
+        drawOrder: 0
+    compatibility:
+      attachment_underbarrel:
+        allowedAttachments: []
+        deniedAttachments: ["AttachmentGripVFG"]
 - type: entity
   name: sawn-off shotgun
   parent: [ BaseWeaponShotgun, BaseSecurityBartenderContraband ]
@@ -238,6 +290,18 @@
     node: shotgunsawn
     deconstructionTarget: null
 
+  - type: AttachableGun
+    visuals:
+      attachment_underbarrel:
+        offset: -0.0625, 0.25
+        rotation: 0
+        layerAnchor: top
+        layerPosition: After
+        drawOrder: 0
+    compatibility:
+      attachment_underbarrel:
+        allowedAttachments: []
+        deniedAttachments: ["AttachmentGripVFG"]
 - type: entity
   name: sawn-off shotgun
   parent: WeaponShotgunSawn
@@ -252,6 +316,18 @@
     node: shotgunsawn
     deconstructionTarget: null
 
+  - type: AttachableGun
+    visuals:
+      attachment_underbarrel:
+        offset: -0.0625, 0.25
+        rotation: 0
+        layerAnchor: top
+        layerPosition: After
+        drawOrder: 0
+    compatibility:
+      attachment_underbarrel:
+        allowedAttachments: []
+        deniedAttachments: ["AttachmentGripVFG"]
 - type: entity
   name: handmade pistol
   parent: [BaseWeaponShotgun, BaseMinorContraband]
@@ -279,6 +355,11 @@
   - type: StaticPrice
     price: 0
 
+  - type: AttachableGun
+    compatibility:
+      attachment_underbarrel:
+        allowedAttachments: []
+        deniedAttachments: ["AttachmentGripVFG", "AttachmentLAM"]
 - type: entity
   name: blunderbuss
   parent: [BaseWeaponShotgun, BaseGunWieldable, BaseMinorContraband]
@@ -296,6 +377,18 @@
   - type: StaticPrice
     price: 0
 
+  - type: AttachableGun
+    compatibility:
+      attachment_underbarrel:
+        allowedAttachments: []
+        deniedAttachments: ["AttachmentGripVFG", "AttachmentLAM"]
+    visuals:
+      attachment_underbarrel:
+        offset: -0.0625, 0.34375
+        rotation: 0
+        layerAnchor: top
+        layerPosition: After
+        drawOrder: 0
 - type: entity
   name: improvised shotgun
   parent: [BaseWeaponShotgun, BaseGunWieldable, BaseMinorContraband]
@@ -320,6 +413,18 @@
   - type: StaticPrice
     price: 20
 
+  - type: AttachableGun
+    compatibility:
+      attachment_underbarrel:
+        allowedAttachments: []
+        deniedAttachments: ["AttachmentGripVFG", "AttachmentLAM"]
+    visuals:
+      attachment_underbarrel:
+        offset: 0, 0.0625
+        rotation: 0
+        layerAnchor: top
+        layerPosition: After
+        drawOrder: 0
 - type: entity
   name: improvised shotgun
   parent: WeaponShotgunImprovised
@@ -329,6 +434,11 @@
   - type: BallisticAmmoProvider
     proto: ShellShotgunImprovised
 
+  - type: AttachableGun
+    compatibility:
+      attachment_underbarrel:
+        allowedAttachments: []
+        deniedAttachments: ["AttachmentGripVFG", "AttachmentLAM"]
 - type: entity
   parent: [BaseWeaponShotgun, BaseGunWieldable, BaseSyndicateContraband]
   id: WeaponShotgunHushpup
@@ -352,3 +462,15 @@
     fireRate: 2
   - type: GunSpreadModifier
     spread: 0.8
+  - type: AttachableGun
+    visuals:
+      attachment_underbarrel:
+        offset: -0.375, 0.3125
+        rotation: 0
+        layerAnchor: top
+        layerPosition: After
+        drawOrder: 0
+    compatibility:
+      attachment_underbarrel:
+        allowedAttachments: []
+        deniedAttachments: ["AttachmentGripVFG"]

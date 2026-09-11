@@ -8,20 +8,28 @@ using Content.Medical.Common.Traumas;
 using Content.Medical.Common.Wounds;
 using Content.Medical.Shared.Body;
 using Content.Medical.Shared.PartStatus;
+using Content.Medical.Shared.Surgery;
 using Content.Medical.Shared.Traumas;
 using Content.Medical.Shared.Wounds;
 using Content.Server.Chat.Managers;
 using Content.Shared.Body;
+using Content.Shared.Body.Components;
+using Content.Shared.Buckle.Components;
+using Content.Server.Fluids.EntitySystems;
 using Content.Shared.Chat;
+using Content.Shared.Chemistry.EntitySystems;
 using Content.Shared.Damage.Components;
 using Content.Shared.Examine;
 using Content.Shared.Damage.Prototypes;
+using Content.Shared.FixedPoint;
 using Content.Shared.HealthExaminable;
 using Content.Shared.IdentityManagement;
 using Content.Shared.Mobs.Systems;
+using Content.Shared.Throwing;
 using Content.Shared.Verbs;
 using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
+using Robust.Shared.Random;
 
 namespace Content.Medical.Server.PartStatus;
 
@@ -33,8 +41,14 @@ public sealed partial class PartStatusSystem : EntitySystem
     [Dependency] private MobStateSystem _mob = default!;
     [Dependency] private TraumaSystem _trauma = default!;
     [Dependency] private WoundSystem _wound = default!;
+    [Dependency] private PuddleSystem _puddle = default!;
+    [Dependency] private SharedSolutionContainerSystem _solutionContainer = default!;
+    [Dependency] private ThrowingSystem _throwing = default!;
+    [Dependency] private IRobustRandom _random = default!;
+    [Dependency] private SharedTransformSystem _transform = default!;
     [Dependency] private EntityQuery<BleedInflicterComponent> _bleedQuery = default!;
     [Dependency] private EntityQuery<BoneComponent> _boneQuery = default!;
+    [Dependency] private BodyBloodstreamSystem _bloodstream = default!;
 
     private static readonly BodyPartType[] BodyPartOrder =
     [
@@ -61,11 +75,16 @@ public sealed partial class PartStatusSystem : EntitySystem
     public override void Initialize()
     {
         base.Initialize();
-        SubscribeLocalEvent<BodyComponent, BodyPartDelimbedEvent>(OnBodyPartDelimbed);
     }
 
+    [SubscribeLocalEvent]
     private void OnBodyPartDelimbed(Entity<BodyComponent> ent, ref BodyPartDelimbedEvent args)
     {
+        // Delimbing a part changes which woundables still bleed; the bus allows a single
+        // subscriber for (BodyComponent, BodyPartDelimbedEvent), so the bloodstream reconcile
+        // happens here instead of in BodyBloodstreamSystem.
+        _bloodstream.UpdateBodyBleedAmount(ent.Owner);
+
         string msg;
         if (args.User != null && args.User.Value != args.Body)
         {
@@ -93,6 +112,38 @@ public sealed partial class PartStatusSystem : EntitySystem
             hideChat: false,
             recordReplay: true,
             colorOverride: color);
+
+        var coords = _transform.GetMoverCoordinates(args.Body);
+
+        // Check if this is a clean surgical amputation (performed while buckled to an operating table)
+        var isCleanSurgery = !args.Crude &&
+                             TryComp<BuckleComponent>(args.Body, out var buckle) &&
+                             buckle.BuckledTo != null &&
+                             HasComp<OperatingTableComponent>(buckle.BuckledTo);
+
+        if (!isCleanSurgery)
+        {
+            // Spill blood puddle on the floor during field amputation, trauma or gunshot dismemberment
+            if (TryComp<BloodstreamComponent>(args.Body, out var bloodComp) &&
+                _solutionContainer.ResolveSolution(args.Body, bloodComp.BloodSolutionName, ref bloodComp.BloodSolution, out var bloodSolution) &&
+                bloodSolution.Volume > 0)
+            {
+                var splitAmount = FixedPoint2.Min(20, bloodSolution.Volume);
+                var spilled = _solutionContainer.SplitSolution(bloodComp.BloodSolution.Value, splitAmount);
+                _puddle.TrySpillAt(coords, spilled, out _);
+            }
+
+            // Spawn bloody meat chunk
+            var gib = Spawn("AshfallFoodMeatChunk", coords);
+            _throwing.TryThrow(gib, _random.NextAngle().ToWorldVec() * _random.NextFloat(0.8f, 2.5f), _random.NextFloat(0.5f, 1f));
+
+            // Mark severed part with gore: set integrity to 0 so WoundableVisuals displays severe damage & bleeding overlay
+            if (TryComp<WoundableComponent>(args.Part, out var woundable))
+            {
+                woundable.Integrity = 0;
+                Dirty(args.Part, woundable);
+            }
+        }
     }
 
     [SubscribeNetworkEvent]
@@ -170,10 +221,13 @@ public sealed partial class PartStatusSystem : EntitySystem
             presentCategories.Add(category);
             var (damageSeverities, isBleeding) = AnalyzeWounds(woundable);
             var boneSev = _boneQuery.CompOrNull(woundable)?.BoneSeverity ?? BoneSeverity.Normal; // fallback for boneless limbs like slimes
+            var categoryName = ProtoMan.TryIndex(category, out var catProto)
+                ? catProto.Name.ToLowerInvariant()
+                : category.Id.ToLowerInvariant();
             partStatusSet.Add(new PartStatus(
                 part.PartType,
                 part.Symmetry,
-                ProtoMan.Index(category).Name.ToLowerInvariant(), // looks better lowercase
+                categoryName,
                 woundable.Comp.WoundableSeverity,
                 damageSeverities,
                 boneSev,
@@ -192,10 +246,13 @@ public sealed partial class PartStatusSystem : EntitySystem
                     !entProto.TryGetComponent<BodyPartComponent>(out var partComp, EntityManager.ComponentFactory))
                     continue;
 
+                var missingCatName = ProtoMan.TryIndex(category, out var catProto)
+                    ? catProto.Name.ToLowerInvariant()
+                    : category.Id.ToLowerInvariant();
                 partStatusSet.Add(new PartStatus(
                     partComp.PartType,
                     partComp.Symmetry,
-                    ProtoMan.Index(category).Name.ToLowerInvariant(),
+                    missingCatName,
                     WoundableSeverity.Severe,
                     new(),
                     BoneSeverity.Normal,

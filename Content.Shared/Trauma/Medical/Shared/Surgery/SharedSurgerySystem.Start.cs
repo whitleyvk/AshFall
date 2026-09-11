@@ -2,6 +2,7 @@
 
 using Content.Medical.Common.CCVar;
 using Content.Medical.Shared.Surgery.Tools;
+using Content.Shared.Interaction;
 using Content.Shared.Verbs;
 using Robust.Shared.Configuration;
 
@@ -20,9 +21,22 @@ public abstract partial class SharedSurgerySystem
         _targetQuery = GetEntityQuery<SurgeryTargetComponent>();
 
         SubscribeLocalEvent<SurgeryToolComponent, GetVerbsEvent<UtilityVerb>>(OnUtilityVerb);
+        SubscribeLocalEvent<SurgeryToolComponent, AfterInteractEvent>(OnAfterInteract);
 
         // cvar is yes var is no, invert it
         Subs.CVar(_cfg, SurgeryCVars.CanOperateOnSelf, x => _noSelfOperate = !x, true);
+    }
+
+    private void OnAfterInteract(Entity<SurgeryToolComponent> ent, ref AfterInteractEvent args)
+    {
+        if (args.Handled || !args.CanReach || args.Target is not { } target)
+            return;
+
+        if (!_targetQuery.HasComp(target))
+            return;
+
+        AttemptStartSurgery(ent, args.User, target);
+        args.Handled = true;
     }
 
     private void AttemptStartSurgery(Entity<SurgeryToolComponent> ent, EntityUid user, EntityUid target)

@@ -1,9 +1,3 @@
-# Cultural / naming groups. Culture determines given names and surnames only; birthplace is
-# biased by culture (weight 3) and origin (weight 2), never fixed by either.
-# Skin tone is not an input anywhere: appearance is generated independently.
-
-# Humans
-
 - type: ashfallCulture
   id: Panslavic
   species: Human
@@ -12,8 +6,20 @@
   firstNamesFemale: AshfallPanslavicFirstFemale
   lastNames: AshfallPanslavicLast
   surnameDeclension: true
-  birthplaceDatasets: [AshfallBirthplacesPanslavic]
-
+  birthplaceDatasets:
+  - AshfallBirthplacesPanslavic
+  skinToneRange: 3, 35
+  cultureHairstyles:
+  - HumanHairBraid
+  - HumanHairBraid2
+  - HumanHairBraided
+  - HumanHairBraidfront
+  - HumanHairBraidtail
+  - HumanHairHbraid
+  - HumanHairMediumbraid
+  - HumanHairShortbraid
+  - HumanHairTressshoulder
+  - HumanHairPigtail
 - type: ashfallCulture
   id: Atlantic
   species: Human
@@ -21,8 +27,9 @@
   firstNamesMale: AshfallAtlanticFirstMale
   firstNamesFemale: AshfallAtlanticFirstFemale
   lastNames: AshfallAtlanticLast
-  birthplaceDatasets: [AshfallBirthplacesAtlantic]
-
+  birthplaceDatasets:
+  - AshfallBirthplacesAtlantic
+  skinToneRange: 5, 60
 - type: ashfallCulture
   id: Rheinik
   species: Human
@@ -30,8 +37,9 @@
   firstNamesMale: AshfallRheinikFirstMale
   firstNamesFemale: AshfallRheinikFirstFemale
   lastNames: AshfallRheinikLast
-  birthplaceDatasets: [AshfallBirthplacesRheinik]
-
+  birthplaceDatasets:
+  - AshfallBirthplacesRheinik
+  skinToneRange: 3, 30
 - type: ashfallCulture
   id: Nordik
   species: Human
@@ -39,8 +47,19 @@
   firstNamesMale: AshfallNordikFirstMale
   firstNamesFemale: AshfallNordikFirstFemale
   lastNames: AshfallNordikLast
-  birthplaceDatasets: [AshfallBirthplacesNordik]
-
+  birthplaceDatasets:
+  - AshfallBirthplacesNordik
+  skinToneRange: 3, 25
+  cultureHairstyles:
+  - HumanHairBraid
+  - HumanHairBraid2
+  - HumanHairBraided
+  - HumanHairBraidfront
+  - HumanHairBraidtail
+  - HumanHairHbraid
+  - HumanHairMediumbraid
+  - HumanHairShortbraid
+  - HumanHairTressshoulder
 - type: ashfallCulture
   id: Mediterran
   species: Human
@@ -48,8 +67,9 @@
   firstNamesMale: AshfallMediterranFirstMale
   firstNamesFemale: AshfallMediterranFirstFemale
   lastNames: AshfallMediterranLast
-  birthplaceDatasets: [AshfallBirthplacesMediterran]
-
+  birthplaceDatasets:
+  - AshfallBirthplacesMediterran
+  skinToneRange: 15, 55
 - type: ashfallCulture
   id: Ibero
   species: Human
@@ -57,8 +77,9 @@
   firstNamesMale: AshfallIberoFirstMale
   firstNamesFemale: AshfallIberoFirstFemale
   lastNames: AshfallIberoLast
-  birthplaceDatasets: [AshfallBirthplacesIbero]
-
+  birthplaceDatasets:
+  - AshfallBirthplacesIbero
+  skinToneRange: 15, 60
 - type: ashfallCulture
   id: Neolatin
   species: Human
@@ -66,8 +87,9 @@
   firstNamesMale: AshfallNeolatinFirstMale
   firstNamesFemale: AshfallNeolatinFirstFemale
   lastNames: AshfallNeolatinLast
-  birthplaceDatasets: [AshfallBirthplacesNeolatin]
-
+  birthplaceDatasets:
+  - AshfallBirthplacesNeolatin
+  skinToneRange: 10, 50
 - type: ashfallCulture
   id: Maghrebi
   species: Human
@@ -75,8 +97,9 @@
   firstNamesMale: AshfallMaghrebiFirstMale
   firstNamesFemale: AshfallMaghrebiFirstFemale
   lastNames: AshfallMaghrebiLast
-  birthplaceDatasets: [AshfallBirthplacesMaghrebi]
-
+  birthplaceDatasets:
+  - AshfallBirthplacesMaghrebi
+  skinToneRange: 25, 75
 - type: ashfallCulture
   id: Mashriqi
   species: Human
@@ -84,8 +107,9 @@
   firstNamesMale: AshfallMashriqiFirstMale
   firstNamesFemale: AshfallMashriqiFirstFemale
   lastNames: AshfallMashriqiLast
-  birthplaceDatasets: [AshfallBirthplacesMashriqi]
-
+  birthplaceDatasets:
+  - AshfallBirthplacesMashriqi
+  skinToneRange: 25, 75
 - type: ashfallCulture
   id: Turkic
   species: Human
@@ -93,8 +117,9 @@
   firstNamesMale: AshfallTurkicFirstMale
   firstNamesFemale: AshfallTurkicFirstFemale
   lastNames: AshfallTurkicLast
-  birthplaceDatasets: [AshfallBirthplacesTurkic]
-
+  birthplaceDatasets:
+  - AshfallBirthplacesTurkic
+  skinToneRange: 20, 65
 - type: ashfallCulture
   id: Indic
   species: Human
@@ -102,8 +127,9 @@
   firstNamesMale: AshfallIndicFirstMale
   firstNamesFemale: AshfallIndicFirstFemale
   lastNames: AshfallIndicLast
-  birthplaceDatasets: [AshfallBirthplacesIndic]
-
+  birthplaceDatasets:
+  - AshfallBirthplacesIndic
+  skinToneRange: 40, 88
 - type: ashfallCulture
   id: Sinospheric
   species: Human
@@ -111,8 +137,11 @@
   firstNamesMale: AshfallSinosphericFirstMale
   firstNamesFemale: AshfallSinosphericFirstFemale
   lastNames: AshfallSinosphericLast
-  birthplaceDatasets: [AshfallBirthplacesSinospheric]
-
+  birthplaceDatasets:
+  - AshfallBirthplacesSinospheric
+  skinToneRange: 8, 45
+  cultureHairstyles:
+  - HumanHairTopknot
 - type: ashfallCulture
   id: Koryo
   species: Human
@@ -120,8 +149,11 @@
   firstNamesMale: AshfallKoryoFirstMale
   firstNamesFemale: AshfallKoryoFirstFemale
   lastNames: AshfallKoryoLast
-  birthplaceDatasets: [AshfallBirthplacesKoryo]
-
+  birthplaceDatasets:
+  - AshfallBirthplacesKoryo
+  skinToneRange: 8, 40
+  cultureHairstyles:
+  - HumanHairTopknot
 - type: ashfallCulture
   id: Nipponic
   species: Human
@@ -129,8 +161,12 @@
   firstNamesMale: AshfallNipponicFirstMale
   firstNamesFemale: AshfallNipponicFirstFemale
   lastNames: AshfallNipponicLast
-  birthplaceDatasets: [AshfallBirthplacesNipponic]
-
+  birthplaceDatasets:
+  - AshfallBirthplacesNipponic
+  skinToneRange: 8, 40
+  cultureHairstyles:
+  - HumanHairGeisha
+  - HumanHairTopknot
 - type: ashfallCulture
   id: Nusantari
   species: Human
@@ -138,8 +174,9 @@
   firstNamesMale: AshfallNusantariFirstMale
   firstNamesFemale: AshfallNusantariFirstFemale
   lastNames: AshfallNusantariLast
-  birthplaceDatasets: [AshfallBirthplacesNusantari]
-
+  birthplaceDatasets:
+  - AshfallBirthplacesNusantari
+  skinToneRange: 25, 75
 - type: ashfallCulture
   id: Swahili
   species: Human
@@ -147,8 +184,26 @@
   firstNamesMale: AshfallSwahiliFirstMale
   firstNamesFemale: AshfallSwahiliFirstFemale
   lastNames: AshfallSwahiliLast
-  birthplaceDatasets: [AshfallBirthplacesSwahili]
-
+  birthplaceDatasets:
+  - AshfallBirthplacesSwahili
+  skinToneRange: 65, 95
+  cultureHairstyles: &id001
+  - HumanHairAfricanPigtails
+  - HumanHairAfro
+  - HumanHairAfro2
+  - HumanHairAfropuffdouble
+  - HumanHairAfropuffleft
+  - HumanHairAfropuffright
+  - HumanHairBigafro
+  - HumanHairClassicAfro
+  - HumanHairClassicBigAfro
+  - HumanHairClassicCornrows2
+  - HumanHairCornrowbraid
+  - HumanHairCornrowbun
+  - HumanHairCornrows
+  - HumanHairCornrows2
+  - HumanHairCornrowtail
+  - HumanHairDreads
 - type: ashfallCulture
   id: Habesha
   species: Human
@@ -156,8 +211,10 @@
   firstNamesMale: AshfallHabeshaFirstMale
   firstNamesFemale: AshfallHabeshaFirstFemale
   lastNames: AshfallHabeshaLast
-  birthplaceDatasets: [AshfallBirthplacesHabesha]
-
+  birthplaceDatasets:
+  - AshfallBirthplacesHabesha
+  skinToneRange: 60, 92
+  cultureHairstyles: *id001
 - type: ashfallCulture
   id: Afroatlantic
   species: Human
@@ -165,9 +222,54 @@
   firstNamesMale: AshfallAfroatlanticFirstMale
   firstNamesFemale: AshfallAfroatlanticFirstFemale
   lastNames: AshfallAfroatlanticLast
-  birthplaceDatasets: [AshfallBirthplacesAfroatlantic]
+  birthplaceDatasets:
+  - AshfallBirthplacesAfroatlantic
+  skinToneRange: 65, 95
+  cultureHairstyles: *id001
+- type: ashfallCulture
+  id: Hadari
+  species: Human
+  label: ashfall-culture-label-hadari
+  firstNamesMale: AshfallAtlanticFirstMale
+  firstNamesFemale: AshfallAtlanticFirstFemale
+  lastNames: AshfallAtlanticLast
+  birthplaceDatasets:
+  - AshfallBirthplacesHadari
+  skinToneRange: 5, 55
 
-# Non-humans
+- type: ashfallCulture
+  id: Aurelian
+  species: Human
+  label: ashfall-culture-label-aurelian
+  firstNamesMale: AshfallRheinikFirstMale
+  firstNamesFemale: AshfallRheinikFirstFemale
+  lastNames: AshfallRheinikLast
+  birthplaceDatasets:
+  - AshfallBirthplacesAurelian
+  skinToneRange: 5, 45
+
+- type: ashfallCulture
+  id: Convoy
+  species: Human
+  label: ashfall-culture-label-convoy
+  firstNamesMale: AshfallPanslavicFirstMale
+  firstNamesFemale: AshfallPanslavicFirstFemale
+  lastNames: AshfallPanslavicLast
+  surnameDeclension: true
+  birthplaceDatasets:
+  - AshfallBirthplacesConvoy
+  skinToneRange: 5, 70
+
+- type: ashfallCulture
+  id: Pelagic
+  species: Human
+  label: ashfall-culture-label-pelagic
+  firstNamesMale: AshfallAtlanticFirstMale
+  firstNamesFemale: AshfallAtlanticFirstFemale
+  lastNames: AshfallAtlanticLast
+  birthplaceDatasets:
+  - AshfallBirthplacesPelagic
+  skinToneRange: 10, 85
 
 - type: ashfallCulture
   id: UnathiClan
@@ -176,7 +278,8 @@
   firstNamesMale: AshfallUnathiFirstNames
   firstNamesFemale: AshfallUnathiFirstNames
   lastNames: AshfallUnathiClanNames
-  birthplaceDatasets: [AshfallUnathiBirthplaces]
+  birthplaceDatasets:
+  - AshfallUnathiBirthplaces
 
 - type: ashfallCulture
   id: UnathiFamily
@@ -185,7 +288,28 @@
   firstNamesMale: AshfallUnathiFirstNames
   firstNamesFemale: AshfallUnathiFirstNames
   lastNames: AshfallUnathiFamilyNames
-  birthplaceDatasets: [AshfallUnathiBirthplaces]
+  birthplaceDatasets:
+  - AshfallUnathiBirthplaces
+
+- type: ashfallCulture
+  id: UnathiNomad
+  species: Reptilian
+  label: ashfall-culture-label-unathi-nomad
+  firstNamesMale: AshfallUnathiFirstNames
+  firstNamesFemale: AshfallUnathiFirstNames
+  lastNames: AshfallUnathiFamilyNames
+  birthplaceDatasets:
+  - AshfallUnathiBirthplaces
+
+- type: ashfallCulture
+  id: UnathiFoundry
+  species: Reptilian
+  label: ashfall-culture-label-unathi-foundry
+  firstNamesMale: AshfallUnathiFirstNames
+  firstNamesFemale: AshfallUnathiFirstNames
+  lastNames: AshfallUnathiClanNames
+  birthplaceDatasets:
+  - AshfallUnathiBirthplaces
 
 - type: ashfallCulture
   id: LuamFlutter
@@ -194,7 +318,8 @@
   firstNamesMale: AshfallLuamFirstNames
   firstNamesFemale: AshfallLuamFirstNames
   lastNames: AshfallLuamSecondNames
-  birthplaceDatasets: [AshfallLuamBirthplaces]
+  birthplaceDatasets:
+  - AshfallLuamBirthplaces
 
 - type: ashfallCulture
   id: LuamSilk
@@ -203,7 +328,28 @@
   firstNamesMale: AshfallLuamFirstNames
   firstNamesFemale: AshfallLuamFirstNames
   lastNames: AshfallLuamSecondNames
-  birthplaceDatasets: [AshfallLuamBirthplaces]
+  birthplaceDatasets:
+  - AshfallLuamBirthplaces
+
+- type: ashfallCulture
+  id: LuamSpectrum
+  species: Moth
+  label: ashfall-culture-label-luam-spectrum
+  firstNamesMale: AshfallLuamFirstNames
+  firstNamesFemale: AshfallLuamFirstNames
+  lastNames: AshfallLuamSecondNames
+  birthplaceDatasets:
+  - AshfallLuamBirthplaces
+
+- type: ashfallCulture
+  id: LuamCanopy
+  species: Moth
+  label: ashfall-culture-label-luam-canopy
+  firstNamesMale: AshfallLuamFirstNames
+  firstNamesFemale: AshfallLuamFirstNames
+  lastNames: AshfallLuamSecondNames
+  birthplaceDatasets:
+  - AshfallLuamBirthplaces
 
 - type: ashfallCulture
   id: ArachnidWeb
@@ -212,7 +358,8 @@
   firstNamesMale: AshfallArachnidFirstNames
   firstNamesFemale: AshfallArachnidFirstNames
   lastNames: AshfallArachnidSecondNames
-  birthplaceDatasets: [AshfallArachnidBirthplaces]
+  birthplaceDatasets:
+  - AshfallArachnidBirthplaces
 
 - type: ashfallCulture
   id: ArachnidNest
@@ -221,7 +368,28 @@
   firstNamesMale: AshfallArachnidFirstNames
   firstNamesFemale: AshfallArachnidFirstNames
   lastNames: AshfallArachnidSecondNames
-  birthplaceDatasets: [AshfallArachnidBirthplaces]
+  birthplaceDatasets:
+  - AshfallArachnidBirthplaces
+
+- type: ashfallCulture
+  id: ArachnidHollow
+  species: Arachnid
+  label: ashfall-culture-label-arachnid-hollow
+  firstNamesMale: AshfallArachnidFirstNames
+  firstNamesFemale: AshfallArachnidFirstNames
+  lastNames: AshfallArachnidSecondNames
+  birthplaceDatasets:
+  - AshfallArachnidBirthplaces
+
+- type: ashfallCulture
+  id: ArachnidConsensus
+  species: Arachnid
+  label: ashfall-culture-label-arachnid-consensus
+  firstNamesMale: AshfallArachnidFirstNames
+  firstNamesFemale: AshfallArachnidFirstNames
+  lastNames: AshfallArachnidSecondNames
+  birthplaceDatasets:
+  - AshfallArachnidBirthplaces
 
 - type: ashfallCulture
   id: VeiruPride
@@ -230,7 +398,8 @@
   firstNamesMale: AshfallVeiruFirstNames
   firstNamesFemale: AshfallVeiruFirstNames
   lastNames: AshfallVeiruSecondNames
-  birthplaceDatasets: [AshfallVeiruBirthplaces]
+  birthplaceDatasets:
+  - AshfallVeiruBirthplaces
 
 - type: ashfallCulture
   id: VeiruFamily
@@ -239,4 +408,25 @@
   firstNamesMale: AshfallVeiruFirstNames
   firstNamesFemale: AshfallVeiruFirstNames
   lastNames: AshfallVeiruSecondNames
-  birthplaceDatasets: [AshfallVeiruBirthplaces]
+  birthplaceDatasets:
+  - AshfallVeiruBirthplaces
+
+- type: ashfallCulture
+  id: VeiruHighland
+  species: Veiru
+  label: ashfall-culture-label-veiru-highland
+  firstNamesMale: AshfallVeiruFirstNames
+  firstNamesFemale: AshfallVeiruFirstNames
+  lastNames: AshfallVeiruSecondNames
+  birthplaceDatasets:
+  - AshfallVeiruBirthplaces
+
+- type: ashfallCulture
+  id: VeiruOutland
+  species: Veiru
+  label: ashfall-culture-label-veiru-outland
+  firstNamesMale: AshfallVeiruFirstNames
+  firstNamesFemale: AshfallVeiruFirstNames
+  lastNames: AshfallVeiruSecondNames
+  birthplaceDatasets:
+  - AshfallVeiruBirthplaces

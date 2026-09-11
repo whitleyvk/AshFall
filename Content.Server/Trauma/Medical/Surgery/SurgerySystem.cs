@@ -35,6 +35,7 @@ public sealed partial class SurgerySystem : SharedSurgerySystem
         if (!IsConsciousAndAwake(args.Body))
             return;
 
+        _jittering.DoJitter(args.Body, TimeSpan.FromSeconds(3.5), true, 25f, 9f);
         _chat.TryEmoteWithChat(args.Body, "Scream", ignoreActionBlocker: true, forceEmote: true);
 
         if (_robustRandom.Prob(0.15f))

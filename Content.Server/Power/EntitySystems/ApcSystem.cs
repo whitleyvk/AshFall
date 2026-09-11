@@ -1,5 +1,8 @@
+using Content.Server.Light.Components;
+using Content.Server.Light.EntitySystems;
 using Content.Server.Popups;
 using Content.Server.Power.Components;
+using Content.Server.Power.NodeGroups;
 using Content.Server.Power.Pow3r;
 using Content.Shared.Access.Systems;
 using Content.Shared.Administration.Logs;
@@ -7,12 +10,14 @@ using Content.Shared.APC;
 using Content.Shared.Database;
 using Content.Shared.Emag.Systems;
 using Content.Shared.Emp;
+using Content.Shared.Light.Components;
 using Content.Shared.Popups;
 using Content.Shared.Power;
 using Content.Shared.Rounding;
 using Robust.Server.GameObjects;
 using Robust.Shared.Audio;
 using Robust.Shared.Audio.Systems;
+using Robust.Shared.Random;
 using Robust.Shared.Timing;
 
 namespace Content.Server.Power.EntitySystems;
@@ -32,6 +37,8 @@ public sealed partial class ApcSystem : EntitySystem
     [Dependency] private SharedAppearanceSystem _appearance = default!;
     [Dependency] private SharedAudioSystem _audio = default!;
     [Dependency] private UserInterfaceSystem _ui = default!;
+    [Dependency] private IRobustRandom _random = default!;
+    [Dependency] private EmergencyLightSystem _emergencyLight = default!;
 
     /// <inheritdoc />
     public override void Initialize()
@@ -233,6 +240,13 @@ public sealed partial class ApcSystem : EntitySystem
             UpdateUIState(uid, apc, battery);
         }
 
+        var isBrownout = CalcBrownoutState((uid, apc), battery.NetworkBattery);
+        if (isBrownout != apc.LastBrownoutState)
+        {
+            apc.LastBrownoutState = isBrownout;
+            NotifyApcBrownoutChanged((uid, apc), isBrownout);
+        }
+
         apc.NeedStateUpdate = false;
     }
 
@@ -307,6 +321,47 @@ public sealed partial class ApcSystem : EntitySystem
             return ApcChannelState.BreakerOpen;
 
         return battery.CurrentSupply > 0 ? ApcChannelState.On : ApcChannelState.Off;
+    }
+
+    public bool CalcBrownoutState(Entity<ApcComponent> ent, PowerState.Battery battery)
+    {
+        if (ent.Comp.TripFlag || !ent.Comp.MainBreakerEnabled)
+            return false;
+
+        if (battery.Capacity <= 0)
+            return false;
+
+        var ratio = battery.CurrentStorage / battery.Capacity;
+        var delta = battery.CurrentSupply - battery.CurrentReceiving;
+        if (ratio <= ent.Comp.BrownoutThreshold && (delta > 0 || ratio <= 0.15f))
+            return true;
+
+        return false;
+    }
+
+    private void NotifyApcBrownoutChanged(Entity<ApcComponent> ent, bool isBrownout)
+    {
+        if (ent.Comp.Net is not ApcNet apcNet)
+            return;
+
+        foreach (var provider in apcNet.Providers)
+        {
+            foreach (var receiver in provider.LinkedReceivers)
+            {
+                var receiverUid = receiver.Owner;
+                if (TryComp<EmergencyLightComponent>(receiverUid, out var emerLight))
+                {
+                    _emergencyLight.UpdateState((receiverUid, emerLight));
+                }
+
+                if (isBrownout && _random.Prob(0.35f) && HasComp<PoweredLightComponent>(receiverUid))
+                {
+                    var blinking = EnsureComp<BlinkingPoweredLightComponent>(receiverUid);
+                    blinking.StopBlinkingTime = _gameTiming.CurTime + TimeSpan.FromSeconds(_random.NextFloat(1.5f, 3.5f));
+                    Dirty(receiverUid, blinking);
+                }
+            }
+        }
     }
     #endregion Internal
 }

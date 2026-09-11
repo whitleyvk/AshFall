@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 using Content.Shared.Chat;
+using Content.Shared.Inventory;
 using Content.Shared.Weapons.Melee.Events;
 using Content.Trauma.Common.CCVar;
 using Content.Trauma.Common.Movement;
@@ -22,6 +23,7 @@ public sealed partial class ViewconeEffectSystem : EntitySystem
     [Dependency] private IConfigurationManager _cfg = default!;
     [Dependency] private IGameTiming _timing = default!;
     [Dependency] private SharedTransformSystem _xform = default!;
+    [Dependency] private InventorySystem _inventory = default!;
 
     public static readonly EntProtoId TalkEffect = "ViewconeEffectTalk";
 
@@ -41,9 +43,12 @@ public sealed partial class ViewconeEffectSystem : EntitySystem
 
     private void OnFootStep(Entity<ViewconeFootstepsEffectComponent> ent, ref FootStepEvent args)
     {
-        // Silent shoes suppress the viewcone footstep effect
+        // Silent shoes suppress the viewcone footstep effect; the cancelling component lives on
+        // worn feet clothing, so the check has to be relayed through the inventory.
         var ev = new CanSpawnFootstepsEvent();
         RaiseLocalEvent(ent.Owner, ref ev);
+        if (TryComp<InventoryComponent>(ent.Owner, out var inventory))
+            _inventory.RelayEvent((ent.Owner, inventory), ref ev);
         if (ev.Cancelled)
             return;
 

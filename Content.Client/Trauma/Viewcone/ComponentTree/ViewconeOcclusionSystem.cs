@@ -22,6 +22,9 @@ public sealed partial class ViewconeOcclusionSystem : ComponentTreeSystem<Viewco
 
     protected override Box2 ExtractAabb(in ComponentTreeEntry<ViewconeOccludableComponent> entry, Vector2 pos, Angle rot)
     {
-        return _sprite.CalculateBounds((entry.Uid, _spriteQuery.Comp(entry.Uid)), pos, rot, default).CalcBoundingBox();
+        if (!_spriteQuery.TryComp(entry.Uid, out var sprite))
+            return new Box2(pos, pos);
+
+        return _sprite.CalculateBounds((entry.Uid, sprite), pos, rot, default).CalcBoundingBox();
     }
 }

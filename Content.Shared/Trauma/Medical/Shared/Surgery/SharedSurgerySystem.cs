@@ -20,6 +20,7 @@ using Content.Shared.Hands.EntitySystems;
 using Content.Shared.Humanoid;
 using Content.Shared.Interaction;
 using Content.Shared.Inventory;
+using Content.Shared.Jittering;
 using Content.Shared.Popups;
 using Content.Shared.Stacks;
 using Content.Shared.Standing;
@@ -52,6 +53,7 @@ public abstract partial class SharedSurgerySystem : EntitySystem
     [Dependency] protected StatusEffectsSystem Status = default!;
     [Dependency] private TraumaSystem _trauma = default!;
     [Dependency] private WoundSystem _wounds = default!;
+    [Dependency] protected SharedJitteringSystem _jittering = default!;
     [Dependency] private EntityQuery<BodyComponent> _bodyQuery = default!;
     [Dependency] private EntityQuery<StackComponent> _stackQuery = default!;
 
@@ -118,7 +120,7 @@ public abstract partial class SharedSurgerySystem : EntitySystem
     }
 
     [SubscribeLocalEvent]
-    private void OnMapInit(Entity<SurgeryTargetComponent> ent, ref MapInitEvent args)
+    private void OnTargetInit(Entity<SurgeryTargetComponent> ent, ref ComponentInit args)
     {
         var data = new InterfaceData("SurgeryBui");
         _ui.SetUi(ent.Owner, SurgeryUIKey.Key, data);
@@ -184,12 +186,20 @@ public abstract partial class SharedSurgerySystem : EntitySystem
     private void OnCloseIncisionValid(Entity<SurgeryCloseIncisionConditionComponent> ent, ref SurgeryValidEvent args)
     {
         if (!HasComp<IncisionOpenComponent>(args.Part) ||
-            !HasComp<BleedersClampedComponent>(args.Part) ||
-            !HasComp<SkinRetractedComponent>(args.Part) ||
-            !HasComp<OrganReattachedComponent>(args.Part) ||
-            !HasComp<InternalBleedersClampedComponent>(args.Part))
+            !HasComp<SkinRetractedComponent>(args.Part))
         {
             args.Cancelled = true;
+            return;
+        }
+
+        // Can't close incision if there is an organ that was attached but not yet affixed
+        foreach (var organ in _part.GetPartOrgans(args.Part).Values)
+        {
+            if (HasComp<OrganReattachedComponent>(organ))
+            {
+                args.Cancelled = true;
+                return;
+            }
         }
     }
 

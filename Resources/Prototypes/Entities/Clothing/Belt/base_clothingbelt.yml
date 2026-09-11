@@ -3,6 +3,12 @@
   parent: Clothing
   id: ClothingBeltBase
   components:
+  - type: EmitSoundOnPickup
+    sound:
+      collection: ToolbeltPickup
+  - type: EmitSoundOnDrop
+    sound:
+      collection: ToolbeltDrop
   - type: Sprite
     state: icon
   - type: Item

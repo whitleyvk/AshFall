@@ -353,18 +353,30 @@ public abstract class BaseAudioSource : IAudioSource
         }
     }
 
+    private int _currentAuxHandle;
+
     void IAudioSource.SetAuxiliary(IAuxiliaryAudio? audio)
     {
         _checkDisposed();
         if (!IsEfxSupported)
             return;
 
+        // Explicitly-bound sends (reverb presets) are re-applied every frame by content, so
+        // skip the OpenAL call when the send is already correct.
         if (audio is AuxiliaryAudio impAudio)
         {
-            ALC.EFX.Source(SourceHandle, EFXSourceInteger3.AuxiliarySendFilter, impAudio.Handle, 0, 0);
+            if (_currentAuxHandle == impAudio.Handle)
+                return;
+
+            _currentAuxHandle = impAudio.Handle;
+            ALC.EFX.Source(SourceHandle, EFXSourceInteger3.AuxiliarySendFilter, impAudio.Handle, 0, FilterHandle);
         }
         else
         {
+            if (_currentAuxHandle == 0)
+                return;
+
+            _currentAuxHandle = 0;
             ALC.EFX.Source(SourceHandle, EFXSourceInteger3.AuxiliarySendFilter, 0, 0, 0);
         }
 
@@ -382,6 +394,10 @@ public abstract class BaseAudioSource : IAudioSource
         ALC.EFX.Filter(FilterHandle, FilterFloat.LowpassGain, gain);
         ALC.EFX.Filter(FilterHandle, FilterFloat.LowpassGainHF, cutoff);
         AL.Source(SourceHandle, ALSourcei.EfxDirectFilter, FilterHandle);
+        if (_currentAuxHandle != 0)
+        {
+            ALC.EFX.Source(SourceHandle, EFXSourceInteger3.AuxiliarySendFilter, _currentAuxHandle, 0, FilterHandle);
+        }
     }
 
     protected static bool AreFinite(float x, float y)

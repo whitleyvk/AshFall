@@ -21,25 +21,27 @@ using Robust.Shared.Configuration;
 using Robust.Shared.Light;
 using Robust.Shared.Physics;
 using Robust.Shared.Physics.Systems;
+using Robust.Shared.Random;
 using Robust.Shared.Timing;
 
 namespace Content.Server.Trauma.Perception;
 
 public sealed partial class PerceptionSystem : SharedPerceptionSystem
 {
-    [Dependency] private readonly IConfigurationManager _cfg = default!;
-    [Dependency] private readonly IGameTiming _timing = default!;
-    [Dependency] private readonly TransformSystem _transform = default!;
-    [Dependency] private readonly SharedPhysicsSystem _physics = default!;
-    [Dependency] private readonly EntityLookupSystem _lookup = default!;
-    [Dependency] private readonly DamageableSystem _damageable = default!;
-    [Dependency] private readonly MobStateSystem _mobState = default!;
-    [Dependency] private readonly SharedAudioSystem _audio = default!;
-    [Dependency] private readonly AlertsSystem _alerts = default!;
-    [Dependency] private readonly LightLevelSystem _lightLevel = default!;
-    [Dependency] private readonly EntityQuery<GhostComponent> _ghostQuery = default!;
-    [Dependency] private readonly EntityQuery<BeingDisposedComponent> _disposedQuery = default!;
-    [Dependency] private readonly EntityQuery<InputMoverComponent> _moverQuery = default!;
+    [Dependency] private IConfigurationManager _cfg = default!;
+    [Dependency] private IGameTiming _timing = default!;
+    [Dependency] private TransformSystem _transform = default!;
+    [Dependency] private SharedPhysicsSystem _physics = default!;
+    [Dependency] private EntityLookupSystem _lookup = default!;
+    [Dependency] private DamageableSystem _damageable = default!;
+    [Dependency] private MobStateSystem _mobState = default!;
+    [Dependency] private SharedAudioSystem _audio = default!;
+    [Dependency] private AlertsSystem _alerts = default!;
+    [Dependency] private LightLevelSystem _lightLevel = default!;
+    [Dependency] private EntityQuery<GhostComponent> _ghostQuery = default!;
+    [Dependency] private EntityQuery<BeingDisposedComponent> _disposedQuery = default!;
+    [Dependency] private EntityQuery<InputMoverComponent> _moverQuery = default!;
+    [Dependency] private IRobustRandom _random = default!;
 
     public float LookupRange = 10f;
     public float UpdateFrequency = 0.35f;
@@ -47,6 +49,8 @@ public sealed partial class PerceptionSystem : SharedPerceptionSystem
     public bool ShadowStealthEnabled = true;
 
     private TimeSpan _nextLightUpdate = TimeSpan.Zero;
+
+    private readonly HashSet<Entity<PointLightComponent>> _lightLookup = new();
 
     public override void Initialize()
     {
@@ -56,6 +60,9 @@ public sealed partial class PerceptionSystem : SharedPerceptionSystem
         Subs.CVar(_cfg, TraumaCVars.PerceptionLightUpdateFrequency, v => UpdateFrequency = v, true);
         Subs.CVar(_cfg, TraumaCVars.PerceptionLightMaximumLevel, v => MaximumLightLevel = v, true);
         Subs.CVar(_cfg, TraumaCVars.PerceptionShadowStealthEnabled, v => ShadowStealthEnabled = v, true);
+
+        // LightDetection
+        SubscribeLocalEvent<LightDetectionComponent, ComponentInit>(OnLightDetectionInit);
 
         // LightDetectionDamage
         SubscribeLocalEvent<LightDetectionDamageComponent, MapInitEvent>(OnDamageStartup);
@@ -87,14 +94,27 @@ public sealed partial class PerceptionSystem : SharedPerceptionSystem
         UpdateLightImmunities(now);
     }
 
+    private void OnLightDetectionInit(EntityUid uid, LightDetectionComponent comp, ComponentInit args)
+    {
+        // Stagger the periodic recalculation so tracked entities spread across ticks instead of spiking together
+        comp.NextUpdate = _timing.CurTime + TimeSpan.FromSeconds(_random.NextFloat() * UpdateFrequency);
+    }
+
     private void UpdateLightingAndStealth()
     {
+        var now = _timing.CurTime;
+
         // 1. Update LightDetectionComponents
         var lightQuery = EntityQueryEnumerator<LightDetectionComponent, TransformComponent>();
         while (lightQuery.MoveNext(out var uid, out var comp, out var xform))
         {
+            if (now < comp.NextUpdate)
+                continue;
+
             if (xform.MapID == Robust.Shared.Map.MapId.Nullspace)
                 continue;
+
+            comp.NextUpdate = now + TimeSpan.FromSeconds(UpdateFrequency);
 
             var oldLevel = comp.CurrentLightLevel;
             var newLevel = CalculateEntityLightLevel(uid, xform);
@@ -123,7 +143,6 @@ public sealed partial class PerceptionSystem : SharedPerceptionSystem
                 continue;
             }
 
-            var now = _timing.CurTime;
             if (comp.IsRevealed(now))
             {
                 if (comp.CurrentVisibility < comp.MaxVisibility)
@@ -178,8 +197,9 @@ public sealed partial class PerceptionSystem : SharedPerceptionSystem
         var totalLight = 0f;
 
         // Query point lights in range and cast collision rays through opaque blockers
-        var lookup = _lookup.GetEntitiesInRange<PointLightComponent>(xform.Coordinates, LookupRange);
-        foreach (var (point, pointLight) in lookup)
+        _lightLookup.Clear();
+        _lookup.GetEntitiesInRange(xform.Coordinates, LookupRange, _lightLookup);
+        foreach (var (point, pointLight) in _lightLookup)
         {
             if (!pointLight.Enabled)
                 continue;

@@ -6,6 +6,7 @@ using Robust.Shared.Prototypes;
 
 namespace Content.Client.Lobby.UI.ProfileEditorControls;
 
+[Virtual]
 public partial class ProfilePreviewSpriteView : SpriteView
 {
     [Dependency] private IPrototypeManager _prototypeManager = default!;

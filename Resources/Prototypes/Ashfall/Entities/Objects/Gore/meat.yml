@@ -1,0 +1,17 @@
+- type: entity
+  name: кусок мяса
+  description: Окровавленный обрубок плоти. Жуткое зрелище.
+  parent: [FoodMeatRawBase, BaseSlicingRefinableFood]
+  id: AshfallFoodMeatChunk
+  components:
+  - type: Sprite
+    sprite: Objects/Consumable/Food/meat.rsi
+    state: clump
+  - type: ToolRefinable
+    refineResult:
+    - id: FoodMeatCutlet
+      amount: 2
+  - type: Tag
+    tags:
+    - Meat
+    - Raw

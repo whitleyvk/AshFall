@@ -321,12 +321,22 @@
   - type: Surgery
     requirement: SurgeryOpenIncision
     steps:
-    - SurgeryStepSawBones
     - SurgeryStepInsertOrgan
     - SurgeryStepSealOrganWound
   - type: SurgeryOrganCondition
     inverse: true
     reattaching: true
+
+- type: entity
+  abstract: true
+  parent: BaseSurgeryInsertOrgan
+  id: BaseSurgeryInsertOrganSkull
+  components:
+  - type: Surgery
+    steps:
+    - SurgeryStepSawBones
+    - SurgeryStepInsertOrgan
+    - SurgeryStepSealOrganWound
 
 - type: entity
   abstract: true
@@ -344,7 +354,6 @@
   - type: Surgery
     requirement: SurgeryOpenIncision
     steps:
-    - SurgeryStepOpenIncisionScalpel
     - SurgeryStepClampBleeders
     - SurgeryStepRemoveOrgan
 
@@ -359,7 +368,7 @@
 ## Organ Insertion
 
 - type: entity
-  parent: BaseSurgeryInsertOrgan
+  parent: BaseSurgeryInsertOrganSkull
   id: SurgeryInsertBrain
   name: Insert Brain
   components:
@@ -379,7 +388,7 @@
     organ: Eyes
 
 - type: entity
-  parent: BaseSurgeryInsertOrgan
+  parent: BaseSurgeryInsertOrganSkull
   id: SurgeryInsertEars
   name: Insert Ear Organs
   components:

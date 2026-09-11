@@ -43,3 +43,24 @@
   id: AshfallGunPick
   files:
   - /Audio/Ashfall/Weapons/Interact/gun_pick.ogg
+
+- type: soundCollection
+  id: AshfallHullCreak
+  files:
+  - /Audio/Ashfall/Ambience/ambihullcreak.ogg
+
+- type: soundCollection
+  id: AshfallAirlockCreak
+  files:
+  - /Audio/Ashfall/Ambience/airlock_creaking.ogg
+
+- type: soundCollection
+  id: AshfallBlockMetal
+  files:
+  - /Audio/Ashfall/Effects/block_metal1.ogg
+
+- type: soundCollection
+  id: AshfallEnergyMetal
+  files:
+  - /Audio/Ashfall/Effects/energy_metal1.ogg
+  - /Audio/Ashfall/Effects/energy_metal2.ogg

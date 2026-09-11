@@ -2,6 +2,7 @@ using Content.Server.Audio;
 using Content.Server.Light.Components;
 using Content.Server.Power.Components;
 using Content.Server.Power.EntitySystems;
+using Content.Server.Power.NodeGroups;
 using Content.Server.Station.Systems;
 using Content.Shared.AlertLevel;
 using Content.Shared.Examine;
@@ -24,6 +25,8 @@ public sealed partial class EmergencyLightSystem : SharedEmergencyLightSystem
     [Dependency] private SharedAppearanceSystem _appearance = default!;
     [Dependency] private StationSystem _station = default!;
 
+    public static readonly Color AmberColor = Color.FromHex("#FF7A18");
+
     public override void Initialize()
     {
         base.Initialize();
@@ -38,7 +41,7 @@ public sealed partial class EmergencyLightSystem : SharedEmergencyLightSystem
     {
         var meta = MetaData(entity.Owner);
 
-        // TODO: PowerChangedEvent shouldn't be issued for paused ents but this is the world we live in.
+        // TODO: PowerChangedEvent shouldn't be issued for paused ents but this is the world we live in.\
         if (meta.EntityLifeStage >= EntityLifeStage.Terminating ||
             meta.EntityPaused)
         {
@@ -138,10 +141,14 @@ public sealed partial class EmergencyLightSystem : SharedEmergencyLightSystem
     {
         if (entity.Comp.State == EmergencyLightState.On)
         {
-            if (!_battery.TryUseCharge((entity.Owner, battery), entity.Comp.Wattage * frameTime))
+            var powered = TryComp<ApcPowerReceiverComponent>(entity.Owner, out var receiver) && receiver.Powered;
+            if (!powered)
             {
-                SetState(entity.Owner, entity.Comp, EmergencyLightState.Empty);
-                TurnOff(entity);
+                if (!_battery.TryUseCharge((entity.Owner, battery), entity.Comp.Wattage * frameTime))
+                {
+                    SetState(entity.Owner, entity.Comp, EmergencyLightState.Empty);
+                    TurnOff(entity);
+                }
             }
         }
         else
@@ -160,6 +167,23 @@ public sealed partial class EmergencyLightSystem : SharedEmergencyLightSystem
     }
 
     /// <summary>
+    ///     Checks if any APC powering this receiver is in brownout degradation.
+    /// </summary>
+    public bool IsInBrownout(ApcPowerReceiverComponent receiver)
+    {
+        if (receiver.Provider?.Net is not ApcNet apcNet)
+            return false;
+
+        foreach (var apc in apcNet.Apcs)
+        {
+            if (apc.LastBrownoutState)
+                return true;
+        }
+
+        return false;
+    }
+
+    /// <summary>
     ///     Updates the light's power drain, battery drain, sprite and actual light state.
     /// </summary>
     public void UpdateState(Entity<EmergencyLightComponent> entity)
@@ -167,29 +191,42 @@ public sealed partial class EmergencyLightSystem : SharedEmergencyLightSystem
         if (!TryComp<ApcPowerReceiverComponent>(entity.Owner, out var receiver))
             return;
 
-        // Show alert level on the light itself.
-        if (_station.GetOwningStation(entity.Owner) is not { } station
-            || !_alert.TryGetLevel(station, out var level)
-            || !ProtoMan.Resolve(level, out var proto))
+        // Show alert level on the light itself if the station is on a level that force-enables
+        // emergency lights. A resolved but non-forcing level (green) is NOT an alert: the
+        // light must go back to its off/charging state.
+        var alertColor = Color.Transparent;
+        if (_station.GetOwningStation(entity.Owner) is { } station
+            && _alert.TryGetLevel(station, out var level)
+            && ProtoMan.Resolve(level, out var proto)
+            && proto.ForceEnableEmergencyLights)
         {
-            TurnOff(entity, Color.Red); // if no alert, default to off red state
-            return;
+            alertColor = proto.EmergencyLightColor;
         }
 
-        if (receiver.Powered && !entity.Comp.ForciblyEnabled) // Green alert
+        var isBrownout = IsInBrownout(receiver);
+
+        if (receiver.Powered && !entity.Comp.ForciblyEnabled && !isBrownout && alertColor == Color.Transparent) // Normal powered state
         {
             receiver.Load = (int)Math.Abs(entity.Comp.Wattage);
-            TurnOff(entity, proto.EmergencyLightColor);
+            TurnOff(entity, Color.Red);
             SetState(entity.Owner, entity.Comp, EmergencyLightState.Charging);
         }
-        else if (!receiver.Powered) // If internal battery runs out it will end in off red state
+        else if (receiver.Powered && isBrownout) // Brownout warning
         {
-            TurnOn(entity, Color.Red);
+            receiver.Load = (int)Math.Abs(entity.Comp.Wattage);
+            TurnOn(entity, AmberColor);
             SetState(entity.Owner, entity.Comp, EmergencyLightState.On);
         }
-        else // Powered and enabled
+        else if (!receiver.Powered) // Power failure -> emergency battery light turns ON!
         {
-            TurnOn(entity, proto.EmergencyLightColor);
+            var color = isBrownout ? AmberColor : (alertColor != Color.Transparent ? alertColor : Color.Red);
+            TurnOn(entity, color);
+            SetState(entity.Owner, entity.Comp, EmergencyLightState.On);
+        }
+        else // Powered and forced enabled or active station alert level
+        {
+            var color = alertColor != Color.Transparent ? alertColor : Color.Red;
+            TurnOn(entity, color);
             SetState(entity.Owner, entity.Comp, EmergencyLightState.On);
         }
     }

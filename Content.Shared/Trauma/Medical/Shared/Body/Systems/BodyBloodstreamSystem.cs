@@ -45,53 +45,93 @@ public sealed partial class BodyBloodstreamSystem : EntitySystem
     private float _bleedingSeverity = 1f;
     private float _bleedScaleTime = 1f;
 
+    // Bleeding status and scaling are derived from timestamps, so the rescan can run on an interval instead of every tick
+    private static readonly TimeSpan BleedUpdateInterval = TimeSpan.FromSeconds(0.5);
+
+    private readonly HashSet<EntityUid> _dirtyBodies = new();
+
     public override void Initialize()
     {
         base.Initialize();
 
         Subs.CVar(_cfg, SurgeryCVars.BleedingSeverityTrade, x => _bleedingSeverity = x, true);
         Subs.CVar(_cfg, SurgeryCVars.BleedsScalingTime, x => _bleedScaleTime = x, true);
-
-        SubscribeLocalEvent<BodyComponent, InteractUsingEvent>(OnInteractUsing);
-        SubscribeLocalEvent<BodyComponent, FieldCauterizeDoAfterEvent>(OnCauterizeDoAfter);
-        SubscribeLocalEvent<CauteryComponent, ItemToggledEvent>(OnCauteryToggled);
     }
 
     public override void Update(float frameTime)
     {
         base.Update(frameTime);
 
+        // Bleeding wounds scale over time, so the body-wide total has to be reconciled on the
+        // same interval; the event batches one recompute per body instead of per wound.
+        _dirtyBodies.Clear();
+
         var bleedsQuery = EntityQueryEnumerator<BleedInflicterComponent>();
         var now = _timing.CurTime;
         while (bleedsQuery.MoveNext(out var ent, out var bleeds))
         {
+            if (now < bleeds.NextUpdate)
+                continue;
+
+            bleeds.NextUpdate = now + BleedUpdateInterval;
+
             var bleeding = bleeds.BleedingAmount > 0 && CanWoundBleed((ent, bleeds));
+            var changed = false;
             if (bleeding != bleeds.IsBleeding)
             {
                 bleeds.IsBleeding = bleeding;
                 DirtyField(ent, bleeds, nameof(BleedInflicterComponent.IsBleeding));
+                changed = true;
             }
 
             if (!bleeds.IsBleeding)
+            {
+                if (changed && TryGetWoundBody(ent, out var stoppedBody))
+                    _dirtyBodies.Add(stoppedBody);
                 continue;
+            }
 
-            var totalTime = bleeds.ScalingFinishesAt - bleeds.ScalingStartsAt;
-            var currentTime = bleeds.ScalingFinishesAt - now;
+            var totalSeconds = (bleeds.ScalingFinishesAt - bleeds.ScalingStartsAt).TotalSeconds;
+            var elapsedSeconds = (now - bleeds.ScalingStartsAt).TotalSeconds;
 
-            if (totalTime <= currentTime || bleeds.ScalingLimit >= bleeds.Scaling)
-                continue;
+            if (totalSeconds > 0 && bleeds.Scaling < bleeds.ScalingLimit)
+            {
+                var progress = Math.Clamp(elapsedSeconds / totalSeconds, 0.0, 1.0);
+                var newBleeds = FixedPoint2.Clamp(
+                    (float) progress * bleeds.ScalingLimit,
+                    0,
+                    bleeds.ScalingLimit);
 
-            var newBleeds = FixedPoint2.Clamp(
-                (totalTime / currentTime) / (bleeds.ScalingLimit - bleeds.Scaling),
-                0,
-                bleeds.ScalingLimit);
+                if (bleeds.Scaling != newBleeds)
+                {
+                    bleeds.Scaling = newBleeds;
+                    DirtyField(ent, bleeds, nameof(BleedInflicterComponent.Scaling));
+                    changed = true;
+                }
+            }
 
-            if (bleeds.Scaling == newBleeds)
-                continue;
-
-            bleeds.Scaling = newBleeds;
-            DirtyField(ent, bleeds, nameof(BleedInflicterComponent.Scaling));
+            if (changed && TryGetWoundBody(ent, out var body))
+                _dirtyBodies.Add(body);
         }
+
+        foreach (var body in _dirtyBodies)
+        {
+            var ev = new BloodstreamUpdateEvent();
+            RaiseLocalEvent(body, ref ev);
+        }
+    }
+
+    private bool TryGetWoundBody(EntityUid wound, out EntityUid body)
+    {
+        if (TryComp<WoundComponent>(wound, out var woundComp) &&
+            _body.GetBody(woundComp.HoldingWoundable) is { } found)
+        {
+            body = found;
+            return true;
+        }
+
+        body = default;
+        return false;
     }
 
     /// <summary>
@@ -243,7 +283,7 @@ public sealed partial class BodyBloodstreamSystem : EntitySystem
         Dirty(uid, component);
 
         if (_body.GetBody(args.Component.HoldingWoundable) is { } body)
-            _bloodstream.TryModifyBleedAmount(body, component.BleedingAmountRaw.Float());
+            UpdateBodyBleedAmount(body);
     }
 
     [SubscribeLocalEvent]
@@ -285,12 +325,13 @@ public sealed partial class BodyBloodstreamSystem : EntitySystem
             // When bleeding is reopened, the severity is increased
         }
 
-        // dummy fix as me and pretty much nobody else currently knows HOW EXACTLY was is supposed to work, womp womp
-        // seems to work fine though so why not
         if (component.BleedingAmountRaw > 0)
             component.Scaling = 1;
 
         Dirty(uid, component);
+
+        if (_body.GetBody(args.Component.HoldingWoundable) is { } body)
+            UpdateBodyBleedAmount(body);
     }
 
     [SubscribeLocalEvent]
@@ -310,6 +351,8 @@ public sealed partial class BodyBloodstreamSystem : EntitySystem
         if (!result)
             return;
 
+        UpdateBodyBleedAmount(body);
+
         _audio.PlayPredicted(new SoundPathSpecifier("/Audio/Effects/lightburn.ogg"), body, body);
         _popup.PopupEntity(Loc.GetString("bloodstream-component-wounds-cauterized"),
             body,
@@ -317,41 +360,58 @@ public sealed partial class BodyBloodstreamSystem : EntitySystem
             PopupType.MediumCaution);
     }
 
-    [SubscribeLocalEvent]
-    private void OnBodyUpdate(Entity<BodyComponent> ent, ref BloodstreamUpdateEvent args)
+    public void UpdateBodyBleedAmount(EntityUid body)
     {
+        if (!TryComp<BloodstreamComponent>(body, out var blood))
+            return;
+
         var total = FixedPoint2.Zero;
-        foreach (var part in _body.GetOrgans<WoundableComponent>(ent.AsNullable()))
+        foreach (var part in _body.GetOrgans<WoundableComponent>(body))
         {
             var totalPartBleeds = FixedPoint2.Zero;
             foreach (var wound in _wound.GetWoundableWounds(part.AsNullable()))
             {
-                if (_bleedQuery.TryComp(wound, out var bleeds))
+                if (_bleedQuery.TryComp(wound, out var bleeds) && bleeds.IsBleeding)
                     totalPartBleeds += bleeds.BleedingAmount;
             }
             total += totalPartBleeds;
 
             part.Comp.Bleeds = totalPartBleeds;
-            // not dirtied because jesus christ that would spam packets
         }
 
-        var blood = Comp<BloodstreamComponent>(ent);
         blood.BleedAmountFromWounds = (float) total;
         blood.BleedAmount = blood.BleedAmountFromWounds + blood.BleedAmountNotFromWounds;
         blood.BleedAmount = Math.Clamp(blood.BleedAmount, 0, blood.MaxBleedAmount);
-        DirtyFields(ent.Owner, blood, null, nameof(BloodstreamComponent.BleedAmount), nameof(BloodstreamComponent.BleedAmountFromWounds));
+        DirtyFields(body, blood, null, nameof(BloodstreamComponent.BleedAmount), nameof(BloodstreamComponent.BleedAmountFromWounds));
 
         if (blood.BleedAmount == 0)
         {
-            _alerts.ClearAlert(ent.Owner, blood.BleedingAlert);
+            _alerts.ClearAlert(body, blood.BleedingAlert);
         }
         else
         {
             var severity = (short) Math.Clamp(Math.Round(blood.BleedAmount, MidpointRounding.ToZero), 0, 10);
-            _alerts.ShowAlert(ent.Owner, blood.BleedingAlert, severity);
+            _alerts.ShowAlert(body, blood.BleedingAlert, severity);
         }
     }
 
+    [SubscribeLocalEvent]
+    private void OnBleedShutdown(EntityUid uid, BleedInflicterComponent component, ComponentShutdown args)
+    {
+        if (TryComp<WoundComponent>(uid, out var wound) &&
+            _body.GetBody(wound.HoldingWoundable) is { } body)
+        {
+            UpdateBodyBleedAmount(body);
+        }
+    }
+
+    [SubscribeLocalEvent]
+    private void OnBodyUpdate(Entity<BodyComponent> ent, ref BloodstreamUpdateEvent args)
+    {
+        UpdateBodyBleedAmount(ent.Owner);
+    }
+
+    [SubscribeLocalEvent]
     private void OnInteractUsing(Entity<BodyComponent> ent, ref InteractUsingEvent args)
     {
         if (args.Handled)
@@ -409,6 +469,7 @@ public sealed partial class BodyBloodstreamSystem : EntitySystem
         return false;
     }
 
+    [SubscribeLocalEvent]
     private void OnCauteryToggled(Entity<CauteryComponent> ent, ref ItemToggledEvent args)
     {
         if (args.Activated)
@@ -453,6 +514,7 @@ public sealed partial class BodyBloodstreamSystem : EntitySystem
         return false;
     }
 
+    [SubscribeLocalEvent]
     private void OnCauterizeDoAfter(Entity<BodyComponent> ent, ref FieldCauterizeDoAfterEvent args)
     {
         if (args.Cancelled || args.Handled)

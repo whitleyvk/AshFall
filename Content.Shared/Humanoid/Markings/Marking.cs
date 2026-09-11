@@ -30,6 +30,9 @@ public partial record struct Marking
     /// </summary>
     public bool Forced;
 
+    [DataField]
+    public bool IsChildMarking;
+
     public Marking()
     {
         _markingColors = new();

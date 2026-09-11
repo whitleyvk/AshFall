@@ -54,6 +54,9 @@ public sealed partial class ChannelFilterPopup : Popup
 
     public bool IsActive(ChatChannel channel)
     {
+        if (channel == ChatChannel.Examine)
+            return !_filterStates.TryGetValue(ChatChannel.Local, out var local) || local.Pressed;
+
         return _filterStates.TryGetValue(channel, out var checkbox) && checkbox.Pressed;
     }
 

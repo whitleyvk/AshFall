@@ -21,6 +21,7 @@ public abstract partial class SharedFlatpackerSystem : EntitySystem
     [Dependency] private SharedAudioSystem _audio = default!;
     [Dependency] private MetaDataSystem _metaData = default!;
     [Dependency] private TagSystem _tag = default!;
+    [Dependency] private SharedInteractionSystem _interaction = default!;
 
     public static readonly ProtoId<TagPrototype> TagPackable = "AshfallPackable";
 
@@ -64,6 +65,11 @@ public abstract partial class SharedFlatpackerSystem : EntitySystem
             return;
 
         if (!IsPackable(target, out _))
+            return;
+
+        // BreakOnMove tracks the user, not the target: make sure the machine was not carried
+        // or pushed away while the do-after ran.
+        if (!_interaction.InRangeUnobstructed(args.User, target))
             return;
 
         var targetName = Name(target);

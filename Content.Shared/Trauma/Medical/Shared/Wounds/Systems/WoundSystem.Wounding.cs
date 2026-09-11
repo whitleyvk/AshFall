@@ -395,7 +395,8 @@ public sealed partial class WoundSystem
     /// </summary>
     /// <param name="parent">Parent of the woundable entity. Yes.</param>
     /// <param name="part">The vulnerable body part</param>
-    public bool AmputateWoundable(Entity<WoundableComponent?> parent, Entity<WoundableComponent?> part, EntityUid? user = null)
+    /// <param name="crude">Whether the amputation is a rough field one (chainsaw, gunfire) rather than clean surgery</param>
+    public bool AmputateWoundable(Entity<WoundableComponent?> parent, Entity<WoundableComponent?> part, EntityUid? user = null, bool crude = false)
     {
         if (_timing.ApplyingState ||
             !_woundableQuery.Resolve(parent, ref parent.Comp) ||
@@ -410,9 +411,22 @@ public sealed partial class WoundSystem
             return false;
 
         var partContainer = _container.EnsureContainer<Container>(part.Owner, "body_part_organs");
-        foreach (var child in children)
+        if (TryComp<BodyPartComponent>(part.Owner, out var partComp))
         {
-            if (HasComp<InternalChildOrganComponent>(child))
+            foreach (var child in children)
+            {
+                _body.RemoveOrgan(body, child.Owner);
+                if (_container.Insert(child.Owner, partContainer, force: true))
+                {
+                    if (_body.GetCategory(child.Owner) is { } category)
+                        partComp.Children[category] = child.Owner;
+                }
+            }
+            DirtyField(part.Owner, partComp, nameof(BodyPartComponent.Children));
+        }
+        else
+        {
+            foreach (var child in children)
             {
                 _body.RemoveOrgan(body, child.Owner);
                 _container.Insert(child.Owner, partContainer, force: true);
@@ -421,7 +435,7 @@ public sealed partial class WoundSystem
 
         _audio.PlayPredicted(part.Comp.WoundableDelimbedSound, body, user);
 
-        var delimbedEvent = new BodyPartDelimbedEvent(body, part.Owner, user);
+        var delimbedEvent = new BodyPartDelimbedEvent(body, part.Owner, user, crude);
         RaiseLocalEvent(body, ref delimbedEvent);
 
         string msg;
@@ -597,7 +611,7 @@ public sealed partial class WoundSystem
                     source: HeadCategory);
             }
 
-            args.Handled = AmputateWoundable(parent, head, args.User);
+            args.Handled = AmputateWoundable(parent, head, args.User, crude: true);
         }
     }
 
@@ -748,22 +762,21 @@ public sealed partial class WoundSystem
 
     /// <summary>
     /// Get the wounds present on a specific woundable
-    /// The returned list is reused between calls, do not store it
     /// </summary>
-    /// <param name="targetEntity">Entity that owns the woundable</param>
-    /// <param name="targetWoundable">Woundable component</param>
-    /// <returns>An enumerable pointing to one of the found wounds</returns>
+    /// <param name="part">The woundable bodypart</param>
+    /// <returns>A list of the found wounds</returns>
     public List<Entity<WoundComponent>> GetWoundableWounds(Entity<WoundableComponent?> part)
     {
         if (!_woundableQuery.Resolve(part, ref part.Comp) || part.Comp.Wounds == default) // it can be null while applying state if the entity is entering pvs right now
             return [];
 
-        _wounds.Clear();
+        var wounds = new List<Entity<WoundComponent>>(part.Comp.Wounds.ContainedEntities.Count);
         foreach (var wound in part.Comp.Wounds.ContainedEntities)
         {
-            _wounds.Add((wound, _query.Comp(wound)));
+            if (_query.TryComp(wound, out var comp))
+                wounds.Add((wound, comp));
         }
-        return _wounds;
+        return wounds;
     }
 
     /// <summary>

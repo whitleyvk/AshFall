@@ -512,7 +512,7 @@ public sealed partial class AudioMuffleSystem : SharedAudioMuffleSystem
 
         // ResolvePlayer returns nearest entity that provides ai vision, if it cannot find any, it returns ai eye
         // itself, which means no cameras nearby => all audio is muffled
-        if (distance > AudioRange || _aiEyeQuery.HasComp(player))
+        if (_aiEyeQuery.HasComp(player))
             return 100f;
 
         if (!_pathfindingEnabled)
@@ -539,10 +539,13 @@ public sealed partial class AudioMuffleSystem : SharedAudioMuffleSystem
         Vector2i pos,
         MuffleTileData tileData)
     {
+        if (float.IsNaN(tileData.TotalCost) || float.IsInfinity(tileData.TotalCost))
+            return 0f;
+
         var playerIndices = _map.TileIndicesFor(grid, playerPos);
         var playerDist = (float) ManhattanDistance(pos, playerIndices);
-        var muffleLevel = tileData.TotalCost + (playerDist - AudioRange) / 4f - GetTotalTileCost(pos);
-        return CalculateOcclusion(muffleLevel);
+        var excessCost = MathF.Max(0f, tileData.TotalCost - playerDist - GetTotalTileCost(pos));
+        return CalculateOcclusion(excessCost);
     }
 
     private float CalculateRaycastOcclusion(MapCoordinates listener,
@@ -550,10 +553,10 @@ public sealed partial class AudioMuffleSystem : SharedAudioMuffleSystem
         float distance,
         EntityUid? ignoredEnt)
     {
-        var rayLength = MathF.Min(distance, _maxRayLength);
-        if (delta == Vector2.Zero || distance == 0f)
-            return 0f; // you are inside the source?
+        if (distance <= 0.1f || delta == Vector2.Zero || float.IsNaN(distance) || float.IsInfinity(distance))
+            return 0f;
 
+        var rayLength = MathF.Min(distance, _maxRayLength);
         var dir = (delta / distance).Normalized();
         var ray = new CollisionRay(listener.Position, dir, _audio.OcclusionCollisionMask);
 
@@ -563,17 +566,27 @@ public sealed partial class AudioMuffleSystem : SharedAudioMuffleSystem
             x => x == ignoredEnt || !_blockerQuery.HasComp(x),
             false);
 
-        var muffleLevel = 0f;
+        var blockerCost = 0f;
         foreach (var result in results)
         {
-            muffleLevel += GetBlockerCost(_blockerQuery.Comp(result.HitEntity));
+            if (_blockerQuery.TryComp(result.HitEntity, out var blockerComp))
+                blockerCost += GetBlockerCost(blockerComp);
         }
 
-        return CalculateOcclusion(muffleLevel + distance);
+        return CalculateOcclusion(blockerCost);
     }
 
     private static float CalculateOcclusion(float muffleLevel)
     {
-        return MathF.Pow(muffleLevel / 8f, 4f);
+        if (muffleLevel <= 0.1f)
+            return 0f;
+
+        // Balanced occlusion curve:
+        // Window = ~4.0  -> occlusion ~0.15 (cutoff Exp(-0.15) = 0.86, crystal clear)
+        // Airlock = ~9.3 -> occlusion ~0.35 (cutoff Exp(-0.35) = 0.70, mild dampening)
+        // Wall = ~22.7   -> occlusion ~0.85 (cutoff Exp(-0.85) = 0.43, solid low-pass thud, loud explosions/shots)
+        // 2 Walls = ~45  -> occlusion ~1.50 (cutoff Exp(-1.50) = 0.22, deep rumble/muffle)
+        // Capped at 2.2f so gunfire and explosions in neighboring rooms are never muted to silence.
+        return MathF.Min(2.2f, muffleLevel / 26.0f);
     }
 }

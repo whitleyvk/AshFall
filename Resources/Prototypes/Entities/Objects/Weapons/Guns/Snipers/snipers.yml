@@ -119,6 +119,20 @@
   - type: StaticPrice
     price: 500
 
+  - type: AttachableGun
+    visuals:
+      attachment_underbarrel:
+        offset: -0.03125, 0.28125
+        rotation: 45
+        layerAnchor: top
+        layerPosition: After
+        drawOrder: 0
+      attachment_muzzle:
+        offset: -0.0625, 0.59375
+        rotation: 45
+        layerAnchor: top
+        layerPosition: After
+        drawOrder: 0
 - type: entity
   name: Hristov
   parent: [BaseWeaponSniper, BaseGunWieldable, BaseSyndicateContraband]
@@ -160,6 +174,20 @@
   - type: StaticPrice
     price: 3500
 
+  - type: AttachableGun
+    visuals:
+      attachment_underbarrel:
+        offset: 0.09375, 0.28125
+        rotation: 45
+        layerAnchor: top
+        layerPosition: After
+        drawOrder: 0
+      attachment_muzzle:
+        offset: 0.09375, 0.625
+        rotation: 45
+        layerAnchor: top
+        layerPosition: After
+        drawOrder: 0
 - type: entity
   name: musket
   parent: [ BaseWeaponSniper, BaseGunWieldable, BaseMajorContraband ]
@@ -201,6 +229,24 @@
       path: /Audio/Weapons/bladeslice.ogg
   - type: GunRequiresWield
 
+  - type: AttachableGun
+    compatibility:
+      attachment_underbarrel:
+        allowedAttachments: []
+        deniedAttachments: ["AttachmentLAM"]
+    visuals:
+      attachment_underbarrel:
+        offset: -0.03125, 0.28125
+        rotation: 45
+        layerAnchor: top
+        layerPosition: After
+        drawOrder: 0
+      attachment_muzzle:
+        offset: 0, 0.65625
+        rotation: 45
+        layerAnchor: top
+        layerPosition: After
+        drawOrder: 0
 - type: entity
   name: flintlock pistol
   parent: [BaseWeaponSniper, BaseMajorContraband]
@@ -232,6 +278,20 @@
   - type: StaticPrice
     price: 0
 
+  - type: AttachableGun
+    visuals:
+      attachment_muzzle:
+        offset: 0.1875, 0.125
+        rotation: 0
+        layerAnchor: top
+        layerPosition: After
+        drawOrder: 0
+      attachment_underbarrel:
+        offset: 0, 0.09375
+        rotation: 0
+        layerAnchor: top
+        layerPosition: After
+        drawOrder: 0
 - type: entity
   parent: WeaponPistolFlintlock
   id: WeaponPistolFlintlockEmpty
@@ -239,3 +299,17 @@
   components:
   - type: BallisticAmmoProvider
     proto: null
+  - type: AttachableGun
+    visuals:
+      attachment_underbarrel:
+        offset: 0, 0.09375
+        rotation: 0
+        layerAnchor: top
+        layerPosition: After
+        drawOrder: 0
+      attachment_muzzle:
+        offset: 0.25, 0.09375
+        rotation: 0
+        layerAnchor: top
+        layerPosition: After
+        drawOrder: 0

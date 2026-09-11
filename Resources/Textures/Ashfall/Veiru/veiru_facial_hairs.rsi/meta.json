@@ -7,10 +7,49 @@
         "y": 32
     },
     "states": [
-        { "name": "beard", "directions": 4 },
-        { "name": "cheeks", "directions": 4 },
-        { "name": "mustache", "directions": 4 },
-        { "name": "mustache_2", "directions": 4 },
-        { "name": "mustache_3", "directions": 4 }
+        {
+            "name": "beard",
+            "directions": 4
+        },
+        {
+            "name": "cheeks",
+            "directions": 4
+        },
+        {
+            "name": "mustache",
+            "directions": 4
+        },
+        {
+            "name": "mustache_2",
+            "directions": 4
+        },
+        {
+            "name": "mustache_3",
+            "directions": 4
+        },
+        {
+            "name": "goatee_faded",
+            "directions": 4
+        },
+        {
+            "name": "goatee",
+            "directions": 4
+        },
+        {
+            "name": "mutton",
+            "directions": 4
+        },
+        {
+            "name": "pencilstache",
+            "directions": 4
+        },
+        {
+            "name": "sideburns",
+            "directions": 4
+        },
+        {
+            "name": "smallstache",
+            "directions": 4
+        }
     ]
 }

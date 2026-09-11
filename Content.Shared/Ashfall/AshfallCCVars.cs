@@ -43,4 +43,10 @@ public sealed class AshfallCCVars
     /// </summary>
     public static readonly CVarDef<bool> ChatCoalesceIdenticalMessages =
         CVarDef.Create("chat.coalesce_identical_messages", true, CVar.CLIENTONLY | CVar.ARCHIVE);
+
+    /// <summary>
+    ///     Whether dynamic agony/damage post-processing effects (shock blur, desaturation near crit, tunnel vision) are enabled.
+    /// </summary>
+    public static readonly CVarDef<bool> AgonyOverlayEnabled =
+        CVarDef.Create("ashfall.agony_overlay", true, CVar.CLIENTONLY | CVar.ARCHIVE);
 }

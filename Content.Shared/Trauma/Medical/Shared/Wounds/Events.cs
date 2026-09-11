@@ -27,4 +27,4 @@ public partial record struct WoundableSeverityMultiplier(FixedPoint2 Change, str
 public partial record struct WoundableHealingMultiplier(FixedPoint2 Change, string Identifier = "Unspecified");
 
 [ByRefEvent]
-public record struct BodyPartDelimbedEvent(EntityUid Body, EntityUid Part, EntityUid? User = null);
+public record struct BodyPartDelimbedEvent(EntityUid Body, EntityUid Part, EntityUid? User = null, bool Crude = false);

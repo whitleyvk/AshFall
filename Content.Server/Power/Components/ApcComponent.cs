@@ -19,6 +19,19 @@ public sealed partial class ApcComponent : BaseApcNetComponent
     public ApcChannelState LastChannelState;
 
     /// <summary>
+    /// Tracks if this APC is currently in brownout (low battery / degraded grid).
+    /// </summary>
+    [ViewVariables(VVAccess.ReadWrite)]
+    public bool LastBrownoutState;
+
+    /// <summary>
+    /// Battery ratio below which the APC triggers brownout degradation (amber emergency lights, flickering fixtures).
+    /// </summary>
+    [ViewVariables(VVAccess.ReadWrite)]
+    [DataField("brownoutThreshold")]
+    public float BrownoutThreshold = 0.25f;
+
+    /// <summary>
     /// Time the ui was last updated automatically.
     /// Done after every <see cref="VisualsChangeDelay"/> to show the latest load.
     /// If charge state changes it will be instantly updated.

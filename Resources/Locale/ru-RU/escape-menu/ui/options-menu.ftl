@@ -45,6 +45,8 @@ ui-options-mute-unfocused = Отключать звук, когда окно н�
 ui-options-audio-device = Устройство вывода:
 ui-options-audio-device-default = Системное по умолчанию
 ui-options-audio-hrtf = Включить обработку HRTF-аудио (требуется перезапуск)
+ui-options-subtle-reverb = Акустика помещений станции (реверберация)
+ui-options-audio-muffle = Акустическое приглушение звука препятствиями
 ui-options-volume-label = Громкость
 
 ## Graphics menu

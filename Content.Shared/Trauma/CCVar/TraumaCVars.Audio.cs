@@ -10,5 +10,11 @@ public sealed partial class TraumaCVars
     /// Is audio muffle pathfinding behavior enabled?
     /// </summary>
     public static readonly CVarDef<bool> AudioMufflePathfinding =
-        CVarDef.Create("trauma.audio_muffle_pathfinding", true, CVar.SERVER | CVar.REPLICATED);
+        CVarDef.Create("trauma.audio_muffle_pathfinding", true, CVar.ARCHIVE | CVar.CLIENTONLY);
+
+    /// <summary>
+    /// Is subtle station room acoustic reverb enabled for in-world positional sounds?
+    /// </summary>
+    public static readonly CVarDef<bool> SubtleReverb =
+        CVarDef.Create("trauma.subtle_reverb", true, CVar.ARCHIVE | CVar.CLIENTONLY);
 }

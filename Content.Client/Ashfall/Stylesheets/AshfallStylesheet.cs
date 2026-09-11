@@ -20,6 +20,7 @@ public sealed class AshfallStylesheet : NanotrasenStylesheet
     public const string LobbyInsetClass = "AshfallLobbyInset";
     public const string LobbyHeaderClass = "AshfallLobbyHeader";
     public const string LobbyChatPanelClass = "AshfallLobbyChatPanel";
+    public const string ChatLogPanelClass = "AshfallChatLogPanel";
     public const string ListItemClass = "AshfallListItem";
     public const string ListItemSelectedClass = "AshfallListItemSelected";
     public const string TerminalHeaderClass = "AshfallTerminalHeader";

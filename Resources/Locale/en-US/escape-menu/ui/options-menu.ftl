@@ -45,6 +45,8 @@ ui-options-mute-unfocused = Mute audio when unfocused
 ui-options-audio-device = Output device:
 ui-options-audio-device-default = System default
 ui-options-audio-hrtf = Enable HRTF Audio Processing (Requires Restart)
+ui-options-subtle-reverb = Station Room Acoustics (Reverb)
+ui-options-audio-muffle = Acoustic Sound Occlusion
 ui-options-volume-label = Volume
 
 ## Graphics menu

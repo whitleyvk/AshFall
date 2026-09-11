@@ -193,6 +193,114 @@
   text: ashfall-lore-personality-32
 
 - type: ashfallCharacterLoreFragment
+  id: AshfallPersonality33
+  category: Personality
+  title: ashfall-lore-title-personality
+  text: ashfall-lore-personality-33
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonality34
+  category: Personality
+  title: ashfall-lore-title-personality
+  text: ashfall-lore-personality-34
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonality35
+  category: Personality
+  title: ashfall-lore-title-personality
+  text: ashfall-lore-personality-35
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonality36
+  category: Personality
+  title: ashfall-lore-title-personality
+  text: ashfall-lore-personality-36
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonality37
+  category: Personality
+  title: ashfall-lore-title-personality
+  text: ashfall-lore-personality-37
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonality38
+  category: Personality
+  title: ashfall-lore-title-personality
+  text: ashfall-lore-personality-38
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonality39
+  category: Personality
+  title: ashfall-lore-title-personality
+  text: ashfall-lore-personality-39
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonality40
+  category: Personality
+  title: ashfall-lore-title-personality
+  text: ashfall-lore-personality-40
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonality41
+  category: Personality
+  title: ashfall-lore-title-personality
+  text: ashfall-lore-personality-41
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonality42
+  category: Personality
+  title: ashfall-lore-title-personality
+  text: ashfall-lore-personality-42
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonality43
+  category: Personality
+  title: ashfall-lore-title-personality
+  text: ashfall-lore-personality-43
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonality44
+  category: Personality
+  title: ashfall-lore-title-personality
+  text: ashfall-lore-personality-44
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonality45
+  category: Personality
+  title: ashfall-lore-title-personality
+  text: ashfall-lore-personality-45
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonality46
+  category: Personality
+  title: ashfall-lore-title-personality
+  text: ashfall-lore-personality-46
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonality47
+  category: Personality
+  title: ashfall-lore-title-personality
+  text: ashfall-lore-personality-47
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonality48
+  category: Personality
+  title: ashfall-lore-title-personality
+  text: ashfall-lore-personality-48
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonality49
+  category: Personality
+  title: ashfall-lore-title-personality
+  text: ashfall-lore-personality-49
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonality50
+  category: Personality
+  title: ashfall-lore-title-personality
+  text: ashfall-lore-personality-50
+
+- type: ashfallCharacterLoreFragment
   id: AshfallEvaluation1
   category: Evaluation
   title: ashfall-lore-title-evaluation
@@ -250,6 +358,7 @@
   id: AshfallEvaluation10
   category: Evaluation
   title: ashfall-lore-title-evaluation
+  minAge: 28
   text: ashfall-lore-evaluation-10
 
 - type: ashfallCharacterLoreFragment
@@ -352,6 +461,7 @@
   id: AshfallEvaluation27
   category: Evaluation
   title: ashfall-lore-title-evaluation
+  requiredTags: [senior-career]
   text: ashfall-lore-evaluation-27
 
 - type: ashfallCharacterLoreFragment
@@ -383,6 +493,118 @@
   category: Evaluation
   title: ashfall-lore-title-evaluation
   text: ashfall-lore-evaluation-32
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallEvaluation33
+  category: Evaluation
+  title: ashfall-lore-title-evaluation
+  text: ashfall-lore-evaluation-33
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallEvaluation34
+  category: Evaluation
+  title: ashfall-lore-title-evaluation
+  text: ashfall-lore-evaluation-34
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallEvaluation35
+  category: Evaluation
+  title: ashfall-lore-title-evaluation
+  text: ashfall-lore-evaluation-35
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallEvaluation36
+  category: Evaluation
+  title: ashfall-lore-title-evaluation
+  text: ashfall-lore-evaluation-36
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallEvaluation37
+  category: Evaluation
+  title: ashfall-lore-title-evaluation
+  text: ashfall-lore-evaluation-37
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallEvaluation38
+  category: Evaluation
+  title: ashfall-lore-title-evaluation
+  text: ashfall-lore-evaluation-38
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallEvaluation39
+  category: Evaluation
+  title: ashfall-lore-title-evaluation
+  text: ashfall-lore-evaluation-39
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallEvaluation40
+  category: Evaluation
+  title: ashfall-lore-title-evaluation
+  requiredTags: [exp-maintenance]
+  text: ashfall-lore-evaluation-40
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallEvaluation41
+  category: Evaluation
+  title: ashfall-lore-title-evaluation
+  requiredTags: [exp-maintenance]
+  text: ashfall-lore-evaluation-41
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallEvaluation42
+  category: Evaluation
+  title: ashfall-lore-title-evaluation
+  text: ashfall-lore-evaluation-42
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallEvaluation43
+  category: Evaluation
+  title: ashfall-lore-title-evaluation
+  excludedTags: [leadership]
+  text: ashfall-lore-evaluation-43
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallEvaluation44
+  category: Evaluation
+  title: ashfall-lore-title-evaluation
+  text: ashfall-lore-evaluation-44
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallEvaluation45
+  category: Evaluation
+  title: ashfall-lore-title-evaluation
+  text: ashfall-lore-evaluation-45
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallEvaluation46
+  category: Evaluation
+  title: ashfall-lore-title-evaluation
+  requiredTags: [exp-maintenance]
+  text: ashfall-lore-evaluation-46
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallEvaluation47
+  category: Evaluation
+  title: ashfall-lore-title-evaluation
+  text: ashfall-lore-evaluation-47
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallEvaluation48
+  category: Evaluation
+  title: ashfall-lore-title-evaluation
+  text: ashfall-lore-evaluation-48
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallEvaluation49
+  category: Evaluation
+  title: ashfall-lore-title-evaluation
+  text: ashfall-lore-evaluation-49
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallEvaluation50
+  category: Evaluation
+  title: ashfall-lore-title-evaluation
+  text: ashfall-lore-evaluation-50
 
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonalHook1
@@ -622,6 +844,7 @@
   id: AshfallPersonalHook40
   category: PersonalHook
   title: ashfall-lore-title-personalhook
+  minAge: 35
   text: ashfall-lore-hook-40
 
 - type: ashfallCharacterLoreFragment
@@ -737,66 +960,6 @@
   category: PreCryo
   title: ashfall-lore-title-precryo
   text: ashfall-lore-precryo-15
-
-- type: ashfallCharacterLoreFragment
-  id: AshfallPersonality33
-  category: Personality
-  title: ashfall-lore-title-personality
-  text: ashfall-lore-personality-33
-
-- type: ashfallCharacterLoreFragment
-  id: AshfallPersonality34
-  category: Personality
-  title: ashfall-lore-title-personality
-  text: ashfall-lore-personality-34
-
-- type: ashfallCharacterLoreFragment
-  id: AshfallPersonality35
-  category: Personality
-  title: ashfall-lore-title-personality
-  text: ashfall-lore-personality-35
-
-- type: ashfallCharacterLoreFragment
-  id: AshfallPersonality36
-  category: Personality
-  title: ashfall-lore-title-personality
-  text: ashfall-lore-personality-36
-
-- type: ashfallCharacterLoreFragment
-  id: AshfallPersonality37
-  category: Personality
-  title: ashfall-lore-title-personality
-  text: ashfall-lore-personality-37
-
-- type: ashfallCharacterLoreFragment
-  id: AshfallEvaluation33
-  category: Evaluation
-  title: ashfall-lore-title-evaluation
-  text: ashfall-lore-evaluation-33
-
-- type: ashfallCharacterLoreFragment
-  id: AshfallEvaluation34
-  category: Evaluation
-  title: ashfall-lore-title-evaluation
-  text: ashfall-lore-evaluation-34
-
-- type: ashfallCharacterLoreFragment
-  id: AshfallEvaluation35
-  category: Evaluation
-  title: ashfall-lore-title-evaluation
-  text: ashfall-lore-evaluation-35
-
-- type: ashfallCharacterLoreFragment
-  id: AshfallEvaluation36
-  category: Evaluation
-  title: ashfall-lore-title-evaluation
-  text: ashfall-lore-evaluation-36
-
-- type: ashfallCharacterLoreFragment
-  id: AshfallEvaluation37
-  category: Evaluation
-  title: ashfall-lore-title-evaluation
-  text: ashfall-lore-evaluation-37
 
 - type: ashfallCharacterLoreFragment
   id: AshfallPersonalHook45
@@ -925,3 +1088,807 @@
   title: ashfall-lore-title-personality
   requiredTags: [species-veiru]
   text: ashfall-lore-personality-veiru-2
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonalityUnathi3
+  category: Personality
+  title: ashfall-lore-title-personality
+  requiredTags: [species-reptilian]
+  text: ashfall-lore-personality-unathi-3
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonalityUnathi4
+  category: Personality
+  title: ashfall-lore-title-personality
+  requiredTags: [species-reptilian]
+  text: ashfall-lore-personality-unathi-4
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonalityUnathi5
+  category: Personality
+  title: ashfall-lore-title-personality
+  requiredTags: [species-reptilian]
+  text: ashfall-lore-personality-unathi-5
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonalityUnathi6
+  category: Personality
+  title: ashfall-lore-title-personality
+  requiredTags: [species-reptilian]
+  text: ashfall-lore-personality-unathi-6
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonalityLuam3
+  category: Personality
+  title: ashfall-lore-title-personality
+  requiredTags: [species-moth]
+  text: ashfall-lore-personality-luam-3
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonalityLuam4
+  category: Personality
+  title: ashfall-lore-title-personality
+  requiredTags: [species-moth]
+  text: ashfall-lore-personality-luam-4
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonalityLuam5
+  category: Personality
+  title: ashfall-lore-title-personality
+  requiredTags: [species-moth]
+  text: ashfall-lore-personality-luam-5
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonalityLuam6
+  category: Personality
+  title: ashfall-lore-title-personality
+  requiredTags: [species-moth]
+  text: ashfall-lore-personality-luam-6
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonalityArachnid3
+  category: Personality
+  title: ashfall-lore-title-personality
+  requiredTags: [species-arachnid]
+  text: ashfall-lore-personality-arachnid-3
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonalityArachnid4
+  category: Personality
+  title: ashfall-lore-title-personality
+  requiredTags: [species-arachnid]
+  text: ashfall-lore-personality-arachnid-4
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonalityArachnid5
+  category: Personality
+  title: ashfall-lore-title-personality
+  requiredTags: [species-arachnid]
+  text: ashfall-lore-personality-arachnid-5
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonalityArachnid6
+  category: Personality
+  title: ashfall-lore-title-personality
+  requiredTags: [species-arachnid]
+  text: ashfall-lore-personality-arachnid-6
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonalityVeiru3
+  category: Personality
+  title: ashfall-lore-title-personality
+  requiredTags: [species-veiru]
+  text: ashfall-lore-personality-veiru-3
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonalityVeiru4
+  category: Personality
+  title: ashfall-lore-title-personality
+  requiredTags: [species-veiru]
+  text: ashfall-lore-personality-veiru-4
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonalityVeiru5
+  category: Personality
+  title: ashfall-lore-title-personality
+  requiredTags: [species-veiru]
+  text: ashfall-lore-personality-veiru-5
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonalityVeiru6
+  category: Personality
+  title: ashfall-lore-title-personality
+  requiredTags: [species-veiru]
+  text: ashfall-lore-personality-veiru-6
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonalityHuman1
+  category: Personality
+  title: ashfall-lore-title-personality
+  requiredTags: [species-human]
+  text: ashfall-lore-personality-human-1
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonalityHuman2
+  category: Personality
+  title: ashfall-lore-title-personality
+  requiredTags: [species-human]
+  text: ashfall-lore-personality-human-2
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonalityHuman3
+  category: Personality
+  title: ashfall-lore-title-personality
+  requiredTags: [species-human]
+  text: ashfall-lore-personality-human-3
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonalityHuman4
+  category: Personality
+  title: ashfall-lore-title-personality
+  requiredTags: [species-human]
+  text: ashfall-lore-personality-human-4
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallHookUnathi1
+  category: PersonalHook
+  title: ashfall-lore-title-personalhook
+  requiredTags: [species-reptilian]
+  text: ashfall-lore-hook-unathi-1
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallHookUnathi2
+  category: PersonalHook
+  title: ashfall-lore-title-personalhook
+  requiredTags: [species-reptilian]
+  text: ashfall-lore-hook-unathi-2
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallHookUnathi3
+  category: PersonalHook
+  title: ashfall-lore-title-personalhook
+  requiredTags: [species-reptilian]
+  text: ashfall-lore-hook-unathi-3
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallHookUnathi4
+  category: PersonalHook
+  title: ashfall-lore-title-personalhook
+  requiredTags: [species-reptilian]
+  text: ashfall-lore-hook-unathi-4
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallHookLuam1
+  category: PersonalHook
+  title: ashfall-lore-title-personalhook
+  requiredTags: [species-moth]
+  text: ashfall-lore-hook-luam-1
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallHookLuam2
+  category: PersonalHook
+  title: ashfall-lore-title-personalhook
+  requiredTags: [species-moth]
+  text: ashfall-lore-hook-luam-2
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallHookLuam3
+  category: PersonalHook
+  title: ashfall-lore-title-personalhook
+  requiredTags: [species-moth]
+  text: ashfall-lore-hook-luam-3
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallHookLuam4
+  category: PersonalHook
+  title: ashfall-lore-title-personalhook
+  requiredTags: [species-moth]
+  text: ashfall-lore-hook-luam-4
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallHookArachnid1
+  category: PersonalHook
+  title: ashfall-lore-title-personalhook
+  requiredTags: [species-arachnid]
+  text: ashfall-lore-hook-arachnid-1
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallHookArachnid2
+  category: PersonalHook
+  title: ashfall-lore-title-personalhook
+  requiredTags: [species-arachnid]
+  text: ashfall-lore-hook-arachnid-2
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallHookArachnid3
+  category: PersonalHook
+  title: ashfall-lore-title-personalhook
+  requiredTags: [species-arachnid]
+  text: ashfall-lore-hook-arachnid-3
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallHookArachnid4
+  category: PersonalHook
+  title: ashfall-lore-title-personalhook
+  requiredTags: [species-arachnid]
+  text: ashfall-lore-hook-arachnid-4
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallHookVeiru1
+  category: PersonalHook
+  title: ashfall-lore-title-personalhook
+  requiredTags: [species-veiru]
+  text: ashfall-lore-hook-veiru-1
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallHookVeiru2
+  category: PersonalHook
+  title: ashfall-lore-title-personalhook
+  requiredTags: [species-veiru]
+  text: ashfall-lore-hook-veiru-2
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallHookVeiru3
+  category: PersonalHook
+  title: ashfall-lore-title-personalhook
+  requiredTags: [species-veiru]
+  text: ashfall-lore-hook-veiru-3
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallHookVeiru4
+  category: PersonalHook
+  title: ashfall-lore-title-personalhook
+  requiredTags: [species-veiru]
+  text: ashfall-lore-hook-veiru-4
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallHookHuman1
+  category: PersonalHook
+  title: ashfall-lore-title-personalhook
+  requiredTags: [species-human]
+  text: ashfall-lore-hook-human-1
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallHookHuman2
+  category: PersonalHook
+  title: ashfall-lore-title-personalhook
+  requiredTags: [species-human]
+  text: ashfall-lore-hook-human-2
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallHookHuman3
+  category: PersonalHook
+  title: ashfall-lore-title-personalhook
+  requiredTags: [species-human]
+  text: ashfall-lore-hook-human-3
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallHookHuman4
+  category: PersonalHook
+  title: ashfall-lore-title-personalhook
+  requiredTags: [species-human]
+  text: ashfall-lore-hook-human-4
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPreCryoUnathi1
+  category: PreCryo
+  title: ashfall-lore-title-precryo
+  requiredTags: [species-reptilian]
+  text: ashfall-lore-precryo-unathi-1
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPreCryoUnathi2
+  category: PreCryo
+  title: ashfall-lore-title-precryo
+  requiredTags: [species-reptilian]
+  text: ashfall-lore-precryo-unathi-2
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPreCryoUnathi3
+  category: PreCryo
+  title: ashfall-lore-title-precryo
+  requiredTags: [species-reptilian]
+  text: ashfall-lore-precryo-unathi-3
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPreCryoLuam1
+  category: PreCryo
+  title: ashfall-lore-title-precryo
+  requiredTags: [species-moth]
+  text: ashfall-lore-precryo-luam-1
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPreCryoLuam2
+  category: PreCryo
+  title: ashfall-lore-title-precryo
+  requiredTags: [species-moth]
+  text: ashfall-lore-precryo-luam-2
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPreCryoLuam3
+  category: PreCryo
+  title: ashfall-lore-title-precryo
+  requiredTags: [species-moth]
+  text: ashfall-lore-precryo-luam-3
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPreCryoArachnid1
+  category: PreCryo
+  title: ashfall-lore-title-precryo
+  requiredTags: [species-arachnid]
+  text: ashfall-lore-precryo-arachnid-1
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPreCryoArachnid2
+  category: PreCryo
+  title: ashfall-lore-title-precryo
+  requiredTags: [species-arachnid]
+  text: ashfall-lore-precryo-arachnid-2
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPreCryoArachnid3
+  category: PreCryo
+  title: ashfall-lore-title-precryo
+  requiredTags: [species-arachnid]
+  text: ashfall-lore-precryo-arachnid-3
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPreCryoVeiru1
+  category: PreCryo
+  title: ashfall-lore-title-precryo
+  requiredTags: [species-veiru]
+  text: ashfall-lore-precryo-veiru-1
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPreCryoVeiru2
+  category: PreCryo
+  title: ashfall-lore-title-precryo
+  requiredTags: [species-veiru]
+  text: ashfall-lore-precryo-veiru-2
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPreCryoVeiru3
+  category: PreCryo
+  title: ashfall-lore-title-precryo
+  requiredTags: [species-veiru]
+  text: ashfall-lore-precryo-veiru-3
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPreCryoHuman1
+  category: PreCryo
+  title: ashfall-lore-title-precryo
+  requiredTags: [species-human]
+  text: ashfall-lore-precryo-human-1
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPreCryoHuman2
+  category: PreCryo
+  title: ashfall-lore-title-precryo
+  requiredTags: [species-human]
+  text: ashfall-lore-precryo-human-2
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPreCryoHuman3
+  category: PreCryo
+  title: ashfall-lore-title-precryo
+  requiredTags: [species-human]
+  text: ashfall-lore-precryo-human-3
+
+# Extended generic pool: renumbered expansion batch plus ordinary life events.
+# Profession-specific evaluations are gated by career tags (exp-*) so a record can
+# only appear for a person whose work history justifies it.
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonality51
+  category: Personality
+  title: ashfall-lore-title-personality
+  text: ashfall-lore-personality-51
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonality52
+  category: Personality
+  title: ashfall-lore-title-personality
+  text: ashfall-lore-personality-52
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonality53
+  category: Personality
+  title: ashfall-lore-title-personality
+  text: ashfall-lore-personality-53
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonality54
+  category: Personality
+  title: ashfall-lore-title-personality
+  minAge: 32
+  text: ashfall-lore-personality-54
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonality55
+  category: Personality
+  title: ashfall-lore-title-personality
+  text: ashfall-lore-personality-55
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonality56
+  category: Personality
+  title: ashfall-lore-title-personality
+  text: ashfall-lore-personality-56
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonality57
+  category: Personality
+  title: ashfall-lore-title-personality
+  text: ashfall-lore-personality-57
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonality58
+  category: Personality
+  title: ashfall-lore-title-personality
+  text: ashfall-lore-personality-58
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonality59
+  category: Personality
+  title: ashfall-lore-title-personality
+  text: ashfall-lore-personality-59
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonality60
+  category: Personality
+  title: ashfall-lore-title-personality
+  text: ashfall-lore-personality-60
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonality61
+  category: Personality
+  title: ashfall-lore-title-personality
+  text: ashfall-lore-personality-61
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonality62
+  category: Personality
+  title: ashfall-lore-title-personality
+  text: ashfall-lore-personality-62
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonality63
+  category: Personality
+  title: ashfall-lore-title-personality
+  text: ashfall-lore-personality-63
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonality64
+  category: Personality
+  title: ashfall-lore-title-personality
+  text: ashfall-lore-personality-64
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonality65
+  category: Personality
+  title: ashfall-lore-title-personality
+  text: ashfall-lore-personality-65
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallEvaluation51
+  category: Evaluation
+  title: ashfall-lore-title-evaluation
+  text: ashfall-lore-evaluation-51
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallEvaluation52
+  category: Evaluation
+  title: ashfall-lore-title-evaluation
+  requiredTags: [exp-maintenance]
+  text: ashfall-lore-evaluation-52
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallEvaluation53
+  category: Evaluation
+  title: ashfall-lore-title-evaluation
+  requiredTags: [exp-cargowork]
+  text: ashfall-lore-evaluation-53
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallEvaluation54
+  category: Evaluation
+  title: ashfall-lore-title-evaluation
+  requiredTags: [exp-cargowork]
+  text: ashfall-lore-evaluation-54
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallEvaluation55
+  category: Evaluation
+  title: ashfall-lore-title-evaluation
+  text: ashfall-lore-evaluation-55
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallEvaluation56
+  category: Evaluation
+  title: ashfall-lore-title-evaluation
+  text: ashfall-lore-evaluation-56
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallEvaluation57
+  category: Evaluation
+  title: ashfall-lore-title-evaluation
+  text: ashfall-lore-evaluation-57
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallEvaluation58
+  category: Evaluation
+  title: ashfall-lore-title-evaluation
+  text: ashfall-lore-evaluation-58
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallEvaluation59
+  category: Evaluation
+  title: ashfall-lore-title-evaluation
+  requiredTags: [exp-medicalwork]
+  text: ashfall-lore-evaluation-59
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallEvaluation60
+  category: Evaluation
+  title: ashfall-lore-title-evaluation
+  requiredTags: [exp-labwork]
+  text: ashfall-lore-evaluation-60
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallEvaluation61
+  category: Evaluation
+  title: ashfall-lore-title-evaluation
+  requiredTags: [exp-securitywork]
+  text: ashfall-lore-evaluation-61
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallEvaluation62
+  category: Evaluation
+  title: ashfall-lore-title-evaluation
+  requiredTags: [exp-servicework]
+  text: ashfall-lore-evaluation-62
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallEvaluation63
+  category: Evaluation
+  title: ashfall-lore-title-evaluation
+  requiredTags: [exp-agrowork]
+  text: ashfall-lore-evaluation-63
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallEvaluation64
+  category: Evaluation
+  title: ashfall-lore-title-evaluation
+  requiredTags: [exp-adminwork]
+  text: ashfall-lore-evaluation-64
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallEvaluation65
+  category: Evaluation
+  title: ashfall-lore-title-evaluation
+  requiredTags: [exp-performance]
+  text: ashfall-lore-evaluation-65
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallEvaluation66
+  category: Evaluation
+  title: ashfall-lore-title-evaluation
+  requiredTags: [exp-media]
+  text: ashfall-lore-evaluation-66
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonalHook51
+  category: PersonalHook
+  title: ashfall-lore-title-personalhook
+  text: ashfall-lore-hook-51
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonalHook52
+  category: PersonalHook
+  title: ashfall-lore-title-personalhook
+  text: ashfall-lore-hook-52
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonalHook53
+  category: PersonalHook
+  title: ashfall-lore-title-personalhook
+  text: ashfall-lore-hook-53
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonalHook54
+  category: PersonalHook
+  title: ashfall-lore-title-personalhook
+  text: ashfall-lore-hook-54
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonalHook55
+  category: PersonalHook
+  title: ashfall-lore-title-personalhook
+  text: ashfall-lore-hook-55
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonalHook56
+  category: PersonalHook
+  title: ashfall-lore-title-personalhook
+  text: ashfall-lore-hook-56
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonalHook57
+  category: PersonalHook
+  title: ashfall-lore-title-personalhook
+  text: ashfall-lore-hook-57
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonalHook58
+  category: PersonalHook
+  title: ashfall-lore-title-personalhook
+  text: ashfall-lore-hook-58
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonalHook59
+  category: PersonalHook
+  title: ashfall-lore-title-personalhook
+  text: ashfall-lore-hook-59
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonalHook60
+  category: PersonalHook
+  title: ashfall-lore-title-personalhook
+  text: ashfall-lore-hook-60
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonalHook61
+  category: PersonalHook
+  title: ashfall-lore-title-personalhook
+  text: ashfall-lore-hook-61
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonalHook62
+  category: PersonalHook
+  title: ashfall-lore-title-personalhook
+  weight: 0.5
+  text: ashfall-lore-hook-62
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonalHook63
+  category: PersonalHook
+  title: ashfall-lore-title-personalhook
+  text: ashfall-lore-hook-63
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonalHook64
+  category: PersonalHook
+  title: ashfall-lore-title-personalhook
+  text: ashfall-lore-hook-64
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPersonalHook65
+  category: PersonalHook
+  title: ashfall-lore-title-personalhook
+  weight: 0.5
+  text: ashfall-lore-hook-65
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallHookUnathi5
+  category: PersonalHook
+  title: ashfall-lore-title-personalhook
+  requiredTags: [species-reptilian]
+  text: ashfall-lore-hook-unathi-5
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallHookLuam5
+  category: PersonalHook
+  title: ashfall-lore-title-personalhook
+  requiredTags: [species-moth]
+  text: ashfall-lore-hook-luam-5
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallHookArachnid5
+  category: PersonalHook
+  title: ashfall-lore-title-personalhook
+  requiredTags: [species-arachnid]
+  text: ashfall-lore-hook-arachnid-5
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallHookVeiru5
+  category: PersonalHook
+  title: ashfall-lore-title-personalhook
+  requiredTags: [species-veiru]
+  text: ashfall-lore-hook-veiru-5
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallHookHuman5
+  category: PersonalHook
+  title: ashfall-lore-title-personalhook
+  requiredTags: [species-human]
+  text: ashfall-lore-hook-human-5
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPreCryo16
+  category: PreCryo
+  title: ashfall-lore-title-precryo
+  text: ashfall-lore-precryo-16
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPreCryo23
+  category: PreCryo
+  title: ashfall-lore-title-precryo
+  text: ashfall-lore-precryo-23
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPreCryo24
+  category: PreCryo
+  title: ashfall-lore-title-precryo
+  text: ashfall-lore-precryo-24
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPreCryo25
+  category: PreCryo
+  title: ashfall-lore-title-precryo
+  text: ashfall-lore-precryo-25
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPreCryo26
+  category: PreCryo
+  title: ashfall-lore-title-precryo
+  text: ashfall-lore-precryo-26
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPreCryo27
+  category: PreCryo
+  title: ashfall-lore-title-precryo
+  text: ashfall-lore-precryo-27
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPreCryo28
+  category: PreCryo
+  title: ashfall-lore-title-precryo
+  text: ashfall-lore-precryo-28
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPreCryo29
+  category: PreCryo
+  title: ashfall-lore-title-precryo
+  text: ashfall-lore-precryo-29
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPreCryo30
+  category: PreCryo
+  title: ashfall-lore-title-precryo
+  text: ashfall-lore-precryo-30
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPreCryo31
+  category: PreCryo
+  title: ashfall-lore-title-precryo
+  text: ashfall-lore-precryo-31
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPreCryo32
+  category: PreCryo
+  title: ashfall-lore-title-precryo
+  text: ashfall-lore-precryo-32
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPreCryo33
+  category: PreCryo
+  title: ashfall-lore-title-precryo
+  text: ashfall-lore-precryo-33
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPreCryo34
+  category: PreCryo
+  title: ashfall-lore-title-precryo
+  text: ashfall-lore-precryo-34
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPreCryo35
+  category: PreCryo
+  title: ashfall-lore-title-precryo
+  text: ashfall-lore-precryo-35
+
+- type: ashfallCharacterLoreFragment
+  id: AshfallPreCryo36
+  category: PreCryo
+  title: ashfall-lore-title-precryo
+  text: ashfall-lore-precryo-36

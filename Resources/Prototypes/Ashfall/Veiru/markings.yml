@@ -611,3 +611,203 @@
       state: tail_m_wagging
     - sprite: Ashfall/Veiru/veiru_tail.rsi
       state: tail_skeleton_wagging
+
+- type: marking
+  id: VeiruHairBraidbeads
+  bodyPart: Hair
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_hairs.rsi
+      state: braid_beads
+
+- type: marking
+  id: VeiruHairCombedback
+  bodyPart: Hair
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_hairs.rsi
+      state: combedback
+
+- type: marking
+  id: VeiruHairCuttail
+  bodyPart: Hair
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_hairs.rsi
+      state: cuttail
+
+- type: marking
+  id: VeiruHairDreadlocks
+  bodyPart: Hair
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_hairs.rsi
+      state: dreadlocks
+
+- type: marking
+  id: VeiruHairEarrings
+  bodyPart: Hair
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_hairs.rsi
+      state: earrings
+
+- type: marking
+  id: VeiruHairHairbun
+  bodyPart: Hair
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_hairs.rsi
+      state: hairbun
+
+- type: marking
+  id: VeiruHairHairribbons
+  bodyPart: Hair
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_hairs.rsi
+      state: hairribbons
+
+- type: marking
+  id: VeiruHairLongtail
+  bodyPart: Hair
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_hairs.rsi
+      state: longtail
+
+- type: marking
+  id: VeiruHairLynx
+  bodyPart: Hair
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_hairs.rsi
+      state: lynx
+
+- type: marking
+  id: VeiruHairMarmalade
+  bodyPart: Hair
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_hairs.rsi
+      state: marmalade
+
+- type: marking
+  id: VeiruHairMessylong
+  bodyPart: Hair
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_hairs.rsi
+      state: messylong
+
+- type: marking
+  id: VeiruHairMetal
+  bodyPart: Hair
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_hairs.rsi
+      state: metal
+
+- type: marking
+  id: VeiruHairOvereye
+  bodyPart: Hair
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_hairs.rsi
+      state: overeye
+
+- type: marking
+  id: VeiruHairPunk
+  bodyPart: Hair
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_hairs.rsi
+      state: punk
+
+- type: marking
+  id: VeiruHairShy
+  bodyPart: Hair
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_hairs.rsi
+      state: shy
+
+- type: marking
+  id: VeiruHairSidebraid
+  bodyPart: Hair
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_hairs.rsi
+      state: sidebraid
+
+- type: marking
+  id: VeiruHairTail
+  bodyPart: Hair
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_hairs.rsi
+      state: tail
+
+- type: marking
+  id: VeiruHairTailedBangs
+  bodyPart: Hair
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_hairs.rsi
+      state: tailedbangs
+
+- type: marking
+  id: VeiruHairTough
+  bodyPart: Hair
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_hairs.rsi
+      state: tough
+
+- type: marking
+  id: VeiruFacialHairGoateeFaded
+  bodyPart: FacialHair
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_facial_hairs.rsi
+      state: goatee_faded
+
+- type: marking
+  id: VeiruFacialHairGoatee
+  bodyPart: FacialHair
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_facial_hairs.rsi
+      state: goatee
+
+- type: marking
+  id: VeiruFacialHairMutton
+  bodyPart: FacialHair
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_facial_hairs.rsi
+      state: mutton
+
+- type: marking
+  id: VeiruFacialHairPencilstache
+  bodyPart: FacialHair
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_facial_hairs.rsi
+      state: pencilstache
+
+- type: marking
+  id: VeiruFacialHairSideburns
+  bodyPart: FacialHair
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_facial_hairs.rsi
+      state: sideburns
+
+- type: marking
+  id: VeiruFacialHairSmallstache
+  bodyPart: FacialHair
+  groupWhitelist: [Veiru]
+  sprites:
+    - sprite: Ashfall/Veiru/veiru_facial_hairs.rsi
+      state: smallstache

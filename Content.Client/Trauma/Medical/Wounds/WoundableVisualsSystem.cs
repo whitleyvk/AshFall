@@ -46,28 +46,28 @@ public sealed partial class WoundableVisualsSystem : EntitySystem
 
     private void InitBleeding(Entity<WoundableVisualsComponent> ent)
     {
-        if (_body.GetBody(ent.Owner) is not {} body ||
-            ent.Comp.BleedingOverlay is not {} overlay ||
-            !_visualBodyQuery.HasComp(body) ||
-            !_spriteQuery.TryComp(body, out var sprite) ||
+        var target = _body.GetBody(ent.Owner) ?? ent.Owner;
+        if (ent.Comp.BleedingOverlay is not {} overlay ||
+            (target != ent.Owner && !_visualBodyQuery.HasComp(target)) ||
+            !_spriteQuery.TryComp(target, out var sprite) ||
             GetLayer(ent) is not {} layer)
             return;
 
-        AddDamageLayerToSprite((body, sprite), ent.Comp, overlay, BuildStateKey(layer, MinorSuffix), BuildLayerKey(layer, BleedingSuffix));
+        AddDamageLayerToSprite((target, sprite), ent.Comp, overlay, BuildStateKey(layer, MinorSuffix), BuildLayerKey(layer, BleedingSuffix));
     }
 
     private void InitDamage(Entity<WoundableVisualsComponent> ent)
     {
-        if (_body.GetBody(ent.Owner) is not {} body ||
-            !_visualBodyQuery.HasComp(body) ||
-            !_spriteQuery.TryComp(body, out var spriteComp) ||
+        var target = _body.GetBody(ent.Owner) ?? ent.Owner;
+        if ((target != ent.Owner && !_visualBodyQuery.HasComp(target)) ||
+            !_spriteQuery.TryComp(target, out var spriteComp) ||
             GetLayer(ent) is not {} layer)
             return;
 
         foreach (var (group, sprite) in ent.Comp.DamageGroupSprites)
         {
             var color = GetColor(ent, group);
-            AddDamageLayerToSprite((body, spriteComp),
+            AddDamageLayerToSprite((target, spriteComp),
                 ent.Comp,
                 sprite,
                 BuildStateKey(layer, group, "100"),
@@ -127,6 +127,7 @@ public sealed partial class WoundableVisualsSystem : EntitySystem
             return;
 
         RemoveWoundableLayers(args.Target, ent);
+        UpdatePartVisuals(ent);
     }
 
     [SubscribeLocalEvent]
@@ -150,7 +151,11 @@ public sealed partial class WoundableVisualsSystem : EntitySystem
         if (_body.GetBody(uid) is {} body)
             UpdateWoundableVisuals((uid, visuals), body);
         else
+        {
+            InitDamage((uid, visuals));
+            InitBleeding((uid, visuals));
             UpdateWoundableVisuals((uid, visuals), uid); // use part's sprite
+        }
     }
 
     #region Layer Management
@@ -208,8 +213,8 @@ public sealed partial class WoundableVisualsSystem : EntitySystem
         _sprite.LayerSetVisible(ent, newLayer, false);
 
         var ent2 = (ent, ent.Comp);
-        if (visuals.Displacement is { } dispId)
-            _displacement.TryAddDisplacement(ProtoMan.Index(dispId).Displacement, ent2, newLayer, mapKey, out _);
+        if (visuals.Displacement is { } dispId && ProtoMan.TryIndex(dispId, out var dispProto))
+            _displacement.TryAddDisplacement(dispProto.Displacement, ent2, newLayer, mapKey, out _);
         else
             _displacement.EnsureDisplacementIsNotOnSprite(ent2, mapKey);
     }

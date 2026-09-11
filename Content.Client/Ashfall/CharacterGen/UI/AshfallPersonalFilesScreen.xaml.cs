@@ -1,6 +1,7 @@
 using System.Numerics;
 using System.Linq;
 using Ashfall.Client.Stylesheets;
+using Content.Client.Message;
 using Content.Client.Lobby.UI.ProfileEditorControls;
 using Content.Client.Players.PlayTimeTracking;
 using Content.Client.Trauma.Knowledge;
@@ -27,6 +28,7 @@ namespace Content.Client.Ashfall.CharacterGen.UI;
 public sealed partial class AshfallPersonalFilesScreen : PanelContainer
 {
     private AshfallSkillsDetailWindow? _skillsWindow;
+    private AshfallCultureDetailWindow? _cultureWindow;
 
     /// <summary>
     ///     Accent color shared with the generator's education tags.
@@ -48,6 +50,7 @@ public sealed partial class AshfallPersonalFilesScreen : PanelContainer
     private Label DossierNameLabel => this.FindControl<Label>("DossierNameLabel");
     private Label DossierBioLabel => this.FindControl<Label>("DossierBioLabel");
     private RichTextLabel DossierCultureLabel => this.FindControl<RichTextLabel>("DossierCultureLabel");
+    private Button CultureWikiButton => this.FindControl<Button>("CultureWikiButton");
     private Label DossierBirthplaceLabel => this.FindControl<Label>("DossierBirthplaceLabel");
     private Label DossierNumberLabel => this.FindControl<Label>("DossierNumberLabel");
     private Label DossierSelectionLabel => this.FindControl<Label>("DossierSelectionLabel");
@@ -84,6 +87,7 @@ public sealed partial class AshfallPersonalFilesScreen : PanelContainer
         BackButton.OnPressed += _ => BackToLobby?.Invoke();
         RefreshButton.OnPressed += OnRefreshPressed;
         ConfirmButton.OnPressed += OnConfirmPressed;
+        CultureWikiButton.OnPressed += OnCultureWikiPressed;
         _genSystem.PoolUpdated += Populate;
         _requirements.Updated += PopulateDossier;
 
@@ -118,6 +122,17 @@ public sealed partial class AshfallPersonalFilesScreen : PanelContainer
 
         _genSystem.SelectCandidate(_inspectedIndex, job);
         CandidateSelected?.Invoke(_inspectedIndex);
+    }
+
+    private void OnCultureWikiPressed(BaseButton.ButtonEventArgs args)
+    {
+        if (_inspectedIndex < 0 || _inspectedIndex >= _genSystem.Candidates.Count)
+            return;
+
+        var candidate = _genSystem.Candidates[_inspectedIndex];
+        _cultureWindow ??= new AshfallCultureDetailWindow(_prototypes);
+        _cultureWindow.Populate(candidate.Profile, candidate.Dossier);
+        _cultureWindow.OpenCentered();
     }
 
     private void Populate()
@@ -219,9 +234,9 @@ public sealed partial class AshfallPersonalFilesScreen : PanelContainer
             : (!string.IsNullOrEmpty(candidate.Dossier.CulturalOrigin)
                 ? $"КУЛЬТУРНАЯ ЛИНИЯ // {candidate.Dossier.CulturalOrigin}"
                 : string.Empty);
-        DossierCultureLabel.Text = string.IsNullOrEmpty(cultureLine)
+        DossierCultureLabel.SetMarkup(string.IsNullOrEmpty(cultureLine)
             ? string.Empty
-            : $"[color=#878C87]{cultureLine}[/color]";
+            : $"[color=#878C87]{cultureLine}[/color]");
         DossierBirthplaceLabel.Text = !string.IsNullOrEmpty(candidate.Dossier.Birthplace)
             ? $"МЕСТО РОЖДЕНИЯ // {candidate.Dossier.Birthplace}"
             : string.Empty;
@@ -247,6 +262,9 @@ public sealed partial class AshfallPersonalFilesScreen : PanelContainer
 
         if (_skillsWindow is { IsOpen: true })
             _skillsWindow.Populate(profile, activeJob);
+
+        if (_cultureWindow is { IsOpen: true })
+            _cultureWindow.Populate(profile, candidate.Dossier);
 
         JobsGrid.RemoveAllChildren();
         // A lone assignment reads better across the full row than half of it.
@@ -332,13 +350,15 @@ public sealed partial class AshfallPersonalFilesScreen : PanelContainer
     }
 
     // Presentation order only; the shared dossier DTO keeps its generation order.
-    // person (origin, character, open question) -> training (education, qualification) -> archive (career).
+    // origin -> education / qualification -> career -> personality / hook -> precryo / evaluation.
     private static int SectionGroupRank(string kind) => kind switch
     {
-        "origin" or "personality" or "hook" => 0,
+        "origin" => 0,
         "education" or "qualification" => 1,
-        "career" or "evaluation" => 2,
-        _ => 3,
+        "career" => 2,
+        "personality" or "hook" => 3,
+        "precryo" or "evaluation" => 4,
+        _ => 5,
     };
 
     private List<(AshfallDossierSection Section, Control? ExtraControl)> BuildDossierSections(
@@ -346,10 +366,10 @@ public sealed partial class AshfallPersonalFilesScreen : PanelContainer
     {
         var result = new List<(AshfallDossierSection Section, Control? ExtraControl)>();
 
-        // 1. Origin, Personality, Hook
+        // 1. Origin
         foreach (var section in candidate.Dossier.Sections)
         {
-            if (section.Kind is "origin" or "personality" or "hook")
+            if (section.Kind == "origin")
                 result.Add((section, null));
         }
 
@@ -385,6 +405,46 @@ public sealed partial class AshfallPersonalFilesScreen : PanelContainer
         foreach (var section in candidate.Dossier.Sections)
         {
             if (section.Kind == "career")
+                result.Add((section, null));
+        }
+
+        // 5. Personality
+        foreach (var section in candidate.Dossier.Sections)
+        {
+            if (section.Kind == "personality")
+                result.Add((section, null));
+        }
+
+        // 6. Personal Hook
+        foreach (var section in candidate.Dossier.Sections)
+        {
+            if (section.Kind == "hook")
+                result.Add((section, null));
+        }
+
+        // 7. Cryosleep Circumstances
+        foreach (var section in candidate.Dossier.Sections)
+        {
+            if (section.Kind == "precryo")
+                result.Add((section, null));
+        }
+
+        // 8. Evaluation (if present)
+        foreach (var section in candidate.Dossier.Sections)
+        {
+            if (section.Kind == "evaluation")
+                result.Add((section, null));
+        }
+
+        // Server-rendered sections the presentation layer does not know yet are appended in
+        // generation order instead of being silently dropped.
+        var knownKinds = new HashSet<string>
+        {
+            "origin", "education", "qualification", "career", "personality", "hook", "precryo", "evaluation",
+        };
+        foreach (var section in candidate.Dossier.Sections)
+        {
+            if (!knownKinds.Contains(section.Kind))
                 result.Add((section, null));
         }
 

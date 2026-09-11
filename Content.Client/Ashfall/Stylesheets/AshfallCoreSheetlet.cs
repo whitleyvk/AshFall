@@ -80,6 +80,11 @@ public sealed class AshfallCoreSheetlet : Sheetlet<AshfallStylesheet>
             E<PanelContainer>().Class(AshfallStylesheet.LobbyInsetClass).Panel(lobbyInset),
             E<PanelContainer>().Class(AshfallStylesheet.LobbyHeaderClass).Panel(lobbyHeader),
             E<PanelContainer>().Class(AshfallStylesheet.LobbyChatPanelClass).Panel(lobbyChat),
+            // In-game chat log: opaque recessed backing, otherwise the translucent chat window
+            // blends into dark scenes and examine lines appear to float without a box.
+            E<OutputPanel>().Class(AshfallStylesheet.ChatLogPanelClass)
+                .Prop(OutputPanel.StylePropertyStyleBox,
+                    TexBox("/Textures/Interface/Ashfall/panel-frame-deep.png", 6, 6, patch: 3, tile: true)),
             // Retro-web header strip: warm gradient with an amber underline, tiled 1:1 so the
             // grain never stretches on wide panels.
             E<PanelContainer>().Class(AshfallStylesheet.HeaderPanelClass)

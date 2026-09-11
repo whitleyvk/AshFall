@@ -1,0 +1,58 @@
+// Ashfall Dynamic Agony & Trauma Post-Processing Shader
+// Activates dynamically upon taking damage, during severe pain/blood loss, and in critical state.
+
+uniform sampler2D SCREEN_TEXTURE;
+uniform highp float PainIntensity; // 0.0 to 1.0 (approaching crit / intense trauma)
+uniform highp float ShockIntensity; // 0.0 to 1.0 (acute damage spike)
+uniform highp float CritIntensity; // 0.0 to 1.0 (in crit / dying)
+
+highp float hash21(highp vec2 p) {
+    p = fract(p * vec2(123.34, 456.21) + vec2(TIME * 13.1, TIME * 7.7));
+    p += dot(p, p + 45.32);
+    return fract(p.x * p.y);
+}
+
+void fragment() {
+    highp vec2 coord = FRAGCOORD.xy * SCREEN_PIXEL_SIZE.xy;
+    highp vec2 centerOffset = coord - vec2(0.5);
+    highp float aspect = SCREEN_PIXEL_SIZE.y / SCREEN_PIXEL_SIZE.x;
+    centerOffset.x *= aspect;
+    highp float dist = length(centerOffset);
+
+    // Dynamic chromatic aberration on acute damage shock
+    highp vec2 shockDir = centerOffset * ShockIntensity * 0.012;
+    highp float r = zTextureSpec(SCREEN_TEXTURE, coord + shockDir).r;
+    highp float g = zTextureSpec(SCREEN_TEXTURE, coord).g;
+    highp float b = zTextureSpec(SCREEN_TEXTURE, coord - shockDir).b;
+    highp vec3 col = vec3(r, g, b);
+
+    // Heartbeat pulsation when near crit or in crit
+    highp float heartbeat = (sin(TIME * 5.0) + 1.0) * 0.5;
+    highp float pulse = 1.0 + heartbeat * 0.12 * (PainIntensity + CritIntensity);
+
+    // Vignette calculation
+    highp float vigRadius = 0.85 - (PainIntensity * 0.35 + CritIntensity * 0.45);
+    highp float vigSoftness = 0.40;
+    highp float vignette = smoothstep(vigRadius * pulse, vigRadius * pulse - vigSoftness, dist);
+
+    // Desaturation as brain loses consciousness / oxygen / blood
+    highp float desatAmount = clamp(PainIntensity * 0.75 + CritIntensity * 0.95, 0.0, 1.0);
+    highp float gray = zGrayscale(col);
+    col = mix(col, vec3(gray), desatAmount);
+
+    // Red tint on acute shock & peripheral pain
+    highp float redFlash = ShockIntensity * 0.30 + PainIntensity * 0.12 * (1.0 - vignette);
+    col.r += redFlash;
+
+    // Apply vignette darkening to background
+    col *= clamp(vignette, 0.0, 1.0);
+
+    // Gritty film grain when taking damage (shock), enduring pain, or dying (crit)
+    // Applied everywhere across the entire screen. Multiplicative so it stays visible
+    // over the desaturated/grainy area outside the vision cone, where additive noise vanishes.
+    highp float noiseStrength = 0.35 * ShockIntensity + 0.25 * PainIntensity + 0.45 * CritIntensity;
+    highp float noise = (hash21(coord * vec2(aspect, 1.0) * 350.0) - 0.5) * noiseStrength;
+    col *= 1.0 + noise;
+
+    COLOR = vec4(col, 1.0);
+}

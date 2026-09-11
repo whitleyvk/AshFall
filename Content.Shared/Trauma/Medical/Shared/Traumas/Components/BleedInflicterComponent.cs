@@ -8,6 +8,12 @@ namespace Content.Medical.Shared.Traumas;
 [RegisterComponent, NetworkedComponent, AutoGenerateComponentState(fieldDeltas: true)]
 public sealed partial class BleedInflicterComponent : Component
 {
+    /// <summary>
+    ///     Gate for the periodic bleeding status rescan, so it does not run every tick.
+    /// </summary>
+    [ViewVariables]
+    public TimeSpan NextUpdate;
+
     [DataField, AutoNetworkedField]
     public bool IsBleeding;
 

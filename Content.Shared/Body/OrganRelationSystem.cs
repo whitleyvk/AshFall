@@ -21,9 +21,11 @@ public sealed partial class OrganRelationSystem : EntitySystem
         if (ent.Comp.Parent is not { } parentUid)
             return;
 
-        var parentComp = _parent.Comp(parentUid);
-        parentComp.Children.Remove(ent);
-        Dirty(parentUid, parentComp);
+        if (_parent.TryComp(parentUid, out var parentComp))
+        {
+            parentComp.Children.Remove(ent);
+            Dirty(parentUid, parentComp);
+        }
     }
 
     private void OnParentShutdown(Entity<ParentOrganComponent> ent, ref ComponentShutdown args)
@@ -33,10 +35,11 @@ public sealed partial class OrganRelationSystem : EntitySystem
 
         foreach (var childUid in ent.Comp.Children)
         {
-            var childComp = _child.Comp(childUid);
-            childComp.Parent = null;
-
-            Dirty(childUid, childComp);
+            if (_child.TryComp(childUid, out var childComp))
+            {
+                childComp.Parent = null;
+                Dirty(childUid, childComp);
+            }
         }
     }
 
@@ -76,9 +79,11 @@ public sealed partial class OrganRelationSystem : EntitySystem
         child.Comp.Parent = null;
         Dirty(child, child.Comp);
 
-        var parentComp = _parent.Comp(parentUid);
-        parentComp.Children.Remove(child);
-        Dirty(parentUid, parentComp);
+        if (_parent.TryComp(parentUid, out var parentComp))
+        {
+            parentComp.Children.Remove(child);
+            Dirty(parentUid, parentComp);
+        }
     }
 
     /// <summary>
@@ -92,7 +97,10 @@ public sealed partial class OrganRelationSystem : EntitySystem
 
         while (child.Comp?.Parent is { } parent)
         {
-            yield return (parent, _parent.Comp(parent));
+            if (!_parent.TryComp(parent, out var parentComp))
+                yield break;
+
+            yield return (parent, parentComp);
 
             if (!_child.TryGetComponent(parent, out var parentChild))
                 yield break;
@@ -112,7 +120,10 @@ public sealed partial class OrganRelationSystem : EntitySystem
 
         foreach (var child in parent.Comp.Children)
         {
-            yield return (child, _child.Comp(child));
+            if (!_child.TryComp(child, out var childComp))
+                continue;
+
+            yield return (child, childComp);
 
             foreach (var childChild in AllChildren(child))
             {

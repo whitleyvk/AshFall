@@ -161,7 +161,7 @@
   
 
 - type: entity
-  parent: OrganBase
+  parent: OrganBaseOrganic
   id: OrganVeiru
   abstract: true
   suffix: veiru
@@ -282,23 +282,7 @@
 - type: entity
   parent: [ OrganBaseStomach, OrganVeiruInternal, OrganVeiruMetabolizer ]
   id: OrganVeiruStomach
-  components:
-  - type: SolutionManager
-    solutions:
-    - SolutionStomach
-    - SolutionVeiruFood
 
-- type: entity
-  parent: SolutionFood
-  id: SolutionVeiruFood
-  categories: [ HideSpawnMenu ]
-  components:
-  - type: Solution
-    solution:
-      maxVol: 5
-      reagents:
-      - ReagentId: UncookedAnimalProteins
-        Quantity: 5
 
 - type: entity
   parent: [ OrganBaseLiver, OrganSpriteHumanInternal, OrganVeiruInternal, OrganVeiruMetabolizer ]

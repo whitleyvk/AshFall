@@ -3,6 +3,12 @@
   parent: [SolutionWelder, BaseItem]
   id: BaseWelder
   components:
+  - type: EmitSoundOnPickup
+    sound:
+      collection: WelderPickup
+  - type: EmitSoundOnDrop
+    sound:
+      collection: WelderDrop
   - type: Sprite
     layers:
     - state: icon

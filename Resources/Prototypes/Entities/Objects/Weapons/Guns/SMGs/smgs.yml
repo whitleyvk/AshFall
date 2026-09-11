@@ -115,6 +115,24 @@
     zeroVisible: true
   - type: Appearance
 
+  - type: AttachableGun
+    visuals:
+      attachment_underbarrel:
+        offset: -0.25, 0.4375
+        rotation: 0
+        layerAnchor: top
+        layerPosition: After
+        drawOrder: 0
+      attachment_muzzle:
+        offset: 0.09375, 0.1875
+        rotation: 0
+        layerAnchor: top
+        layerPosition: After
+        drawOrder: 0
+    compatibility:
+      attachment_underbarrel:
+        allowedAttachments: []
+        deniedAttachments: ["AttachmentGripVFG"]
 - type: entity
   name: C-20r submachine gun
   parent: [BaseWeaponSubMachineGun, BaseSyndicateContraband]
@@ -155,6 +173,24 @@
   - type: StaticPrice
     price: 5000
 
+  - type: AttachableGun
+    visuals:
+      attachment_underbarrel:
+        offset: -0.1875, 0.375
+        rotation: 0
+        layerAnchor: top
+        layerPosition: After
+        drawOrder: 0
+      attachment_muzzle:
+        offset: 0.0625, 0.15625
+        rotation: 0
+        layerAnchor: top
+        layerPosition: After
+        drawOrder: 0
+    compatibility:
+      attachment_underbarrel:
+        allowedAttachments: []
+        deniedAttachments: ["AttachmentGripVFG"]
 - type: entity
   name: C-20r ROW #I think ROW stands for Recharging Onboard Weapon so i'm following the L6C's example
   id: WeaponSubMachineGunC20rROW
@@ -255,6 +291,24 @@
       zeroVisible: true
     - type: Appearance
 
+    - type: AttachableGun
+      visuals:
+        attachment_underbarrel:
+          offset: -0.0625, 0.40625
+          rotation: 0
+          layerAnchor: top
+          layerPosition: After
+          drawOrder: 0
+        attachment_muzzle:
+          offset: 0.15625, 0.09375
+          rotation: 0
+          layerAnchor: top
+          layerPosition: After
+          drawOrder: 0
+      compatibility:
+        attachment_underbarrel:
+          allowedAttachments: []
+          deniedAttachments: ["AttachmentGripVFG"]
 - type: entity
   name: WT550
   parent: [BaseWeaponSubMachineGun, BaseSecurityContraband]
@@ -316,6 +370,24 @@
     zeroVisible: true
   - type: Appearance
 
+  - type: AttachableGun
+    visuals:
+      attachment_underbarrel:
+        offset: -0.375, 0.375
+        rotation: 0
+        layerAnchor: top
+        layerPosition: After
+        drawOrder: 0
+      attachment_muzzle:
+        offset: 0.1875, 0.0625
+        rotation: 0
+        layerAnchor: top
+        layerPosition: After
+        drawOrder: 0
+    compatibility:
+      attachment_underbarrel:
+        allowedAttachments: []
+        deniedAttachments: ["AttachmentGripVFG"]
 - type: entity
   name: brown briefcase
   parent: [BaseWeaponSubMachineGun]
@@ -360,3 +432,11 @@
     damage:
       types:
         Blunt: 8
+  - type: AttachableGun
+    compatibility:
+      attachment_underbarrel:
+        allowedAttachments: []
+        deniedAttachments: ["AttachmentGripVFG", "AttachmentLAM"]
+      attachment_muzzle:
+        allowedAttachments: []
+        deniedAttachments: ["AttachmentSuppressorPistol"]

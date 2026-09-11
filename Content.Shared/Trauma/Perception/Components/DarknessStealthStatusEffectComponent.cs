@@ -21,4 +21,14 @@ public sealed partial class DarknessStealthStatusEffectComponent : Component
     /// </summary>
     [DataField, AutoNetworkedField]
     public float Visibility = 0.15f;
+
+    /// <summary>
+    /// Whether this effect instance created the target's LightDetection/Stealth components;
+    /// removal must not strip ones granted by other sources.
+    /// </summary>
+    [DataField]
+    public bool OwnsLightDetection;
+
+    [DataField]
+    public bool OwnsStealth;
 }

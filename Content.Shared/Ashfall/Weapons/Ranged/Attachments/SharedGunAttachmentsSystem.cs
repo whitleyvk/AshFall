@@ -220,7 +220,7 @@ public sealed partial class GunAttachmentsSystem : EntitySystem
 
         foreach (var contained in container.ContainedEntities)
         {
-            if (!IsAttachmentValid(contained, slot))
+            if (!IsAttachmentValid(ent.Comp, contained, slot))
                 continue;
 
             attachment = (contained, _attachmentQuery.Get(contained));
@@ -230,10 +230,26 @@ public sealed partial class GunAttachmentsSystem : EntitySystem
         return false;
     }
 
-    public bool IsAttachmentValid(Entity<GunAttachmentComponent?> ent, GunAttachmentSlot slot)
+    public bool IsAttachmentValid(
+        AttachableGunComponent gun,
+        Entity<GunAttachmentComponent?> ent,
+        GunAttachmentSlot slot)
     {
         if (!_attachmentQuery.Resolve(ent, ref ent.Comp))
             return false;
+
+        if (MetaData(ent.Owner).EntityPrototype?.ID is { } prototypeId)
+        {
+            var hasCompatibility = gun.Compatibility.TryGetValue(slot.ContainerId, out var compatibility);
+
+            if (slot.DeniedAttachments.Contains(prototypeId) ||
+                hasCompatibility && compatibility.DeniedAttachments.Contains(prototypeId))
+                return false;
+
+            if (slot.AllowedAttachments.Contains(prototypeId) ||
+                hasCompatibility && compatibility.AllowedAttachments.Contains(prototypeId))
+                return true;
+        }
 
         return _whitelist.IsWhitelistPass(slot.Whitelist, ent);
     }
@@ -252,7 +268,7 @@ public sealed partial class GunAttachmentsSystem : EntitySystem
             if (HasAttachment((gun, gun.Comp), slot))
                 continue;
 
-            if (!IsAttachmentValid(attachment, slot))
+            if (!IsAttachmentValid(gun.Comp, attachment, slot))
                 continue;
 
             outSlot = slot;
@@ -267,7 +283,7 @@ public sealed partial class GunAttachmentsSystem : EntitySystem
         if (!Resolve(gun, ref gun.Comp) || !Resolve(attachment, ref attachment.Comp, false))
             return false;
 
-        if (HasAttachment((gun, gun.Comp), slot) || !IsAttachmentValid(attachment, slot))
+        if (HasAttachment((gun, gun.Comp), slot) || !IsAttachmentValid(gun.Comp, attachment, slot))
             return false;
 
         InsertAttachment(gun, attachment, slot);

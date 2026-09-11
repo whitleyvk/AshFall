@@ -41,8 +41,9 @@ public sealed partial class InstallableOrganSystem : EntitySystem
 
         if (_body.GetOrgan(user, category) != null)
         {
+            var organName = ProtoMan.TryIndex(category, out var catProto) ? catProto.Name : category.Id;
             _popup.PopupEntity(Loc.GetString("installable-organ-already-installed",
-                    ("organ", ProtoMan.Index(category).Name)),
+                    ("organ", organName)),
                 user, user, PopupType.SmallCaution);
             return;
         }

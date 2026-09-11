@@ -258,7 +258,7 @@ public sealed class AshfallCharacterGenTests : GameTest
 
             foreach (var jobId in candidate.CompatibleJobs)
             {
-                Assert.That(_protoMan.TryIndex(jobId, out JobPrototype? job), Is.True, $"seed {seed}: {jobId}");
+                Assert.That(_protoMan.TryIndex(jobId, out var job), Is.True, $"seed {seed}: {jobId}");
                 Assert.That(job!.SetPreference, Is.True, $"seed {seed}: {jobId}");
             }
 

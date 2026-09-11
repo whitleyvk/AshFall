@@ -28,8 +28,18 @@ public sealed partial class DelayedDeathSystem : EntitySystem
         _mobQuery = GetEntityQuery<MobStateComponent>();
 
         SubscribeLocalEvent<DelayedDeathComponent, TargetBeforeDefibrillatorZapsEvent>(OnDefibZap);
+        SubscribeLocalEvent<DelayedDeathComponent, ComponentStartup>(OnStartup);
         SubscribeLocalEvent<DelayedDeathComponent, MapInitEvent>(OnMapInit);
         SubscribeLocalEvent<DelayedDeathComponent, RejuvenateEvent>(OnRejuvenate);
+    }
+
+    private void OnStartup(Entity<DelayedDeathComponent> ent, ref ComponentStartup args)
+    {
+        if (ent.Comp.NextDeath == TimeSpan.Zero)
+        {
+            ent.Comp.NextDeath = _timing.CurTime + ent.Comp.DeathDelay;
+            Dirty(ent);
+        }
     }
 
     public override void Update(float frameTime)

@@ -26,6 +26,8 @@
                 <CheckBox Name="BwoinkSoundCheckBox" Text="{Loc 'ui-options-bwoink-sound'}" />
                 <CheckBox Name="AudioHrtfCheckBox" Text="{Loc 'ui-options-audio-hrtf'}" />
                 <CheckBox Name="MuteUnfocusedCheckBox" Text="{Loc 'ui-options-mute-unfocused'}" />
+                <CheckBox Name="SubtleReverbCheckBox" Text="{Loc 'ui-options-subtle-reverb'}" />
+                <CheckBox Name="AudioMuffleCheckBox" Text="{Loc 'ui-options-audio-muffle'}" />
             </BoxContainer>
         </BoxContainer>
         <ui:OptionsTabControlRow Name="Control" Access="Public" />

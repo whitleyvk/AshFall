@@ -74,6 +74,18 @@
   - type: StaticPrice
     price: 100
 
+  - type: AttachableGun
+    visuals:
+      attachment_underbarrel:
+        offset: -0.1875, 0.34375
+        rotation: 0
+        layerAnchor: top
+        layerPosition: After
+        drawOrder: 0
+    compatibility:
+      attachment_underbarrel:
+        allowedAttachments: []
+        deniedAttachments: ["AttachmentGripVFG"]
 - type: entity
   parent: [ BaseItem, BaseToyGun ]
   id: RevolverCapGun

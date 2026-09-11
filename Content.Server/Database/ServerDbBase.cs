@@ -261,7 +261,7 @@ namespace Content.Server.Database
             );
 
             profile.KnowledgeMastery.Clear();
-            if (humanoid.Knowledge != null)
+            if (humanoid.Knowledge.Mastery != null)
             {
                 foreach (var (id, mastery) in humanoid.Knowledge.Mastery)
                 {

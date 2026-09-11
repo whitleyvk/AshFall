@@ -37,7 +37,7 @@ public partial class TraumaSystem
             organ.Body is not {} body)
             return;
 
-        var partName = ProtoMan.Index(category).Name;
+        var partName = ProtoMan.TryIndex(category, out var categoryProto) ? categoryProto.Name : category.Id;
         _popup.PopupEntity(Loc.GetString($"popup-trauma-BoneDamage-{args.NewSeverity}", ("part", partName)),
             body,
             body,

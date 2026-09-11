@@ -33,7 +33,7 @@ public sealed class AshfallPersonGenerator
 
     // Career event generation is reserved for the next phase of the rework; the pipeline layer
     // already exists and content can be enabled by flipping this flag once events are authored.
-    private const bool EnableCareerEvents = false;
+    private static readonly bool EnableCareerEvents = false;
 
     private readonly IPrototypeManager _prototypes;
     private readonly AshfallCharacterGenerator _characterGenerator;
@@ -153,7 +153,7 @@ public sealed class AshfallPersonGenerator
         var name = GenerateName(culture, gender, random);
 
         // 3. Appearance, decoupled from culture.
-        var (appearance, morphology) = _characterGenerator.GenerateAppearance(constraints, species, sex, age, random);
+        var (appearance, morphology) = _characterGenerator.GenerateAppearance(constraints, species, sex, age, random, culture);
         var profile = _characterGenerator.BuildProfile(name, species, sex, gender, age, appearance, random);
 
         var person = new AshfallPersonStructure
@@ -165,11 +165,7 @@ public sealed class AshfallPersonGenerator
         person.StructureTags.Add($"species-{species.ID.ToLowerInvariant()}");
 
         // 4. Origin: biases what follows, never gates it.
-        var origin = PickWeighted(
-            _prototypes.EnumeratePrototypes<AshfallOriginPrototype>()
-                .Select(o => (o, o.Weight))
-                .ToList(),
-            random);
+        var origin = PickOrigin(person.StructureTags, random);
         person.Origin = origin.ID;
         person.StructureTags.UnionWith(origin.ProvidedTags);
 
@@ -335,6 +331,12 @@ public sealed class AshfallPersonGenerator
                     continue;
             }
 
+            // Entry roles can only be the first career stint: as a final identity they are only
+            // valid for a fresh career, never for an established professional (retrainings
+            // legitimately start at an entry role of the new field).
+            if (role.EntryRole && !retrainingDone && targetYears >= 3)
+                continue;
+
             // Seniority-appropriate identities: long careers aim at senior and supervisory
             // professions, short ones at entry and mid work.
             // A role whose requirements need predecessors needs career room for them.
@@ -392,6 +394,10 @@ public sealed class AshfallPersonGenerator
                         continue;
                     if (role.MinAge > finalRole.MinAge)
                         continue;
+                    // Providers are prepended, so an entry role may only join as the last insert:
+                    // the earliest stint, which is exactly where entry roles belong.
+                    if (role.EntryRole && !missingTags.IsSubsetOf(role.ProvidedTags))
+                        continue;
 
                     var weight = GetWeight(role.Weight, role.WeightModifiers, person.StructureTags);
                     if (weight > providerWeight)
@@ -412,8 +418,25 @@ public sealed class AshfallPersonGenerator
             }
 
             ladderComplete = missingTags.Count == 0;
+            if (!ladderComplete)
+                finalCandidates.RemoveAll(entry => entry.Role.ID == finalRole.ID);
         }
-        while (!ladderComplete && --ladderRetries > 0);
+        while (!ladderComplete && --ladderRetries > 0 && finalCandidates.Count > 0);
+
+        if (!ladderComplete)
+        {
+            // Retry budget exhausted: fall back to a role whose requirements the person already
+            // meets, so the career never ends in a stage without its prerequisites.
+            var covered = finalCandidates
+                .Where(entry => entry.Role.RequiredTags.IsSubsetOf(person.StructureTags))
+                .ToList();
+            if (covered.Count > 0)
+            {
+                finalRole = PickWeighted(covered, random);
+                ladder = new List<AshfallCareerRolePrototype> { finalRole };
+                ladderComplete = true;
+            }
+        }
 
         if (!ladderComplete)
         {
@@ -425,6 +448,10 @@ public sealed class AshfallPersonGenerator
         while (ladder.Count < stintCap && random.Prob(0.65f))
         {
             var earliest = ladder[0];
+            // An entry role opens the career: nothing may be prepended before it.
+            if (earliest.EntryRole)
+                break;
+
             AshfallCareerRolePrototype? earlier = null;
             var earlierWeight = 0f;
 
@@ -588,6 +615,27 @@ public sealed class AshfallPersonGenerator
     }
 
     // Selection helpers.
+
+    private AshfallOriginPrototype PickOrigin(HashSet<string> tags, IRobustRandom random)
+    {
+        var eligible = new List<(AshfallOriginPrototype Origin, float Weight)>();
+        foreach (var origin in _prototypes.EnumeratePrototypes<AshfallOriginPrototype>())
+        {
+            if (origin.RequiredTags.Count > 0 && !origin.RequiredTags.IsSubsetOf(tags))
+                continue;
+            if (origin.ExcludedTags.Count > 0 && origin.ExcludedTags.Overlaps(tags))
+                continue;
+
+            var weight = GetWeight(origin.Weight, origin.WeightModifiers, tags);
+            if (weight > 0f)
+                eligible.Add((origin, weight));
+        }
+
+        if (eligible.Count == 0)
+            throw new AshfallValidationException("No origin prototype is eligible for the candidate's traits.");
+
+        return PickWeighted(eligible, random);
+    }
 
     private AshfallEducationPrototype PickEducation(int age, HashSet<string> tags, string? targetDomain, IRobustRandom random)
     {
@@ -864,6 +912,7 @@ public sealed class AshfallPersonGenerator
         return new AshfallCharacterDossier
         {
             CulturalOrigin = Loc.GetString(culture.Label),
+            CultureId = person.Culture,
             Birthplace = person.Birthplace,
             Morphology = morphology,
             Sections = sections,

@@ -32,7 +32,7 @@ public partial class TraumaSystem
 
     private const string TraumaContainerId = "Traumas";
     // TODO SHITMED: this should be a bool on the trauma entity or something
-    public static readonly TraumaType[] TraumasBlockingHealing = { TraumaType.BoneDamage, TraumaType.OrganDamage, TraumaType.Dismemberment };
+    public static readonly TraumaType[] TraumasBlockingHealing = { TraumaType.BoneDamage, TraumaType.OrganDamage };
 
     public static readonly ProtoId<DamageTypePrototype> Blunt = "Blunt";
     public static readonly ProtoId<DamageGroupPrototype> Brute = "Brute";
@@ -65,7 +65,9 @@ public partial class TraumaSystem
         if (delta <= 0 || delta < wound.Comp.SeverityThreshold)
             return;
 
-        var woundable = Comp<WoundableComponent>(part);
+        if (!_woundableQuery.TryComp(part, out var woundable))
+            return;
+
         var traumasToInduce = RandomTraumaChance((part, woundable), wound, delta);
         if (traumasToInduce.Count <= 0)
             return;
@@ -118,7 +120,8 @@ public partial class TraumaSystem
 
         foreach (var trauma in wound.Comp.TraumaContainer.ContainedEntities)
         {
-            yield return (trauma, _traumaQuery.Comp(trauma));
+            if (_traumaQuery.TryComp(trauma, out var traumaComp))
+                yield return (trauma, traumaComp);
         }
     }
 
@@ -183,15 +186,13 @@ public partial class TraumaSystem
 
     /// <summary>
     /// Get all traumas on a bodypart, optionally of a certain type.
-    /// The list is reused between calls, do not store it.
     /// </summary>
     public bool GetPartTraumas(
         Entity<WoundableComponent?> part,
         out List<Entity<TraumaComponent>> traumas,
         TraumaType? traumaType = null)
     {
-        traumas = _traumas;
-        traumas.Clear();
+        traumas = new List<Entity<TraumaComponent>>();
         AddPartTraumas(part, traumas, traumaType);
         return traumas.Count > 0;
     }
@@ -215,19 +216,18 @@ public partial class TraumaSystem
 
     /// <summary>
     /// Get all traumas on a body, optionally of a certain type.
-    /// The returned list is reused between calls, do not store it.
     /// </summary>
     public List<Entity<TraumaComponent>> GetBodyTraumas(
         Entity<BodyComponent?> body,
         TraumaType? traumaType = null)
     {
-        _traumas.Clear();
+        var traumas = new List<Entity<TraumaComponent>>();
         foreach (var part in _body.GetOrgans<WoundableComponent>(body))
         {
-            AddPartTraumas(part.AsNullable(), _traumas, traumaType);
+            AddPartTraumas(part.AsNullable(), traumas, traumaType);
         }
 
-        return _traumas;
+        return traumas;
     }
 
     public List<TraumaType> RandomTraumaChance(
@@ -267,8 +267,7 @@ public partial class TraumaSystem
             if (!_armorQuery.TryComp(ent, out var armour))
                 continue;
 
-            var deductions = armour.TraumaDeductions;
-            var deduction = deductions[traumaType];
+            var deduction = armour.TraumaDeductions.GetValueOrDefault(traumaType, FixedPoint2.Zero);
             if (!inflicter.Comp.AllowArmourDeduction.Contains(traumaType) || deduction == 0)
                 continue;
 
@@ -298,36 +297,35 @@ public partial class TraumaSystem
         FixedPoint2 severity, EntityUid? user = null)
     {
         if (!_query.Resolve(wound, ref wound.Comp) ||
-            wound.Comp.MangledMultipliers == null ||
-            !_boneQuery.HasComp(part)) // cant cause bone damage without bone
+            _body.GetBody(part.Owner) is not {} body)
             return;
 
-        var traumasToInduce = new List<TraumaType>();
-        foreach (var traumaType in wound.Comp.MangledMultipliers.Keys)
+        var inflicter = (wound.Owner, wound.Comp);
+
+        if (wound.Comp.AllowedTraumas.Contains(TraumaType.BoneDamage))
+            AddTrauma(body, part.Owner, inflicter, TraumaType.BoneDamage, severity);
+
+        if (wound.Comp.AllowedTraumas.Contains(TraumaType.OrganDamage))
         {
-            if (traumaType == TraumaType.BoneDamage)
+            foreach (var organ in _part.GetPartOrgans(part.Owner).Values)
             {
-                traumasToInduce.Add(TraumaType.BoneDamage);
+                if (HasComp<InternalChildOrganComponent>(organ))
+                    AddTrauma(body, organ.Owner, inflicter, TraumaType.OrganDamage, severity);
             }
         }
-
-        ApplyTraumas(part, (wound, wound.Comp), traumasToInduce, severity, user);
     }
 
     #endregion
 
     #region Trauma Chance Randoming
 
-    public bool RandomBoneTraumaChance(Entity<WoundableComponent> target, Entity<TraumaInflicterComponent> woundInflicter)
+    public bool RandomBoneTraumaChance(
+        Entity<WoundableComponent> target,
+        Entity<TraumaInflicterComponent> woundInflicter)
     {
-        if (_body.GetBody(target.Owner) is not {} body ||
-            _part.GetPartType(target) is not {} partType)
-            return false; // Can't sever if already severed
-
-        if (!_boneQuery.TryComp(target, out var bone))
-            return false;
-
-        if (bone.BoneSeverity == BoneSeverity.Broken)
+        if (!_boneQuery.TryComp(target, out var bone) ||
+            _body.GetBody(target.Owner) is not {} body ||
+            _part.GetPartType(target.Owner) is not {} partType)
             return false;
 
         var deduction = GetTraumaChanceDeduction(
@@ -341,14 +339,14 @@ public partial class TraumaSystem
         if (deduction == 1)
             return false;
 
-        // We do complete random to get the chance for trauma to happen,
-        // We combine multiple parameters and do some math, to get the chance.
-        // Even if we get 0.1 damage there's still a chance for injury to be applied, but with the extremely low chance.
-        // The more damage, the bigger is the chance.
-        var chance = target.Comp.IntegrityCap / (target.Comp.Integrity + bone.BoneIntegrity)
-             * _boneTraumaChanceMultipliers[target.Comp.WoundableSeverity]
-             - deduction.Float() + woundInflicter.Comp.TraumasChances[TraumaType.BoneDamage];
-        return _random.Prob(Math.Clamp((float) chance, 0f, 1f));
+        var chance =
+            FixedPoint2.Clamp(
+                (target.Comp.IntegrityCap - target.Comp.Integrity) / target.Comp.IntegrityCap
+                - deduction + woundInflicter.Comp.TraumasChances.GetValueOrDefault(TraumaType.BoneDamage, FixedPoint2.Zero),
+                0,
+                1);
+
+        return _random.Prob((float) chance);
     }
 
     public bool RandomOrganTraumaChance(
@@ -356,7 +354,10 @@ public partial class TraumaSystem
         Entity<TraumaInflicterComponent> woundInflicter)
     {
         if (_body.GetBody(target.Owner) is not {} body ||
-            _part.GetPartType(target) is not {} partType)
+            _part.GetPartType(target.Owner) is not {} partType)
+            return false;
+
+        if (!woundInflicter.Comp.TraumasChances.ContainsKey(TraumaType.OrganDamage))
             return false; // No entity to apply traumas to
 
         var totalIntegrity = FixedPoint2.Zero;
@@ -381,16 +382,13 @@ public partial class TraumaSystem
 
         if (deduction == 1)
             return false;
-        // organ damage is like, very deadly, but not yet
-        // so like, like, yeah, we don't want a disabler to induce some EVIL ASS organ damage with a 0,000001% chance and ruin your round
-        // Very unlikely to happen if your woundables are in a good condition
 
-        var chance =
-            FixedPoint2.Clamp(
-                target.Comp.Integrity / target.Comp.IntegrityCap / totalIntegrity
-                - deduction + woundInflicter.Comp.TraumasChances[TraumaType.OrganDamage],
-                0,
-                1);
+        var damageRatio = target.Comp.IntegrityCap > 0
+            ? (target.Comp.IntegrityCap - target.Comp.Integrity) / target.Comp.IntegrityCap
+            : FixedPoint2.Zero;
+
+        var inflicterChance = woundInflicter.Comp.TraumasChances.GetValueOrDefault(TraumaType.OrganDamage, FixedPoint2.Zero);
+        var chance = FixedPoint2.Clamp(damageRatio * inflicterChance - deduction, 0, 1);
 
         return _random.Prob((float) chance);
     }
@@ -432,11 +430,14 @@ public partial class TraumaSystem
             };
         }
 
-        // TODO SHITMED: this doesnt fucking work?
-        float chance = (1f - (MathF.Pow(target.Comp.Integrity.Float(), 1.3f) / target.Comp.IntegrityCap.Float() - 1f)) * multiplier
-            - deduction.Float() + woundInflicter.Comp.TraumasChances[TraumaType.Dismemberment].Float();
+        var integrityRatio = target.Comp.IntegrityCap > 0
+            ? target.Comp.Integrity.Float() / target.Comp.IntegrityCap.Float()
+            : 0f;
+        var damageRatio = Math.Clamp(1f - integrityRatio, 0f, 1f);
+        var baseChance = MathF.Pow(damageRatio, 1.5f);
+        var inflicterChance = woundInflicter.Comp.TraumasChances.GetValueOrDefault(TraumaType.Dismemberment, FixedPoint2.Zero).Float();
 
-        // TODO SHITMED: if above is fixed, predicted random
+        float chance = (baseChance * inflicterChance * multiplier) - deduction.Float();
         return _random.Prob(Math.Clamp(chance, 0f, 1f));
     }
 
@@ -453,7 +454,9 @@ public partial class TraumaSystem
 
         foreach (var trauma in wound.Comp.TraumaContainer.ContainedEntities)
         {
-            var containedTraumaComp = _traumaQuery.Comp(trauma);
+            if (!_traumaQuery.TryComp(trauma, out var containedTraumaComp))
+                continue;
+
             if (containedTraumaComp.TraumaType != traumaType)
                 continue;
 
@@ -465,7 +468,9 @@ public partial class TraumaSystem
             return trauma;
         }
 
-        var id = wound.Comp.TraumaPrototypes[traumaType];
+        if (!wound.Comp.TraumaPrototypes.TryGetValue(traumaType, out var id))
+            return EntityUid.Invalid;
+
         var traumaEnt = PredictedSpawnInContainerOrDrop(id, wound, TraumaContainerId);
         var traumaComp = EnsureComp<TraumaComponent>(traumaEnt);
 
@@ -576,7 +581,7 @@ public partial class TraumaSystem
                             severity,
                             source: category);
 
-                        _wound.AmputateWoundable(targetChosen.Value, target.AsNullable(), user);
+                        _wound.AmputateWoundable(targetChosen.Value, target.AsNullable(), user, crude: true);
                     }
                     break;
             }

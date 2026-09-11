@@ -17,7 +17,7 @@ public sealed partial class FlatpackerComponent : Component
     /// Sound played when packing a machine into a flatpack.
     /// </summary>
     [DataField]
-    public SoundSpecifier PackSound = new SoundPathSpecifier("/Audio/Machines/hydraulic_1.ogg");
+    public SoundSpecifier PackSound = new SoundPathSpecifier("/Audio/Machines/blastdoor.ogg");
 
     /// <summary>
     /// Prototype ID of the flatpack crate entity spawned.

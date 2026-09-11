@@ -16,5 +16,5 @@ public sealed partial class AshfallFlatpackComponent : Component
     public string PackedName = string.Empty;
 
     [DataField]
-    public SoundSpecifier UnpackSound = new SoundPathSpecifier("/Audio/Machines/hydraulic_2.ogg");
+    public SoundSpecifier UnpackSound = new SoundPathSpecifier("/Audio/Machines/boltsup.ogg");
 }

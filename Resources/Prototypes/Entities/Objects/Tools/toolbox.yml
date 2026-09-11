@@ -3,6 +3,12 @@
   parent: BaseStorageItem
   abstract: true
   components:
+  - type: EmitSoundOnPickup
+    sound:
+      collection: ToolboxPickup
+  - type: EmitSoundOnDrop
+    sound:
+      collection: ToolboxDrop
   - type: Sprite
     layers:
       - map: [ base ]

@@ -217,7 +217,7 @@
   domains: [Agriculture]
   experiencePerYear:
     Agriculture: 1.0
-  employerIndustries: [agriculture, food-production]
+  employerIndustries: [agriculture]
   yearsMin: 1
   yearsMax: 6
   providedTags: [exp-agrowork]
@@ -436,7 +436,7 @@
   experiencePerYear:
     Janitorial: 1.0
     Hospitality: 0.4
-  employerIndustries: [service]
+  employerIndustries: [service, sanitation]
   yearsMin: 1
   yearsMax: 6
   providedTags: [exp-servicework]
@@ -449,7 +449,7 @@
   experiencePerYear:
     Culinary: 1.1
     Hospitality: 0.4
-  employerIndustries: [service, food-production]
+  employerIndustries: [service]
   yearsMin: 1
   yearsMax: 8
   providedTags: [exp-servicework]
@@ -491,7 +491,7 @@
   experiencePerYear:
     Performance: 1.1
     Hospitality: 0.3
-  employerIndustries: [performance, service, transport]
+  employerIndustries: [performance, service]
   yearsMin: 2
   yearsMax: 10
   weight: 1.1
@@ -506,7 +506,7 @@
     Performance: 0.9
     Media: 0.5
     Hospitality: 0.4
-  employerIndustries: [performance, service, transport]
+  employerIndustries: [performance, service]
   yearsMin: 2
   yearsMax: 8
   minAge: 21

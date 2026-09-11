@@ -133,6 +133,20 @@
     zeroVisible: true
   - type: Appearance
 
+  - type: AttachableGun
+    visuals:
+      attachment_underbarrel:
+        offset: 0.09375, 0.15625
+        rotation: 0
+        layerAnchor: top
+        layerPosition: After
+        drawOrder: 0
+      attachment_muzzle:
+        offset: 0.25, 0.21875
+        rotation: 0
+        layerAnchor: top
+        layerPosition: After
+        drawOrder: 0
 - type: entity
   name: Lecter
   parent: [BaseWeaponRifle, BaseSecurityContraband]
@@ -179,6 +193,20 @@
     zeroVisible: true
   - type: Appearance
 
+  - type: AttachableGun
+    visuals:
+      attachment_underbarrel:
+        offset: 0.09375, 0.0625
+        rotation: 0
+        layerAnchor: top
+        layerPosition: After
+        drawOrder: 0
+      attachment_muzzle:
+        offset: 0.25, 0.0625
+        rotation: 0
+        layerAnchor: top
+        layerPosition: After
+        drawOrder: 0
 - type: entity
   parent: WeaponRifleLecter
   id: WeaponRifleLecterXL8
@@ -206,6 +234,24 @@
     - SemiAuto
     - FullAuto
 
+  - type: AttachableGun
+    visuals:
+      attachment_underbarrel:
+        offset: -0.125, 0.4375
+        rotation: 0
+        layerAnchor: top
+        layerPosition: After
+        drawOrder: 0
+      attachment_muzzle:
+        offset: 0.28125, 0.0625
+        rotation: 0
+        layerAnchor: top
+        layerPosition: After
+        drawOrder: 0
+    compatibility:
+      attachment_underbarrel:
+        allowedAttachments: []
+        deniedAttachments: ["AttachmentGripVFG"]
 - type: entity
   name: Estoc DMR
   parent: [BaseWeaponRifle, BaseSyndicateContraband]
@@ -267,3 +313,17 @@
     steps: 1
     zeroVisible: true
   - type: Appearance
+  - type: AttachableGun
+    visuals:
+      attachment_underbarrel:
+        offset: 0, 0
+        rotation: 0
+        layerAnchor: top
+        layerPosition: After
+        drawOrder: 0
+      attachment_muzzle:
+        offset: 0.25, 0.03125
+        rotation: 0
+        layerAnchor: top
+        layerPosition: After
+        drawOrder: 0

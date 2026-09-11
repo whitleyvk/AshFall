@@ -142,7 +142,8 @@ public sealed partial class GunAttachmentsVisualsSystem : EntitySystem
     private int AddAttachmentLayers(Entity<SpriteComponent?> sprite, AttachmentLayerData data, int? index)
     {
         var attachmentComp = data.Component;
-        var totalOffset = data.Visual.Offset + attachmentComp.AttachedOffset;
+        var rotatedOffset = data.Visual.Rotation.RotateVec(attachmentComp.AttachedOffset);
+        var totalOffset = data.Visual.Offset + rotatedOffset;
         var totalRotation = data.Visual.Rotation + attachmentComp.AttachedRotation;
         var layerIndex = _sprite.AddLayer(sprite, attachmentComp.AttachedSprite!, index);
         _sprite.LayerMapSet(sprite, data.LayerKey, layerIndex);

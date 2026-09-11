@@ -35,6 +35,10 @@ public sealed class AshfallCharacterGenerator
         "VeiruHairBedhead",
         "VeiruHairMohawk",
         "VeiruHairBangs",
+        "VeiruHairCombedback",
+        "VeiruHairPunk",
+        "VeiruHairTough",
+        "VeiruSpikey",
     };
 
     private readonly IPrototypeManager _prototypeManager;
@@ -77,15 +81,13 @@ public sealed class AshfallCharacterGenerator
         SpeciesPrototype species,
         Sex sex,
         int age,
-        IRobustRandom random)
+        IRobustRandom random,
+        AshfallCulturePrototype? culture = null)
     {
         Color skinColor;
         Dictionary<ProtoId<OrganCategoryPrototype>, Dictionary<HumanoidVisualLayers, List<Marking>>> markings = new();
         string morphology = string.Empty;
         float tone = 25f;
-
-        var hairColor = GenerateHairColor(constraints, age, random);
-        var eyeColor = GenerateEyeColor(constraints, random);
 
         if (species.ID == "Reptilian")
         {
@@ -105,13 +107,19 @@ public sealed class AshfallCharacterGenerator
         }
         else
         {
-            (skinColor, tone) = GenerateNaturalSkinColor(species, random);
-            markings = GenerateMarkings(species, sex, hairColor, eyeColor, skinColor, constraints, random);
+            (skinColor, tone) = GenerateNaturalSkinColor(species, culture, random);
         }
+
+        var hairColor = GenerateHairColor(constraints, age, tone, random);
+        var eyeColor = GenerateEyeColor(constraints, random);
 
         if (species.ID is "Reptilian" or "Moth" or "Arachnid" or "Veiru")
         {
             markings = GenerateSpeciesMarkings(species, sex, skinColor, eyeColor, hairColor, random);
+        }
+        else
+        {
+            markings = GenerateMarkings(species, sex, hairColor, eyeColor, skinColor, constraints, culture, random);
         }
 
         var appearance = new HumanoidCharacterAppearance
@@ -204,22 +212,31 @@ public sealed class AshfallCharacterGenerator
         return random.Next(last.MinAge, last.MaxAge + 1);
     }
 
-    private (Color Color, float Tone) GenerateNaturalSkinColor(SpeciesPrototype species, IRobustRandom random)
+    private (Color Color, float Tone) GenerateNaturalSkinColor(SpeciesPrototype species, AshfallCulturePrototype? culture, IRobustRandom random)
     {
         if (_prototypeManager.TryIndex(species.SkinColoration, out var colorationProto))
         {
             var strategy = colorationProto.Strategy;
             if (strategy is HumanTonedSkinColoration toned)
             {
-                // Unary tone: 0 to 100 with realistic human melanin distribution
-                // ~55% light/fair (3..35), ~30% medium/tanned (35..65), ~15% dark/deep (65..95)
-                var roll = random.NextFloat(0f, 1f);
-                var tone = roll switch
+                float tone;
+                if (culture?.SkinToneRange != null)
                 {
-                    < 0.55f => random.NextFloat(3f, 35f),
-                    < 0.85f => random.NextFloat(35f, 65f),
-                    _ => random.NextFloat(65f, 95f)
-                };
+                    var range = culture.SkinToneRange.Value;
+                    tone = random.NextFloat(range.X, range.Y);
+                }
+                else
+                {
+                    // Unary tone: 0 to 100 with realistic human melanin distribution
+                    // ~55% light/fair (3..35), ~30% medium/tanned (35..65), ~15% dark/deep (65..95)
+                    var roll = random.NextFloat(0f, 1f);
+                    tone = roll switch
+                    {
+                        < 0.55f => random.NextFloat(3f, 35f),
+                        < 0.85f => random.NextFloat(35f, 65f),
+                        _ => random.NextFloat(65f, 95f)
+                    };
+                }
                 return (toned.FromUnary(tone), tone);
             }
         }
@@ -228,7 +245,7 @@ public sealed class AshfallCharacterGenerator
         return (Color.FromHsv(new Vector4(25f / 360f, random.NextFloat(0.25f, 0.65f), random.NextFloat(0.50f, 0.95f), 1f)), 25f);
     }
 
-    private Color GenerateHairColor(CharacterGenConstraintsPrototype constraints, int age, IRobustRandom random)
+    private Color GenerateHairColor(CharacterGenConstraintsPrototype constraints, int age, float tone, IRobustRandom random)
     {
         // Check graying chance based on age
         var grayChance = 0.01f;
@@ -244,11 +261,15 @@ public sealed class AshfallCharacterGenerator
         if (random.Prob(grayChance))
         {
             if (_prototypeManager.TryIndex(GrayingHairPalette, out var grayPalette))
-                return SamplePalette(grayPalette, random);
+                return SamplePalette(grayPalette, random, false);
         }
 
         if (_prototypeManager.TryIndex(constraints.HairPalette, out var hairPalette))
-            return SamplePalette(hairPalette, random);
+        {
+            // For primarily darker skin tones (melanin tone >= 55), exclude full blonde hair
+            var disallowBlonde = tone >= 55f;
+            return SamplePalette(hairPalette, random, disallowBlonde);
+        }
 
         return Color.FromHex("#3D2E24"); // Natural dark brown fallback
     }
@@ -261,20 +282,28 @@ public sealed class AshfallCharacterGenerator
         return Color.FromHex("#452C1A"); // Natural brown fallback
     }
 
-    private static Color SamplePalette(ColorPalettePrototype palette, IRobustRandom random)
+    private static Color SamplePalette(ColorPalettePrototype palette, IRobustRandom random, bool disallowBlonde = false)
     {
-        if (palette.Colors.Count == 0)
+        var colors = palette.Colors;
+        if (disallowBlonde)
+        {
+            var filtered = colors.Where(c => !c.Name.Contains("blonde", StringComparison.OrdinalIgnoreCase)).ToList();
+            if (filtered.Count > 0)
+                colors = filtered;
+        }
+
+        if (colors.Count == 0)
             return Color.Black;
 
         var totalWeight = 0f;
-        foreach (var c in palette.Colors)
+        foreach (var c in colors)
             totalWeight += c.Weight;
 
         var roll = random.NextFloat(0f, totalWeight);
         var current = 0f;
-        var selectedColor = palette.Colors[0].Color;
+        var selectedColor = colors[0].Color;
 
-        foreach (var c in palette.Colors)
+        foreach (var c in colors)
         {
             current += c.Weight;
             if (roll <= current)
@@ -300,6 +329,7 @@ public sealed class AshfallCharacterGenerator
         Color eyeColor,
         Color skinColor,
         CharacterGenConstraintsPrototype constraints,
+        AshfallCulturePrototype? culture,
         IRobustRandom random)
     {
         var markings = new Dictionary<ProtoId<OrganCategoryPrototype>, Dictionary<HumanoidVisualLayers, List<Marking>>>();
@@ -312,16 +342,40 @@ public sealed class AshfallCharacterGenerator
             new ProtoId<MarkingsGroupPrototype>("Human"),
             sex);
 
+        var allRestrictedHairs = GetRestrictedCultureHairstyles();
+        var cultureAllowedHairs = culture != null && culture.CultureHairstyles.Count > 0
+            ? new HashSet<string>(culture.CultureHairstyles.Select(h => (string) h))
+            : null;
+
         var validHairPool = new List<MarkingPrototype>();
+        var cultureHairPool = new List<MarkingPrototype>();
+
         foreach (var hair in hairMarkings.Values)
         {
             if (constraints.AllowedHairstyles.Count > 0 && !constraints.AllowedHairstyles.Contains(hair.ID))
                 continue;
 
-            validHairPool.Add(hair);
+            bool isRestricted = allRestrictedHairs.Contains(hair.ID);
+            if (isRestricted)
+            {
+                if (cultureAllowedHairs != null && cultureAllowedHairs.Contains(hair.ID))
+                {
+                    cultureHairPool.Add(hair);
+                    validHairPool.Add(hair);
+                }
+            }
+            else
+            {
+                validHairPool.Add(hair);
+            }
         }
 
-        if (validHairPool.Count > 0)
+        if (cultureHairPool.Count > 0 && random.Prob(0.35f))
+        {
+            var chosenHair = PickWeightedMarking(cultureHairPool, random);
+            headLayers[HumanoidVisualLayers.Hair] = new List<Marking> { new(chosenHair.ID, [hairColor]) };
+        }
+        else if (validHairPool.Count > 0)
         {
             var chosenHair = PickWeightedMarking(validHairPool, random);
             headLayers[HumanoidVisualLayers.Hair] = new List<Marking> { new(chosenHair.ID, [hairColor]) };
@@ -370,6 +424,19 @@ public sealed class AshfallCharacterGenerator
 
         markings[headCategory] = headLayers;
         return markings;
+    }
+
+    private HashSet<string> GetRestrictedCultureHairstyles()
+    {
+        var set = new HashSet<string>();
+        foreach (var c in _prototypeManager.EnumeratePrototypes<AshfallCulturePrototype>())
+        {
+            foreach (var hairId in c.CultureHairstyles)
+            {
+                set.Add((string) hairId);
+            }
+        }
+        return set;
     }
 
     private static MarkingPrototype PickWeightedMarking(List<MarkingPrototype> pool, IRobustRandom random)

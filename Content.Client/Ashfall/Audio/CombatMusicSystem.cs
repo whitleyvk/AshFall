@@ -11,6 +11,9 @@ using Content.Shared.Damage.Components;
 using Content.Shared.Damage.Systems;
 using Content.Shared.GameTicking;
 using Content.Shared.Inventory;
+using Content.Shared.Humanoid;
+using Content.Shared.Item;
+using Content.Shared.Mobs;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Mobs.Systems;
 using Content.Shared.Weapons.Melee;
@@ -26,6 +29,7 @@ using Robust.Shared.Audio;
 using Robust.Shared.Audio.Components;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Configuration;
+using Robust.Shared.Map;
 using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
@@ -59,8 +63,12 @@ public sealed partial class CombatMusicSystem : EntitySystem
     private static readonly ProtoId<SoundCollectionPrototype> SyndicateMusicCollection = "CombatMusicSyndicate";
 
     private readonly TimeSpan _combatDuration = TimeSpan.FromSeconds(20);
-    private const float NearbyGunfireRange = 14f;
+    private const float NearbyCombatRange = 40f;
     private TimeSpan _combatEndTime = TimeSpan.Zero;
+    // The nearby-combatant scan walks every humanoid on the map; throttle it because combat
+    // music only needs to know the fight is ongoing, not the exact moment of every shot.
+    private static readonly TimeSpan CombatScanCooldown = TimeSpan.FromSeconds(1);
+    private TimeSpan _nextCombatScan = TimeSpan.Zero;
 
     private EntityUid? _combatStream;
     private ProtoId<SoundCollectionPrototype>? _preparedCollection;
@@ -178,7 +186,14 @@ public sealed partial class CombatMusicSystem : EntitySystem
             return;
 
         if (player != args.User &&
-            !Transform(player).Coordinates.InRange(EntityManager, Transform(args.User).Coordinates, NearbyGunfireRange))
+            !Transform(player).Coordinates.InRange(EntityManager, Transform(args.User).Coordinates, NearbyCombatRange))
+            return;
+
+        if (_timing.CurTime < _nextCombatScan)
+            return;
+        _nextCombatScan = _timing.CurTime + CombatScanCooldown;
+
+        if (!HasNearbyCombatants(player, NearbyCombatRange))
             return;
 
         TriggerCombat();
@@ -186,7 +201,24 @@ public sealed partial class CombatMusicSystem : EntitySystem
 
     private void OnMeleeHit(EntityUid uid, MeleeWeaponComponent comp, MeleeHitEvent args)
     {
-        if (_player.LocalEntity == args.User && args.HitEntities.Count > 0)
+        if (_player.LocalEntity != args.User)
+            return;
+
+        var hitCombatant = false;
+        foreach (var hit in args.HitEntities)
+        {
+            if (hit == args.User)
+                continue;
+
+            if (HasComp<HumanoidProfileComponent>(hit) ||
+                (TryComp<MobStateComponent>(hit, out var mobState) && !_mobState.IsDead(hit, mobState) && !HasComp<ItemComponent>(hit)))
+            {
+                hitCombatant = true;
+                break;
+            }
+        }
+
+        if (hitCombatant)
         {
             TriggerCombat();
         }
@@ -199,10 +231,43 @@ public sealed partial class CombatMusicSystem : EntitySystem
 
         var gun = GetEntity(args.Uid);
         if (!Exists(gun) ||
-            !Transform(player).Coordinates.InRange(EntityManager, Transform(gun).Coordinates, NearbyGunfireRange))
+            !Transform(player).Coordinates.InRange(EntityManager, Transform(gun).Coordinates, NearbyCombatRange))
+            return;
+
+        if (_timing.CurTime < _nextCombatScan)
+            return;
+        _nextCombatScan = _timing.CurTime + CombatScanCooldown;
+
+        if (!HasNearbyCombatants(player, NearbyCombatRange))
             return;
 
         TriggerCombat();
+    }
+
+    private bool HasNearbyCombatants(EntityUid player, float range)
+    {
+        var playerCoords = Transform(player).Coordinates;
+        var mapId = playerCoords.GetMapId(EntityManager);
+        if (mapId == MapId.Nullspace)
+            return false;
+
+        var enumerator = AllEntityQuery<HumanoidProfileComponent, TransformComponent>();
+        while (enumerator.MoveNext(out var uid, out _, out var xform))
+        {
+            if (uid == player)
+                continue;
+
+            if (xform.MapID != mapId)
+                continue;
+
+            if (playerCoords.InRange(EntityManager, xform.Coordinates, range))
+            {
+                if (TryComp<MobStateComponent>(uid, out var mobState) && !_mobState.IsDead(uid, mobState))
+                    return true;
+            }
+        }
+
+        return false;
     }
 
     private void OnRoundEnd(RoundEndMessageEvent ev)
@@ -266,7 +331,7 @@ public sealed partial class CombatMusicSystem : EntitySystem
         if (stream != null)
         {
             _combatStream = stream.Value.Entity;
-            _contentAudio.FadeIn(_combatStream, stream.Value.Component, 1.5f);
+            _contentAudio.FadeIn(_combatStream, stream.Value.Component, 3.5f);
         }
     }
 

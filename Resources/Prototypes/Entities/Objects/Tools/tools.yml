@@ -4,6 +4,12 @@
   id: Wirecutter
   description: This kills the wire.
   components:
+  - type: EmitSoundOnPickup
+    sound:
+      collection: WirecutterPickup
+  - type: EmitSoundOnDrop
+    sound:
+      collection: WirecutterDrop
   - type: EmitSoundOnLand
     sound:
       path: /Audio/Items/wirecutter_drop.ogg
@@ -51,6 +57,12 @@
   id: Screwdriver
   description: Industrial grade torque in a small screwdriving package.
   components:
+  - type: EmitSoundOnPickup
+    sound:
+      collection: ScrewdriverPickup
+  - type: EmitSoundOnDrop
+    sound:
+      collection: ScrewdriverDrop
   - type: EmitSoundOnLand
     sound:
       path: /Audio/Items/screwdriver_drop.ogg
@@ -95,6 +107,12 @@
   id: Wrench
   description: 'A common tool for assembly and disassembly. Remember: lefty latchy, righty removey.'
   components:
+  - type: EmitSoundOnPickup
+    sound:
+      collection: WrenchPickup
+  - type: EmitSoundOnDrop
+    sound:
+      collection: WrenchDrop
   - type: EmitSoundOnLand
     sound:
       path: /Audio/Items/wrench_drop.ogg
@@ -137,6 +155,12 @@
   id: Multitool
   description: An advanced tool to copy, store, and send electrical pulses and signals through wires and machines.
   components:
+  - type: EmitSoundOnPickup
+    sound:
+      collection: MultitoolPickup
+  - type: EmitSoundOnDrop
+    sound:
+      collection: MultitoolDrop
   - type: EmitSoundOnLand
     sound:
       path: /Audio/Items/multitool_drop.ogg

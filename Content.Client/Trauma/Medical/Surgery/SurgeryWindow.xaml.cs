@@ -90,8 +90,44 @@ public sealed partial class SurgeryWindow : FancyWindow
     private new string Name(EntityUid uid)
         => _ent.GetComponent<MetaDataComponent>(uid).EntityName;
 
+    private string GetPartName(EntityUid uid)
+    {
+        var name = _ent.GetComponent<MetaDataComponent>(uid).EntityName;
+        if (!string.IsNullOrWhiteSpace(name) &&
+            !string.Equals(name, "head", StringComparison.OrdinalIgnoreCase) &&
+            !string.Equals(name, "torso", StringComparison.OrdinalIgnoreCase) &&
+            !string.Equals(name, "arm", StringComparison.OrdinalIgnoreCase) &&
+            !string.Equals(name, "hand", StringComparison.OrdinalIgnoreCase) &&
+            !string.Equals(name, "leg", StringComparison.OrdinalIgnoreCase) &&
+            !string.Equals(name, "foot", StringComparison.OrdinalIgnoreCase) &&
+            !string.Equals(name, "organ", StringComparison.OrdinalIgnoreCase))
+        {
+            return name;
+        }
+
+        if (_partQuery.TryComp(uid, out var partComp))
+        {
+            return (partComp.PartType, partComp.Symmetry) switch
+            {
+                (BodyPartType.Head, _) => Loc.GetString("ent-OrganBaseHead"),
+                (BodyPartType.Torso, _) => Loc.GetString("ent-OrganBaseTorso"),
+                (BodyPartType.Arm, BodyPartSymmetry.Left) => Loc.GetString("ent-OrganBaseArmLeft"),
+                (BodyPartType.Arm, BodyPartSymmetry.Right) => Loc.GetString("ent-OrganBaseArmRight"),
+                (BodyPartType.Hand, BodyPartSymmetry.Left) => Loc.GetString("ent-OrganBaseHandLeft"),
+                (BodyPartType.Hand, BodyPartSymmetry.Right) => Loc.GetString("ent-OrganBaseHandRight"),
+                (BodyPartType.Leg, BodyPartSymmetry.Left) => Loc.GetString("ent-OrganBaseLegLeft"),
+                (BodyPartType.Leg, BodyPartSymmetry.Right) => Loc.GetString("ent-OrganBaseLegRight"),
+                (BodyPartType.Foot, BodyPartSymmetry.Left) => Loc.GetString("ent-OrganBaseFootLeft"),
+                (BodyPartType.Foot, BodyPartSymmetry.Right) => Loc.GetString("ent-OrganBaseFootRight"),
+                _ => name
+            };
+        }
+
+        return name;
+    }
+
     private new string Name(EntProtoId id)
-        => _proto.Index(id).Name;
+        => _proto.TryIndex<EntityPrototype>(id, out var proto) ? proto.Name : id.Id;
 
     private bool Deleted(EntityUid uid)
         => !_ent.TryGetComponent(uid, out MetaDataComponent? comp) || comp.EntityDeleted;
@@ -119,7 +155,7 @@ public sealed partial class SurgeryWindow : FancyWindow
             };
 
             var msg = new FormattedMessage();
-            msg.AddMarkupOrThrow($"[bold]{Loc.GetString("surgery-ui-window-requires", ("requirement", Name(requirement)))}[/bold]");
+            msg.AddMarkupPermissive($"[bold]{Loc.GetString("surgery-ui-window-requires", ("requirement", Name(requirement)))}[/bold]");
             label.Set(msg, null);
 
             Steps.AddChild(label);
@@ -247,7 +283,7 @@ public sealed partial class SurgeryWindow : FancyWindow
         foreach (var part in _parts)
         {
             var partButton = new ChoiceControl();
-            partButton.Set(Name(part), null);
+            partButton.Set(GetPartName(part), null);
             partButton.Button.OnPressed += _ => ViewPart(part);
             Parts.AddChild(partButton);
         }

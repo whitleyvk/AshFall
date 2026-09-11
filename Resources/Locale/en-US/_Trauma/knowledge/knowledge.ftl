@@ -127,3 +127,12 @@ ent-AthleticsKnowledge = { knowledge-skill-stamina }
     .desc = { knowledge-skill-stamina-desc }
 ent-StrengthKnowledge = Strength
     .desc = Physical power that increases melee impact.
+
+# Ashfall dossier skills UI
+ashfall-dossier-skills-summary-heading = Skills
+ashfall-dossier-skills-details-button = Details
+ashfall-dossier-skills-more = More { $count }
+ashfall-dossier-skills-none = No specialized skills
+ashfall-skills-window-title = Personnel file: Qualifications and skills // {$name}
+ashfall-skills-window-job = Assignment: {$job}
+ashfall-skills-window-breakdown = Species baseline: {$species} | Profile: {$profile} | Job: {$job}

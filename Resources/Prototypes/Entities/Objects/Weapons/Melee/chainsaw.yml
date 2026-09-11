@@ -39,3 +39,6 @@
   - type: DisarmMalus
   - type: UseDelay
     delay: 1
+  - type: ChainsawDismember
+    normalChance: 0.15
+    critChance: 0.70

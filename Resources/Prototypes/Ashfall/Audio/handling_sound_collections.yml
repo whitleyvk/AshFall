@@ -1,0 +1,179 @@
+- type: soundCollection
+  id: AmmoboxDrop
+  files:
+  - /Audio/Items/Handling/ammobox_drop.ogg
+
+- type: soundCollection
+  id: AmmoboxPickup
+  files:
+  - /Audio/Items/Handling/ammobox_pickup.ogg
+
+- type: soundCollection
+  id: BookDrop
+  files:
+  - /Audio/Items/Handling/book_drop.ogg
+
+- type: soundCollection
+  id: BookPickup
+  files:
+  - /Audio/Items/Handling/book_pickup.ogg
+
+- type: soundCollection
+  id: CardboardBoxDrop
+  files:
+  - /Audio/Items/Handling/cardboardbox_drop.ogg
+
+- type: soundCollection
+  id: CardboardBoxPickup
+  files:
+  - /Audio/Items/Handling/cardboardbox_pickup.ogg
+
+- type: soundCollection
+  id: ClothDrop
+  files:
+  - /Audio/Items/Handling/cloth_drop.ogg
+
+- type: soundCollection
+  id: ClothPickup
+  files:
+  - /Audio/Items/Handling/cloth_pickup.ogg
+
+- type: soundCollection
+  id: ComponentDrop
+  files:
+  - /Audio/Items/Handling/component_drop.ogg
+
+- type: soundCollection
+  id: ComponentPickup
+  files:
+  - /Audio/Items/Handling/component_pickup.ogg
+
+- type: soundCollection
+  id: CrowbarDrop
+  files:
+  - /Audio/Items/Handling/crowbar_drop.ogg
+
+- type: soundCollection
+  id: CrowbarPickup
+  files:
+  - /Audio/Items/Handling/crowbar_pickup.ogg
+
+- type: soundCollection
+  id: DiskDrop
+  files:
+  - /Audio/Items/Handling/disk_drop.ogg
+
+- type: soundCollection
+  id: DiskPickup
+  files:
+  - /Audio/Items/Handling/disk_pickup.ogg
+
+- type: soundCollection
+  id: DrinkGlassDrop
+  files:
+  - /Audio/Items/Handling/drinkglass_drop.ogg
+
+- type: soundCollection
+  id: DrinkGlassPickup
+  files:
+  - /Audio/Items/Handling/drinkglass_pickup.ogg
+
+- type: soundCollection
+  id: MatchboxDrop
+  files:
+  - /Audio/Items/Handling/matchbox_drop.ogg
+
+- type: soundCollection
+  id: MatchboxPickup
+  files:
+  - /Audio/Items/Handling/matchbox_pickup.ogg
+
+- type: soundCollection
+  id: MultitoolDrop
+  files:
+  - /Audio/Items/Handling/multitool_drop.ogg
+
+- type: soundCollection
+  id: MultitoolPickup
+  files:
+  - /Audio/Items/Handling/multitool_pickup.ogg
+
+- type: soundCollection
+  id: PaperDrop
+  files:
+  - /Audio/Items/Handling/paper_drop.ogg
+
+- type: soundCollection
+  id: PaperPickup
+  files:
+  - /Audio/Items/Handling/paper_pickup.ogg
+
+- type: soundCollection
+  id: ScrewdriverDrop
+  files:
+  - /Audio/Items/Handling/screwdriver_drop.ogg
+
+- type: soundCollection
+  id: ScrewdriverPickup
+  files:
+  - /Audio/Items/Handling/screwdriver_pickup.ogg
+
+- type: soundCollection
+  id: SwordSheath
+  files:
+  - /Audio/Items/Handling/sword_sheath.ogg
+
+- type: soundCollection
+  id: SwordUnsheath
+  files:
+  - /Audio/Items/Handling/sword_unsheath.ogg
+
+- type: soundCollection
+  id: ToolbeltDrop
+  files:
+  - /Audio/Items/Handling/toolbelt_drop.ogg
+
+- type: soundCollection
+  id: ToolbeltPickup
+  files:
+  - /Audio/Items/Handling/toolbelt_pickup.ogg
+
+- type: soundCollection
+  id: ToolboxDrop
+  files:
+  - /Audio/Items/Handling/toolbox_drop.ogg
+
+- type: soundCollection
+  id: ToolboxPickup
+  files:
+  - /Audio/Items/Handling/toolbox_pickup.ogg
+
+- type: soundCollection
+  id: WelderDrop
+  files:
+  - /Audio/Items/Handling/welder_drop.ogg
+
+- type: soundCollection
+  id: WelderPickup
+  files:
+  - /Audio/Items/Handling/welder_pickup.ogg
+
+- type: soundCollection
+  id: WirecutterDrop
+  files:
+  - /Audio/Items/Handling/wirecutter_drop.ogg
+
+- type: soundCollection
+  id: WirecutterPickup
+  files:
+  - /Audio/Items/Handling/wirecutter_pickup.ogg
+
+- type: soundCollection
+  id: WrenchDrop
+  files:
+  - /Audio/Items/Handling/wrench_drop.ogg
+
+- type: soundCollection
+  id: WrenchPickup
+  files:
+  - /Audio/Items/Handling/wrench_pickup.ogg

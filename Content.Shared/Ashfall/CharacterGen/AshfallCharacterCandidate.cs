@@ -1,3 +1,4 @@
+using Content.Shared.Ashfall.CharacterGen.Prototypes;
 using Content.Shared.Preferences;
 using Content.Shared.Roles;
 using Robust.Shared.Prototypes;
@@ -33,6 +34,9 @@ public sealed partial class AshfallCharacterDossier
 {
     [DataField]
     public string CulturalOrigin { get; set; } = string.Empty;
+
+    [DataField]
+    public ProtoId<AshfallCulturePrototype>? CultureId { get; set; }
 
     [DataField]
     public string Birthplace { get; set; } = string.Empty;

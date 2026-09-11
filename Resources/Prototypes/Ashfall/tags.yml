@@ -1,0 +1,4 @@
+# Tag marking equipment the flatpacker can pack in addition to machines and power hardware
+# (see FlatpackerSystem.IsServerPackable).
+- type: Tag
+  id: AshfallPackable

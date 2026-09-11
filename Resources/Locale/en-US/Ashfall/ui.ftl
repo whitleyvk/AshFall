@@ -38,6 +38,7 @@ ashfall-personal-files-number = PERSONNEL FILE #{ $number }
 ashfall-personal-files-confirmed-marker = Candidate confirmed for awakening
 ashfall-personal-files-confirmed = CONFIRMED // ASSIGNMENT: { $job }
 ashfall-personal-files-assignment-heading = ASSIGNMENT
+ashfall-personal-files-assignment-selected = ASSIGNMENT // { $job }
 ashfall-personal-files-assignment-help = Only jobs compatible with this employee's qualification are shown.
 ashfall-personal-files-confirm = CONFIRM AWAKENING
 ashfall-personal-files-no-jobs = No assignments are available. This employee cannot be confirmed.
