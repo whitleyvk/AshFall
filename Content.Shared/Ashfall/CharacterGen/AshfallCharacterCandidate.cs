@@ -52,6 +52,14 @@ public sealed partial class AshfallCharacterDossier
 [Serializable, NetSerializable]
 public sealed partial class AshfallCharacterCandidate
 {
+    /// <summary>
+    ///     Stable runtime identity of this generated person. A pinned candidate keeps its id
+    ///     across rerolls because the object itself is retained; every fresh generation mints
+    ///     a new id, so the id is never reused for a different person.
+    /// </summary>
+    [DataField]
+    public Guid CandidateId { get; set; } = Guid.NewGuid();
+
     [DataField]
     public HumanoidCharacterProfile Profile { get; set; } = new();
 

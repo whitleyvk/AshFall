@@ -2,7 +2,8 @@
     xmlns="https://spacestation14.io"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="clr-namespace:Content.Client.UserInterface.Controls"
-    xmlns:profile="clr-namespace:Content.Client.Lobby.UI.ProfileEditorControls">
+    xmlns:profile="clr-namespace:Content.Client.Lobby.UI.ProfileEditorControls"
+    xmlns:ashfall="clr-namespace:Content.Client.Ashfall.CharacterGen.UI">
     <PanelContainer StyleClasses="AshfallLobbyHeader">
         <BoxContainer Name="VBox" Orientation="Vertical" SeparationOverride="4">
             <BoxContainer Orientation="Horizontal" MinHeight="22">
@@ -11,14 +12,18 @@
             </BoxContainer>
             <controls:HLine StyleClasses="highlight" Thickness="1" />
             <BoxContainer Name="Loaded" Orientation="Horizontal" SeparationOverride="10" Visible="False">
-                <PanelContainer StyleClasses="AshfallLobbyInset">
+                <PanelContainer Name="PortraitFrame" StyleClasses="AshfallLobbyInset">
                     <BoxContainer Name="ViewBox" Orientation="Horizontal" HorizontalAlignment="Center">
-                        <profile:ProfilePreviewSpriteView Name="ProfilePreviewSpriteView"
-                                                          OverrideDirection="South"
-                                                          MinSize="92 88"
-                                                          SetSize="92 88"
-                                                          Stretch="Fill"
-                                                          Access="Public" />
+                        <Control RectClipContent="True">
+                            <!-- Single bust portrait of the confirmed candidate. -->
+                            <ashfall:ProfilePortraitSpriteView Name="ProfilePreview"
+                                                               OverrideDirection="South"
+                                                               PortraitFraction="0.52"
+                                                               VerticalOffset="7"
+                                                               MinSize="92 88"
+                                                               SetSize="92 88"
+                                                               Access="Public" />
+                        </Control>
                     </BoxContainer>
                 </PanelContainer>
                 <BoxContainer Orientation="Vertical" HorizontalExpand="True" SeparationOverride="5">

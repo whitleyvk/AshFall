@@ -1,3 +1,6 @@
 - files: ["main-menu-splash.png", "lobby-art.png", "loading-screen.png"]
   license: "CC-BY-SA-4.0"
   copyright: "ASHFALL project contributors"
+- files: ["archive-anim-0.png", "archive-anim-1.png", "archive-anim-2.png"]
+  license: "CC-BY-SA-4.0"
+  copyright: "ASHFALL project contributors"

@@ -174,10 +174,6 @@ public sealed partial class LobbyUIController : UIController, IOnStateEntered<Lo
         {
             _personalFilesScreen = new Ashfall.CharacterGen.UI.AshfallPersonalFilesScreen();
             _personalFilesScreen.BackToLobby += ClosePersonalFilesScreen;
-            _personalFilesScreen.CandidateSelected += _ =>
-            {
-                RefreshLobbyPreview();
-            };
             lobby.Lobby.AddChild(_personalFilesScreen);
             Robust.Client.UserInterface.Controls.LayoutContainer.SetAnchorAndMarginPreset(_personalFilesScreen, Robust.Client.UserInterface.Controls.LayoutContainer.LayoutPreset.Wide);
         }
@@ -197,6 +193,9 @@ public sealed partial class LobbyUIController : UIController, IOnStateEntered<Lo
             if (_personalFilesScreen.Parent != null)
                 _personalFilesScreen.Parent.RemoveChild(_personalFilesScreen);
 
+            // Removing from the tree alone leaves the object (and its preview entities)
+            // alive; dispose it so closed screens can never react to pool updates.
+            _personalFilesScreen.Dispose();
             _personalFilesScreen = null;
         }
 
@@ -225,18 +224,21 @@ public sealed partial class LobbyUIController : UIController, IOnStateEntered<Lo
         if (PreviewPanel == null)
             return;
 
-        var ashfallGen = EntityManager.SystemOrNull<Ashfall.CharacterGen.AshfallCharacterGenSystem>();
-        var profile = ashfallGen?.SelectedProfile ?? (_preferencesManager.Preferences?.SelectedCharacter as HumanoidCharacterProfile);
-
-        if (profile == null)
+        // Only a confirmed archive candidate is shown; the legacy saved character plays no
+        // part in the Ashfall spawn flow and would only mislead before a file is pinned.
+        if (EntityManager.SystemOrNull<Ashfall.CharacterGen.AshfallCharacterGenSystem>() is not { } ashfallGen ||
+            ashfallGen.ConfirmedPin is not { } pin)
         {
-            PreviewPanel.ProfilePreviewSpriteView.ClearPreview();
-            PreviewPanel.SetSummaryText(string.Empty);
+            PreviewPanel.SetCandidateLoaded(false);
+            PreviewPanel.ProfilePreview.ClearPreview();
+            PreviewPanel.SetSummaryText(Loc.GetString("ashfall-lobby-preview-no-candidate"));
             return;
         }
 
-        PreviewPanel.ProfilePreviewSpriteView.LoadPreview(profile);
-        PreviewPanel.SetSummaryText(profile.Summary);
+        PreviewPanel.SetCandidateLoaded(true);
+        _prototypeManager.TryIndex(pin.Job, out var job);
+        PreviewPanel.ProfilePreview.LoadPreview(pin.Candidate.Profile, job);
+        PreviewPanel.SetSummaryText(pin.Candidate.Profile.Summary);
     }
 
     private void RefreshProfileEditor()

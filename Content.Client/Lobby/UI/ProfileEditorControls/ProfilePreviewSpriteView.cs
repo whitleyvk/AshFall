@@ -17,6 +17,10 @@ public partial class ProfilePreviewSpriteView : SpriteView
     /// </summary>
     public EntityUid PreviewDummy;
 
+    private HumanoidCharacterProfile? _lastLoadedProfile;
+    private string? _lastLoadedJob;
+    private bool _lastLoadedShowClothes;
+
     public ProfilePreviewSpriteView()
     {
         IoCManager.InjectDependencies(this);
@@ -30,6 +34,18 @@ public partial class ProfilePreviewSpriteView : SpriteView
     /// </remarks>
     public void LoadPreview(HumanoidCharacterProfile profile, JobPrototype? jobOverride = null, bool showClothes = true)
     {
+        // Pool updates re-run this for every card and slot with unchanged data; respawning
+        // the dummy a dozen times in one frame shows up as a visible frame spike.
+        var jobId = jobOverride?.ID;
+        if (PreviewDummy.Valid &&
+            _lastLoadedProfile is { } last &&
+            profile.Equals(last) &&
+            jobId == _lastLoadedJob &&
+            showClothes == _lastLoadedShowClothes)
+        {
+            return;
+        }
+
         EntMan.DeleteEntity(PreviewDummy);
         PreviewDummy = EntityUid.Invalid;
 
@@ -37,6 +53,9 @@ public partial class ProfilePreviewSpriteView : SpriteView
 
         SetEntity(PreviewDummy);
         SetName(profile.Name);
+        _lastLoadedProfile = profile;
+        _lastLoadedJob = jobId;
+        _lastLoadedShowClothes = showClothes;
     }
 
     /// <summary>
@@ -52,6 +71,7 @@ public partial class ProfilePreviewSpriteView : SpriteView
     /// </summary>
     public void ReloadProfilePreview(HumanoidCharacterProfile profile)
     {
+        _lastLoadedProfile = null;
         ReloadHumanoidEntity(profile);
     }
 
@@ -59,6 +79,8 @@ public partial class ProfilePreviewSpriteView : SpriteView
     {
         EntMan.DeleteEntity(PreviewDummy);
         PreviewDummy = EntityUid.Invalid;
+        _lastLoadedProfile = null;
+        _lastLoadedJob = null;
     }
 
     protected override void ExitedTree()

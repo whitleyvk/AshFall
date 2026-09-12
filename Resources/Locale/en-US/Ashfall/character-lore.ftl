@@ -342,7 +342,7 @@ ashfall-lore-hook-65 = Keeps a storage receipt from a station that no longer app
 ashfall-lore-precryo-23 = Was receiving treatment in the station medbay; placed in stasis until a medical team arrived.
 ashfall-lore-precryo-24 = Missed the departing flight; waited for the next transport in cryosleep.
 ashfall-lore-precryo-25 = Cryopreservation filed during the liquidation of a contractor.
-ashfall-lore-precryo-26 = Laid off in a staff reduction and took a cryocontract.
+ashfall-lore-precryo-26 = Laid off in a staff reduction; entered cryosleep pending transport.
 ashfall-lore-precryo-27 = Waited for the next work rotation at a facility with no free cabins.
 ashfall-lore-precryo-28 = Accepted emergency conservation along with the rest of the personnel.
 ashfall-lore-precryo-29 = Took cryosleep until the first scheduled flight to inhabited systems.
@@ -352,7 +352,7 @@ ashfall-lore-precryo-31 = Entered cryosleep three days after the contract termin
 ashfall-lore-precryo-32 = One of the last: finished the shift and reported to the cryo bay two days before conservation.
 ashfall-lore-precryo-33 = Packed into two containers and gave up the cabin a week before freezing.
 ashfall-lore-precryo-34 = Completed the inventory of their section; keys handed over to the quartermaster.
-ashfall-lore-precryo-35 = Signed the cryo agreement together with the entire evening shift.
+ashfall-lore-precryo-35 = Signed the cryosleep consent together with the entire evening shift.
 ashfall-lore-precryo-36 = Was waiting for a docking with a hauler that never made contact.
 
 # Species-specific Working Habits & Traits

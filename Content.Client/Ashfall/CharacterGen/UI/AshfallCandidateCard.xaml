@@ -1,6 +1,7 @@
 <PanelContainer xmlns="https://spacestation14.io"
                 xmlns:graphics="clr-namespace:Robust.Client.Graphics;assembly=Robust.Client"
                 xmlns:preview="clr-namespace:Content.Client.Lobby.UI.ProfileEditorControls"
+                xmlns:ashfall="clr-namespace:Content.Client.Ashfall.CharacterGen.UI"
                 MinHeight="84" HorizontalExpand="True">
     <PanelContainer Name="CardPanel" HorizontalExpand="True" VerticalExpand="True">
         <PanelContainer.PanelOverride>
@@ -8,7 +9,7 @@
         </PanelContainer.PanelOverride>
         <Button Name="InspectButton" StyleClasses="ButtonOpenBoth" HorizontalExpand="True" VerticalExpand="True">
             <BoxContainer Orientation="Horizontal" Margin="6" SeparationOverride="10" HorizontalExpand="True">
-                <preview:ProfilePreviewSpriteView Name="PreviewSprite" MinSize="64 66" SetSize="64 66" Scale="2 2" />
+                <ashfall:ProfileFullBodySpriteView Name="PreviewSprite" MinSize="64 64" SetSize="64 64" />
                     <BoxContainer Orientation="Vertical" HorizontalExpand="True" SeparationOverride="3">
                         <BoxContainer Orientation="Horizontal" HorizontalExpand="True">
                             <Label Name="NameLabel" StyleClasses="FancyWindowTitle" HorizontalExpand="True" />

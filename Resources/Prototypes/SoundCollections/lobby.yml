@@ -1,6 +1,4 @@
 - type: soundCollection
   id: LobbyMusic
   files:
-    - /Audio/Ashfall/Music/highfleet.ogg
-    - /Audio/Ashfall/Music/duduk.ogg
-    - /Audio/Ashfall/Music/tanc_a_lelek.ogg
+    - /Audio/Ashfall/Music/industrial_district.ogg

@@ -2,8 +2,15 @@ using Content.Shared.Ashfall.CharacterGen;
 using Content.Shared.Roles;
 using Robust.Shared.Network;
 using Robust.Shared.Prototypes;
+using System.Linq;
 
 namespace Content.Client.Ashfall.CharacterGen;
+
+/// <summary>
+///     One occupied priority slot as known to the client. The candidate DTO comes in full, so
+///     pinned people keep their data, appearance and chosen job across pool rerolls.
+/// </summary>
+public sealed record AshfallClientPinnedSlot(int SlotIndex, Guid CandidateId, AshfallCharacterCandidate Candidate, ProtoId<JobPrototype> Job);
 
 /// <summary>
 ///     Client-side system communicating with the server for candidate pool requests and selection.
@@ -18,9 +25,28 @@ public sealed partial class AshfallCharacterGenSystem : EntitySystem
     public ProtoId<JobPrototype>? SelectedJob { get; private set; }
     public float CooldownSecondsRemaining { get; private set; }
     public int RemainingRefreshes { get; private set; } = -1;
+    public List<AshfallClientPinnedSlot> PinnedSlots { get; private set; } = new();
+    public int ConfirmedSlotIndex { get; private set; } = -1;
 
-    public AshfallCharacterCandidate? SelectedCandidate =>
-        SelectedIndex >= 0 && SelectedIndex < Candidates.Count ? Candidates[SelectedIndex] : null;
+    /// <summary>
+    ///     The first occupied priority slot (the confirmed candidate), or null when nothing is pinned.
+    /// </summary>
+    public AshfallClientPinnedSlot? ConfirmedPin =>
+        ConfirmedSlotIndex >= 0
+            ? GetPinnedSlot(ConfirmedSlotIndex)
+            : PinnedSlots.OrderBy(s => s.SlotIndex).FirstOrDefault();
+
+    public AshfallCharacterCandidate? SelectedCandidate
+    {
+        get
+        {
+            // Pinning IS the confirmation: the confirmed slot's candidate is the selected one.
+            if (ConfirmedPin is { } pin)
+                return pin.Candidate;
+
+            return SelectedIndex >= 0 && SelectedIndex < Candidates.Count ? Candidates[SelectedIndex] : null;
+        }
+    }
 
     public Content.Shared.Preferences.HumanoidCharacterProfile? SelectedProfile => SelectedCandidate?.Profile;
 
@@ -34,6 +60,10 @@ public sealed partial class AshfallCharacterGenSystem : EntitySystem
         SelectedJob = msg.SelectedJob;
         CooldownSecondsRemaining = msg.CooldownSecondsRemaining;
         RemainingRefreshes = msg.RemainingRefreshes;
+        ConfirmedSlotIndex = msg.ConfirmedSlotIndex;
+        PinnedSlots = msg.PinnedSlots
+            .Select(s => new AshfallClientPinnedSlot(s.SlotIndex, s.Candidate.CandidateId, s.Candidate, new ProtoId<JobPrototype>(s.JobId)))
+            .ToList();
 
         PoolUpdated?.Invoke();
     }
@@ -69,4 +99,73 @@ public sealed partial class AshfallCharacterGenSystem : EntitySystem
             _netManager.ClientSendMessage(msg);
         }
     }
+
+    /// <summary>
+    ///     Pins the candidate + job pair into a priority slot. The server validates the pair;
+    ///     the updated pool state arrives via MsgAshfallPoolResponse.
+    /// </summary>
+    public void PinCandidate(int slotIndex, Guid candidateId, ProtoId<JobPrototype> job)
+    {
+        if (slotIndex < 0 || slotIndex >= AshfallCharacterPoolConstants.PrioritySlotCount)
+            return;
+
+        if (!_netManager.IsConnected)
+            return;
+
+        _netManager.ClientSendMessage(new MsgAshfallPinCandidate
+        {
+            PoolRevision = PoolRevision,
+            SlotIndex = slotIndex,
+            CandidateId = candidateId,
+            JobId = job,
+        });
+    }
+
+    public void ClearPrioritySlot(int slotIndex)
+    {
+        if (slotIndex < 0 || slotIndex >= AshfallCharacterPoolConstants.PrioritySlotCount)
+            return;
+
+        if (!_netManager.IsConnected)
+            return;
+
+        _netManager.ClientSendMessage(new MsgAshfallClearPrioritySlot { SlotIndex = slotIndex });
+    }
+
+    /// <summary>
+    ///     Moves a pin to another slot; an occupied target swaps the two pins atomically.
+    /// </summary>
+    public void MovePrioritySlot(int slotIndex, int targetSlotIndex)
+    {
+        if (slotIndex < 0 || slotIndex >= AshfallCharacterPoolConstants.PrioritySlotCount ||
+            targetSlotIndex < 0 || targetSlotIndex >= AshfallCharacterPoolConstants.PrioritySlotCount)
+            return;
+
+        if (!_netManager.IsConnected)
+            return;
+
+        _netManager.ClientSendMessage(new MsgAshfallMovePrioritySlot
+        {
+            SlotIndex = slotIndex,
+            TargetSlotIndex = targetSlotIndex,
+        });
+    }
+
+    public AshfallClientPinnedSlot? GetPinnedSlot(int slotIndex)
+    {
+        return PinnedSlots.FirstOrDefault(s => s.SlotIndex == slotIndex);
+    }
+
+    public AshfallClientPinnedSlot? GetPinByCandidate(Guid candidateId)
+    {
+        return PinnedSlots.FirstOrDefault(s => s.CandidateId == candidateId);
+    }
+}
+
+/// <summary>
+///     Slot layout constants shared between client UI messaging guards.
+/// </summary>
+public static class AshfallCharacterPoolConstants
+{
+    public const int PrioritySlotCount = 5;
 }

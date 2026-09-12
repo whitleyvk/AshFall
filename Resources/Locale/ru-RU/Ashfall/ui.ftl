@@ -17,6 +17,9 @@ ashfall-character-setup-file-title = ЛИЧНОЕ ДЕЛО СОТРУДНИКА
 ashfall-character-setup-status = СТАТУС: ДЕЙСТВУЮЩИЙ
 ashfall-character-setup-last-sync = ПОСЛЕДНЯЯ СИНХРОНИЗАЦИЯ: 10 ЛЕТ НАЗАД
 ashfall-character-setup-records-heading = ЛИЧНЫЕ ДЕЛА
+ashfall-lobby-preview-no-candidate = КАНДИДАТ НЕ ЗАКРЕПЛЁН, ОТКРОЙТЕ ЛИЧНЫЕ ДЕЛА
+ashfall-personal-files-slot-move-left = Сдвинуть кандидата влево
+ashfall-personal-files-slot-move-right = Сдвинуть кандидата вправо
 
 ashfall-options-title = Настройки
 ui-options-log-actions-in-chat = Логировать действия и осмотр в чат
@@ -40,7 +43,21 @@ ashfall-personal-files-confirmed = ПОДТВЕРЖДЕНО // НАЗНАЧЕН�
 ashfall-personal-files-assignment-heading = НАЗНАЧЕНИЕ
 ashfall-personal-files-assignment-selected = НАЗНАЧЕНИЕ // { $job }
 ashfall-personal-files-assignment-help = Доступны только профессии, совместимые с квалификацией сотрудника.
-ashfall-personal-files-confirm = ПОДТВЕРДИТЬ ПРОБУЖДЕНИЕ
+ashfall-personal-files-no-candidate = Сначала выберите сотрудника в архиве.
 ashfall-personal-files-no-jobs = Нет доступных назначений. Сотрудник не может быть подтверждён.
+ashfall-personal-files-priority-heading = ПРИОРИТЕТЫ ПРОБУЖДЕНИЯ
+ashfall-personal-files-priority-help = Выберите сотрудника и должность в блоке «НАЗНАЧЕНИЕ», затем закрепите пару в слоте 1–5; последние два шага можно делать в любом порядке. Слот 1 проверяется первым.
+ashfall-personal-files-slot-help = Слот приоритета пробуждения. Нажмите, чтобы закрепить выбранного сотрудника; если должность ещё не выбрана, слот дождётся её выбора.
+ashfall-personal-files-slot-empty = пусто
+ashfall-personal-files-slot-clear = Убрать из приоритетов
+ashfall-personal-files-slot-pending = Слот { $slot } ждёт должность — выберите её в блоке «НАЗНАЧЕНИЕ».
+ashfall-personal-files-slot-no-candidate = Сначала выберите сотрудника.
+ashfall-personal-files-slot-select-role = Сначала выберите должность в блоке «НАЗНАЧЕНИЕ».
+ashfall-personal-files-slot-pinned = Закреплён в слоте { $slot }.
+ashfall-personal-files-pinned-marker = Сотрудник закреплён в приоритетах пробуждения
+ashfall-personal-files-pinned-label = { $confirmed ->
+    [true] ПОДТВЕРЖДЕНО // СЛОТ { $slot } // { $job }
+    *[other] ЗАКРЕПЛЁН // СЛОТ { $slot } // { $job }
+}
 ashfall-personal-files-record-unavailable = ///
 ashfall-latejoin-incompatible-job = Эта профессия не соответствует подтверждённому личному делу.

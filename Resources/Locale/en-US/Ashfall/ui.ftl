@@ -17,6 +17,9 @@ ashfall-character-setup-file-title = EMPLOYEE RECORD
 ashfall-character-setup-status = STATUS: ACTIVE
 ashfall-character-setup-last-sync = LAST SYNCHRONIZATION: 10 YEARS AGO
 ashfall-character-setup-records-heading = PERSONNEL RECORDS
+ashfall-lobby-preview-no-candidate = NO CANDIDATE PINNED, OPEN PERSONNEL FILES
+ashfall-personal-files-slot-move-left = Move candidate left
+ashfall-personal-files-slot-move-right = Move candidate right
 
 ashfall-options-title = Settings
 ui-options-log-actions-in-chat = Log actions and examines in chat
@@ -40,7 +43,21 @@ ashfall-personal-files-confirmed = CONFIRMED // ASSIGNMENT: { $job }
 ashfall-personal-files-assignment-heading = ASSIGNMENT
 ashfall-personal-files-assignment-selected = ASSIGNMENT // { $job }
 ashfall-personal-files-assignment-help = Only jobs compatible with this employee's qualification are shown.
-ashfall-personal-files-confirm = CONFIRM AWAKENING
+ashfall-personal-files-no-candidate = Pick an employee from the archive first.
 ashfall-personal-files-no-jobs = No assignments are available. This employee cannot be confirmed.
+ashfall-personal-files-priority-heading = AWAKENING PRIORITIES
+ashfall-personal-files-priority-help = Pick an employee and a job in the ASSIGNMENT block, then pin the pair into slot 1-5; the last two steps work in any order. Slot 1 is checked first.
+ashfall-personal-files-slot-help = Awakening priority slot. Press to pin the selected employee; if no job is picked yet, the slot waits for that choice.
+ashfall-personal-files-slot-empty = empty
+ashfall-personal-files-slot-clear = Remove from priorities
+ashfall-personal-files-slot-pending = Slot { $slot } is waiting for a job: pick one in the ASSIGNMENT block.
+ashfall-personal-files-slot-no-candidate = Choose an employee first.
+ashfall-personal-files-slot-select-role = Pick a job in the ASSIGNMENT block first.
+ashfall-personal-files-slot-pinned = Pinned in slot { $slot }.
+ashfall-personal-files-pinned-marker = Employee pinned for awakening priorities
+ashfall-personal-files-pinned-label = { $confirmed ->
+    [true] CONFIRMED // SLOT { $slot } // { $job }
+    *[other] PINNED // SLOT { $slot } // { $job }
+}
 ashfall-personal-files-record-unavailable = ///
 ashfall-latejoin-incompatible-job = This job is not compatible with the confirmed personnel file.

@@ -1,14 +1,11 @@
 using System.Linq;
-using System.Numerics;
-using Content.Client.Lobby.UI.ProfileEditorControls;
 using Content.Shared.Ashfall.CharacterGen;
 using Content.Shared.Humanoid;
+using Content.Shared.Preferences;
 using Content.Shared.Roles;
-using Robust.Client.GameObjects;
 using Robust.Client.Graphics;
 using Robust.Client.UserInterface.Controls;
 using Robust.Client.UserInterface.XAML;
-using Robust.Shared.GameObjects;
 using Robust.Shared.IoC;
 using Robust.Shared.Maths;
 using Robust.Shared.Prototypes;
@@ -18,31 +15,32 @@ namespace Content.Client.Ashfall.CharacterGen.UI;
 public sealed partial class AshfallCandidateCard : PanelContainer
 {
     [Dependency] private IPrototypeManager _prototypes = default!;
-    [Dependency] private IEntityManager _entMan = default!;
 
-    // Cards are recessed screens: screen-inner face with a thin muted-amber wireframe.
-    // Selected = warm tint + bright LED-amber border.
+    // Normal: neutral cold dark metal border.
+    // Selected: distinct warm amber border and background glow.
     private static readonly StyleBoxFlat NormalBox = new()
     {
         BackgroundColor = Color.FromHex("#1B1C1E"),
-        BorderColor = Color.FromHex("#8A592D"),
+        BorderColor = Color.FromHex("#2E3033"),
         BorderThickness = new Thickness(1),
     };
 
     private static readonly StyleBoxFlat InspectedBox = new()
     {
-        BackgroundColor = Color.FromHex("#241E17"),
+        BackgroundColor = Color.FromHex("#2B2217"),
         BorderColor = Color.FromHex("#D48944"),
-        BorderThickness = new Thickness(2),
+        BorderThickness = new Thickness(1),
     };
 
     private PanelContainer CardPanel => this.FindControl<PanelContainer>("CardPanel");
-    private ProfilePreviewSpriteView PreviewSprite => this.FindControl<ProfilePreviewSpriteView>("PreviewSprite");
+    private ProfileFullBodySpriteView PreviewSprite => this.FindControl<ProfileFullBodySpriteView>("PreviewSprite");
     private Label NameLabel => this.FindControl<Label>("NameLabel");
     private Label BioLineLabel => this.FindControl<Label>("BioLineLabel");
     private Label QualificationLabel => this.FindControl<Label>("QualificationLabel");
     private TextureRect ConfirmedMark => this.FindControl<TextureRect>("ConfirmedMark");
     private Button InspectButton => this.FindControl<Button>("InspectButton");
+
+    private HumanoidCharacterProfile? _profile;
 
     public int CandidateIndex { get; private set; }
     public event Action<int>? Inspected;
@@ -54,18 +52,19 @@ public sealed partial class AshfallCandidateCard : PanelContainer
         InspectButton.OnPressed += _ => Inspected?.Invoke(CandidateIndex);
     }
 
-    public void SetCandidate(int index, AshfallCharacterCandidate candidate, bool isInspected, bool isConfirmed)
+    public void SetCandidate(int index, AshfallCharacterCandidate candidate, bool isInspected, bool isConfirmed, bool isPinned = false, JobPrototype? activeJob = null)
     {
         CandidateIndex = index;
-        var profile = candidate.Profile;
-        NameLabel.Text = profile.Name;
-        var sex = profile.Sex switch
+        _profile = candidate.Profile;
+        NameLabel.Text = _profile.Name;
+        NameLabel.FontColorOverride = isInspected ? Color.FromHex("#D48944") : Color.FromHex("#D8DDD8");
+        var sex = _profile.Sex switch
         {
             Sex.Male => Loc.GetString("ashfall-personal-files-sex-male"),
             Sex.Female => Loc.GetString("ashfall-personal-files-sex-female"),
             _ => Loc.GetString("ashfall-personal-files-sex-other"),
         };
-        BioLineLabel.Text = Loc.GetString("ashfall-personal-files-card-bio", ("age", profile.Age), ("sex", sex));
+        BioLineLabel.Text = Loc.GetString("ashfall-personal-files-card-bio", ("age", _profile.Age), ("sex", sex));
 
         // Established competency title; fresh graduates show their professional sphere instead.
         var qualificationSection = candidate.Dossier.Sections
@@ -73,43 +72,28 @@ public sealed partial class AshfallCandidateCard : PanelContainer
         QualificationLabel.Text = qualificationSection != null
             ? qualificationSection.Title
             : Loc.GetString($"ashfall-domain-{candidate.PrimaryDomain.ToLowerInvariant()}");
-        ConfirmedMark.Visible = isConfirmed;
-        ConfirmedMark.ToolTip = Loc.GetString("ashfall-personal-files-confirmed-marker");
+        ConfirmedMark.Visible = isPinned || isConfirmed;
+        ConfirmedMark.ToolTip = Loc.GetString(isPinned
+            ? "ashfall-personal-files-pinned-marker"
+            : "ashfall-personal-files-confirmed-marker");
         CardPanel.PanelOverride = isInspected ? InspectedBox : NormalBox;
 
-        JobPrototype? primaryJob = null;
-        if (candidate.CompatibleJobs.Count > 0 && _prototypes.TryIndex(candidate.CompatibleJobs[0], out JobPrototype? job))
-            primaryJob = job;
+        JobPrototype? jobToPreview = activeJob;
+        if (jobToPreview == null && candidate.CompatibleJobs.Count > 0 && _prototypes.TryIndex(candidate.CompatibleJobs[0], out JobPrototype? job))
+            jobToPreview = job;
 
-        PreviewSprite.LoadPreview(profile, primaryJob, showClothes: true);
-        FitPreviewScale();
+        PreviewSprite.LoadPreview(_profile, jobToPreview, showClothes: true);
     }
 
-    /// <summary>
-    ///     Normalizes the card preview: the full body is fit into the thumbnail area with an even
-    ///     margin, using one uniform scale for every species so cards look consistent.
-    /// </summary>
-    private void FitPreviewScale()
+    public void SetInspected(bool isInspected)
     {
-        if (!_entMan.TryGetComponent(PreviewSprite.PreviewDummy, out SpriteComponent? sprite))
-            return;
+        CardPanel.PanelOverride = isInspected ? InspectedBox : NormalBox;
+    }
 
-        var bounds = sprite.CalculateRotatedBoundingBox(default, Angle.Zero, Angle.Zero).CalcBoundingBox();
-        if (bounds.Height <= 0 || bounds.Width <= 0)
-            return;
-
-        const float margin = 14f;
-        var ppm = EyeManager.PixelsPerMeter;
-        var target = PreviewSprite.PixelSize;
-        if (target.Y <= margin || target.X <= margin)
-            return;
-
-        var scale = MathF.Min((target.Y - margin) / (bounds.Height * ppm),
-            (target.X - margin) / (bounds.Width * ppm));
-        scale = Math.Clamp(scale, 1f, 2.2f);
-
-        PreviewSprite.Scale = new Vector2(scale, scale);
-        PreviewSprite.Stretch = SpriteView.StretchMode.None;
+    public void UpdateJobPreview(JobPrototype? job)
+    {
+        if (_profile != null)
+            PreviewSprite.LoadPreview(_profile, job, showClothes: true);
     }
 
     protected override void ExitedTree()

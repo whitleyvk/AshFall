@@ -20,71 +20,87 @@
             <controls:HLine StyleClasses="highlight" Thickness="1" />
 
             <BoxContainer Orientation="Horizontal" HorizontalExpand="True" VerticalExpand="True" SeparationOverride="14">
-                <!-- LEFT: candidates (upper half) + assignment selection (lower half) -->
+                <!-- LEFT: candidates (upper) + assignment selection + priority slots (lower) -->
                 <PanelContainer StyleClasses="AshfallPanel" HorizontalExpand="True" VerticalExpand="True">
-                    <BoxContainer Orientation="Vertical" HorizontalExpand="True" VerticalExpand="True">
-                        <PanelContainer StyleClasses="AshfallPanelDeep" HorizontalExpand="True" VerticalExpand="True">
-                            <ScrollContainer VerticalExpand="True" HorizontalExpand="True" HScrollEnabled="False" Margin="6">
+                    <BoxContainer Orientation="Vertical" HorizontalExpand="True" VerticalExpand="True" Margin="6" SeparationOverride="6">
+                        <PanelContainer StyleClasses="AshfallPanelDeep" HorizontalExpand="True">
+                            <BoxContainer Orientation="Vertical" Margin="6">
                                 <GridContainer Name="CandidatesGrid" Columns="2" HorizontalExpand="True"
                                                HSeparationOverride="6" VSeparationOverride="6" />
-                            </ScrollContainer>
+                            </BoxContainer>
                         </PanelContainer>
 
                         <controls:HLine StyleClasses="highlight" Thickness="1" />
 
-                        <BoxContainer Orientation="Vertical" HorizontalExpand="True" Margin="12 8" SeparationOverride="8">
-                            <PanelContainer StyleClasses="AshfallPanelDeep" HorizontalExpand="True">
-                                <BoxContainer Orientation="Vertical" SeparationOverride="5">
-                                    <Label Name="AssignmentHeading" Text="{Loc 'ashfall-personal-files-assignment-heading'}" StyleClasses="FancyWindowTitle" FontColorOverride="#D48944" ToolTip="{Loc 'ashfall-personal-files-assignment-help'}" />
+                        <layout:LayoutContainer Name="AssignmentSlotContainer" HorizontalExpand="True" MinHeight="150" RectClipContent="True">
+                            <PanelContainer Name="AssignmentPanel" StyleClasses="AshfallPanelDeep" MinHeight="150">
+                                <BoxContainer Orientation="Vertical" Margin="10 8" SeparationOverride="6" HorizontalExpand="True">
+                                    <Label Name="AssignmentHeading" Text="{Loc 'ashfall-personal-files-assignment-heading'}" StyleClasses="FancyWindowTitle" FontColorOverride="#D48944" ToolTip="{Loc 'ashfall-personal-files-assignment-help'}" HorizontalExpand="True" ClipText="True" />
                                     <GridContainer Name="JobsGrid" Columns="2" HorizontalExpand="True" HSeparationOverride="6" VSeparationOverride="4" />
                                 </BoxContainer>
                             </PanelContainer>
-                            <Button Name="ConfirmButton" Text="{Loc 'ashfall-personal-files-confirm'}" StyleClasses="AshfallPrimaryAction" MinHeight="40" Disabled="True" />
+                        </layout:LayoutContainer>
+
+                        <Control VerticalExpand="True" />
+
+                        <controls:HLine StyleClasses="highlight" Thickness="1" />
+
+                        <BoxContainer Orientation="Vertical" HorizontalExpand="True" MinHeight="185" Margin="4 2" SeparationOverride="6">
+                            <Label Name="PriorityHeading" Text="{Loc 'ashfall-personal-files-priority-heading'}" StyleClasses="FancyWindowTitle" FontColorOverride="#D48944" ToolTip="{Loc 'ashfall-personal-files-priority-help'}" />
+                            <GridContainer Name="PrioritySlotsGrid" Columns="5" HorizontalExpand="True" HSeparationOverride="6" VSeparationOverride="6" />
+                            <BoxContainer Orientation="Horizontal" HorizontalExpand="True" MinHeight="24" SetHeight="24">
+                                <Label Name="PriorityHintLabel" FontColorOverride="#B0574C" VerticalAlignment="Center" ClipText="True" />
+                            </BoxContainer>
                         </BoxContainer>
                     </BoxContainer>
                 </PanelContainer>
 
-                <!-- RIGHT: dossier only -->
-                <PanelContainer StyleClasses="AshfallPanel" HorizontalExpand="True" VerticalExpand="True">
-                    <ScrollContainer Name="DossierScroll" VerticalExpand="True" HorizontalExpand="True" HScrollEnabled="False">
-                        <BoxContainer Orientation="Vertical" HorizontalExpand="True" Margin="18 14" SeparationOverride="6">
-                            <BoxContainer Orientation="Horizontal" HorizontalExpand="True" SeparationOverride="16">
-                                <PanelContainer MinSize="150 180" SetSize="150 180">
-                                    <PanelContainer.PanelOverride>
-                                        <graphics:StyleBoxFlat BackgroundColor="#151617" BorderColor="#26282A" BorderThickness="1" />
-                                    </PanelContainer.PanelOverride>
-                                    <layout:LayoutContainer RectClipContent="True">
-                                        <ashfall:ProfilePortraitSpriteView Name="DossierPreview" MinSize="150 180" SetSize="150 180" PortraitFraction="0.52" VerticalOffset="14" HorizontalOffset="5" />
-                                        <!-- Retro CRT static over the restored photo. -->
-                                        <TextureRect Name="PortraitNoise" Stretch="Tile" MouseFilter="Ignore" MinSize="150 180" SetSize="150 180" />
-                                    </layout:LayoutContainer>
-                                </PanelContainer>
-                                <BoxContainer Orientation="Vertical" HorizontalExpand="True" SeparationOverride="5">
-                                    <BoxContainer Orientation="Horizontal" HorizontalExpand="True">
-                                        <Label Name="DossierNameLabel" StyleClasses="FancyWindowTitle" FontColorOverride="#D48944" HorizontalExpand="True" />
-                                        <Label Name="DossierNumberLabel" StyleClasses="Status" FontColorOverride="#878C87" Align="Right" />
+                <!-- RIGHT: dossier only (clipped for smooth slide-in from right) -->
+                <layout:LayoutContainer Name="DossierSlotContainer" HorizontalExpand="True" VerticalExpand="True" RectClipContent="True">
+                    <!-- Faint ambient sketch, drawn behind the dossier panel and covered by it. -->
+                    <TextureRect Name="AmbientAnim" Stretch="KeepAspectCentered"
+                                 ModulateSelfOverride="#FFFFFF08" MouseFilter="Ignore" />
+                    <PanelContainer Name="DossierPanel" StyleClasses="AshfallPanel">
+                        <ScrollContainer Name="DossierScroll" VerticalExpand="True" HorizontalExpand="True" HScrollEnabled="False">
+                            <BoxContainer Orientation="Vertical" HorizontalExpand="True" Margin="18 14" SeparationOverride="6">
+                                <BoxContainer Orientation="Horizontal" HorizontalExpand="True" SeparationOverride="16">
+                                    <PanelContainer MinSize="150 180" SetSize="150 180">
+                                        <PanelContainer.PanelOverride>
+                                            <graphics:StyleBoxFlat BackgroundColor="#151617" BorderColor="#26282A" BorderThickness="1" />
+                                        </PanelContainer.PanelOverride>
+                                        <layout:LayoutContainer RectClipContent="True">
+                                            <ashfall:ProfilePortraitSpriteView Name="DossierPreview" MinSize="150 180" SetSize="150 180" PortraitFraction="0.52" VerticalOffset="14" HorizontalOffset="5" />
+                                            <!-- Retro CRT static over the restored photo. -->
+                                            <TextureRect Name="PortraitNoise" Stretch="Tile" MouseFilter="Ignore" MinSize="150 180" SetSize="150 180" />
+                                        </layout:LayoutContainer>
+                                    </PanelContainer>
+                                    <BoxContainer Orientation="Vertical" HorizontalExpand="True" SeparationOverride="5">
+                                        <BoxContainer Orientation="Horizontal" HorizontalExpand="True">
+                                            <Label Name="DossierNameLabel" StyleClasses="FancyWindowTitle" FontColorOverride="#D48944" HorizontalExpand="True" />
+                                            <Label Name="DossierNumberLabel" StyleClasses="Status" FontColorOverride="#878C87" Align="Right" />
+                                        </BoxContainer>
+                                        <Label Name="DossierBioLabel" FontColorOverride="#878C87" />
+                                        <BoxContainer Orientation="Horizontal" HorizontalExpand="True" SeparationOverride="8">
+                                            <RichTextLabel Name="DossierCultureLabel" HorizontalExpand="True" VerticalAlignment="Center" />
+                                            <Button Name="CultureWikiButton" Text="{Loc 'ashfall-dossier-culture-wiki'}" StyleClasses="AshfallUtilityAction" MinWidth="90" MinHeight="28" VerticalAlignment="Center" />
+                                        </BoxContainer>
+                                        <Label Name="DossierBirthplaceLabel" FontColorOverride="#878C87" />
+                                        <BoxContainer Name="DossierSkills" Orientation="Vertical" HorizontalExpand="True" Margin="0 4 0 0" SeparationOverride="2" />
                                     </BoxContainer>
-                                    <Label Name="DossierBioLabel" FontColorOverride="#878C87" />
-                                    <BoxContainer Orientation="Horizontal" HorizontalExpand="True" SeparationOverride="8">
-                                        <RichTextLabel Name="DossierCultureLabel" HorizontalExpand="True" VerticalAlignment="Center" />
-                                        <Button Name="CultureWikiButton" Text="{Loc 'ashfall-dossier-culture-wiki'}" StyleClasses="AshfallUtilityAction" MinWidth="90" MinHeight="28" VerticalAlignment="Center" />
-                                    </BoxContainer>
-                                    <Label Name="DossierBirthplaceLabel" FontColorOverride="#878C87" />
-                                    <BoxContainer Name="DossierSkills" Orientation="Vertical" HorizontalExpand="True" Margin="0 4 0 0" SeparationOverride="2" />
                                 </BoxContainer>
+
+                                <!-- Confirmed-assignment status line: own full-width row so it can
+                                     never be covered by the section plates below. -->
+                                <Label Name="DossierSelectionLabel" FontColorOverride="#D48944" Margin="0 2 0 0" />
+
+                                <!-- Passport block separator: dim cool rule, quieter than the amber HLines. -->
+                                <controls:HLine StyleClasses="highlight" Thickness="1" ModulateSelfOverride="#2E3033" />
+
+                                <BoxContainer Name="DossierSections" Orientation="Vertical" HorizontalExpand="True" SeparationOverride="8" />
                             </BoxContainer>
-
-                            <!-- Confirmed-assignment status line: own full-width row so it can
-                                 never be covered by the section plates below. -->
-                            <Label Name="DossierSelectionLabel" FontColorOverride="#D48944" Margin="0 2 0 0" />
-
-                            <!-- Passport block separator: dim cool rule, quieter than the amber HLines. -->
-                            <controls:HLine StyleClasses="highlight" Thickness="1" ModulateSelfOverride="#2E3033" />
-
-                            <BoxContainer Name="DossierSections" Orientation="Vertical" HorizontalExpand="True" SeparationOverride="8" />
-                        </BoxContainer>
-                    </ScrollContainer>
-                </PanelContainer>
+                        </ScrollContainer>
+                    </PanelContainer>
+                </layout:LayoutContainer>
             </BoxContainer>
 
             <controls:HLine StyleClasses="highlight" Thickness="1" />

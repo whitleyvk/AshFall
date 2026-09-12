@@ -40,7 +40,20 @@ public sealed partial class AshfallCharacterPoolSystem : EntitySystem
 
     private readonly Dictionary<NetUserId, PlayerCandidatePool> _playerPools = new();
 
-    private sealed class PlayerCandidatePool
+    public const int PrioritySlotCount = 5;
+
+    /// <summary>
+    ///     One pinned Candidate + Job combination. The full candidate DTO is retained so the
+    ///     person's data, appearance, history and eligible jobs survive pool rerolls unchanged;
+    ///     the job is fixed at pin time and never falls back to another profession.
+    /// </summary>
+    internal sealed class PrioritySlot
+    {
+        public AshfallCharacterCandidate Candidate { get; set; } = default!;
+        public ProtoId<JobPrototype> Job { get; set; }
+    }
+
+    internal sealed class PlayerCandidatePool
     {
         public List<AshfallCharacterCandidate> Candidates { get; set; } = new();
         public int Revision { get; set; }
@@ -48,6 +61,23 @@ public sealed partial class AshfallCharacterPoolSystem : EntitySystem
         public ProtoId<JobPrototype>? SelectedJob { get; set; }
         public TimeSpan LastRefreshTime { get; set; } = TimeSpan.Zero;
         public int RefreshesUsed { get; set; } = 0;
+
+        public PrioritySlot?[] PrioritySlots { get; set; } = new PrioritySlot?[PrioritySlotCount];
+
+        /// <summary>
+        ///     The wake-up selection resolved from the priority list at confirm time. Identity is
+        ///     the slot itself, never an index into the current pool: pinned candidates survive
+        ///     rerolls, so Candidates[slot.Index] may be a different person.
+        /// </summary>
+        public int ConfirmedPriorityIndex { get; set; } = -1;
+
+        public bool TryGetConfirmedSlot(out PrioritySlot slot)
+        {
+            slot = null!;
+            return ConfirmedPriorityIndex >= 0 &&
+                   ConfirmedPriorityIndex < PrioritySlots.Length &&
+                   PrioritySlots[ConfirmedPriorityIndex] is { } found && (slot = found) != null;
+        }
     }
 
     public override void Initialize()
@@ -60,6 +90,9 @@ public sealed partial class AshfallCharacterPoolSystem : EntitySystem
         _netManager.RegisterNetMessage<MsgAshfallRequestPool>(OnRequestPool);
         _netManager.RegisterNetMessage<MsgAshfallSelectCandidate>(OnSelectCandidate);
         _netManager.RegisterNetMessage<MsgAshfallPoolResponse>();
+        _netManager.RegisterNetMessage<MsgAshfallPinCandidate>(OnPinCandidate);
+        _netManager.RegisterNetMessage<MsgAshfallClearPrioritySlot>(OnClearPrioritySlot);
+        _netManager.RegisterNetMessage<MsgAshfallMovePrioritySlot>(OnMovePrioritySlot);
 
         SubscribeLocalEvent<RoundRestartCleanupEvent>(OnRoundRestart);
     }
@@ -117,17 +150,133 @@ public sealed partial class AshfallCharacterPoolSystem : EntitySystem
         SendPoolResponse(msg.MsgChannel, pool);
     }
 
+    private void OnPinCandidate(MsgAshfallPinCandidate msg)
+    {
+        var player = msg.MsgChannel.UserId;
+        TryPin(player, msg.SlotIndex, msg.CandidateId, msg.JobId, msg.PoolRevision);
+        SendPoolResponse(msg.MsgChannel, GetOrCreatePool(player));
+    }
+
+    private void OnClearPrioritySlot(MsgAshfallClearPrioritySlot msg)
+    {
+        var player = msg.MsgChannel.UserId;
+        ClearPrioritySlot(player, msg.SlotIndex);
+        SendPoolResponse(msg.MsgChannel, GetOrCreatePool(player));
+    }
+
+    private void OnMovePrioritySlot(MsgAshfallMovePrioritySlot msg)
+    {
+        var player = msg.MsgChannel.UserId;
+        MovePrioritySlot(player, msg.SlotIndex, msg.TargetSlotIndex);
+        SendPoolResponse(msg.MsgChannel, GetOrCreatePool(player));
+    }
+
+    internal bool TryPin(NetUserId player, int slotIndex, Guid candidateId, string jobId, int poolRevision)
+    {
+        var pool = GetOrCreatePool(player);
+
+        if (poolRevision != pool.Revision ||
+            slotIndex < 0 ||
+            slotIndex >= PrioritySlotCount ||
+            FindCandidate(pool, candidateId) is not { } candidate ||
+            !_protoManager.TryIndex<JobPrototype>(jobId, out var job) ||
+            !job.SetPreference ||
+            !candidate.CompatibleJobs.Contains(job.ID) ||
+            !IsJobAllowed(player, job.ID, candidate.Profile))
+        {
+            return false;
+        }
+
+        // Re-pinning a candidate into another slot moves the combination there; a candidate
+        // may never occupy two slots at once.
+        var existing = FindPinnedSlotIndex(pool, candidateId);
+        if (existing is { } oldSlot && oldSlot != slotIndex)
+            pool.PrioritySlots[oldSlot] = null;
+
+        pool.PrioritySlots[slotIndex] = new PrioritySlot { Candidate = candidate, Job = job.ID };
+        UpdateConfirmedIndex(pool);
+        return true;
+    }
+
+    internal bool ClearPrioritySlot(NetUserId player, int slotIndex)
+    {
+        var pool = GetOrCreatePool(player);
+
+        if (slotIndex < 0 || slotIndex >= PrioritySlotCount || pool.PrioritySlots[slotIndex] == null)
+            return false;
+
+        pool.PrioritySlots[slotIndex] = null;
+        UpdateConfirmedIndex(pool);
+        return true;
+    }
+
+    internal bool MovePrioritySlot(NetUserId player, int from, int to)
+    {
+        var pool = GetOrCreatePool(player);
+
+        // A pure reorder of already-validated pins: no pool or role checks, so candidates
+        // that survived a reroll reorder exactly like fresh ones. An occupied target swaps.
+        if (from == to ||
+            from < 0 || from >= PrioritySlotCount ||
+            to < 0 || to >= PrioritySlotCount ||
+            pool.PrioritySlots[from] == null)
+        {
+            return false;
+        }
+
+        (pool.PrioritySlots[from], pool.PrioritySlots[to]) = (pool.PrioritySlots[to], pool.PrioritySlots[from]);
+        UpdateConfirmedIndex(pool);
+        return true;
+    }
+
+    // Pinning is the confirmation: the wake-up selection always resolves to the first occupied
+    // priority slot; a later allocation pass can walk slots top-down from there.
+    private static void UpdateConfirmedIndex(PlayerCandidatePool pool)
+    {
+        pool.ConfirmedPriorityIndex = -1;
+        for (var i = 0; i < pool.PrioritySlots.Length; i++)
+        {
+            if (pool.PrioritySlots[i] != null)
+            {
+                pool.ConfirmedPriorityIndex = i;
+                break;
+            }
+        }
+    }
+
+    private static AshfallCharacterCandidate? FindCandidate(PlayerCandidatePool pool, Guid candidateId)
+    {
+        foreach (var candidate in pool.Candidates)
+        {
+            if (candidate.CandidateId == candidateId)
+                return candidate;
+        }
+
+        return null;
+    }
+
+    private static int? FindPinnedSlotIndex(PlayerCandidatePool pool, Guid candidateId)
+    {
+        for (var i = 0; i < pool.PrioritySlots.Length; i++)
+        {
+            if (pool.PrioritySlots[i]?.Candidate.CandidateId == candidateId)
+                return i;
+        }
+
+        return null;
+    }
+
     public HumanoidCharacterProfile? GetSelectedProfile(NetUserId userId)
     {
         if (_playerPools.TryGetValue(userId, out var pool) &&
-            pool.SelectedIndex >= 0 &&
-            pool.SelectedIndex < pool.Candidates.Count &&
-            pool.SelectedJob is { } selectedJob)
+            pool.TryGetConfirmedSlot(out var slot))
         {
-            var candidate = pool.Candidates[pool.SelectedIndex];
+            // The pinned candidate object is the identity: pool indexes are meaningless after
+            // a reroll. The pinned job stays fixed; no fallback to another eligible profession.
+            var candidate = slot.Candidate;
             var priorities = candidate.CompatibleJobs.ToDictionary(
                 job => job,
-                job => job == selectedJob ? JobPriority.High : JobPriority.Medium);
+                job => job == slot.Job ? JobPriority.High : JobPriority.Medium);
 
             return candidate.Profile
                 .WithJobPriorities(priorities)
@@ -146,20 +295,17 @@ public sealed partial class AshfallCharacterPoolSystem : EntitySystem
     public bool HasCompleteSelection(NetUserId userId)
     {
         return _playerPools.TryGetValue(userId, out var pool) &&
-               pool.SelectedIndex >= 0 &&
-               pool.SelectedIndex < pool.Candidates.Count &&
-               pool.SelectedJob != null;
+               pool.TryGetConfirmedSlot(out _);
     }
 
     public bool IsJobCompatible(NetUserId userId, ProtoId<JobPrototype> job)
     {
         return _playerPools.TryGetValue(userId, out var pool) &&
-               pool.SelectedIndex >= 0 &&
-               pool.SelectedIndex < pool.Candidates.Count &&
-               pool.Candidates[pool.SelectedIndex].CompatibleJobs.Contains(job);
+               pool.TryGetConfirmedSlot(out var slot) &&
+               slot.Candidate.CompatibleJobs.Contains(job);
     }
 
-    private PlayerCandidatePool GetOrCreatePool(NetUserId userId)
+    internal PlayerCandidatePool GetOrCreatePool(NetUserId userId)
     {
         if (!_playerPools.TryGetValue(userId, out var pool))
         {
@@ -244,8 +390,22 @@ public sealed partial class AshfallCharacterPoolSystem : EntitySystem
             SelectedIndex = pool.SelectedIndex,
             SelectedJob = pool.SelectedJob?.Id,
             CooldownSecondsRemaining = remainingCooldown,
-            RemainingRefreshes = remainingRefreshes
+            RemainingRefreshes = remainingRefreshes,
+            ConfirmedSlotIndex = pool.ConfirmedPriorityIndex,
         };
+
+        for (var i = 0; i < pool.PrioritySlots.Length; i++)
+        {
+            if (pool.PrioritySlots[i] is not { } slot)
+                continue;
+
+            response.PinnedSlots.Add(new AshfallPinnedSlot
+            {
+                SlotIndex = i,
+                Candidate = slot.Candidate,
+                JobId = slot.Job,
+            });
+        }
 
         _netManager.ServerSendMessage(response, channel);
     }

@@ -133,7 +133,8 @@ namespace Content.Client.Lobby
             }
 
             if (_entityManager.TrySystem<Ashfall.CharacterGen.AshfallCharacterGenSystem>(out var ashfallGen))
-                Lobby!.ReadyButton.Disabled = ashfallGen.SelectedCandidate == null || ashfallGen.SelectedJob == null;
+                // Pinning IS the confirmation; the pinned job lives in the slot, not the legacy field.
+                Lobby!.ReadyButton.Disabled = ashfallGen.SelectedCandidate == null;
 
             Lobby!.StationTime.SetMarkup(Loc.GetString("lobby-state-player-status-round-not-started"));
             string text;

@@ -23,6 +23,13 @@ public sealed class ProfilePortraitSpriteView : ProfilePreviewSpriteView
     [ViewVariables(VVAccess.ReadWrite)]
     public float PortraitFraction { get; set; } = 0.5f;
 
+    /// <summary>
+    ///     Extra zoom multiplier on top of the height framing; below 1.0 draws the bust smaller
+    ///     than the control instead of filling it.
+    /// </summary>
+    [ViewVariables(VVAccess.ReadWrite)]
+    public float PortraitScale { get; set; } = 1f;
+
     [ViewVariables(VVAccess.ReadWrite)]
     public float VerticalOffset { get; set; }
 
@@ -63,7 +70,7 @@ public sealed class ProfilePortraitSpriteView : ProfilePreviewSpriteView
         var ppm = EyeManager.PixelsPerMeter;
 
         // Keep the portrait crop fixed by height so every dossier uses the same close framing.
-        var zoom = PixelSize.Y / (ppm * UIScale * bounds.Height * PortraitFraction);
+        var zoom = PortraitScale * PixelSize.Y / (ppm * UIScale * bounds.Height * PortraitFraction);
         var scale = new Vector2(zoom, zoom);
 
         // Center the sprite's actual bounding box horizontally (its origin can be off-center for
@@ -76,7 +83,20 @@ public sealed class ProfilePortraitSpriteView : ProfilePreviewSpriteView
 
         var world = renderHandle.DrawingHandleWorld;
         var oldModulate = world.Modulate;
-        world.Modulate *= Modulate * ActualModulateSelf;
+        // The screen handle was pre-multiplied by the manager with the accumulated tree
+        // modulate (panel fades etc.); the world handle does not inherit it, so entities
+        // drawn here must take their tint from the screen handle instead of own values.
+        var tint = renderHandle.DrawingHandleScreen.Modulate;
+        // Dim-fade: darken RGB by the fade alpha and keep the sprite opaque, so every layer
+        // (body, clothes, hair) dims as one silhouette instead of revealing layers behind it.
+        // The dim bottoms out at the panel tone, not pure black, to blend into the dossier.
+        const float FloorR = 0x14 / 255f, FloorG = 0x15 / 255f, FloorB = 0x17 / 255f;
+        var fade = tint.A;
+        tint.R = tint.R * fade + FloorR * (1f - fade);
+        tint.G = tint.G * fade + FloorG * (1f - fade);
+        tint.B = tint.B * fade + FloorB * (1f - fade);
+        tint.A = 1;
+        world.Modulate *= tint;
 
         renderHandle.DrawEntity(PreviewDummy, position, scale, null, EyeRotation, OverrideDirection, sprite, xform, transformSystem);
         world.Modulate = oldModulate;
